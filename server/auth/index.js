@@ -1,0 +1,47 @@
+const express = require('express');
+const Joi = require('joi');
+const Q = require('../db/queries');
+const bcrypt = require('bcryptjs');
+
+const router = express.Router();
+
+const schema = Joi.object().keys({
+  email: Joi.string().email().required(),
+  password: Joi.string().regex(/^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/).required(),
+  first_name: Joi.string().required(),
+  last_name: Joi.string().required()
+})
+
+router.get('/', (req, res) => {
+  res.json({
+    message: 'Auth Key'
+  });
+});
+
+
+router.post('/signup', (req, res, next) => {
+  const result = Joi.validate(req.body, schema);
+  if (result.error === null) {
+    Q.getUserbyEmail(req.body.email)
+      .then(user => {
+        if (user) {
+          const error = new Error('User already exists.');
+          next(error);
+        } else {
+          bcrypt.hash(req.body.password, 12)
+          .then(hashedPassword => {
+            Q.addNewUser(req.body, hashedPassword)
+              .then(() => {
+                res.status(200).send('New user inserted into Database.')
+              })
+          })
+          .catch(err => next(err))
+        }
+        // if user already exists throw error
+      })
+  } else {
+    next(result.error)
+  }
+});
+
+module.exports = router;
