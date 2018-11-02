@@ -13,9 +13,10 @@ const schema = Joi.object().keys({
 })
 
 router.get('/', (req, res) => {
-  res.json({
-    message: 'Auth Key'
-  });
+  Q.getAllUsers()
+    .then(users => {
+      res.json(users);
+    })
 });
 
 
