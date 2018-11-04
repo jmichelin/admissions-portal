@@ -9,12 +9,14 @@ class Signup extends Component {
     this.state = {
       first_name: '',
       last_name:'',
-      phone:'xxx-xxx-xxxx',
+      phone:'',
       email:'',
       password:'',
       confirmedPassowrd: '',
-      consent: false
+      consent: false,
+      isFormValid: false
     }
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
 
   }
@@ -32,33 +34,39 @@ class Signup extends Component {
     });
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+    console.log('submitting form!');
+  }
+
   render() {
     return (
     <div className="App">
       <h1>Sign Up</h1>
       <form onSubmit={this.handleSubmit}>
         <label> First Name
-          <input type="text" name="first_name" value={this.state.first_name} onChange={this.handleInputChange}></input>
+          <input type="text" name="first_name" required value={this.state.first_name} onChange={this.handleInputChange}></input>
         </label>
         <label> Last Name
-          <input type="text" name="last_name" value={this.state.last_name} onChange={this.handleInputChange}></input>
+          <input type="text" name="last_name" required value={this.state.last_name} onChange={this.handleInputChange}></input>
         </label>
         <label> Phone
-          <input type="text" name="phone" value={this.state.phone} onChange={this.handleInputChange}></input>
+          <input type="text" name="phone" required value={this.state.phone} onChange={this.handleInputChange}></input>
         </label>
         <label> Email
-          <input type="text" name="email" value={this.state.email} onChange={this.handleInputChange}></input>
+          <input type="text" name="email" required value={this.state.email} onChange={this.handleInputChange}></input>
         </label>
         <label> Password
-          <input type="text" name="password" value={this.state.password} onChange={this.handleInputChange}></input>
+          <input type="text" name="password" required value={this.state.password} onChange={this.handleInputChange}></input>
         </label>
         <label> Confirm Password
-          <input type="text" name="confirmedPassowrd" value={this.state.confirmedPassword} onChange={this.handleInputChange}></input>
+          <input type="text" name="confirmedPassowrd" required value={this.state.confirmedPassword} onChange={this.handleInputChange}></input>
         </label>
         <label>
-          <input type="checkbox" name="consent" checked={this.state.consent} onChange={this.handleInputChange}></input>
+          <input type="checkbox" name="consent" required checked={this.state.consent} onChange={this.handleInputChange}></input>
           I agree to Galvanize's Privacy Policy and Terms of Use.
       </label>
+      <input type="submit" value="Submit" disabled={!this.state.isFormValid}/>
       </form>
     </div>
     );
