@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 
-const Header = () => (
+class Header extends Component {
+  render() {
+  if (window.location.pathname === '/login') return null
+  return (
   <header>
     <nav>
       <ul>
@@ -11,6 +14,8 @@ const Header = () => (
       </ul>
     </nav>
   </header>
-)
+    )
+  } 
+}
 
 export default Header;

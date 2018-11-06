@@ -1,14 +1,220 @@
-body {
+:root {
+  --color-brand-primary: #F79020;
+  --color-brand-secondary: #777879;
+
+  /* accent colors for logo */
+
+  --color-blue: #41B6C5;
+  --color-blue-dark: #003B4C;
+
+  /* new ui colors */
+
+  --color-seafoam: #A4DBDE;
+  --color-lime: #D5D755;
+  --color-mushroom: #C6BFB6;
+  --color-secondary-red-dark: #642240;
+  --color-secondary-red: #D51067;
+  --color-green: #009877;
+
+
+  /* neutral colors */
+
+  --color-white: #FFF;
+  --color-black: #000;
+
+  --color-gray-1: #F8F8F8;
+  --color-gray-2: #E1E1E1;
+  --color-gray-3: #BCBCBC;
+  --color-gray-4: #828282;
+  --color-gray-5: #4A4A4A;
+
+  --font-primary: "museo-sans", "Helvetica", "Roboto", "Arial", sans-serif;
+  --font-secondary: "proxima-nova", "Helvetica", "Roboto", "Arial",  sans-serif;
+
+  --heading-ms6: 2.986rem;
+  --heading-ms5: 2.488rem;
+  --heading-ms4: 2.074rem;
+  --heading-ms3: 1.728rem;
+  --heading-ms2: 1.44rem;
+  --heading-ms1: 1.2rem;
+  --heading-ms0: 1rem;
+  --heading-ms1n: 0.833rem;
+  --heading-ms2n: 0.694rem;
+
+  --space: 1rem;
+  --space-and-half: calc(var(--space)*1.5);
+  --space-double: calc(var(--space)*2);
+  --space-triple: calc(var(--space)*3);
+  --space-quad: calc(var(--space)*4);
+  --space-half: calc(var(--space)/2);
+  --space-quarter: calc(var(--space)/4);
+
+  --pad: 1rem;
+  --pad-and-half: calc(var(--pad)*1.5);
+  --pad-double: calc(var(--pad)*2);
+  --pad-triple: calc(var(--pad)*3);
+  --pad-quad: calc(var(--pad)*4);
+  --pad-five): calc(var(--pad)*5);
+  --pad-half: calc(var(--pad)/2);
+  --pad-quarter: calc(var(--pad)/4);
+
+  --container-width: 1170px;
+  --container-width-wide: 1440px;
+
+  --width-mobile: 480px;
+  --width-tablet: 768px;
+  --width-desktop: 1024px;
+}
+
+*,
+*:after,
+*:before {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  border: 0;
+  outline: 0;
+  background: transparent;
+}
+
+html, body {
+  height: 100%;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+body {
+
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: var(--color-gray-5);
+  background: var(--color-white);
+  font-family: var(--font-secondary);
+  font-size: 1rem;
+  font-weight: 300;
+  -webkit-text-size-adjust: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 0;
+}
+
+ul, div {
+  margin: 0;
+  padding: 0;
+  overflow:auto;
+}
+
+p {
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--color-gray-4);
+}
+
+a {
+  color: var(--color-blue);
+  font-weight: 300;
+  text-decoration: none;
+  outline: 0;
+  cursor: pointer;
+
+  transition: all 300ms ease;
+
+  :hover, :focus {
+    color: var(--color-blue-dark);
+    transition: all 500ms ease;
+  }
+  .inverse {
+    :hover, :focus {
+      color: var(--color-gray-2);
+      transition: all 500ms ease;
+    }
+  }
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+/*------------------------------------*\
+    #HEADINGS
+\*------------------------------------*/
+
+h1, h2, h3, h4, h5, h6{
+  font-family: var(--font-primary);
+}
+/**
+ * Heading 1
+ */
+h1  {
+  font-weight: 300;
+  font-size: var(--heading-ms6);
+  line-height: 1.2;
+  margin: var(--heading-ms1 0);
+}
+
+/**
+ * Heading 2
+ */
+h2 {
+  font-weight: 500;
+  font-size: var(--heading-ms5);
+  line-height: 1.2;
+  margin: var(--heading-ms1 0);
+}
+
+/**
+ * Heading 3
+ */
+h3  {
+  font-weight: 300;
+  font-size: var(--heading-ms4);
+  line-height: 1.2;
+  margin: var(--heading-ms1 0);
+}
+
+/**
+ * Heading 4
+ */
+h4 {
+  font-weight: 300;
+  font-size: var(--heading-ms1);
+  margin: var(--heading-ms0 0);
+  text-transform: uppercase);
+  letter-spacing: 0.0625em);
+}
+
+/**
+ * Heading 5
+ */
+h5 {
+  font-weight: 500;
+  font-size: var(--heading-ms1n);
+  margin: var(--heading-ms0 0);
+  text-transform: uppercase;
+  letter-spacing: 0.0625em;
+}
+
+/**
+ * Heading 6
+ */
+h6 {
+  font-weight: 500;
+  font-size: var(--heading-ms2n);
+  margin: var(--heading-ms0 0);
+  text-transform: uppercase;
+  letter-spacing: 0.0625em;
+}
+
+/**
+ * Subheading
+ */
+.subheading {
+  font-family: var(--font-secondary);
+  font-weight: normal;
 }

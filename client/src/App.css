@@ -1,21 +1,4 @@
-.App {
-  text-align: center;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
 header nav ul {
   display: flex;
   list-style: none;
-}
-
-header nav li {
-  padding: 12px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
 }
