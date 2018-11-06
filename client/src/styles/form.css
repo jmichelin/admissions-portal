@@ -56,12 +56,18 @@ fieldset {
   display: var(--fh-display);
   transition:
     border-color 500ms ease,
-    box-shadow 500ms ease
-  ;
+    box-shadow 500ms ease;
+}
 
-  .-error {
-    border: 2px solid var(--color-red)!important;
-  }
+input .-error,
+textarea .-error,
+select .-error,
+option .-error,
+optgroup .-error,
+button .-error,
+legend .-error,
+fieldset .-error {
+  border: 2px solid var(--color-red)!important;
 }
 
 
@@ -79,11 +85,12 @@ label {
 .form-note {
     font-style: italic;
     color: var(--color-gray-3);
-  .form-error {
+}
+
+.form-note .form-error {
     color: var(--color-red);
     display: block;
   }
-}
 
 .form-error-message {
     background-color: var(--color-red);
@@ -98,10 +105,11 @@ label {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-  .icon {
+}
+
+.form-error-message .icon {
     margin-right: var(--space-half);
   }
-}
 
 
 /* Input & Textarea ------------------ */
@@ -129,7 +137,7 @@ textarea {
   background-color: var(--fh-input-bg-color);
 
   border-radius: var(--fh-border-radius);
-  border: 1px solid var(--fh-border-width) var(--fh-border-style) var(--fh-border-color);
+  border: var(--fh-border-width) var(--fh-border-style) var(--fh-border-color);
 }
 
 /* Fields with standard height */
@@ -203,12 +211,13 @@ select[multiple] {
   height: auto;
   min-height: var(--fh-input-height);
   padding: 0;
+}
 
-  option {
+
+select[multiple]  option {
     margin: 0;
     padding: var(--fh-input-height) / 5;
   }
-}
 
 input[type="image"] {
   text-align: center;

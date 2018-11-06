@@ -50,8 +50,11 @@ class Login extends Component {
         <div className="portal">
             <div className="portal-aside"></div>
             <div className="form-content">
-              <img className="icon" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
-              <h3>Sign Up</h3>
+              <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
+            <h1 className="logo-subtext">Admissions Portal</h1>
+            <h3 className="portal-title">Create an Account</h3>
+              <h6>Already have an account? <a>Sign In</a></h6>
+
               <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
                   <label> First Name
@@ -61,9 +64,11 @@ class Login extends Component {
                     <input type="text" name="last_name" required value={this.state.last_name} onChange={this.handleInputChange}></input>
                   </label>
               </div>
+              <div className="form-group">
                 <label> Email
                   <input type="text" name="email" required value={this.state.email} onChange={this.handleInputChange}></input>
                 </label>
+              </div>
               <div className="form-group">
                 <label> Password
                   <input type="text" name="password" required value={this.state.password} onChange={this.handleInputChange}></input>
@@ -77,7 +82,7 @@ class Login extends Component {
                   <input type="checkbox" name="consent" required checked={this.state.consent} onChange={this.handleInputChange}></input>
                     I agree to Galvanize's Privacy Policy and Terms of Use.
                 </label>
-                <input type="submit" value="Sign In" className="button primary" disabled={!this.state.isFormValid}/>
+                <input type="submit" value="Create Account" className="button primary" disabled={!this.state.isFormValid}/>
               </div>
               </form>
             </div>

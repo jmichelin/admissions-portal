@@ -30,8 +30,18 @@
   padding: var(--pad-double);
 }
 
-.icon {
+.logo {
   width: 200px;
+}
+
+.logo-subtext {
+  font-size: 18px;
+  margin: 0;
+}
+
+.portal-title {
+  margin: 32px 0 8px 0;
+  font-weight: 500;
 }
 
 .form-footer {
