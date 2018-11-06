@@ -103,6 +103,10 @@ body {
   z-index: 0;
 }
 
+main {
+  background: var(--color-white);
+}
+
 ul, div {
   margin: 0;
   padding: 0;

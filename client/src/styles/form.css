@@ -72,7 +72,8 @@ datalist {
 
 label {
   display: var(--fh-display);
-  margin: 1rem 0 0.4rem;
+  margin: 1rem .4rem 0.4rem;
+  width: 100%;
 }
 
 .form-note {
@@ -183,6 +184,7 @@ input[type="checkbox"],
 input[type="radio"] {
   display: inline-block;
   vertical-align: middle;
+  margin-right: 12px;
 }
 /*// For checkbox and radio to be centered, need to wrap the input and label in a span -
 // .checkbox-container {

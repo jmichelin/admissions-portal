@@ -2,3 +2,8 @@ header nav ul {
   display: flex;
   list-style: none;
 }
+
+.container {
+  max-width: var(--container-width);
+  margin: auto;
+}

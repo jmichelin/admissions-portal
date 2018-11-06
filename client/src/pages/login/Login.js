@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './login.css';
 import './../../styles/form.css';
+import './../../styles/button.css';
+
 
 
 
@@ -12,7 +14,6 @@ class Login extends Component {
     this.state = {
       first_name: '',
       last_name:'',
-      phone:'',
       email:'',
       password:'',
       confirmedPassowrd: '',
@@ -46,38 +47,42 @@ class Login extends Component {
     return (
     <div className="Login">
       <div className="container">
-        <div className="portal-aside"></div>
-        <div className="form-content">
-          <h1>Sign Up</h1>
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <label> First Name
-                <input type="text" name="first_name" required value={this.state.first_name} onChange={this.handleInputChange}></input>
-              </label>
-              <label> Last Name
-                <input type="text" name="last_name" required value={this.state.last_name} onChange={this.handleInputChange}></input>
-              </label>
+        <div className="portal">
+            <div className="portal-aside"></div>
+            <div className="form-content">
+              <img className="icon" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
+              <h3>Sign Up</h3>
+              <form onSubmit={this.handleSubmit}>
+                <div className="form-group">
+                  <label> First Name
+                    <input type="text" name="first_name" required value={this.state.first_name} onChange={this.handleInputChange}></input>
+                  </label>
+                  <label> Last Name
+                    <input type="text" name="last_name" required value={this.state.last_name} onChange={this.handleInputChange}></input>
+                  </label>
+              </div>
+                <label> Email
+                  <input type="text" name="email" required value={this.state.email} onChange={this.handleInputChange}></input>
+                </label>
+              <div className="form-group">
+                <label> Password
+                  <input type="text" name="password" required value={this.state.password} onChange={this.handleInputChange}></input>
+                </label>
+                <label> Confirm Password
+                  <input type="text" name="confirmedPassowrd" required value={this.state.confirmedPassword} onChange={this.handleInputChange}></input>
+                </label>
+              </div>
+              <div className="form-footer">
+                <label>
+                  <input type="checkbox" name="consent" required checked={this.state.consent} onChange={this.handleInputChange}></input>
+                    I agree to Galvanize's Privacy Policy and Terms of Use.
+                </label>
+                <input type="submit" value="Sign In" className="button primary" disabled={!this.state.isFormValid}/>
+              </div>
+              </form>
+            </div>
           </div>
-            <label> Phone
-              <input type="text" name="phone" required value={this.state.phone} onChange={this.handleInputChange}></input>
-            </label>
-            <label> Email
-              <input type="text" name="email" required value={this.state.email} onChange={this.handleInputChange}></input>
-            </label>
-            <label> Password
-              <input type="text" name="password" required value={this.state.password} onChange={this.handleInputChange}></input>
-            </label>
-            <label> Confirm Password
-              <input type="text" name="confirmedPassowrd" required value={this.state.confirmedPassword} onChange={this.handleInputChange}></input>
-            </label>
-            <label>
-              <input type="checkbox" name="consent" required checked={this.state.consent} onChange={this.handleInputChange}></input>
-              I agree to Galvanize's Privacy Policy and Terms of Use.
-          </label>
-          <input type="submit" value="Submit" disabled={!this.state.isFormValid}/>
-          </form>
         </div>
-      </div>
     </div>
     );
   }
