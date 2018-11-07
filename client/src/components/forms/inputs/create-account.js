@@ -33,7 +33,7 @@ function getCreateAccountInputs() {
     errorMessage: 'Password must be between 6 and 12 characters.'
   },
   {
-    id: 'password_confirmed',
+    id: 'confirmed_password',
     label: 'Confirm Password',
     type: 'password',
     fieldName: 'Confirm Password',

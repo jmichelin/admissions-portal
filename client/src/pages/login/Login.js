@@ -4,12 +4,11 @@ import inputs from '../../components/forms/inputs/create-account';
 import InputGroup from '../../components/forms/input-group';
 import Checkbox from '../../components/forms/checkbox';
 
-
 import './login.css';
 import './../../styles/form.css';
 import './../../styles/button.css';
 
-
+import Joi from 'joi';
 
 
 class Login extends Component {
@@ -24,13 +23,15 @@ class Login extends Component {
       last_name:'',
       email:'',
       password:'',
-      confirmedPassowrd: '',
+      confirmed_password: '',
       terms: false,
-      isFormValid: false
+      isFormValid: false,
+      submitAttempted: false
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
-
+    this.validField = this.validField.bind(this);
+    this.validUser = this.validUser.bind(this);
   }
 
   componentDidMount() {
@@ -47,14 +48,50 @@ class Login extends Component {
     });
   }
 
-  isValid() {
+  validUser(data) {
+    if (data.password !== data.confirmed_password) {
+      console.log('passwords need to match');
+    }
+    // const result = Joi.validate(data, schema);
+    // if (result.error === null) {
+    //   return true;
+    // } else {
+    //   console.log(result.error);
+    //   if (result.error.message.includes('first_name')) {
+    //     console.log('please write a name');
+    //   } else if (result.error.message.includes('email')) {
+    //     console.log('please include valid email');
+    //   } else if (result.error.message.includes('password')) {
+    //     console.log('password must be valid');
+    //   }
+    //   return false;
+    // }
 
   }
 
+  validField(input) {
+    const field = {[input.id]:this.state[input.id]}
+    const result = Joi.validate(field, schema);
+    if (result.error === null) {
+      return true;
+    }
+    return false;
+}
+
   handleSubmit(event) {
     event.preventDefault();
+    this.setState({
+      submitAttempted: true
+    })
     console.log('submitting form!');
-    this.isValid()
+    const { first_name, last_name, email, password, confirmed_password } = this.state;
+    const formData = { first_name, last_name, email, password }
+
+    if (this.validUser(formData)) {
+      //send to server
+    } else {
+      //tell user there are errors and reset state
+    }
   }
 
   createInputs() {
@@ -70,6 +107,7 @@ class Login extends Component {
             value={this.state[input.id]}
             onInputChange={this.onInputChange}
             errorMessage={input.errorMessage}
+            showError={this.state.submitAttempted && !this.validField(input)}
             />
           )
       } else if (input.type === 'checkbox') {
@@ -83,6 +121,7 @@ class Login extends Component {
             checked={this.state.consent}
             terms={true}
             onInputChange={this.onInputChange}
+            showError={this.state.submitAttempted && !this.validField(input)}
             errorMessage={input.errorMessage}/>)
         } else {
           return null;
@@ -115,7 +154,7 @@ class Login extends Component {
               </div>
               <div className="form-footer">
                 {this.createInputs().slice(5,6)}
-                <input type="submit" value="Create Account" className="button primary" disabled={!this.state.isFormValid}/>
+                <input type="submit" value="Create Account" className="button primary"/>
               </div>
               </form>
             </div>
@@ -125,4 +164,13 @@ class Login extends Component {
     );
   }
 }
+
+const schema = {
+  first_name: Joi.string(),
+  last_name: Joi.string(),
+  email: Joi.string().email(),
+  password: Joi.string().regex(/^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/),
+  confirmed_password: Joi.string().regex(/^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/)
+}
+
 export default Login;
