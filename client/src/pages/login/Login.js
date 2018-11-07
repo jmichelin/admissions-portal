@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import inputs from '../../components/forms/inputs/create-account';
+import InputGroup from '../../components/forms/input-group';
+
 import './login.css';
 import './../../styles/form.css';
 import './../../styles/button.css';
@@ -11,7 +14,10 @@ class Login extends Component {
 
   constructor(props){
     super(props);
+    const accountInputs = inputs.getCreateAccountInputs();
+
     this.state = {
+      formInputs: accountInputs,
       first_name: '',
       last_name:'',
       email:'',
@@ -21,14 +27,15 @@ class Login extends Component {
       isFormValid: false
     }
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
 
   }
 
   componentDidMount() {
+    this.createInputs();
   }
 
-  handleInputChange(event) {
+  onInputChange(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -38,10 +45,41 @@ class Login extends Component {
     });
   }
 
+  isValid() {
+
+  }
+
   handleSubmit(event) {
     event.preventDefault();
     console.log('submitting form!');
+    this.isValid()
   }
+
+  createInputs() {
+    return this.state.formInputs.map((input, i) => {
+      if (input.type === 'text' || input.type === 'email' || input.type === 'tel' || input.type === 'password') {
+        return (
+          <InputGroup
+            key={i}
+            type={input.type}
+            name={input.id}
+            required={input.required}
+            value={this.state[input.id]}
+            onInputChange={this.onInputChange}
+            label={input.label}/>
+          )
+      } else if (input.type === 'checkbox') {
+        return (
+        <label key={i}>
+          <input type={input.type} name={input.id} required={input.required} checked={this.state.consent} onChange={this.onInputChange}></input>
+          {input.label}
+      </label>)
+    } else {
+      return null;
+    }
+    })
+  }
+
 
   render() {
     return (
@@ -57,31 +95,16 @@ class Login extends Component {
 
               <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
-                  <label> First Name
-                    <input type="text" name="first_name" required value={this.state.first_name} onChange={this.handleInputChange}></input>
-                  </label>
-                  <label> Last Name
-                    <input type="text" name="last_name" required value={this.state.last_name} onChange={this.handleInputChange}></input>
-                  </label>
+                  {this.createInputs().slice(0,2)}
               </div>
               <div className="form-group">
-                <label> Email
-                  <input type="text" name="email" required value={this.state.email} onChange={this.handleInputChange}></input>
-                </label>
+                {this.createInputs().slice(2,3)}
               </div>
               <div className="form-group">
-                <label> Password
-                  <input type="text" name="password" required value={this.state.password} onChange={this.handleInputChange}></input>
-                </label>
-                <label> Confirm Password
-                  <input type="text" name="confirmedPassowrd" required value={this.state.confirmedPassword} onChange={this.handleInputChange}></input>
-                </label>
+                {this.createInputs().slice(3,5)}
               </div>
               <div className="form-footer">
-                <label>
-                  <input type="checkbox" name="consent" required checked={this.state.consent} onChange={this.handleInputChange}></input>
-                    I agree to Galvanize's Privacy Policy and Terms of Use.
-                </label>
+                {this.createInputs().slice(5,6)}
                 <input type="submit" value="Create Account" className="button primary" disabled={!this.state.isFormValid}/>
               </div>
               </form>
