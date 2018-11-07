@@ -25,7 +25,7 @@ class Login extends Component {
       email:'',
       password:'',
       confirmedPassowrd: '',
-      consent: false,
+      terms: false,
       isFormValid: false
     }
     this.handleSubmit = this.handleSubmit.bind(this);

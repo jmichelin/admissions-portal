@@ -10,7 +10,7 @@ export default (props) => {
         rows="6"
         cols="100"
         id={ props.id }
-        defaultValue={ props.defaultValue }
+        value={ props.value }
         onChange={ (e) => { props.onInputChange(e) } }
         className={ props.className }
         placeholder={ props.placeholder }

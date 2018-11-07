@@ -42,7 +42,7 @@ function getCreateAccountInputs() {
     errorMessage: 'Passwords must match.'
   },
   {
-    id: 'consent',
+    id: 'terms',
     label: `I agree to Galvanize's Privacy Policy and Terms of Use.`,
     fieldName: 'Privacy_Policy_Date__c',
     type: 'checkbox',
