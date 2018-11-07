@@ -7,7 +7,7 @@ const router = express.Router();
 
 const schema = Joi.object().keys({
   email: Joi.string().email().required(),
-  password: Joi.string().regex(/^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/).required(),
+  password: Joi.string().min(5).max(15).required(),
   first_name: Joi.string().required(),
   last_name: Joi.string().required()
 })
