@@ -30,7 +30,7 @@ function getCreateAccountInputs() {
     fieldName: 'Password',
     value: '',
     required: true,
-    errorMessage: 'Password must be between 6 and 12 characters.'
+    errorMessage: 'Password must be between 5 and 15 characters.'
   },
   {
     id: 'confirmed_password',

@@ -49,29 +49,21 @@ class Login extends Component {
   }
 
   validUser(data) {
-    if (data.password !== data.confirmed_password) {
-      console.log('passwords need to match');
+    const result = Joi.validate(data, schema);
+    if (result.error === null) {
+      return true;
+    } else {
+      return false;
     }
-    // const result = Joi.validate(data, schema);
-    // if (result.error === null) {
-    //   return true;
-    // } else {
-    //   console.log(result.error);
-    //   if (result.error.message.includes('first_name')) {
-    //     console.log('please write a name');
-    //   } else if (result.error.message.includes('email')) {
-    //     console.log('please include valid email');
-    //   } else if (result.error.message.includes('password')) {
-    //     console.log('password must be valid');
-    //   }
-    //   return false;
-    // }
 
   }
 
   validField(input) {
     const field = {[input.id]:this.state[input.id]}
     const result = Joi.validate(field, schema);
+    if (input.id === 'confirmed_password') {
+      return this.state[input.id] === this.state.password
+    }
     if (result.error === null) {
       return true;
     }
@@ -81,16 +73,17 @@ class Login extends Component {
   handleSubmit(event) {
     event.preventDefault();
     this.setState({
-      submitAttempted: true
+      submitAttempted: true,
+      isLoading: true
     })
-    console.log('submitting form!');
     const { first_name, last_name, email, password, confirmed_password } = this.state;
-    const formData = { first_name, last_name, email, password }
+    const formData = { first_name, last_name, email, password, confirmed_password }
 
     if (this.validUser(formData)) {
+      console.log('form is valid!');
       //send to server
     } else {
-      //tell user there are errors and reset state
+      this.setState({ isLoading: false });
     }
   }
 
@@ -169,8 +162,8 @@ const schema = {
   first_name: Joi.string(),
   last_name: Joi.string(),
   email: Joi.string().email(),
-  password: Joi.string().regex(/^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/),
-  confirmed_password: Joi.string().regex(/^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/)
+  password: Joi.string().min(5).max(15),
+  confirmed_password: Joi.string().min(5).max(15)
 }
 
 export default Login;
