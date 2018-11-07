@@ -39,6 +39,7 @@ export default (props) => {
   return (
     <input
       id={ props.id }
+      name={props.id }
       type={ props.type || "text"}
       value={ props.value }
       onChange={ (e) => { props.onInputChange(e) } }

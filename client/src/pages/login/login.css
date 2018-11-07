@@ -4,13 +4,10 @@
   min-height: 100vh;
 }
 
-.container {
-}
-
 .portal {
   background: var(--color-white);
   display: flex;
-  margin:  var(--pad-double);
+  margin:  var(--space-triple);
   box-shadow: 0 3px 6px 0 rgba(0,0,0,0.14);
 }
 
@@ -30,6 +27,10 @@
   padding: var(--pad-double);
 }
 
+.form-content form {
+  margin: var(--space-double) 0;
+}
+
 .logo {
   width: 200px;
 }
@@ -45,15 +46,15 @@
 }
 
 .form-footer {
-    padding-top: var(--pad);
+    margin: var(--space);
     text-align: center;
   }
 
-.form-footer label {
+.form-footer span {
   text-align: left;
   font-size: 12px;
 }
 
 .form-footer .button {
-  margin-top: var(--pad);
+  margin-top: var(--space-double);
 }

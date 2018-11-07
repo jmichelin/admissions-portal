@@ -78,8 +78,17 @@ datalist {
 
 label {
   display: var(--fh-display);
-  margin: 1rem .4rem 0.4rem;
   width: 100%;
+  margin-bottom: 4px;
+}
+
+.input-group {
+  margin: var(--space-half);
+  width: 100%;
+}
+
+.checkbox-field {
+  text-align: left;
 }
 
 .form-note {
@@ -110,6 +119,9 @@ label {
 .form-error-message .icon {
     margin-right: var(--space-half);
   }
+
+
+
 
 
 /* Input & Textarea ------------------ */
@@ -192,7 +204,8 @@ input[type="checkbox"],
 input[type="radio"] {
   display: inline-block;
   vertical-align: middle;
-  margin-right: 12px;
+  margin-right: 4px;
+  margin-top: -2px;
 }
 /*// For checkbox and radio to be centered, need to wrap the input and label in a span -
 // .checkbox-container {

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import inputs from '../../components/forms/inputs/create-account';
 import InputGroup from '../../components/forms/input-group';
+import Checkbox from '../../components/forms/checkbox';
+
 
 import './login.css';
 import './../../styles/form.css';
@@ -63,20 +65,28 @@ class Login extends Component {
             key={i}
             type={input.type}
             name={input.id}
+            label={input.label}
             required={input.required}
             value={this.state[input.id]}
             onInputChange={this.onInputChange}
-            label={input.label}/>
+            errorMessage={input.errorMessage}
+            />
           )
       } else if (input.type === 'checkbox') {
         return (
-        <label key={i}>
-          <input type={input.type} name={input.id} required={input.required} checked={this.state.consent} onChange={this.onInputChange}></input>
-          {input.label}
-      </label>)
-    } else {
-      return null;
-    }
+          <Checkbox
+            key={i}
+            type={input.type}
+            name={input.id}
+            label={input.label}
+            required={input.required}
+            checked={this.state.consent}
+            terms={true}
+            onInputChange={this.onInputChange}
+            errorMessage={input.errorMessage}/>)
+        } else {
+          return null;
+        }
     })
   }
 

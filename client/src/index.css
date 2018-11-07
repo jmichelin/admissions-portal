@@ -75,6 +75,7 @@
   border: 0;
   outline: 0;
   background: transparent;
+  overflow: auto;
 }
 
 html, body {
@@ -85,10 +86,7 @@ html, body {
 }
 
 body {
-
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: var(--font-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--color-gray-5);
@@ -105,12 +103,13 @@ body {
 
 main {
   background: var(--color-white);
+  overflow: auto;
 }
 
-ul, div {
+ul {
   margin: 0;
   padding: 0;
-  overflow:auto;
+  overflow: auto;
 }
 
 p {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-// import FormError from './form-error';
+import FormError from './form-error';
 import Label from './label';
 import TextField from './text-field';
 
@@ -9,11 +9,11 @@ export default (props) => {
   if (props.showError) {
     let errorMessage = props.errorMessage || 'This field is required';
     errorClass = '-error';
-    // error = <FormError errorMessage={ errorMessage } />
+    error = <FormError errorMessage={ errorMessage } />
   }
 
   return (
-    <div>
+    <div className="input-group">
       <Label optional={ props.optional } text={ props.label } />
       <TextField id={ props.name }
         fieldName={ props.fieldName }
