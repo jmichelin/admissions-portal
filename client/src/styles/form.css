@@ -97,7 +97,7 @@ label {
 }
 
 .form-note.form-error {
-    color: var(--color-secondary-red-dark);
+    color: var(--color-gray-4);
     display: block;
   }
 

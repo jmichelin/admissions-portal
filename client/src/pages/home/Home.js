@@ -1,22 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+import Signup from '../../components/signup/Signup'
 
 class Home extends Component {
   render() {
     return (
     <div className="App">
-      <h1>Project Home</h1>
-      <Link to={'./list'}>
-        <button variant="raised">
-            My List
-        </button>
-      </Link>
-      <Link to={'./signup'}>
-        <button variant="raised">
-            Signup
-        </button>
-      </Link>
+      <Signup/>
     </div>
     );
   }

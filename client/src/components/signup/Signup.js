@@ -4,7 +4,7 @@ import inputs from '../../components/forms/inputs/create-account';
 import InputGroup from '../../components/forms/input-group';
 import Checkbox from '../../components/forms/checkbox';
 
-import './login.css';
+import './signup.css';
 import './../../styles/form.css';
 import './../../styles/button.css';
 
@@ -12,7 +12,7 @@ import Joi from 'joi';
 
 const SIGNUP_URL = 'http://localhost:5000/auth/signup';
 
-class Login extends Component {
+class Signup extends Component {
 
   constructor(props){
     super(props);
@@ -150,7 +150,7 @@ class Login extends Component {
 
   render() {
     return (
-    <div className="Login">
+    <div className="Signup">
       <div className="container">
         <div className="portal">
             <div className="portal-aside"></div>
@@ -174,7 +174,7 @@ class Login extends Component {
                 {this.createInputs().slice(5,6)}
                 <input type="submit" value="Create Account" className="button primary"/>
               </div>
-              <span>{ this.state.errorMessage }</span>
+              <span className="form note form-error">{ this.state.errorMessage }</span>
               </form>
             </div>
           </div>
@@ -191,4 +191,4 @@ const schema = {
   password: Joi.string().min(5).max(15)
 }
 
-export default Login;
+export default Signup;
