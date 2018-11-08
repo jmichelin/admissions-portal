@@ -67,7 +67,7 @@ optgroup .-error,
 button .-error,
 legend .-error,
 fieldset .-error {
-  border: 2px solid var(--color-red)!important;
+  border: 2px solid var(--color-secondary-red-dark)!important;
 }
 
 
@@ -96,13 +96,13 @@ label {
     color: var(--color-gray-3);
 }
 
-.form-note .form-error {
-    color: var(--color-red);
+.form-note.form-error {
+    color: var(--color-secondary-red-dark);
     display: block;
   }
 
 .form-error-message {
-    background-color: var(--color-red);
+    background-color: var(--color-secondary-red-dark);
     width: 100%;
     padding: var(--pad);
     color: rgba(255, 255, 255, 0.7);
@@ -268,4 +268,5 @@ input[type="radio"]:focus {
 .form-group {
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }

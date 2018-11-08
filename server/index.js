@@ -1,13 +1,16 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
 const app = express();
 
-const auth = require('./auth')
-
-
+const auth = require('./auth');
 
 app.use(morgan('dev'));
+app.use(cors({
+  origin: 'http://localhost:3000'
+}));
 app.use(bodyParser.json());
 
 app.use('/auth', auth);

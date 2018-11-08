@@ -26,7 +26,8 @@ router.post('/signup', (req, res, next) => {
     Q.getUserbyEmail(req.body.email)
       .then(user => {
         if (user) {
-          const error = new Error('User already exists.');
+          const error = new Error('A user with this email already exists.');
+          res.status(409);
           next(error);
         } else {
           bcrypt.hash(req.body.password, 12)

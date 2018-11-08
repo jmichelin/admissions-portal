@@ -10,6 +10,7 @@ import './../../styles/button.css';
 
 import Joi from 'joi';
 
+const SIGNUP_URL = 'http://localhost:5000/auth/signup';
 
 class Login extends Component {
 
@@ -26,7 +27,8 @@ class Login extends Component {
       confirmed_password: '',
       terms: false,
       isFormValid: false,
-      submitAttempted: false
+      submitAttempted: false,
+      errorMessage: ''
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
@@ -50,6 +52,8 @@ class Login extends Component {
 
   validUser(data) {
     const result = Joi.validate(data, schema);
+    if (this.state.confirmed_password !== this.state.password) return false;
+    if (!this.state.terms) return false;
     if (result.error === null) {
       return true;
     } else {
@@ -62,7 +66,10 @@ class Login extends Component {
     const field = {[input.id]:this.state[input.id]}
     const result = Joi.validate(field, schema);
     if (input.id === 'confirmed_password') {
-      return this.state[input.id] === this.state.password
+      return this.state[input.id] === this.state.password;
+    }
+    if (input.id === 'terms') {
+      return this.state.terms;
     }
     if (result.error === null) {
       return true;
@@ -76,13 +83,31 @@ class Login extends Component {
       submitAttempted: true,
       isLoading: true
     })
-    const { first_name, last_name, email, password, confirmed_password } = this.state;
-    const formData = { first_name, last_name, email, password, confirmed_password }
+    const { first_name, last_name, email, password } = this.state;
+    const formData = { first_name, last_name, email, password }
 
     if (this.validUser(formData)) {
-      console.log('form is valid!');
-      //send to server
-    } else {
+      fetch(SIGNUP_URL, {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+          'content-type': 'application/json'
+        }
+        }).then(response => {
+          if (response.ok) {
+            return response.json()
+          }
+          return response.json().then(error => {
+            throw new Error(error.message)
+          })
+        }).then(user => {
+          console.log(user);
+        }).catch(err => {
+            this.setState({
+              errorMessage: err.message
+            })
+        })
+      } else {
       this.setState({ isLoading: false });
     }
   }
@@ -149,6 +174,7 @@ class Login extends Component {
                 {this.createInputs().slice(5,6)}
                 <input type="submit" value="Create Account" className="button primary"/>
               </div>
+              <span>{ this.state.errorMessage }</span>
               </form>
             </div>
           </div>
@@ -162,8 +188,7 @@ const schema = {
   first_name: Joi.string(),
   last_name: Joi.string(),
   email: Joi.string().email(),
-  password: Joi.string().min(5).max(15),
-  confirmed_password: Joi.string().min(5).max(15)
+  password: Joi.string().min(5).max(15)
 }
 
 export default Login;
