@@ -221,3 +221,8 @@ h6 {
   font-family: var(--font-secondary);
   font-weight: normal;
 }
+
+.container {
+  max-width: var(--container-width);
+  margin: auto;
+}

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import inputs from '../../components/forms/inputs/create-account';
-import InputGroup from '../../components/forms/input-group';
-import Checkbox from '../../components/forms/checkbox';
+import inputs from './../forms/inputs/create-account';
+import InputGroup from './../forms/input-group';
+import Checkbox from './../forms/checkbox';
 
 import './signup.css';
 import './../../styles/form.css';
@@ -53,7 +53,7 @@ class Signup extends Component {
   validUser(data) {
     const result = Joi.validate(data, schema);
     if (this.state.confirmed_password !== this.state.password) return false;
-    if (!this.state.terms) return false;
+    if (this.state.terms === false) return false;
     if (result.error === null) {
       return true;
     } else {
@@ -150,36 +150,28 @@ class Signup extends Component {
 
   render() {
     return (
-    <div className="Signup">
-      <div className="container">
-        <div className="portal">
-            <div className="portal-aside"></div>
-            <div className="form-content">
-              <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
-            <h1 className="logo-subtext">Admissions Portal</h1>
-            <h3 className="portal-title">Create an Account</h3>
-              <h6>Already have an account? <a>Sign In</a></h6>
-
-              <form onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                  {this.createInputs().slice(0,2)}
-              </div>
-              <div className="form-group">
-                {this.createInputs().slice(2,3)}
-              </div>
-              <div className="form-group">
-                {this.createInputs().slice(3,5)}
-              </div>
-              <div className="form-footer">
-                {this.createInputs().slice(5,6)}
-                <input type="submit" value="Create Account" className="button primary"/>
-              </div>
-              <span className="form note form-error">{ this.state.errorMessage }</span>
-              </form>
+        <div className="Signup">
+          <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
+          <h1 className="logo-subtext">Admissions Portal</h1>
+          <h3 className="portal-title">Create an Account</h3>
+          <h6>Already have an account? <a>Sign In</a></h6>
+          <form onSubmit={this.handleSubmit}>
+            <div className="form-group">
+              {this.createInputs().slice(0,2)}
             </div>
-          </div>
+            <div className="form-group">
+              {this.createInputs().slice(2,3)}
+            </div>
+            <div className="form-group">
+              {this.createInputs().slice(3,5)}
+            </div>
+            <div className="form-footer">
+              {this.createInputs().slice(5,6)}
+              <input type="submit" value="Create Account" className="button primary"/>
+            </div>
+            <span className="form note form-error">{ this.state.errorMessage }</span>
+          </form>
         </div>
-    </div>
     );
   }
 }
