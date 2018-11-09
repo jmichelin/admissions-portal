@@ -11,9 +11,15 @@ class Home extends Component {
 
     this.state = {
       userIsSignedIn: false,
-      showLogin: true
+      showSignin: true
     }
+    this.toggleSignin = this.toggleSignin.bind(this);
+  }
 
+  toggleSignin() {
+    this.setState({
+      showSignin: !this.state.showSignin
+    })
   }
 
   render() {
@@ -23,9 +29,9 @@ class Home extends Component {
           <div className="portal">
               <div className="portal-aside"></div>
                 <div className="form-content">
-                  { this.state.showLogin
-                    ? <Signin/>
-                    : <Signup/>
+                  { this.state.showSignin
+                    ? <Signin toggleSignin={this.toggleSignin}/>
+                    : <Signup toggleSignin={this.toggleSignin}/>
                   }
             </div>
           </div>

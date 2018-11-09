@@ -52,6 +52,27 @@ function getCreateAccountInputs() {
   }];
 }
 
+function getSignInInputs() {
+  return [{
+    id: 'email',
+    label: 'Email',
+    type: 'email',
+    value: '',
+    required: true,
+    errorMessage: 'Enter a valid email.'
+  },
+  {
+    id: 'password',
+    label: 'Password',
+    type: 'password',
+    fieldName: 'Password',
+    value: '',
+    required: true,
+    errorMessage: 'Password must be between 5 and 15 characters.'
+  }];
+}
+
 export default {
-  getCreateAccountInputs: getCreateAccountInputs
+  getCreateAccountInputs: getCreateAccountInputs,
+  getSignInInputs: getSignInInputs
 };
