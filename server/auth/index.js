@@ -2,6 +2,7 @@ const express = require('express');
 const Joi = require('joi');
 const Q = require('../db/queries');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
@@ -47,4 +48,52 @@ router.post('/signup', (req, res, next) => {
   }
 });
 
+router.post('/signin', (req, res, next) => {
+  const result = Joi.validate(req.body, schema);
+  if (result.error === null) {
+
+  //look for user by Email
+  Q.getUserbyEmail(req.body.email)
+    .then(user => {
+      if (user) {
+        bcrypt.compare(req.body.password, user.password)
+        .then(result => {
+          if (result) {
+            const payload = {
+              id: user.id,
+              email: user.email
+            };
+
+            jwt.sign(payload, process.env.TOKEN_SECRET, {
+              expiresIn: '1d'
+            }, (err, token) => {
+              if (err) {
+                respondError(res,next);
+              } else {
+                res.json({
+                  token
+                });
+              }
+            });
+          } else {
+            respondError(res, next);
+          }
+        });
+      } else {
+        respondError(res, next);
+      }
+      // if user already exists throw error
+    });
+  } else {
+    respondError(res, next);
+  }
+  //if no email throw error, if email
+
+});
+
+function respondError(res, next) {
+  res.status(422);
+  const error = new Error('Unable to login.');
+  next(error);
+}
 module.exports = router;
