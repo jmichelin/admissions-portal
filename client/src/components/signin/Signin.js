@@ -19,8 +19,13 @@ class Signin extends Component {
     const accountInputs = inputs.getSignInInputs();
 
     this.state = {
-      formInputs: accountInputs
+      formInputs: accountInputs,
+      email:'',
+      password:''
     }
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
 
   }
 
@@ -35,9 +40,61 @@ class Signin extends Component {
     });
   }
 
+  validUser(data) {
+    const result = Joi.validate(data, schema);
+    if (result.error === null) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
+  validField(input) {
+    const field = {[input.id]:this.state[input.id]}
+    const result = Joi.validate(field, schema);
+    if (result.error === null) {
+      return true;
+    }
+    return false;
+}
 
   handleSubmit(event) {
+    event.preventDefault();
+    this.setState({
+      submitAttempted: true,
+      isLoading: true
+    })
 
+    const { email, password } = this.state;
+    const formData = { email, password }
+
+    if (this.validUser(formData)) {
+      fetch(SIGNIN_URL, {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+          'content-type': 'application/json'
+        }
+        }).then(response => {
+          if (response.ok) {
+            return response.json()
+          }
+          return response.json().then(error => {
+            throw new Error(error.message)
+          })
+        }).then(token => {
+          console.log(token);
+          //redirect the token
+          return token;
+        }).catch(err => {
+            this.setState({
+              errorMessage: err.message
+            })
+        })
+      } else {
+      this.setState({ isLoading: false });
+    }
   }
 
   createInputs() {
@@ -89,8 +146,6 @@ class Signin extends Component {
 }
 
 const schema = {
-  first_name: Joi.string(),
-  last_name: Joi.string(),
   email: Joi.string().email(),
   password: Joi.string().min(5).max(15)
 }

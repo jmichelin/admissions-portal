@@ -36,10 +36,6 @@ class Signup extends Component {
     this.validUser = this.validUser.bind(this);
   }
 
-  componentDidMount() {
-    this.createInputs();
-  }
-
   onInputChange(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -101,12 +97,9 @@ class Signup extends Component {
             throw new Error(error.message)
           })
         }).then(user => {
-          console.log(user);
-
-          return user;
           //redirect the user
+          return user;
         }).catch(err => {
-          console.log(err);
             this.setState({
               errorMessage: err.message
             })

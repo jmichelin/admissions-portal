@@ -6,11 +6,16 @@ const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
-const schema = Joi.object().keys({
+const signupSchema = Joi.object().keys({
   email: Joi.string().email().required(),
   password: Joi.string().min(5).max(15).required(),
   first_name: Joi.string().required(),
   last_name: Joi.string().required()
+});
+
+const signinSchema = Joi.object().keys({
+  email: Joi.string().email().required(),
+  password: Joi.string().min(5).max(15).required()
 });
 
 router.get('/', (req, res) => {
@@ -22,7 +27,7 @@ router.get('/', (req, res) => {
 
 
 router.post('/signup', (req, res, next) => {
-  const result = Joi.validate(req.body, schema);
+  const result = Joi.validate(req.body, signupSchema);
   if (result.error === null) {
     Q.getUserbyEmail(req.body.email)
       .then(user => {
@@ -49,7 +54,7 @@ router.post('/signup', (req, res, next) => {
 });
 
 router.post('/signin', (req, res, next) => {
-  const result = Joi.validate(req.body, schema);
+  const result = Joi.validate(req.body, signinSchema);
   if (result.error === null) {
 
   //look for user by Email
@@ -63,7 +68,6 @@ router.post('/signin', (req, res, next) => {
               id: user.id,
               email: user.email
             };
-
             jwt.sign(payload, process.env.TOKEN_SECRET, {
               expiresIn: '1d'
             }, (err, token) => {
