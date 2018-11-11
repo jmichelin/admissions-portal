@@ -83,10 +83,10 @@ class Signin extends Component {
           return response.json().then(error => {
             throw new Error(error.message)
           })
-        }).then(token => {
-          console.log(token);
-          //redirect the token
-          return token;
+        }).then(result => {
+          localStorage.token = result.token
+          //redirect the user to dashboard
+          return result;
         }).catch(err => {
             this.setState({
               errorMessage: err.message
