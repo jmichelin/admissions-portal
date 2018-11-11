@@ -10,13 +10,13 @@ const schema = Joi.object().keys({
   password: Joi.string().min(5).max(15).required(),
   first_name: Joi.string().required(),
   last_name: Joi.string().required()
-})
+});
 
 router.get('/', (req, res) => {
   Q.getAllUsers()
     .then(users => {
       res.json(users);
-    })
+    });
 });
 
 
@@ -33,16 +33,17 @@ router.post('/signup', (req, res, next) => {
           bcrypt.hash(req.body.password, 12)
           .then(hashedPassword => {
             Q.addNewUser(req.body, hashedPassword)
-              .then(() => {
-                res.status(200).send('New user inserted into Database.')
-              })
+              .then((newUser) => {
+                res.json(newUser);
+                res.status(200);
+              });
           })
-          .catch(err => next(err))
+          .catch(err => next(err));
         }
         // if user already exists throw error
-      })
+      });
   } else {
-    next(result.error)
+    next(result.error);
   }
 });
 

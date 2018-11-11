@@ -102,7 +102,11 @@ class Signup extends Component {
           })
         }).then(user => {
           console.log(user);
+
+          return user;
+          //redirect the user
         }).catch(err => {
+          console.log(err);
             this.setState({
               errorMessage: err.message
             })

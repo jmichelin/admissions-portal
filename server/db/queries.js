@@ -13,11 +13,12 @@ module.exports = {
 
     addNewUser: function(user, password) {
       return knex('user')
+        .returning(['id','email', "first_name", "last_name"])
         .insert({
           email: user.email,
           password: password,
           first_name: user.first_name,
           last_name: user.last_name
-        })
+        });
     }
 };
