@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import inputs from './../forms/inputs/inputs';
 import InputGroup from './../forms/input-group';
 import Checkbox from './../forms/checkbox';
@@ -85,7 +85,7 @@ class Signin extends Component {
           })
         }).then(result => {
           localStorage.token = result.token
-          //redirect the user to dashboard
+          this.setState({ isLoading: false, redirectToNewPage:true});
           return result;
         }).catch(err => {
             this.setState({
@@ -121,6 +121,11 @@ class Signin extends Component {
 
 
   render() {
+        if (this.state.redirectToNewPage) {
+          return (
+          <Redirect to="/dashboard"/>
+          )
+        }
     return (
             <div className="Signin">
               <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
