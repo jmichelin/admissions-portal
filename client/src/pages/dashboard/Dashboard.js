@@ -8,8 +8,6 @@ class Dashboard extends Component {
     super(props);
 
     this.state = {
-      userIsSignedIn: false,
-      showSignin: true
     }
   }
 
