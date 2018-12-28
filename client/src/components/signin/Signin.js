@@ -85,7 +85,7 @@ class Signin extends Component {
           })
         }).then(result => {
           localStorage.token = result.token
-          this.setState({ isLoading: false, redirectToNewPage:true});
+          this.setState({ isLoading: false, redirectToDashboard:true});
           return result;
         }).catch(err => {
             this.setState({
@@ -121,7 +121,7 @@ class Signin extends Component {
 
 
   render() {
-        if (this.state.redirectToNewPage) {
+        if (this.state.redirectToDashboard) {
           return (
           <Redirect to="/dashboard"/>
           )

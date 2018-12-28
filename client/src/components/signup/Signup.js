@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import inputs from './../forms/inputs/inputs';
 import InputGroup from './../forms/input-group';
 import Checkbox from './../forms/checkbox';
@@ -96,9 +96,11 @@ class Signup extends Component {
           return response.json().then(error => {
             throw new Error(error.message)
           })
-        }).then(user => {
-          //redirect the user
-          return user;
+        }).then(result => {
+          localStorage.token = result.token;
+          this.setState({
+            redirectToDashboard: true
+          })
         }).catch(err => {
             this.setState({
               errorMessage: err.message
@@ -146,6 +148,11 @@ class Signup extends Component {
 
 
   render() {
+    if (this.state.redirectToDashboard) {
+      return (
+      <Redirect to="/dashboard"/>
+      )
+    }
     return (
         <div className="Signup">
           <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>

@@ -18,6 +18,25 @@ const signinSchema = Joi.object().keys({
   password: Joi.string().min(5).max(15).required()
 });
 
+
+function createTokenSendResponse(user, res, next) {
+  const payload = {
+    id: user.id,
+    email: user.email
+  };
+  jwt.sign(payload, process.env.TOKEN_SECRET, {
+    expiresIn: '1d'
+  }, (err, token) => {
+    if (err) {
+      respondError(res,next);
+    } else {
+      res.json({
+        token
+      });
+    }
+  });
+}
+
 router.get('/', (req, res) => {
   Q.getAllUsers()
     .then(users => {
@@ -40,13 +59,12 @@ router.post('/signup', (req, res, next) => {
           .then(hashedPassword => {
             Q.addNewUser(req.body, hashedPassword)
               .then((newUser) => {
-                res.json(newUser);
-                res.status(200);
+                // res.status(200);
+                createTokenSendResponse(newUser, res, next);
               });
           })
           .catch(err => next(err));
         }
-        // if user already exists throw error
       });
   } else {
     next(result.error);
@@ -64,21 +82,7 @@ router.post('/signin', (req, res, next) => {
         bcrypt.compare(req.body.password, user.password)
         .then(result => {
           if (result) {
-            const payload = {
-              id: user.id,
-              email: user.email
-            };
-            jwt.sign(payload, process.env.TOKEN_SECRET, {
-              expiresIn: '1d'
-            }, (err, token) => {
-              if (err) {
-                respondError(res,next);
-              } else {
-                res.json({
-                  token
-                });
-              }
-            });
+            createTokenSendResponse(user, res, next);
           } else {
             respondError(res, next);
           }
