@@ -11,6 +11,18 @@ class Dashboard extends Component {
     }
   }
 
+  componentDidMount() {
+    const API_URL = 'http://localhost:5000/'
+    fetch(API_URL, {
+      headers: {
+        Authorization: `Bearer ${localStorage.token}`
+      },
+    }).then(res => res.json())
+      .then(result) => {
+        console.log(result);
+      }
+  }
+
 
   render() {
     return (
