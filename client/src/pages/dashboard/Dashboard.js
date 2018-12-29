@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import './dashboard.css';
 
@@ -8,6 +8,7 @@ class Dashboard extends Component {
     super(props);
 
     this.state = {
+      user: {}
     }
   }
 
@@ -18,16 +19,31 @@ class Dashboard extends Component {
         Authorization: `Bearer ${localStorage.token}`
       },
     }).then(res => res.json())
-      .then(result) => {
-        console.log(result);
-      }
+      .then(result => {
+        if (result.user) {
+          this.setState({
+            user: result.user
+          })
+        } else {
+          localStorage.removeItem('token');
+          this.setState({
+            redirectToHome: true
+          })
+        }
+      }).catch(err => console.log(err))
   }
 
 
   render() {
+    if (this.state.redirectToHome) {
+      return (
+      <Redirect to="/"/>
+      )
+    }
     return (
       <div className="Dashboard">
         <h2>Dashboard</h2>
+        <h4>{this.state.user.email}</h4>
       </div>
     );
   }

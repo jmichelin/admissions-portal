@@ -16,9 +16,8 @@ app.use(cors({
 app.use(bodyParser.json());
 app.use(middlewares.checkTokenSetUser);
 
-app.get('/test', (req, res) => {
+app.get('/', (req, res) => {
   res.json({
-    message: 'Hello World',
     user: req.user
   });
 });
