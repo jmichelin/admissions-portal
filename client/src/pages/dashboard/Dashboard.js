@@ -12,6 +12,13 @@ class Dashboard extends Component {
     }
   }
 
+  logout() {
+    localStorage.removeItem('token');
+    this.setState({
+      redirectToHome: true
+    })
+  }
+
   componentDidMount() {
     const API_URL = 'http://localhost:5000/'
     fetch(API_URL, {
@@ -25,10 +32,7 @@ class Dashboard extends Component {
             user: result.user
           })
         } else {
-          localStorage.removeItem('token');
-          this.setState({
-            redirectToHome: true
-          })
+          this.logout();
         }
       }).catch(err => console.log(err))
   }
@@ -48,4 +52,5 @@ class Dashboard extends Component {
     );
   }
 }
+
 export default Dashboard;
