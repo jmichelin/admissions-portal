@@ -1,9 +1,9 @@
-.main-navigation-new {
+.main-navigation {
     background: var(--color-blue-dark);
     width: 100%;
     font-family: var(--font-primary);
     z-index: 9999;
-    position: fixed;
+    overflow: visible;
 }
 
 .nav-wrapper {
@@ -11,6 +11,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
+  overflow: visible;
 }
 
   .nav-wrapper .galvanize-logo {
@@ -35,6 +36,7 @@
   .nav-items {
     display: flex;
     flex-wrap: wrap;
+    overflow: visible;
   }
 
   ul, li {
@@ -53,9 +55,10 @@
     transition: all 0.2s ease-in-out 0s, padding-top 0s;
     cursor: default;
     white-space: nowrap;
+    overflow: visible;
   }
 
-  .nav-item ul {
+  .nav-item .list {
     flex-wrap: wrap;
     position: absolute;
     visibility: hidden;
@@ -66,9 +69,11 @@
     transform: translateY(-6px);
     z-index: -1;
     transition: all 0.2s ease-in-out 0s, visibility 0s linear 0.3s, display  0s linear 0.3s;
+    overflow: visible;
+
   }
 
-  .nav-item ul::before {
+  .nav-item .list::before {
     position: absolute;
     content: '';
     top: 0;
@@ -77,7 +82,7 @@
     height: 4px;
     background: var(--color-blue);
   }
-  .nav-item ul::after {
+  .nav-item .list::after {
     position: absolute;
     content: '';
     bottom: 0;
@@ -87,7 +92,7 @@
     border-right: 4px solid transparent;
   }
 
-  .nav-item ul .diagonal {
+  .nav-item .list .diagonal {
     position: absolute;
     content: '';
     top: 0;
@@ -100,7 +105,7 @@
     border-bottom: 40px solid transparent;
   }
 
-  .nav-item ul .diagonal::after {
+  .nav-item .list .diagonal::after {
     position: absolute;
     content: '';
     width: 1px;
@@ -110,7 +115,7 @@
     box-shadow: 1px 0px 0px 0px rgba(198, 198, 198, 0.75);
   }
 
-  .nav-item ul .diagonal::before {
+  .nav-item .list .diagonal::before {
     position: absolute;
     content: '';
     width: 1px;
@@ -121,7 +126,7 @@
     box-shadow: 1px 0px 0px 0px rgba(198, 198, 198, 0.75);
   }
 
-  .nav-item ul .nav-item-subheader {
+  .nav-item .list .nav-item-subheader {
     font-size: 24px;
     position: relative;
     margin-top: 12px;
@@ -129,25 +134,26 @@
     padding: 0 0 0 40px;
     color: var(--color-black);
     font-weight: 400;
+    overflow: visible;
   }
 
-  .nav-item ul .nav-item-subheader a {
+  .nav-item .list .nav-item-subheader a {
     color: var(--color-black);
     font-weight: 400;
   }
 
-  .nav-item ul .nav-item-subheader span img {
+  .nav-item .list .nav-item-subheader span img {
     margin: 0 0 1px 6px;
     width: 16px;
     transition: transform 300ms ease;
   }
 
-  .nav-item ul .nav-item-subheader ul {
+  .nav-item .list .nav-item-subheader ul {
     margin-top: 8px;
     padding: 6px 0;
   }
 
-  .nav-item ul .nav-item-subheader ul::before {
+  .nav-item .list .nav-item-subheader ul::before {
     content: '';
     width: 90%;
     height: 1px;
@@ -227,15 +233,20 @@
   }
 
 @media (min-width: 1201px) {
-  .main-navigation-new .nav-items .nav-item:first-child ul {
+  .main-navigation .nav-items .nav-item:first-child .list {
       width: 750px;
   }
 
-  .main-navigation-new .nav-item >ul {
+  .main-navigation .nav-item >.list {
     top: 65px;
     left: -30px;
     opacity: 0;
   }
+
+  .main-navigation .nav-item:first-child >.list {
+    left: -365px;
+  }
+
 
   .nav-item:hover, .nav-item:focus {
     background: var(--color-gray-1);
@@ -246,7 +257,7 @@
     color: var(--color-blue-dark);
   }
 
-  .nav-item:hover ul, .nav-item:focus ul {
+  .nav-item:hover .list, .nav-item:focus .list {
     visibility: visible;
     opacity: 1;
     z-index: 1;
@@ -255,11 +266,11 @@
     box-shadow: -1px 0px 0px 0px rgba(198, 198, 198, 0.75);
   }
 
-  .nav-item ul .nav-item-subheader>a:hover ~span img {
+  .nav-item .list .nav-item-subheader>a:hover ~span img {
         transform: translateX(4px);
   }
 
-  .nav-list-item:hover a {
+  .nav-item .list .nav-list-item:hover a {
       color: var(--color-blue);
   }
 }
@@ -270,11 +281,11 @@
     display: flex;
   }
 
-  .main-navigation-new .nav-items, .nav-item>ul {
+  .main-navigation .nav-items, .nav-item>.list {
     display: none;
     visibility: visible;
   }
-  .main-navigation-new {
+  .main-navigation {
     max-height: 100vh;
     overflow-y: scroll;
   }
@@ -283,15 +294,15 @@
     cursor: pointer;
     margin-left: 20px;
   }
-  .nav-items.-open .nav-item.-open>ul .nav-item-subheader ul::before {
+  .nav-items.-open .nav-item.-open>.list .nav-item-subheader ul::before {
     width: calc(100% - 54px);
   }
 
-  .nav-items.-open .nav-item.-open>ul .nav-list-item span {
+  .nav-items.-open .nav-item.-open>.list .nav-list-item span {
     display: none;
   }
 
-  .nav-items.-open .nav-item.-open>ul {
+  .nav-items.-open .nav-item.-open>.list {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -299,7 +310,7 @@
     margin-top: 20px;
   }
 
-  .nav-items.-open .nav-item.-open>ul::before {
+  .nav-items.-open .nav-item.-open>.list::before {
     top: 0;
   }
 
@@ -323,13 +334,13 @@
 
 
 @media (max-width: var(--width-mobile) {
-  .main-navigation-new  .nav-item-subheader a {
+  .main-navigation  .nav-item-subheader a {
       font-size: 20px;
     }
-    .main-navigation-new .nav-item:first-child.-open ul {
+    .main-navigation .nav-item:first-child.-open .list {
       padding-top: 20px;
     }
-  .main-navigation-new  .nav-item-subheader ul .nav-list-item a {
+  .main-navigation  .nav-item-subheader ul .nav-list-item a {
       font-size: 14px;
     }
 }
