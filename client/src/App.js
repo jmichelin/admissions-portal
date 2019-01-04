@@ -1,14 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { PrivateRoute, PublicRoute } from './helpers/PrivateRoute';
+
 import Header from './components/header';
-import Main from './Main';
+import Home from './pages/home/Home';
+import Dashboard from './pages/dashboard/Dashboard';
 
 import './App.css';
 
-    const App = () => (
+class App extends Component {
+  constructor(props){
+    super(props);
+  }
+
+render() {
+      return (
       <div>
         <Header/>
-        <Main/>
+          <main>
+          <Switch>
+            <PublicRoute exact path='/' component={Home}/>
+            <PrivateRoute exact path='/dashboard' component={Dashboard}/>
+          </Switch>
+          </main>
       </div>
     )
+  }
+}
 
 export default App;

@@ -4,7 +4,18 @@ import { Link } from 'react-router-dom';
 import './header.css';
 
 class Header extends Component {
+  constructor(props){
+    super(props);
+  }
+
+
   render() {
+    let buttons = this.props.isLoggedIn ?  <div className="actions">
+        <a href="#" className="button primary">ASK QUESTIONS</a>
+        <a href="#" className="button primary">LOGOUT</a>
+      </div> : <div className="actions">
+          <a href="#" className="button primary">ASK QUESTIONS</a>
+        </div>;
   return (
   <header className="main-navigation">
     <nav className="nav-wrapper">
@@ -55,9 +66,7 @@ class Header extends Component {
             <li className="nav-list-item"><a href="#">Seattle</a></li>
           </ul>
         </li>
-        <div className="actions">
-          <a href="#" className="button primary">ASK QUESTIONS</a>
-        </div>
+          { buttons }
       </div>
     </nav>
   </header>

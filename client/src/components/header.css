@@ -137,7 +137,7 @@
     overflow: visible;
   }
 
-  .nav-item .list .nav-item-subheader a {
+  .nav-item .list .nav-item-subheader>a {
     color: var(--color-black);
     font-weight: 400;
   }

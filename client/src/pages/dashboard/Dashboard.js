@@ -39,11 +39,6 @@ class Dashboard extends Component {
 
 
   render() {
-    if (this.state.redirectToHome) {
-      return (
-      <Redirect to="/"/>
-      )
-    }
     return (
       <div className="Dashboard">
         <h2>Dashboard</h2>

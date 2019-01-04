@@ -1,18 +1,18 @@
-import React from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
-import Home from './pages/home/Home'
-import Dashboard from './pages/dashboard/Dashboard'
+import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import Home from './pages/home/Home';
+import Dashboard from './pages/dashboard/Dashboard';
+
+const authorized = isLoggedIn();
 
 const ProtectedRoute = ({...props }) => {
- const isAllowed = isLoggedIn()
- return isAllowed
+ return authorized
      ? <Route {...props}/>
    : <Redirect to="/"/>;
 }
 
 const HomeRoute = ({...props }) => {
- const isAllowed = isLoggedIn()
- return isAllowed
+ return authorized
      ? <Redirect to="/dashboard"/>
    : <Route {...props}/>;
 }
