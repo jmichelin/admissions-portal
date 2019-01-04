@@ -124,18 +124,17 @@ a {
   text-decoration: none;
   outline: 0;
   cursor: pointer;
-
   transition: all 300ms ease;
+}
 
+a:hover, a:focus {
+  color: var(--color-blue-dark);
+  transition: all 500ms ease;
+}
+a.inverse {
   :hover, :focus {
-    color: var(--color-blue-dark);
+    color: var(--color-gray-2);
     transition: all 500ms ease;
-  }
-  .inverse {
-    :hover, :focus {
-      color: var(--color-gray-2);
-      transition: all 500ms ease;
-    }
   }
 }
 
