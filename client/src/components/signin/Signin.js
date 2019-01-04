@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import inputs from './../forms/inputs/inputs';
 import InputGroup from './../forms/input-group';
-import Checkbox from './../forms/checkbox';
 
 import './signin.css';
 import './../../styles/form.css';
@@ -131,7 +130,7 @@ class Signin extends Component {
               <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
               <h1 className="logo-subtext">Admissions Portal</h1>
               <h3 className="portal-title">Sign In</h3>
-              <h6>Don't have an account? <a onClick={this.props.toggleSignin}>Create Your Account</a></h6>
+              <span className="title-subtext">Don't have an account? <button className="-inline" onClick={this.props.toggleSignin}>Create Your Account</button></span>
                 <form onSubmit={this.handleSubmit}>
                   <div className="form-group">
                     {this.createInputs().slice(0,1)}
@@ -139,7 +138,7 @@ class Signin extends Component {
                   <div className="form-group">
                     {this.createInputs().slice(1,2)}
                   </div>
-                  <span className="forgot-password">Forgot Your Password?</span>
+                  <button className="forgot-password">Forgot Your Password?</button>
                   <div className="form-footer">
                     <input type="submit" value="Sign In" className="button primary"/>
                   </div>

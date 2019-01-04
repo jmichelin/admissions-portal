@@ -28,7 +28,7 @@ function createTokenSendResponse(user, res, next) {
     expiresIn: '1d'
   }, (err, token) => {
     if (err) {
-      respondError(res,next);
+      respondError(res, next);
     } else {
       res.json({
         token
@@ -56,14 +56,14 @@ router.post('/signup', (req, res, next) => {
           next(error);
         } else {
           bcrypt.hash(req.body.password, 12)
-          .then(hashedPassword => {
-            Q.addNewUser(req.body, hashedPassword)
-              .then((newUser) => {
-                // res.status(200);
-                createTokenSendResponse(newUser, res, next);
-              });
-          })
-          .catch(err => next(err));
+            .then(hashedPassword => {
+              Q.addNewUser(req.body, hashedPassword)
+                .then((newUser) => {
+                  // res.status(200);
+                  createTokenSendResponse(newUser, res, next);
+                });
+            })
+            .catch(err => next(err));
         }
       });
   } else {
@@ -75,23 +75,23 @@ router.post('/signin', (req, res, next) => {
   const result = Joi.validate(req.body, signinSchema);
   if (result.error === null) {
 
-  //look for user by Email
-  Q.getUserbyEmail(req.body.email)
-    .then(user => {
-      if (user) {
-        bcrypt.compare(req.body.password, user.password)
-        .then(result => {
-          if (result) {
-            createTokenSendResponse(user, res, next);
-          } else {
-            respondError(res, next);
-          }
-        });
-      } else {
-        respondError(res, next);
-      }
-      // if user already exists throw error
-    });
+    //look for user by Email
+    Q.getUserbyEmail(req.body.email)
+      .then(user => {
+        if (user) {
+          bcrypt.compare(req.body.password, user.password)
+            .then(result => {
+              if (result) {
+                createTokenSendResponse(user, res, next);
+              } else {
+                respondError(res, next);
+              }
+            });
+        } else {
+          respondError(res, next);
+        }
+        // if user already exists throw error
+      });
   } else {
     respondError(res, next);
   }

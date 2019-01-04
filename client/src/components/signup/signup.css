@@ -27,6 +27,11 @@
   font-weight: 500;
 }
 
+.title-subtext {
+  text-transform: uppercase;
+  font-size: var(--heading-ms2n);
+}
+
 .form-footer {
     margin: var(--space);
     text-align: center;

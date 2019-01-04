@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import inputs from './../forms/inputs/inputs';
 import InputGroup from './../forms/input-group';
 import Checkbox from './../forms/checkbox';
@@ -158,7 +158,7 @@ class Signup extends Component {
           <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
           <h1 className="logo-subtext">Admissions Portal</h1>
           <h3 className="portal-title">Create Your Account</h3>
-          <h6>Already have an account? <a onClick={this.props.toggleSignin}>Sign In</a></h6>
+          <span className="title-subtext">Already have an account? <button className="-inline" onClick={this.props.toggleSignin}>Sign In</button></span>
           <form onSubmit={this.handleSubmit}>
             <div className="form-group">
               {this.createInputs().slice(0,2)}

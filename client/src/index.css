@@ -226,3 +226,11 @@ h6 {
   max-width: var(--container-width);
   margin: auto;
 }
+
+button.-inline {
+    display: inline;
+    color: var(--color-blue);
+    cursor: pointer;
+    text-transform: inherit;
+    font-size: inherit;
+}
