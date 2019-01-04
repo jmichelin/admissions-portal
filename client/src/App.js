@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { PrivateRoute, PublicRoute } from './helpers/PrivateRoute';
+import { PrivateRoute, PublicRoute } from './helpers/Routes';
 
 import Header from './components/header';
 import Home from './pages/home/Home';

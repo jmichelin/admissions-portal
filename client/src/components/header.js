@@ -1,21 +1,40 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-
+import { Link, withRouter } from 'react-router-dom';
 import './header.css';
 
 class Header extends Component {
   constructor(props){
     super(props);
+
+    this.state = {
+      returnToHomepage: false
+    }
+
+    this.logout = this.logout.bind(this);
+
   }
 
+  isLoggedIn() {
+    if (localStorage.token) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.props.history.push('/');
+  }
 
   render() {
-    let buttons = this.props.isLoggedIn ?  <div className="actions">
-        <a href="#" className="button primary">ASK QUESTIONS</a>
-        <a href="#" className="button primary">LOGOUT</a>
-      </div> : <div className="actions">
-          <a href="#" className="button primary">ASK QUESTIONS</a>
-        </div>;
+    let buttons = this.isLoggedIn() ?  <div className="actions">
+            <a href="#" className="button primary">ASK QUESTIONS</a>
+            <button onClick={() => {this.logout()}} className="button primary">LOGOUT</button>
+          </div> : <div className="actions">
+              <a href="#" className="button primary">ASK QUESTIONS</a>
+            </div>
+
   return (
   <header className="main-navigation">
     <nav className="nav-wrapper">
@@ -66,7 +85,7 @@ class Header extends Component {
             <li className="nav-list-item"><a href="#">Seattle</a></li>
           </ul>
         </li>
-          { buttons }
+        { buttons }
       </div>
     </nav>
   </header>
@@ -74,4 +93,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withRouter(Header);
