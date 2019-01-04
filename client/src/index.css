@@ -227,9 +227,12 @@ h6 {
   margin: auto;
 }
 
+button {
+  color: var(--color-blue);
+}
+
 button.-inline {
     display: inline;
-    color: var(--color-blue);
     cursor: pointer;
     text-transform: inherit;
     font-size: inherit;

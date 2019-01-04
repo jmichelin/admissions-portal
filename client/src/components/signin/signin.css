@@ -45,6 +45,7 @@
 }
 
 .forgot-password {
+  color: var(--color-blue);
   font-weight: 400;
   text-align: right;
   align-self: flex-end;
