@@ -8,8 +8,8 @@
  },
   "scripts": {
     "client": "cd ./client && yarn start",
-    "server": "cd ./server && nodemon index.js",
-    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "start": "cd ./server && nodemon index.js",
+    "dev": "concurrently --kill-others-on-fail \"npm start\" \"npm run client\"",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "keywords": [],
