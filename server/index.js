@@ -31,14 +31,14 @@ app.use('/api/v1/user', middlewares.isLoggedIn, users);
 
 //production mode
 if(process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
-  app.use(express.static(path.join(__dirname, 'client/build')));
+  app.use(express.static(path.join(__dirname, '../client/build')));
   app.get('*', (req, res) => {
-    res.sendfile(path.join(__dirname = 'client/build/index.html'));
+    res.sendfile(path.join(__dirname = '../client/build/index.html'));
   })
 }
 
 app.get('*', (req,res) =>{
-    res.sendFile(path.join(__dirname+'/client/src/index.html'));
+    res.sendFile(path.join(__dirname+'../client/src/index.html'));
 });
 
 function notFound(req, res, next) {
