@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Admissions portal application for Galvanize students to be able to apply.",
   "main": "index.js",
+  "engines": {
+   "node": "10.13.0"
+ },
   "scripts": {
     "client": "cd ./client && yarn start",
     "server": "cd ./server && nodemon index.js",
