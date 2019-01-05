@@ -13,7 +13,7 @@
 
 .portal-aside {
   flex: 10 0 50%;
-  background: url(https://s3-us-west-2.amazonaws.com/dotcom-files/white_orange_formbackground.jpg);
+  background: url('https://s3-us-west-2.amazonaws.com/dotcom-files/white_orange_formbackground.jpg');
   background-position: center;
   background-size: cover;
   padding: var(--pad-double);
