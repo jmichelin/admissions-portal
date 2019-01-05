@@ -23,7 +23,7 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="Home">
+      <div className="home">
         <div className="container">
           <div className="portal">
               <div className="portal-aside"></div>

@@ -39,7 +39,7 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div className="Dashboard">
+      <div className="dashboard">
         <div className="container">
           <h2>Dashboard</h2>
           <h4>Welcome {this.state.user.first_name}!</h4>

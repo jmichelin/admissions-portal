@@ -126,7 +126,7 @@ class Signin extends Component {
           )
         }
     return (
-            <div className="Signin">
+            <div className="signin">
               <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
               <h1 className="logo-subtext">Admissions Portal</h1>
               <h3 className="portal-title">Sign In</h3>

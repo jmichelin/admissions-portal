@@ -154,7 +154,7 @@ class Signup extends Component {
       )
     }
     return (
-        <div className="Signup">
+        <div className="signup">
           <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
           <h1 className="logo-subtext">Admissions Portal</h1>
           <h3 className="portal-title">Create Your Account</h3>
