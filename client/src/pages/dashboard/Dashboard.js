@@ -40,8 +40,12 @@ class Dashboard extends Component {
   render() {
     return (
       <div className="Dashboard">
-        <h2>Dashboard</h2>
-        <h4>Welcome {this.state.user.first_name}!</h4>
+        <div className="container">
+          <h2>Dashboard</h2>
+          <h4>Welcome {this.state.user.first_name}!</h4>
+          <p>From here you can fill out applications for our programs, book interviews, and proceed.</p>
+
+        </div>
       </div>
     );
   }
