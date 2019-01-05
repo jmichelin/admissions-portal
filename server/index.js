@@ -19,8 +19,7 @@ app.use(middlewares.checkTokenSetUser);
 
 app.get('/', (req, res) => {
   res.json({
-    user: req.user,
-    message: 'Hello world!'
+    user: req.user
   });
 });
 
@@ -28,11 +27,16 @@ app.get('/', (req, res) => {
 app.use('/auth', auth);
 app.use('/api/v1/user', middlewares.isLoggedIn, users);
 
-
-app.use(express.static(path.join(__dirname, 'client/build')));
+//production mode
+if(process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+  app.get('*', (req, res) => {
+    res.sendfile(path.join(__dirname = 'client/build/index.html'));
+  })
+}
 
 app.get('*', (req,res) =>{
-    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+    res.sendFile(path.join(__dirname+'/client/src/index.html'));
 });
 
 function notFound(req, res, next) {
