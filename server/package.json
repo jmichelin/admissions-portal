@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "client": "cd ../client && yarn start",
+    "server": "nodemon index.js",
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
@@ -23,6 +24,7 @@
     "pg": "^7.6.0"
   },
   "devDependencies": {
+    "concurrently": "^4.1.0",
     "nodemon": "^1.18.5"
   }
 }
