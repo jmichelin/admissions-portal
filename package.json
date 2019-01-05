@@ -7,9 +7,10 @@
    "node": "10.13.0"
  },
   "scripts": {
-    "client": "cd ./client && npm start",
-    "start": "cd ./server && nodemon index.js",
-    "dev": "concurrently --kill-others-on-fail \"npm start\" \"npm run client\"",
+    "client": "cd client && npm start",
+    "start": "cd server && node index.js",
+    "server": "cd server && nodemon index.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "keywords": [],

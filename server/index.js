@@ -19,13 +19,17 @@ app.use(middlewares.checkTokenSetUser);
 
 app.get('/', (req, res) => {
   res.json({
-    user: req.user
+    user: req.user,
+    message: 'Hello world!'
   });
 });
 
 
 app.use('/auth', auth);
 app.use('/api/v1/user', middlewares.isLoggedIn, users);
+
+
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('*', (req,res) =>{
     res.sendFile(path.join(__dirname+'/client/build/index.html'));
