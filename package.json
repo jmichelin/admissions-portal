@@ -1,7 +1,7 @@
 {
   "name": "galvanize-admission-portal",
   "version": "1.0.0",
-  "description": "",
+  "description": "Admissions portal application for Galvanize students to be able to apply.",
   "main": "index.js",
   "scripts": {
     "client": "cd ./client && yarn start",
