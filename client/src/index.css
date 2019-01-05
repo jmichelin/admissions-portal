@@ -54,7 +54,7 @@
   --pad-double: calc(var(--pad)*2);
   --pad-triple: calc(var(--pad)*3);
   --pad-quad: calc(var(--pad)*4);
-  --pad-five): calc(var(--pad)*5);
+  --pad-five: calc(var(--pad)*5);
   --pad-half: calc(var(--pad)/2);
   --pad-quarter: calc(var(--pad)/4);
 

@@ -223,7 +223,6 @@
     margin-right: 6px;
   }
 .actions:first-child {
-    @extend .button-nonround;
     background-color: #002834;
     border: 2px solid var(--color-brand-primary);
 
