@@ -157,7 +157,7 @@ h1  {
   font-weight: 300;
   font-size: var(--heading-ms6);
   line-height: 1.2;
-  margin: var(--heading-ms1 0);
+  margin: var(--heading-ms1);
 }
 
 /**
@@ -167,7 +167,7 @@ h2 {
   font-weight: 500;
   font-size: var(--heading-ms5);
   line-height: 1.2;
-  margin: var(--heading-ms1 0);
+  margin: var(--heading-ms1);
 }
 
 /**
@@ -177,7 +177,7 @@ h3  {
   font-weight: 300;
   font-size: var(--heading-ms4);
   line-height: 1.2;
-  margin: var(--heading-ms1 0);
+  margin: var(--heading-ms1);
 }
 
 /**
@@ -186,9 +186,9 @@ h3  {
 h4 {
   font-weight: 300;
   font-size: var(--heading-ms1);
-  margin: var(--heading-ms0 0);
-  text-transform: uppercase);
-  letter-spacing: 0.0625em);
+  margin: var(--heading-ms0);
+  text-transform: uppercase;
+  letter-spacing: 0.0625em;
 }
 
 /**
@@ -197,7 +197,7 @@ h4 {
 h5 {
   font-weight: 500;
   font-size: var(--heading-ms1n);
-  margin: var(--heading-ms0 0);
+  margin: var(--heading-ms0);
   text-transform: uppercase;
   letter-spacing: 0.0625em;
 }
@@ -208,7 +208,7 @@ h5 {
 h6 {
   font-weight: 500;
   font-size: var(--heading-ms2n);
-  margin: var(--heading-ms0 0);
+  margin: var(--heading-ms0);
   text-transform: uppercase;
   letter-spacing: 0.0625em;
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import { PrivateRoute, PublicRoute } from './helpers/Routes';
 
 import Header from './components/header';
@@ -9,9 +9,6 @@ import Dashboard from './pages/dashboard/Dashboard';
 import './App.css';
 
 class App extends Component {
-  constructor(props){
-    super(props);
-  }
 
 render() {
       return (

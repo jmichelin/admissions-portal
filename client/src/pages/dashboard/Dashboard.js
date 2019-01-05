@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 
 import './dashboard.css';
 
@@ -42,7 +41,7 @@ class Dashboard extends Component {
     return (
       <div className="Dashboard">
         <h2>Dashboard</h2>
-        <h4>{this.state.user.email}</h4>
+        <h4>Welcome {this.state.user.first_name}!</h4>
       </div>
     );
   }
