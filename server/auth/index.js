@@ -39,12 +39,15 @@ function createTokenSendResponse(user, res, next) {
   });
 }
 
+
 router.get('/', (req, res) => {
-  Q.getAllUsers()
-    .then(users => {
-      res.json(users);
-    });
+  res.json({
+    user: req.user,
+    message: 'Hello!'
+  });
 });
+
+
 
 
 router.post('/signup', (req, res, next) => {

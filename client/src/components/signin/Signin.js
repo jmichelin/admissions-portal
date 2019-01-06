@@ -9,7 +9,7 @@ import './../../styles/button.css';
 
 import Joi from 'joi';
 
-const SIGNIN_URL = 'http://localhost:5000/auth/signin';
+const SIGNIN_URL = '/auth/signin';
 
 class Signin extends Component {
 

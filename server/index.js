@@ -20,13 +20,6 @@ app.use(bodyParser.json());
 app.use(middlewares.checkTokenSetUser);
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-app.get('/', (req, res) => {
-  res.json({
-    user: req.user
-  });
-});
-
-
 app.use('/auth', auth);
 app.use('/api/v1/user', middlewares.isLoggedIn, users);
 

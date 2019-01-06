@@ -10,7 +10,7 @@ import './../../styles/button.css';
 
 import Joi from 'joi';
 
-const SIGNUP_URL = 'http://localhost:5000/auth/signup';
+const SIGNUP_URL = '/auth/signup';
 
 class Signup extends Component {
 
