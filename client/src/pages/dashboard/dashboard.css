@@ -3,26 +3,3 @@
   margin: var(--space-and-a-half) var(--space);
   min-height: 91vh;
 }
-
-.portal {
-  background: var(--color-white);
-  display: flex;
-  margin:  var(--space-triple);
-  box-shadow: 0 3px 6px 0 rgba(0,0,0,0.14);
-}
-
-.portal-aside {
-  flex: 10 0 50%;
-  background: url(https://s3-us-west-2.amazonaws.com/dotcom-files/white_orange_formbackground.jpg);
-  background-position: center;
-  background-size: cover;
-  padding: var(--pad-double);
-}
-
-.form-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 5 0 50%;
-  padding: var(--pad-double);
-}
