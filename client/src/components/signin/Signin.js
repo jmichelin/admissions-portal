@@ -4,8 +4,6 @@ import inputs from './../forms/inputs/inputs';
 import InputGroup from './../forms/input-group';
 
 import './signin.css';
-import './../../styles/form.css';
-import './../../styles/button.css';
 
 import Joi from 'joi';
 

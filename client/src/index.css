@@ -226,13 +226,5 @@ h6 {
   margin: auto;
 }
 
-button {
-  color: var(--color-blue);
-}
-
-button.-inline {
-    display: inline;
-    cursor: pointer;
-    text-transform: inherit;
-    font-size: inherit;
-}
+@import url("./styles/button.css");
+@import url("./styles/form.css");

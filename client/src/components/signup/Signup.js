@@ -5,8 +5,6 @@ import InputGroup from './../forms/input-group';
 import Checkbox from './../forms/checkbox';
 
 import './signup.css';
-import './../../styles/form.css';
-import './../../styles/button.css';
 
 import Joi from 'joi';
 
