@@ -6,8 +6,6 @@ import Header from './components/header';
 import Home from './pages/home/Home';
 import Dashboard from './pages/dashboard/Dashboard';
 
-import './App.css';
-
 class App extends Component {
 
 render() {
