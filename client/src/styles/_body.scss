@@ -1,0 +1,58 @@
+/**
+ * Body base styles
+ */
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+
+  color: $color-gray-5;
+  background: $color-white;
+  font-family: $font;
+  font-size: 1rem;
+  font-weight: 300;
+  -webkit-text-size-adjust: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 0;
+
+  &.-gray {
+    background-color: $color-gray-1;
+  }
+
+  >main {
+
+    overflow-x: hidden;
+
+    &.-gray {
+      background-color: $color-gray-1;
+    }
+
+  }
+
+}
+
+.container {
+  max-width: var(--container-width);
+  margin: auto;
+}
+
+.font-secondary {
+  font-family: $font-secondary;
+}
+
+.section.-white {
+  background: white;
+}
+
+.section-thin {
+  padding: 0;
+  position: relative;
+  background: $color-gray-1;
+}

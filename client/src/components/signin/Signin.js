@@ -3,8 +3,6 @@ import { Redirect } from 'react-router-dom';
 import inputs from './../forms/inputs/inputs';
 import InputGroup from './../forms/input-group';
 
-import './signin.css';
-
 import Joi from 'joi';
 
 const SIGNIN_URL = '/auth/signin';
@@ -136,7 +134,7 @@ class Signin extends Component {
                   <div className="form-group">
                     {this.createInputs().slice(1,2)}
                   </div>
-                  <button className="forgot-password">Forgot Your Password?</button>
+                  <button className="forgot-password -inline">Forgot Your Password?</button>
                   <div className="form-footer">
                     <input type="submit" value="Sign In" className="button primary"/>
                   </div>

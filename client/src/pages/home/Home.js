@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import Signup from '../../components/signup/Signup';
 import Signin from '../../components/signin/Signin';
 
-import './home.css';
-
 class Home extends Component {
   constructor(props){
     super(props);

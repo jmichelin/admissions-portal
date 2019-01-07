@@ -4,8 +4,6 @@ import inputs from './../forms/inputs/inputs';
 import InputGroup from './../forms/input-group';
 import Checkbox from './../forms/checkbox';
 
-import './signup.css';
-
 import Joi from 'joi';
 
 const SIGNUP_URL = '/auth/signup';
@@ -169,7 +167,7 @@ class Signup extends Component {
             </div>
             <div className="form-footer">
               {this.createInputs().slice(5,6)}
-              <input type="submit" value="Create Account" className="button primary"/>
+              <input type="submit" value="Create Account" className="button-primary"/>
             </div>
             <span className="form note form-error">{ this.state.errorMessage }</span>
           </form>

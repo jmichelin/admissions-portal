@@ -1,0 +1,60 @@
+/*------------------------------------*\
+    #TEXT
+\*------------------------------------*/
+
+/**
+ * Paragraph base styles
+ */
+p {
+  font-size: 1rem;
+  line-height: 1.4;
+  color: $color-gray-4;
+}
+
+p.lead {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin-bottom: $space-and-half;
+  color: $color-gray-4;
+  text-align: center;
+
+  &.zero-courses {
+    background: rgba(213,215,85, 0.2);
+    padding: 2em;
+    text-align: center;
+    max-width: 800px;
+    color: $color-gray-4;
+  }
+}
+
+/**
+ * Blockquote base styles
+ */
+.blockquote {
+  color: $color-gray-4;
+  margin-bottom: $space;
+  .lead {
+    text-align: left;
+  }
+  .citation {
+    font-style: normal;
+  }
+}
+
+/**
+ * Horizontal rule base styles
+ */
+hr {
+  border: 0;
+  height: 2px;
+  background: $color-gray-2;
+  margin: $space-double 0;
+}
+
+/**
+ * Abbreviation base styles
+ */
+abbr {
+    border-bottom: 1px dotted $color-gray-4;
+    cursor: help;
+}
