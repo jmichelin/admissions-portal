@@ -1,12 +1,23 @@
 /**
  * Body base styles
  */
-
-html {
-  box-sizing: border-box;
+*,
+*:after,
+*:before {
+  margin:0;
+  padding:0;
+  box-sizing:inherit;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  overflow: auto;
 }
-*, *:before, *:after {
-  box-sizing: inherit;
+
+html, body {
+  height: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {

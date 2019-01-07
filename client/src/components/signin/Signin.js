@@ -126,7 +126,7 @@ class Signin extends Component {
               <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
               <h1 className="logo-subtext">Admissions Portal</h1>
               <h3 className="portal-title">Sign In</h3>
-              <span className="title-subtext">Don't have an account? <button className="-inline" onClick={this.props.toggleSignin}>Create Your Account</button></span>
+              <p className="title-subtext">Don't have an account? <button className="-inline" onClick={this.props.toggleSignin}>Create Your Account</button></p>
                 <form onSubmit={this.handleSubmit}>
                   <div className="form-group">
                     {this.createInputs().slice(0,1)}

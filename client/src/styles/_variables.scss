@@ -69,21 +69,21 @@ $heading-ms2n: 0.694rem;
  * Spacing Defaults
  */
 $space : 1rem;
-$space-and-half : calc($space*1.5);
-$space-double : calc($space*2);
-$space-triple : calc($space*3);
-$space-quad : calc($space*4);
-$space-half : calc($space/2);
-$space-quarter : calc($space/4);
+$space-and-half : calc(#{$space}*1.5);
+$space-double : calc(#{$space}*2);
+$space-triple : calc(#{$space}*3);
+$space-quad : calc(#{$space}*4);
+$space-half : calc(#{$space}/2);
+$space-quarter : calc(#{$space}/4);
 
 $pad : 1rem;
-$pad-and-half : calc($pad*1.5);
-$pad-double : calc($pad*2);
-$pad-triple : calc($pad*3);
-$pad-quad : calc($pad*4);
-$pad-five: calc($pad*5);
-$pad-half : calc($pad/2);
-$pad-quarter : calc($pad/4);
+$pad-and-half : calc(#{$pad}*1.5);
+$pad-double : calc(#{$pad}*2);
+$pad-triple : calc(#{$pad}*3);
+$pad-quad : calc(#{$pad}*4);
+$pad-five: calc(#{$pad}*5);
+$pad-half : calc(#{$pad}/2);
+$pad-quarter : calc(#{$pad}/4);
 
 /* container area */
 $container-width: 1170px;
