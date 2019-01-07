@@ -353,6 +353,12 @@ input[type="reset"]:focus {
 }
 
 /*tall text area*/
-.text-area-padded{
+.text-area-padded {
   padding-bottom: $pad-triple;
+}
+
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
