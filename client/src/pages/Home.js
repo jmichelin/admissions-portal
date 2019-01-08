@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Signup from '../../components/signup/Signup';
-import Signin from '../../components/signin/Signin';
+import Signup from '../components/signup';
+import Signin from '../components/signin';
 
 class Home extends Component {
   constructor(props){
@@ -9,14 +9,14 @@ class Home extends Component {
     this.state = {
       userIsSignedIn: false,
       showSignin: true
-    }
+    };
     this.toggleSignin = this.toggleSignin.bind(this);
   }
 
   toggleSignin() {
     this.setState({
       showSignin: !this.state.showSignin
-    })
+    });
   }
 
   render() {

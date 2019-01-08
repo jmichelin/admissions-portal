@@ -8,4 +8,13 @@
   .container {
     margin-top: $space-triple;
   }
+
+  .section-header h4 {
+    border-bottom: 1px solid;
+    padding-bottom: $pad/2;
+  }
+
+  .action {
+    margin-top: $pad;
+  }
 }
