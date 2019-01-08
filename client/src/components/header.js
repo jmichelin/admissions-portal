@@ -29,7 +29,7 @@ class Header extends Component {
   render() {
     let buttons = this.isLoggedIn() ?  <div className="actions">
             <a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/courses/get-advice" className="button primary">ASK QUESTIONS</a>
-            <button onClick={() => {this.logout()}} className="button primary">LOGOUT</button>
+            <button onClick={() => {this.logout()}} className="button-primary">LOGOUT</button>
           </div> : <div className="actions">
               <a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/courses/get-advice" className="button primary">ASK QUESTIONS</a>
             </div>
