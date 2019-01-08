@@ -24,22 +24,18 @@
     text-align: center;
     line-height: 2.5rem;
     padding: 0 1.4rem;
-    border: 2px solid $color-gray-3;
-    background: center no-repeat;
-    color: $color-gray-5;
-    background-color: white;
     margin-left: 3px;
     margin-right: 3px;
   }
   &:hover {
     color: $color-white;
-    background-color: color($color-gray-4 shade(10));
-    box-shadow: 0 4px 20px 0 color(black a(10%));
+    background-color: darken($color-gray-4, 10%);
+    box-shadow: 0 0px 1px 0 darken($color-gray-3, 10%);
     border-color: transparent;
   }
   &:focus, &:active {
     color: $color-white;
-    background-color: color($color-gray-4 shade(50));
+    background-color: darken($color-gray-4, 10%);
   }
   &.-large {
     line-height: 3rem;
@@ -54,6 +50,7 @@
 
 .button-primary {
   @extend .button;
+
   $fg-color: white;
   $bg-color: $color-brand-primary;
   & {
@@ -64,11 +61,11 @@
   }
   &:hover {
     color: $fg-color;
-    background-color: color($bg-color shade(10));
+    background-color: darken($color-brand-primary, 10%);
   }
   &:focus, &:active {
     color: $fg-color;
-    background-color: color($bg-color shade(50));
+    background-color: darken($color-brand-primary, 10%);
   }
   &.-loading {
     /*@extend %hide-text;*/
@@ -420,5 +417,5 @@ button.-inline {
     border: none;
     font-weight: inherit;
     color: $color-blue;
-    vertical-align: middle;
+    vertical-align: initial;
 }

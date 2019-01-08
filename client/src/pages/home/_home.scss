@@ -1,14 +1,14 @@
 .home {
 & {
   background: $color-gray-1;
-  margin: $space-and-half $space;
   min-height: 100vh;
 }
 
 .portal {
   background: $color-white;
   display: flex;
-  box-shadow: 0 3px 6px 0 rgba(0,0,0,0.14);
+  box-shadow: 1px 0px 1px rgba(0,0,0,0.25);
+  margin: $pad-triple;
 }
 
 .portal-aside {
@@ -26,5 +26,37 @@
   flex: 5 0 50%;
   padding: $pad-double;
 }
+
+form, .form-group, .input-group {
+  width: 100%;
+}
+
+form {
+  & {
+    margin-top: $space;
+  }
+  .input-group {
+    margin: 0 $space;
+  }
+
+  .checkbox-field {
+    text-align: left;
+  }
+
+  .form-footer {
+      margin: $space;
+      text-align: center;
+    }
+
+  .form-footer span {
+    text-align: left;
+    font-size: 12px;
+  }
+
+  .form-footer .button {
+    margin-top: $space-double;
+  }
+}
+
 
 }

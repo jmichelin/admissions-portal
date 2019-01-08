@@ -7,54 +7,39 @@
     padding: $pad-double;
   }
 
-.form-content form {
-  margin: $space-double 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.logo {
-  width: 200px;
-}
-
-.logo-subtext {
-  font-size: 18px;
-  margin: 0;
-}
-
-.portal-title {
-  margin: 32px 0 8px 0;
-  font-weight: 500;
-}
-
-.title-subtext {
-  text-transform: uppercase;
-  font-size: 12px;
-}
-
-.form-footer {
-    margin: $space;
-    text-align: center;
+  .form-content form {
+    margin: $space-double 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
   }
 
-.form-footer span {
-  text-align: left;
-  font-size: 12px;
-}
+  .logo {
+    width: 200px;
+  }
 
-.forgot-password {
-  color: $color-blue;
-  font-weight: 400;
-  text-align: right;
-  align-self: flex-end;
-  font-size: 12px;
-  margin-right: 8px;
-}
+  .logo-subtext {
+    font-size: 18px;
+    margin: 0;
+  }
 
-.form-footer .button {
-  margin-top: $space-double;
-}
+  .portal-title {
+    margin: 32px 0 8px 0;
+    font-weight: 500;
+  }
+
+  .title-subtext {
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+
+  .forgot-password {
+    color: $color-blue;
+    font-weight: 400;
+    text-align: right;
+    align-self: flex-end;
+    font-size: 12px;
+    margin-right: 8px;
+  }
 }

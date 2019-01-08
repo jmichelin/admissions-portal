@@ -273,32 +273,6 @@ legend {
   }
 }
 
-/* Buttons, Input Type Submit/Reset ------------------ */
-
-button:not(.-inline),
-input[type="button"]:not(.-inline),
-input[type="submit"]:not(.-inline),
-input[type="reset"]:not(.-inline),
-input[type="image"]:not(.-inline) {
-  /*height: $fh-button-height;
-  width: $fh-button-width;
-  max-width: $fh-button-max-width;
-  background-color: $fh-button-bg-color;
-  padding: $fh-input-height / 5;
-  cursor: pointer;
-
-  color: $fh-button-font-color;
-  font-weight: 700;
-
-  -webkit-appearance: none;
-  -moz-appearance: none;
-
-  border-radius: $fh-border-radius;
-  border: $fh-border-width $fh-border-style $fh-border-color;*/
-
-  @extend .button;
-}
-
 input[type="image"] {
   text-align: center;
   padding: $fh-input-height / 5;

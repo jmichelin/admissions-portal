@@ -134,9 +134,9 @@ class Signin extends Component {
                   <div className="form-group">
                     {this.createInputs().slice(1,2)}
                   </div>
-                  <button className="forgot-password -inline">Forgot Your Password?</button>
                   <div className="form-footer">
-                    <input type="submit" value="Sign In" className="button primary"/>
+                    <div className="forgot-password"><button className="-inline">Forgot Your Password?</button></div>
+                    <input type="submit" value="Sign In" className="button-primary"/>
                   </div>
                   <span className="form note form-error">{ this.state.errorMessage }</span>
                 </form>
