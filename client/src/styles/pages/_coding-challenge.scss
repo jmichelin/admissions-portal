@@ -44,6 +44,10 @@
 
     .code-editor {
       flex: 2;
+
+      .editor-wrapper {
+        border-bottom: 1px solid $color-gray-2;
+      }
     }
   }
 
