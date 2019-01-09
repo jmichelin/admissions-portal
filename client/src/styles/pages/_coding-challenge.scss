@@ -1,0 +1,48 @@
+.coding-challenge {
+  .portal-inner >.challenge-editor {
+    display: flex;
+    .col {
+      border: 1px solid $color-brand-primary;
+      border-radius: 5px;
+    }
+    .column-header {
+      background: $color-gray-1;
+      margin: 0;
+      padding: $pad $pad-double;
+      border-bottom: 1px solid $color-gray-2;
+    }
+
+    .instructions {
+      flex: 1.5;
+      list-style-position: inside;
+      margin-right: $pad;
+
+      ol {
+        padding: $pad;
+      }
+
+      ol li {
+        margin-bottom: 1rem;
+        font-size: 18px;
+        line-height: 27px;
+      }
+       ul {
+         list-style: none;
+       }
+
+       code {
+         background: $color-gray-1;
+          padding: 1px 4px 3px 4px;
+          border: 1px solid $color-gray-2;
+          border-radius: 3px;
+          margin: 0 1px;
+          font-size: 16px;
+       }
+    }
+
+    .code-editor {
+      flex: 2;
+    }
+  }
+
+}
