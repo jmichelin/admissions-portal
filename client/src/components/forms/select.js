@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import FormError from './form-error';
 import Label from './label';
