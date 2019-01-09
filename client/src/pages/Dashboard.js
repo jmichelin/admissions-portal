@@ -10,11 +10,12 @@ class Dashboard extends Component {
   constructor(props){
     super(props);
     const programInputs = inputs.getProgramInputs(FULL_TIME_PROGRAMS);
-    const getCampusInputs = inputs.getCampusInputs(CAMPUSES);
+    const campusInputs = inputs.getCampusInputs(CAMPUSES);
 
     this.state = {
       user: {},
-      programInputs: programInputs
+      programInputs: programInputs,
+      campusInputs: campusInputs
     };
   }
 
@@ -48,28 +49,45 @@ class Dashboard extends Component {
     return (
       <div className="dashboard">
         <div className="container">
-          <h2>Admissions Portal Dashboard</h2>
-          <h5>Welcome {this.state.user.first_name}!</h5>
           <div>
-            <div className="section-header">
-              <h4>Current Applications</h4>
-            </div>
-            <p>Looks like you don't have any active applications. Select a program below to start your application.</p>
-              <div className="form-group">
-                  <Select name="select-normal"
-                  label='Select a Program'
-                  fieldName="Campus__c"
-                  id="modal-campus"
-                  options={this.state.programInputs.options}
-                  className="select"
-                  showError={this.state.submitAttempted && !this.isValid('Campus__c')}
-                  currentSelection={this.state.campusValue || this.props.campusName}
-                  onOptionClick={this.onCampusChange}
-                  disabled={false}
-                  />
+            <h3>Admissions Portal Dashboard</h3>
+            <h4>Welcome {this.state.user.first_name}!</h4>
+            <div className="portal">
+              <div className="section-header">
+                <h4>Current Applications</h4>
               </div>
-            <div className="action">
-            <button className="button-primary">Start Your Application</button>
+              <p className="section-row">Looks like you don't have any active applications. Select a program and campus below to start your application.</p>
+              <form>
+                <div className="form-group">
+                      <Select name="select-normal"
+                      label='Select a Program'
+                      fieldName="Campus__c"
+                      id="modal-campus"
+                      options={this.state.programInputs.options}
+                      className="select"
+                      showError={this.state.submitAttempted && !this.isValid('Campus__c')}
+                      currentSelection={this.state.campusValue || this.props.campusName}
+                      onOptionClick={this.onCampusChange}
+                      disabled={false}
+                      />
+                  </div>
+                  <div className="form-group">
+                      <Select name="select-normal"
+                      label='Select a Campus'
+                      fieldName="Campus__c"
+                      id="modal-campus"
+                      options={this.state.campusInputs.options}
+                      className="select"
+                      showError={this.state.submitAttempted && !this.isValid('Campus__c')}
+                      currentSelection={this.state.campusValue || this.props.campusName}
+                      onOptionClick={this.onCampusChange}
+                      disabled={false}
+                      />
+                  </div>
+                  <div className="action">
+                  <button className="button-primary">Start Your Application</button>
+                  </div>
+              </form>
             </div>
           </div>
         </div>

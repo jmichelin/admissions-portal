@@ -1,7 +1,6 @@
 .dashboard {
   & {
-    background: var(--color-gray-1);
-    margin: var(--space-and-a-half) var(--space);
+    background: $color-gray-1;
     min-height: 91vh;
 }
 
@@ -9,12 +8,38 @@
     margin-top: $space-triple;
   }
 
+  .portal {
+    background: $color-white;
+    display: flex;
+    flex-direction: column;
+    padding: $pad-double;
+    box-shadow: 1px 0px 1px rgba(0,0,0,0.25);
+    margin: $pad-triple 0;
+  }
+
   .section-header h4 {
-    border-bottom: 1px solid;
+    border-bottom: 1px solid $color-brand-primary;
     padding-bottom: $pad/2;
+    margin-bottom: 0;
+  }
+
+  .section-row {
+    padding: $pad-double 0;
+    background: $color-gray-1;
+    padding-left: $pad;
+  }
+
+  form {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+
+    .form-group {
+      width: auto;
+      margin-right: $space-and-half;
+    }
   }
 
   .action {
-    margin-top: $pad;
   }
 }
