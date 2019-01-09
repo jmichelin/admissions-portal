@@ -69,14 +69,14 @@
       position: absolute;
       visibility: hidden;
       display: flex;
-      background: $color-gray-1;
+      background: $color-white;
       margin: 0;
       padding: 34px 0;
       transform: translateY(-6px);
       z-index: -1;
       transition: all 0.2s ease-in-out 0s, visibility 0s linear 0.3s, display  0s linear 0.3s;
       overflow: visible;
-      
+
       &::before {
         position: absolute;
         content: '';
@@ -105,7 +105,7 @@
         height: calc(100% - 4px);
         margin-right: -40px;
         margin-top: 4px;
-        border-left: 40px solid $color-gray-1;
+        border-left: 40px solid $color-white;
         border-bottom: 40px solid transparent;
 
         &::after {
@@ -228,7 +228,7 @@
       margin-right: 6px;
     }
 
-    :first-child {
+    :nth-child(2) {
         @extend .button-nonround;
         background-color: #002834;
         border: 2px solid $color-brand-primary;
