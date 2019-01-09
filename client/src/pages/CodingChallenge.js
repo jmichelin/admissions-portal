@@ -74,7 +74,8 @@ class CodingChallenge extends Component {
                     </ol>
                   </div>
                   <div className="code-editor col">
-                    <h3 className="column-header">Code Editor</h3></div>
+                    <h3 className="column-header">Code Editor</h3>
+                  </div>
                 </div>
                 </div>
             </div>

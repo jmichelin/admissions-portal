@@ -1,6 +1,8 @@
 .coding-challenge {
   .portal-inner >.challenge-editor {
     display: flex;
+    margin-top: $space-double;
+
     .col {
       border: 1px solid $color-brand-primary;
       border-radius: 5px;
@@ -18,7 +20,7 @@
       margin-right: $pad;
 
       ol {
-        padding: $pad;
+        padding: $pad $pad-double;
       }
 
       ol li {
@@ -32,7 +34,7 @@
 
        code {
          background: $color-gray-1;
-          padding: 1px 4px 3px 4px;
+          padding: 1px 4px 2px 4px;
           border: 1px solid $color-gray-2;
           border-radius: 3px;
           margin: 0 1px;
