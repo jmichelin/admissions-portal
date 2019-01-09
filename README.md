@@ -10,11 +10,12 @@ Application to allow prospective students to apply for Galvanize programs.
 
 
 ### To Start
-`npm install` installs server packages
-`touch .env` and acquire appropriate keys for `DEV_DB_URL`, `TOKEN_SECRET`, and set `NODE_ENV` to `development`
-`cd src && npm install` installs client packages
-`npm run dev` starts both client and server concurrently
 This app uses a proxy server to run locally so your console will show both server and client outputs at once.
+
+- `npm install` installs server packages
+- `touch .env` and acquire appropriate keys for `DEV_DB_URL`, `TOKEN_SECRET`, and set `NODE_ENV` to `development`
+- `cd src && npm install` installs client packages
+- `npm run dev` starts both client and server concurrently
 
 
 ### Adding Styles
