@@ -10,13 +10,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: false,
     sfdcName: 'Austin-2nd St District',
-    tripleseat_location_id: 4164,
-    eventServiceName: 'Galvanize Austin',
-    newsletterFlagName: 'Austin_Campus_Flag__c',
-    location: '2nd Street District',
-    image: 'https://d1cvw29nua6zwm.cloudfront.net/campus/campus_austin.jpg',
-    inputID_DMS: 'SR_BR-000061319289',
-    emailID: 'ATX'
+    location: '2nd Street District'
   },
   { name: 'boulder',
     optionName: 'Boulder, CO',
@@ -27,13 +21,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Boulder-Walnut St.',
-    tripleseat_location_id: 3601,
-    eventServiceName: 'Galvanize Boulder',
-    newsletterFlagName: 'Boulder_Campus_Flag__c',
-    location: 'Walnut',
-    image: 'https://d1cvw29nua6zwm.cloudfront.net/campus/campus_boulder.jpg',
-    inputID_DMS: 'SR_BR-000061319320',
-    emailID: 'BCO'
+    location: 'Walnut'
   },
   { name: 'denver-platte',
     optionName: 'Denver, CO',
@@ -44,30 +32,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Denver-Platte',
-    tripleseat_location_id: 3600,
-    eventServiceName: 'Galvanize Platte St.',
-    newsletterFlagName: 'Denver_Campus_Flag__c',
-    location: 'Platte',
-    image: 'https://d1cvw29nua6zwm.cloudfront.net/campus/campus_denver-platte.jpg',
-    inputID_DMS: 'SR_BR-000061319329',
-    emailID: 'DEN'
-  },
-  { name: 'denver-golden-triangle',
-    optionName: 'Denver, CO',
-    lat: '39.733492',
-    lon: '-104.9948143',
-    city: 'Denver',
-    state: 'CO',
-    dsi: true,
-    wdi: false,
-    sfdcName: 'Denver-Golden Triangle',
-    tripleseat_location_id: 3499,
-    eventServiceName: 'Galvanize Denver Golden Triangle',
-    newsletterFlagName: 'Denver_Campus_Flag__c',
-    location: 'Golden Triangle',
-    image: 'https://d1cvw29nua6zwm.cloudfront.net/campus/campus_denver-gt.jpg',
-    inputID_DMS: 'SR_BR-000061319333',
-    emailID: 'DEN-GT'
+    location: 'Platte'
   },
   { name: 'new-york',
     optionName: 'New York, NY',
@@ -78,13 +43,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: false,
     sfdcName: 'NYC-SoHo',
-    tripleseat_location_id: 4604,
-    eventServiceName: 'Galvanize NYC',
-    newsletterFlagName: 'New_York_City_Campus_Flag__c',
-    location: 'West SoHo',
-    image: 'https://d1cvw29nua6zwm.cloudfront.net/campus/campus_nyc.jpg',
-    inputID_DMS: 'SR_BR-000061319336',
-    emailID: 'NYC'
+    location: 'West SoHo'
   },
   { name: 'phoenix',
     optionName: 'Phoenix, AZ',
@@ -95,13 +54,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Phoenix-Warehouse District',
-    tripleseat_location_id: 4603,
-    eventServiceName: 'Galvanize Phoenix',
-    newsletterFlagName: 'Phoenix_Campus_Flag__c',
-    location: 'Warehouse District',
-    image: 'https://s3-us-west-2.amazonaws.com/dotcom-files/phoenix-communal.jpg',
-    inputID_DMS: 'SR_BR-000061319346',
-    emailID: 'PHX'
+    location: 'Warehouse District'
   },
   { name: 'los-angeles',
     optionName: 'Los Angeles, CA',
@@ -112,13 +65,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Los Angeles',
-    tripleseat_location_id: 8064,
-    eventServiceName: 'Galvanize Los Angeles',
-    newsletterFlagName: 'Los_Angeles_Campus_Flag__c',
-    location: 'Los Angeles',
-    image: 'https://static1.squarespace.com/static/ta/522a22cbe4b04681b0bff826/3190/assets/images/hero/hero-bg--campus-la.jpg',
-    inputID_DMS: 'SR_BR-000061319330',
-    emailID: 'LSA'
+    location: 'Los Angeles'
   },
   { name: 'san-francisco',
     optionName: 'San Francisco, CA',
@@ -129,13 +76,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: false,
     sfdcName: 'San Francisco-SoMa',
-    tripleseat_location_id: 3481,
-    eventServiceName: 'Galvanize San Francisco SOMA',
-    newsletterFlagName: 'San_Francisco_Campus_Flag__c',
-    location: 'SoMa',
-    image: 'https://d1cvw29nua6zwm.cloudfront.net/campus/campus_sf.jpg',
-    inputID_DMS: 'SR_BR-000061319355',
-    emailID: 'SFO'
+    location: 'SoMa'
   },
   { name: 'seattle',
     optionName: 'Seattle, WA',
@@ -146,13 +87,18 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Seattle-Pioneer Square',
-    tripleseat_location_id: 3733,
-    eventServiceName: 'Galvanize Seattle',
-    newsletterFlagName: 'Seattle_Campus_Flag__c',
-    location: 'Pioneer Square',
-    image: 'https://d1cvw29nua6zwm.cloudfront.net/campus/campus_seattle.jpg',
-    inputID_DMS: 'SR_BR-000061319360',
-    emailID: 'SEA'
+    location: 'Pioneer Square'
+  },
+  { name: 'remote',
+    optionName: 'Remote',
+    lat: '47.5990943',
+    lon: '-122.33370980000001',
+    city: 'Remote',
+    state: 'Remote',
+    dsi: true,
+    wdi: true,
+    sfdcName: 'Remote',
+    location: 'Remote'
   }
 ];
 

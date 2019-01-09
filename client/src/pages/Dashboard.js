@@ -50,8 +50,8 @@ class Dashboard extends Component {
       <div className="dashboard">
         <div className="container">
           <div>
-            <h3>Admissions Portal Dashboard</h3>
-            <h4>Welcome {this.state.user.first_name}!</h4>
+            <h3 className="portal-title">Admissions Portal Dashboard</h3>
+            <h4 className="title-subtext">Welcome {this.state.user.first_name}!</h4>
             <div className="portal">
               <div className="section-header">
                 <h4>Current Applications</h4>

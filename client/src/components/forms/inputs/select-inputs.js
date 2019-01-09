@@ -19,10 +19,9 @@ function getCampusInputs(campuses) {
     label: 'Campus',
     type: 'select',
     value: '',
-    options: campuses.filter(campus => campus.location !== 'Golden Triangle')
-    .map(campus => {
+    options: campuses.map(campus => {
       return {
-        name: `${campus.city}, ${campus.state}`,
+        name: `${campus.city}`,
         value: campus.sfdcName
       };
     })
