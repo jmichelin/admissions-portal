@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import inputs from './../forms/inputs/inputs';
-import InputGroup from './../forms/input-group';
-import Checkbox from './../forms/checkbox';
+import inputs from './forms/inputs/inputs';
+import InputGroup from './forms/input-group';
+import Checkbox from './forms/checkbox';
 
 import Joi from 'joi';
 

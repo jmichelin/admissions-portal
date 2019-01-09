@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import inputs from './../forms/inputs/inputs';
-import InputGroup from './../forms/input-group';
+import inputs from './forms/inputs/inputs';
+import InputGroup from './forms/input-group';
 
 import Joi from 'joi';
 
@@ -136,7 +136,7 @@ class Signin extends Component {
                   </div>
                   <div className="form-footer">
                     <div className="forgot-password"><button className="-inline">Forgot Your Password?</button></div>
-                    <input type="submit" value="Sign In" className="button-primary"/>
+                    <button className="button-primary">Sign In</button>
                   </div>
                   <span className="form note form-error">{ this.state.errorMessage }</span>
                 </form>

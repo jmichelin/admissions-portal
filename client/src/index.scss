@@ -1,16 +1,19 @@
 @import 'styles/_variables.scss';
-@import 'styles/_body.scss';
-@import 'styles/_headings.scss';
-@import 'styles/_text.scss';
-@import 'styles/_images.scss';
-@import 'styles/_links.scss';
-@import 'styles/_form.scss';
-@import 'styles/_button.scss';
 
+// Base
+@import 'styles/base/_body.scss';
+@import 'styles/base/_headings.scss';
+@import 'styles/base/_text.scss';
+@import 'styles/base/_images.scss';
+@import 'styles/base/_links.scss';
+@import 'styles/base/_form.scss';
+@import 'styles/base/_button.scss';
 
-@import 'pages/home/_home.scss';
+// Pages
+@import 'styles/pages/_home.scss';
+@import 'styles/pages/_dashboard.scss';
 
-
-@import 'styles/_header.scss';
+// Components
+@import 'styles/components/_header.scss';
 @import 'styles/components/_signin.scss';
 @import 'styles/components/_signup.scss';

@@ -3,8 +3,8 @@ import { Switch } from 'react-router-dom';
 import { PrivateRoute, PublicRoute } from './helpers/Routes';
 
 import Header from './components/header';
-import Home from './pages/home/Home';
-import Dashboard from './pages/dashboard/Dashboard';
+import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
 
 class App extends Component {
 
