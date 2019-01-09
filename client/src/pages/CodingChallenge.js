@@ -43,7 +43,7 @@ class CodingChallenge extends Component {
                     <h3 className="column-header">Instructions</h3>
                     <ol class="progress-bar">
                       <li>First, declare a variable named <code>myArray</code> and assign it to an empty array.</li>
-                      <li>Great! Now populate <code>myArray</code> with two strings.<br></br>Put your full name in the first string, and your Skype handle in the second.</li>
+                      <li>Now populate <code>myArray</code> with two strings:<br></br>Put your full name in the first string, and your Skype handle in the second.</li>
                       <li>Next, declare a function named <code>cutName</code>. It should expect a parameter <code>name</code>.</li>
                       <li><code>cutName</code> should return an array by breaking up the input string into individual words.
                         <ul>
