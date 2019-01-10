@@ -22,11 +22,13 @@ import { cleanMochaStackTrace } from './stack-traces'
 // type TestFail = { type: 'test-fail', title: string, index: number, message: string, stackTrace: string[] }
 
 export async function runLocalChallenge (args) {
+
   var wrappedCode = wrapCode(args.code, args.spec)
 
   var running = true
 
   Sandbox.run(wrappedCode, function (sandbox, error, data) {
+    debugger;
     handleSandboxResult({
       submittedCode: args.code,
       handlers: {
@@ -51,7 +53,6 @@ export async function runLocalChallenge (args) {
 
 function handleSandboxResult (args) {
   var {submittedCode, sandbox, handlers, error, data} = args
-
   if (error) {
     sandbox.terminate()
     handlers.onUnexpectedTerminate('unknown')

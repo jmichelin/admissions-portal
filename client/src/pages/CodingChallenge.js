@@ -11,7 +11,7 @@ class CodingChallenge extends Component {
       code: ''
     };
 
-    this.codeSubmit = this.codeSubmit.bind(this);
+    this.runLocal = this.runLocal.bind(this);
 
   }
 
@@ -22,70 +22,74 @@ class CodingChallenge extends Component {
     })
   }
 
-  componentDidMount() {
-
-  }
-
-  codeSubmit(code) {
-    console.log(code);
-
-  }
-
 
   runLocal = async (code) => {
+    console.log('code', code);
     const {runLocalChallenge} = await import('../lib/code-challenge/run-local-challenge')
 
-    // this.setState({
-    //   showProcessing: true,
-    //   inputChanged: false,
-    //   localTestResults: null,
-    //   localStatus: 'processing',
-    // });
+    const tests = `describe("isOldEnoughToDrink", function() {
+   it("should return a boolean", function() {
+     expect(typeof isOldEnoughToDrink(40)).to.deep.eq("boolean");
+   });
+   it("should return whether the age is greater than 21", function() {
+     expect(isOldEnoughToDrink(40)).to.deep.eq(true);
+   });
+   it("should return true if the age is 21", function() {
+     expect(isOldEnoughToDrink(21)).to.deep.eq(true);
+   });
+   it("should return false if the age is 20", function() {
+     expect(isOldEnoughToDrink(20)).to.deep.eq(false);
+   });
+ });`
+
 
     runLocalChallenge({
-      code: this.state.input || '',
-      spec: this.state.challenge.tests,
+      code: code,
+      spec: tests,
       handlers: {
         onSingleTestResult: (result) => {
-          var results = this.state.localTestResults || []
-          this.setState({ localTestResults: results.concat([result]) })
+
+          // var results = this.state.localTestResults || []
+          // this.setState({ localTestResults: results.concat([result]) })
         },
         onRunComplete: async (submittedCode) => {
-          var results = this.state.localTestResults
-          var allCorrect = results && results.every(r => r.type === 'test-pass')
+
+          // var results = this.state.localTestResults
+          // var allCorrect = results && results.every(r => r.type === 'test-pass')
+          // //
+          // // this.setState({
+          // //   showProcessing: false,
+          // //   localStatus: allCorrect ? 'correct' : 'incorrect'
+          // // })
           //
-          // this.setState({
-          //   showProcessing: false,
-          //   localStatus: allCorrect ? 'correct' : 'incorrect'
+          // var response = await fetch('POST', this.props.submissionUrl, {
+          //   body: {
+          //     answer: {
+          //       code: submittedCode,
+          //       m: !! allCorrect // Intentionally vague
+          //     },
+          //     challenge_id: this.props.challenge.id,
+          //   }
           // })
-
-          var response = await fetch('POST', this.props.submissionUrl, {
-            body: {
-              answer: {
-                code: submittedCode,
-                m: !! allCorrect // Intentionally vague
-              },
-              challenge_id: this.props.challenge.id,
-            }
-          })
-          var newSubmission = response.submittedChallengeAnswer
-          var presenterArray = this.state.submissionPresenters
-
-          presenterArray.unshift(newSubmission)
-          this.setState({ submissionPresenters: presenterArray })
-          this.afterGrade(this.props.challenge.id, newSubmission.status)
+          // var newSubmission = response.submittedChallengeAnswer
+          // var presenterArray = this.state.submissionPresenters
+          //
+          // presenterArray.unshift(newSubmission)
+          // this.setState({ submissionPresenters: presenterArray })
+          // this.afterGrade(this.props.challenge.id, newSubmission.status)
         },
         onUnexpectedTerminate: (reason) => {
-          if (reason === 'timeout') {
-            alert("Your code timed out")
-          }
-          else if (reason === 'unknown') {
-            alert("Your code threw an unknown error")
-          }
-          this.setState({
-            showProcessing: false,
-            localStatus: reason === 'timeout' ? 'timeout' : 'failed'
-          })
+
+          // if (reason === 'timeout') {
+          //   alert("Your code timed out")
+          // }
+          // else if (reason === 'unknown') {
+          //   alert("Your code threw an unknown error")
+          // }
+          // this.setState({
+          //   showProcessing: false,
+          //   localStatus: reason === 'timeout' ? 'timeout' : 'failed'
+          // })
         },
       }
     })
@@ -108,7 +112,7 @@ class CodingChallenge extends Component {
                   <CodingInstructions/>
                   <div className="code-editor col">
                     <h4 className="column-header">Code Editor</h4>
-                    <CodeEditor codeSubmit={this.codeSubmit}/>
+                    <CodeEditor codeSubmit={this.runLocal}/>
                   </div>
                 </div>
               </div>

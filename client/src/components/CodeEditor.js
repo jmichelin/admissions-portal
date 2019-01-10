@@ -34,7 +34,6 @@ class CodeEditor extends Component {
   }
 
   beforeChangeFunction(data, value) {
-    console.log('value', value);
   }
 
 

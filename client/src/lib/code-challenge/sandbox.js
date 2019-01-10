@@ -8,7 +8,6 @@ var EXECUTION_TIMEOUT = 10000;
 // type Callback = (sandbox: Sandbox, data: SandboxData, error: SandboxError) => void
 
 export function run (code, callback) {
-
   var box = new Sandbox({
     timeout: EXECUTION_TIMEOUT,
     url: '/sandbox/sandbox.html',
