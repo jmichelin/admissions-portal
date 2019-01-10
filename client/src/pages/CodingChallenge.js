@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import CodingInstructions from '../components/CodingInstructions';
 import CodeEditor from '../components/CodeEditor';
 
-
 class CodingChallenge extends Component {
   constructor(props){
     super(props);
@@ -29,9 +28,66 @@ class CodingChallenge extends Component {
 
   codeSubmit(code) {
     console.log(code);
-    let cleanCode = code.includes('//') ? code.replace(/\s/g, " ").split('// Enter your code here')[1] : code;
-    this.setState ({
-      code: cleanCode
+
+  }
+
+
+  runLocal = async (code) => {
+    const {runLocalChallenge} = await import('../lib/code-challenge/run-local-challenge')
+
+    // this.setState({
+    //   showProcessing: true,
+    //   inputChanged: false,
+    //   localTestResults: null,
+    //   localStatus: 'processing',
+    // });
+
+    runLocalChallenge({
+      code: this.state.input || '',
+      spec: this.state.challenge.tests,
+      handlers: {
+        onSingleTestResult: (result) => {
+          var results = this.state.localTestResults || []
+          this.setState({ localTestResults: results.concat([result]) })
+        },
+        onRunComplete: async (submittedCode) => {
+          var results = this.state.localTestResults
+          var allCorrect = results && results.every(r => r.type === 'test-pass')
+          //
+          // this.setState({
+          //   showProcessing: false,
+          //   localStatus: allCorrect ? 'correct' : 'incorrect'
+          // })
+
+          var response = await fetch('POST', this.props.submissionUrl, {
+            body: {
+              answer: {
+                code: submittedCode,
+                m: !! allCorrect // Intentionally vague
+              },
+              challenge_id: this.props.challenge.id,
+            }
+          })
+          var newSubmission = response.submittedChallengeAnswer
+          var presenterArray = this.state.submissionPresenters
+
+          presenterArray.unshift(newSubmission)
+          this.setState({ submissionPresenters: presenterArray })
+          this.afterGrade(this.props.challenge.id, newSubmission.status)
+        },
+        onUnexpectedTerminate: (reason) => {
+          if (reason === 'timeout') {
+            alert("Your code timed out")
+          }
+          else if (reason === 'unknown') {
+            alert("Your code threw an unknown error")
+          }
+          this.setState({
+            showProcessing: false,
+            localStatus: reason === 'timeout' ? 'timeout' : 'failed'
+          })
+        },
+      }
     })
   }
 
