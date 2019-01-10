@@ -5,7 +5,7 @@ export default (props) => {
 
   return (
     <div className="instructions col">
-      <h3 className="column-header">Instructions</h3>
+      <h4 className="column-header">Instructions</h4>
       <ol className="progress-bar">
         <li>First, declare a variable named <code>myArray</code> and assign it to an empty array.</li>
         <li>Now populate <code>myArray</code> with two strings:<br></br>Put your full name in the first string, and your Skype handle in the second.</li>

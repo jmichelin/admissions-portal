@@ -47,11 +47,11 @@ class CodingChallenge extends Component {
                 <div className="section-header">
                   <h4>Start the Challenge</h4>
                 </div>
-                <p className="section-row">This quick coding challenge will test your understanding of basic JavaScript syntax and start you on your admissions journey. If you're new to programming or JavaScript, don't be deterred. Try this challenge as many times as you need; your application will not be affected by errors. Best of luck!</p>
+                <p className="section-row">This quick coding challenge will test your understanding of basic JavaScript syntax and start you on your admissions journey. If you're new to programming or JavaScript, don't be deterred. Try this challenge as many times as you need - your application will not be affected by errors. Best of luck!</p>
                 <div className="challenge-editor">
                   <CodingInstructions/>
                   <div className="code-editor col">
-                    <h3 className="column-header">Code Editor</h3>
+                    <h4 className="column-header">Code Editor</h4>
                     <CodeEditor codeSubmit={this.codeSubmit}/>
                   </div>
                 </div>
