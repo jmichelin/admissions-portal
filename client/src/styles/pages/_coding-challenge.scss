@@ -48,6 +48,17 @@
       .editor-wrapper {
         border-bottom: 1px solid $color-gray-2;
       }
+
+      .action {
+        display: flex;
+        justify-content: space-between;
+        margin: $space;
+
+        span {
+          color: $color-gray-3;
+          font-style: italic;
+        }
+      }
     }
   }
 

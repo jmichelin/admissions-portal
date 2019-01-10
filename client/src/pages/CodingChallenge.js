@@ -9,7 +9,11 @@ class CodingChallenge extends Component {
     super(props);
 
     this.state = {
+      code: ''
     };
+
+    this.codeSubmit = this.codeSubmit.bind(this);
+
   }
 
   logout() {
@@ -21,6 +25,14 @@ class CodingChallenge extends Component {
 
   componentDidMount() {
 
+  }
+
+  codeSubmit(code) {
+    console.log(code);
+    let cleanCode = code.includes('//') ? code.replace(/\s/g, " ").split('// Enter your code here')[1] : code;
+    this.setState ({
+      code: cleanCode
+    })
   }
 
 
@@ -40,7 +52,7 @@ class CodingChallenge extends Component {
                   <CodingInstructions/>
                   <div className="code-editor col">
                     <h3 className="column-header">Code Editor</h3>
-                    <CodeEditor/>
+                    <CodeEditor codeSubmit={this.codeSubmit}/>
                   </div>
                 </div>
               </div>

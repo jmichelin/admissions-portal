@@ -10,8 +10,8 @@ class CodeEditor extends Component {
     super(props);
 
     this.state = {
-      code: '// Enter your code below',
-      cursorPos: { line: 1, column: 0 },
+      code: '// Enter your code here',
+      cursorPos: { line: 0, column: 0 },
       selectionLength: 0
     }
 
@@ -47,6 +47,8 @@ class CodeEditor extends Component {
       styleActiveLine: true
     }
 
+
+
   return (
     <div className="editor-wrapper">
       <CodeMirror
@@ -56,6 +58,10 @@ class CodeEditor extends Component {
        cursor={this.state.cursorPos}
        onBeforeChange={(editor, data, code) => {this.setState({code});}}
        onChange={(editor, data, value) => {this.beforeChangeFunction(data, value)}}/>
+       <div className="action">
+         <span>Run the code to see if you pass each step.</span>
+         <button className="button-primary" onClick={ () => this.props.codeSubmit(this.state.code) }>Run Code</button>
+       </div>
     </div>
     )
   }
