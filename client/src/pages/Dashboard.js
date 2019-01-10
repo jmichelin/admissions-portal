@@ -17,7 +17,8 @@ class Dashboard extends Component {
       programInputs: programInputs,
       campusInputs: campusInputs,
       program: '',
-      campus: ''
+      campus: '',
+      errorMessage: ''
     };
 
     this.onProgramChange = this.onProgramChange.bind(this);
@@ -82,13 +83,17 @@ handleSubmit(event) {
   const formData = { program, campus }
 
   if (this.formIsValid(formData)) {
+    let query = `?campus=${formData.campus}&first_name=${this.state.user.first_name}&last_name=${this.state.user.last_name}&email=${this.state.user.email}`
     if (formData.program === 'Data Science') {
-      window.location.href = `${GALVANIZE_BASE_URL}/data-science/application?campus=${formData.campus}`;
+      window.location.href = `${GALVANIZE_BASE_URL}/data-science/application${query}`;
     } else if (formData.program.includes("Web Development")) {
-      window.location.href = `${GALVANIZE_BASE_URL}/web-development/application?campus=${formData.campus}`;
+      window.location.href = `${GALVANIZE_BASE_URL}/web-development/application${query}`;
     }
     } else {
-    this.setState({ isLoading: false });
+    this.setState({
+      isLoading: false,
+      errorMessage: 'There was a problem with your request. Please try again.'
+     });
   }
 }
 
@@ -134,6 +139,7 @@ handleSubmit(event) {
                   <button className="button-primary" type="submit">Start Your Application</button>
                   </div>
               </form>
+              <span className="form-note form-error">{ this.state.errorMessage }</span>
             </div>
           </div>
         </div>
