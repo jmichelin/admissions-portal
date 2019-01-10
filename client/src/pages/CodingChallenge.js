@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import * as buble from 'buble'
+
+
 import CodingInstructions from '../components/CodingInstructions';
 import CodeEditor from '../components/CodeEditor';
 
@@ -8,7 +11,10 @@ class CodingChallenge extends Component {
     super(props);
 
     this.state = {
-      code: ''
+      code: '',
+      localTestResults: [],
+      showProcessing: false,
+      errorMessage: ''
     };
 
     this.runLocal = this.runLocal.bind(this);
@@ -22,9 +28,30 @@ class CodingChallenge extends Component {
     })
   }
 
+  prettyErrorMessage(err) {
+    let pretty =  err.toString().split('\n')[0];
+    return pretty;
+  }
+
 
   runLocal = async (code) => {
-    console.log('code', code);
+    this.setState({ showProcessing: true })
+
+    try {
+      var es5 = buble.transform(code)
+      console.log('es5 ***', es5);
+    }
+    catch (err) {
+      // Simulate code running for better UX
+      setTimeout(() => {
+        this.setState({
+          showProcessing: false,
+          errorMessage: this.prettyErrorMessage(err)
+        })
+      }, 800)
+      return;
+    }
+
     const {runLocalChallenge} = await import('../lib/code-challenge/run-local-challenge')
 
     const tests = `describe("isOldEnoughToDrink", function() {
@@ -48,20 +75,19 @@ class CodingChallenge extends Component {
       spec: tests,
       handlers: {
         onSingleTestResult: (result) => {
-
-          // var results = this.state.localTestResults || []
-          // this.setState({ localTestResults: results.concat([result]) })
+          let results = this.state.localTestResults || []
+          this.setState({ localTestResults: results.concat([result]) })
         },
         onRunComplete: async (submittedCode) => {
 
-          // var results = this.state.localTestResults
-          // var allCorrect = results && results.every(r => r.type === 'test-pass')
-          // //
-          // // this.setState({
-          // //   showProcessing: false,
-          // //   localStatus: allCorrect ? 'correct' : 'incorrect'
-          // // })
-          //
+          let results = this.state.localTestResults
+          let allCorrect = results && results.every(r => r.type === 'test-pass')
+
+          this.setState({
+            showProcessing: false,
+            localStatus: allCorrect ? 'correct' : 'incorrect'
+          })
+
           // var response = await fetch('POST', this.props.submissionUrl, {
           //   body: {
           //     answer: {
@@ -80,16 +106,16 @@ class CodingChallenge extends Component {
         },
         onUnexpectedTerminate: (reason) => {
 
-          // if (reason === 'timeout') {
-          //   alert("Your code timed out")
-          // }
-          // else if (reason === 'unknown') {
-          //   alert("Your code threw an unknown error")
-          // }
-          // this.setState({
-          //   showProcessing: false,
-          //   localStatus: reason === 'timeout' ? 'timeout' : 'failed'
-          // })
+          if (reason === 'timeout') {
+            alert("Your code timed out")
+          }
+          else if (reason === 'unknown') {
+            alert("Your code threw an unknown error")
+          }
+          this.setState({
+            showProcessing: false,
+            errorMessage: 'Error with your code'
+          })
         },
       }
     })
@@ -112,7 +138,7 @@ class CodingChallenge extends Component {
                   <CodingInstructions/>
                   <div className="code-editor col">
                     <h4 className="column-header">Code Editor</h4>
-                    <CodeEditor codeSubmit={this.runLocal}/>
+                    <CodeEditor codeSubmit={this.runLocal} errorMessage={this.state.errorMessage}/>
                   </div>
                 </div>
               </div>

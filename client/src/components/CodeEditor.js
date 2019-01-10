@@ -58,7 +58,7 @@ class CodeEditor extends Component {
        onBeforeChange={(editor, data, code) => {this.setState({code});}}
        onChange={(editor, data, value) => {this.beforeChangeFunction(data, value)}}/>
        <div className="action">
-         <span>Run the code to see if you pass each step.</span>
+         <span>{this.props.errorMessage}</span>
          <button className="button-primary" onClick={ () => this.props.codeSubmit(this.state.code) }>Run Code</button>
        </div>
     </div>

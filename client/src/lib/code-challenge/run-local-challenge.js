@@ -27,8 +27,7 @@ export async function runLocalChallenge (args) {
 
   var running = true
 
-  Sandbox.run(wrappedCode, function (sandbox, error, data) {
-    debugger;
+  Sandbox.run(wrappedCode, function (sandbox, error, data) {;
     handleSandboxResult({
       submittedCode: args.code,
       handlers: {
@@ -54,6 +53,7 @@ export async function runLocalChallenge (args) {
 function handleSandboxResult (args) {
   var {submittedCode, sandbox, handlers, error, data} = args
   if (error) {
+    debugger;
     sandbox.terminate()
     handlers.onUnexpectedTerminate('unknown')
     console.log("UNKOWN ERROR:", error)
@@ -116,11 +116,11 @@ function wrapCode (code, spec) {
       mocha.run()
     }
     catch (e) {
-      //
+      postMessage({type: 'console', args: ['Well here we are.']})
       // Catch anything that is not caught by mocha
       //
-      var trace = printStackTrace({ e: e });
-      postMessage({ type: 'error', error: { name: e.name, message: e.message }, trace: trace });
+      // var trace = printStackTrace({ e: e });
+      // postMessage({ type: 'error', error: { name: e.name, message: e.message }, trace: trace });
     }
   `
 
