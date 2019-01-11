@@ -39,7 +39,6 @@ class CodingChallenge extends Component {
 
     try {
       var es5 = buble.transform(code)
-      console.log('es5 ***', es5);
     }
     catch (err) {
       // Simulate code running for better UX
@@ -54,21 +53,21 @@ class CodingChallenge extends Component {
 
     const {runLocalChallenge} = await import('../lib/code-challenge/run-local-challenge')
 
-    const tests = `describe("isOldEnoughToDrink", function() {
-   it("should return a boolean", function() {
-     expect(typeof isOldEnoughToDrink(40)).to.deep.eq("boolean");
-   });
-   it("should return whether the age is greater than 21", function() {
-     expect(isOldEnoughToDrink(40)).to.deep.eq(true);
-   });
-   it("should return true if the age is 21", function() {
-     expect(isOldEnoughToDrink(21)).to.deep.eq(true);
-   });
-   it("should return false if the age is 20", function() {
-     expect(isOldEnoughToDrink(20)).to.deep.eq(false);
-   });
- });`
 
+    const tests = `describe("declaredAnArray", function() {
+   it("myArray is defined as an array", function() {
+     expect(Array.isArray(myArray)).to.eq(true);
+   });
+   it("myArray has two strings", function() {
+     expect(myArray.length).to.eq(2);
+     expect(typeof(myArray[0])).to.eq('string');
+     expect(typeof(myArray[1])).to.eq('string');
+   });
+   it("cutName is defined as a function", function() {
+     expect(cutName).to.not.eq(undefined);
+     expect(typeof(cutName)).to.eq('function');
+   });
+  });`
 
     runLocalChallenge({
       code: code,
@@ -85,7 +84,8 @@ class CodingChallenge extends Component {
 
           this.setState({
             showProcessing: false,
-            localStatus: allCorrect ? 'correct' : 'incorrect'
+            localStatus: allCorrect ? 'correct' : 'incorrect',
+            errorMessage: allCorrect ? 'Congrats! You have passed all the tests!' : 'Did not pass'
           })
 
           // var response = await fetch('POST', this.props.submissionUrl, {
