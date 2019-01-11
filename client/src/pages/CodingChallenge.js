@@ -67,6 +67,26 @@ class CodingChallenge extends Component {
      expect(cutName).to.not.eq(undefined);
      expect(typeof(cutName)).to.eq('function');
    });
+   it("cutName splits strings", function() {
+     expect(cutName('Bob Bobson')).to.eql(['Bob', 'Bobson']);
+     expect(cutName('Romeo Alpha Nancy Delta')).to.eql(['Romeo', 'Alpha', 'Nancy', 'Delta']);
+   });
+   it("myInfo is defined as an object", function() {
+     expect(myInfo).to.be.an('object');
+   });
+   it("myInfo.fullName is the same as cutName(myArray[0])", function() {
+     expect(myInfo.fullName).to.eql(cutName(myArray[0]));
+   });
+   it("myInfo.skype should equal myArray[1]", function() {
+     expect(myInfo.skype).to.eql(myArray[1]);
+     expect(myInfo.skype).to.be.an('string');
+   });
+   it("myInfo.github is defined as a string or null", function() {
+     expect(myInfo).to.be.an('object');
+     expect(myInfo.github).to.satisfy(function(s){
+         return s === null || typeof s == 'string'
+     });
+   });
   });`
 
     runLocalChallenge({
