@@ -94,12 +94,14 @@ class CodingChallenge extends Component {
       spec: tests,
       handlers: {
         onSingleTestResult: (result) => {
+          console.log('**', result);
           let results = this.state.localTestResults || []
           this.setState({ localTestResults: results.concat([result]) })
         },
         onRunComplete: async (submittedCode) => {
 
-          let results = this.state.localTestResults
+          let results = this.state.localTestResults;
+          console.log('results', results);
           let allCorrect = results && results.every(r => r.type === 'test-pass')
 
           this.setState({

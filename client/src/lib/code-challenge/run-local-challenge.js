@@ -53,10 +53,9 @@ export async function runLocalChallenge (args) {
 function handleSandboxResult (args) {
   var {submittedCode, sandbox, handlers, error, data} = args
   if (error) {
-    debugger;
     sandbox.terminate()
     handlers.onUnexpectedTerminate('unknown')
-    console.log("UNKOWN ERROR:", error)
+    console.log("Compiling Error: Check Your Code", error)
   }
   else if (data.type === 'test-pass' || data.type === 'test-fail') {
     handlers.onSingleTestResult(cleanResult(data))
