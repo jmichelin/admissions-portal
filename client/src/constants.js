@@ -116,3 +116,39 @@ export const FULL_TIME_PROGRAMS = [
   name:'Software Engineering Part Time Immersive',
   sfdcName: 'Web Development'
 }]
+
+
+export const CODING_CHALLENGE_TESTS = `describe("declaredAnArray", function() {
+it("myArray is defined as an array", function() {
+ expect(Array.isArray(myArray)).to.eq(true);
+});
+it("myArray has two strings", function() {
+ expect(myArray.length).to.eq(2);
+ expect(typeof(myArray[0])).to.eq('string');
+ expect(typeof(myArray[1])).to.eq('string');
+});
+it("cutName is defined as a function", function() {
+ expect(cutName).to.not.eq(undefined);
+ expect(typeof(cutName)).to.eq('function');
+});
+it("cutName splits strings", function() {
+ expect(cutName('Bob Bobson')).to.eql(['Bob', 'Bobson']);
+ expect(cutName('Romeo Alpha Nancy Delta')).to.eql(['Romeo', 'Alpha', 'Nancy', 'Delta']);
+});
+it("myInfo is defined as an object", function() {
+ expect(myInfo).to.be.an('object');
+});
+it("myInfo.fullName is the same as cutName(myArray[0])", function() {
+ expect(myInfo.fullName).to.eql(cutName(myArray[0]));
+});
+it("myInfo.skype should equal myArray[1]", function() {
+ expect(myInfo.skype).to.eql(myArray[1]);
+ expect(myInfo.skype).to.be.an('string');
+});
+it("myInfo.github is defined as a string or null", function() {
+ expect(myInfo).to.be.an('object');
+ expect(myInfo.github).to.satisfy(function(s){
+     return s === null || typeof s == 'string'
+ });
+});
+});`

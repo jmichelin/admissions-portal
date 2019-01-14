@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import * as buble from 'buble'
 
-
+ import { CODING_CHALLENGE_TESTS } from '../constants';
 import CodingInstructions from '../components/CodingInstructions';
 import CodeEditor from '../components/CodeEditor';
 
@@ -14,7 +14,9 @@ class CodingChallenge extends Component {
       code: '',
       localTestResults: [],
       showProcessing: false,
-      errorMessage: ''
+      errorMessage: '',
+      passingTests: [],
+      failingTests: []
     };
 
     this.runLocal = this.runLocal.bind(this);
@@ -53,61 +55,34 @@ class CodingChallenge extends Component {
 
     const {runLocalChallenge} = await import('../lib/code-challenge/run-local-challenge')
 
-
-    const tests = `describe("declaredAnArray", function() {
-   it("myArray is defined as an array", function() {
-     expect(Array.isArray(myArray)).to.eq(true);
-   });
-   it("myArray has two strings", function() {
-     expect(myArray.length).to.eq(2);
-     expect(typeof(myArray[0])).to.eq('string');
-     expect(typeof(myArray[1])).to.eq('string');
-   });
-   it("cutName is defined as a function", function() {
-     expect(cutName).to.not.eq(undefined);
-     expect(typeof(cutName)).to.eq('function');
-   });
-   it("cutName splits strings", function() {
-     expect(cutName('Bob Bobson')).to.eql(['Bob', 'Bobson']);
-     expect(cutName('Romeo Alpha Nancy Delta')).to.eql(['Romeo', 'Alpha', 'Nancy', 'Delta']);
-   });
-   it("myInfo is defined as an object", function() {
-     expect(myInfo).to.be.an('object');
-   });
-   it("myInfo.fullName is the same as cutName(myArray[0])", function() {
-     expect(myInfo.fullName).to.eql(cutName(myArray[0]));
-   });
-   it("myInfo.skype should equal myArray[1]", function() {
-     expect(myInfo.skype).to.eql(myArray[1]);
-     expect(myInfo.skype).to.be.an('string');
-   });
-   it("myInfo.github is defined as a string or null", function() {
-     expect(myInfo).to.be.an('object');
-     expect(myInfo.github).to.satisfy(function(s){
-         return s === null || typeof s == 'string'
-     });
-   });
-  });`
-
     runLocalChallenge({
       code: code,
-      spec: tests,
+      spec: CODING_CHALLENGE_TESTS,
       handlers: {
         onSingleTestResult: (result) => {
-          console.log('**', result);
-          let results = this.state.localTestResults || []
-          this.setState({ localTestResults: results.concat([result]) })
+          let results = this.state.localTestResults || [];
+          let passingTests = this.state.passingTests || [];
+          let failingTests = this.state.failingTests || [];
+          if (result.type === 'test-pass') { passingTests.push(result.index) }
+          if (result.type === 'test-fail') { failingTests.push(result.index) }
+
+          this.setState({
+            localTestResults: results.concat([result]),
+            passingTests: passingTests,
+            failingTests: failingTests
+          })
         },
         onRunComplete: async (submittedCode) => {
 
           let results = this.state.localTestResults;
-          console.log('results', results);
           let allCorrect = results && results.every(r => r.type === 'test-pass')
 
           this.setState({
             showProcessing: false,
-            localStatus: allCorrect ? 'correct' : 'incorrect',
-            errorMessage: allCorrect ? 'Congrats! You have passed all the tests!' : 'Did not pass'
+            localTestResults: [],
+            passingTests: [],
+            failingTests: [],
+            errorMessage: allCorrect ? 'Congrats! You have passed all the tests!' : `Keep working on Step ${this.state.failingTests[1]}`
           })
 
           // var response = await fetch('POST', this.props.submissionUrl, {
