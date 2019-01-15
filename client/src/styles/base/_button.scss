@@ -14,6 +14,7 @@
 .button {
   & {
     @extend %unselectable;
+    outline: none;
     display: inline-block;
     appearance: none;
     cursor: pointer;
@@ -36,6 +37,7 @@
   &:focus, &:active {
     color: $color-white;
     background-color: darken($color-gray-4, 10%);
+    border: none;
   }
   &.-large {
     line-height: 3rem;

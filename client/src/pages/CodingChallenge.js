@@ -14,11 +14,12 @@ class CodingChallenge extends Component {
       code: '',
       localTestResults: [],
       showProcessing: false,
+      allPassed: false,
       errorMessage: ''
     };
 
     this.runLocal = this.runLocal.bind(this);
-
+    this.codeSubmit = this.codeSubmit.bind(this);
   }
 
   logout() {
@@ -34,7 +35,8 @@ class CodingChallenge extends Component {
   }
 
 
-  runLocal = async (code) => {
+  runLocal = async (code, e) => {
+    e.preventDefault();
     let passingTests = [];
     let failingTests = [];
     let results = [];
@@ -71,24 +73,12 @@ class CodingChallenge extends Component {
           this.setState({
             showProcessing: false,
             localTestResults: results,
-            errorMessage: allCorrect ? 'Congrats! You have passed all the tests!' : `Keep working on Step ${firstFailingTest.index + 1}`
+            errorMessage: allCorrect ? 'You have passed all the tests! Submit your code.' : `Keep working on Step ${firstFailingTest.index + 1}`,
+            allPassed: allCorrect ? true : false,
+            submittedCode: submittedCode
           })
 
-          // var response = await fetch('POST', this.props.submissionUrl, {
-          //   body: {
-          //     answer: {
-          //       code: submittedCode,
-          //       m: !! allCorrect // Intentionally vague
-          //     },
-          //     challenge_id: this.props.challenge.id,
-          //   }
-          // })
-          // var newSubmission = response.submittedChallengeAnswer
-          // var presenterArray = this.state.submissionPresenters
-          //
-          // presenterArray.unshift(newSubmission)
-          // this.setState({ submissionPresenters: presenterArray })
-          // this.afterGrade(this.props.challenge.id, newSubmission.status)
+          return submittedCode;
         },
         onUnexpectedTerminate: (reason) => {
 
@@ -99,11 +89,26 @@ class CodingChallenge extends Component {
             showProcessing: false,
             errorMessage: 'Your code threw an error. Check your syntax.'
           })
+          return;
         },
       }
     })
+    return;
+
   }
 
+  codeSubmit(e) {
+    e.preventDefault();
+
+      if (this.state.allPassed) {
+        console.log('all passed');
+        return;
+      } else {
+        this.setState({
+          errorMessage: 'There was an error submitting your code. Please try again.'
+        })
+      }
+  }
 
   render() {
     return (
@@ -121,7 +126,7 @@ class CodingChallenge extends Component {
                   <CodingInstructions tests={this.state.localTestResults}/>
                   <div className="code-editor col">
                     <h4 className="column-header">Code Editor</h4>
-                    <CodeEditor codeSubmit={this.runLocal} errorMessage={this.state.errorMessage}/>
+                    <CodeEditor codeTest={this.runLocal} codeSubmit={this.codeSubmit} errorMessage={this.state.errorMessage} allPassed={this.state.allPassed}/>
                   </div>
                 </div>
               </div>

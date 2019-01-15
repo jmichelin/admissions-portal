@@ -38,7 +38,6 @@ class CodeEditor extends Component {
 
 
   render() {
-
     const options = {
       mode: 'javascript',
       lineNumbers: true,
@@ -46,7 +45,8 @@ class CodeEditor extends Component {
       styleActiveLine: true
     }
 
-
+    let runCodeButton = <button className="button-primary" onClick={ (e) => this.props.codeTest(this.state.code, e) }>Run Code</button>
+    let submitCodeButton = <button className="button-primary" onClick={ (e) => this.props.codeSubmit(e) }>Submit Code</button>
 
   return (
     <div className="editor-wrapper">
@@ -59,7 +59,8 @@ class CodeEditor extends Component {
        onChange={(editor, data, value) => {this.beforeChangeFunction(data, value)}}/>
        <div className="action">
          <span>{this.props.errorMessage}</span>
-         <button className="button-primary" onClick={ () => this.props.codeSubmit(this.state.code) }>Run Code</button>
+
+       {this.props.allPassed ? submitCodeButton : runCodeButton}
        </div>
     </div>
     )
