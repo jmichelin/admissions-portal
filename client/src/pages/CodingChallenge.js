@@ -99,9 +99,9 @@ class CodingChallenge extends Component {
 
   codeSubmit(e) {
     e.preventDefault();
-
       if (this.state.allPassed) {
-        console.log('all passed');
+        // send to salesforce
+
         return;
       } else {
         this.setState({

@@ -11,31 +11,9 @@ class CodeEditor extends Component {
 
     this.state = {
       code: '// Enter your code here',
-      cursorPos: { line: 0, column: 0 },
-      selectionLength: 0
+      cursorPos: { line: 0, column: 0 }
+      }
     }
-
-    this.beforeChangeFunction = this.beforeChangeFunction.bind(this);
-
-  }
-
-  componentDidMount() {
-    this.instance.on('cursorActivity', (e) => {
-    var pos = e.getCursor()
-    this.setState(prevState => ({
-        cursorPos: {
-            ...prevState.cursorPos,
-            line: pos.line,
-            column: pos.ch
-          },
-          selectionLength: e.getSelection().length
-    }))
-  })
-  }
-
-  beforeChangeFunction(data, value) {
-  }
-
 
   render() {
     const options = {
@@ -55,8 +33,7 @@ class CodeEditor extends Component {
        value={this.state.code}
        options={options}
        cursor={this.state.cursorPos}
-       onBeforeChange={(editor, data, code) => {this.setState({code});}}
-       onChange={(editor, data, value) => {this.beforeChangeFunction(data, value)}}/>
+       onBeforeChange={(editor, data, code) => {this.setState({code})}}/>
        <div className="action">
          <span>{this.props.errorMessage}</span>
 
