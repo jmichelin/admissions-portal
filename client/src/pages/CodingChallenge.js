@@ -14,9 +14,7 @@ class CodingChallenge extends Component {
       code: '',
       localTestResults: [],
       showProcessing: false,
-      errorMessage: '',
-      passingTests: [],
-      failingTests: []
+      errorMessage: ''
     };
 
     this.runLocal = this.runLocal.bind(this);
@@ -37,6 +35,9 @@ class CodingChallenge extends Component {
 
 
   runLocal = async (code) => {
+    let passingTests = [];
+    let failingTests = [];
+    let results = [];
     this.setState({ showProcessing: true })
 
     try {
@@ -60,29 +61,17 @@ class CodingChallenge extends Component {
       spec: CODING_CHALLENGE_TESTS,
       handlers: {
         onSingleTestResult: (result) => {
-          let results = this.state.localTestResults || [];
-          let passingTests = this.state.passingTests || [];
-          let failingTests = this.state.failingTests || [];
-          if (result.type === 'test-pass') { passingTests.push(result.index) }
-          if (result.type === 'test-fail') { failingTests.push(result.index) }
+          results.push(result)
 
-          this.setState({
-            localTestResults: results.concat([result]),
-            passingTests: passingTests,
-            failingTests: failingTests
-          })
         },
         onRunComplete: async (submittedCode) => {
-
-          let results = this.state.localTestResults;
           let allCorrect = results && results.every(r => r.type === 'test-pass')
+          let firstFailingTest = results.find(el => el.type === 'test-fail')
 
           this.setState({
             showProcessing: false,
-            localTestResults: [],
-            passingTests: [],
-            failingTests: [],
-            errorMessage: allCorrect ? 'Congrats! You have passed all the tests!' : `Keep working on Step ${this.state.failingTests[1]}`
+            localTestResults: results,
+            errorMessage: allCorrect ? 'Congrats! You have passed all the tests!' : `Keep working on Step ${firstFailingTest.index + 1}`
           })
 
           // var response = await fetch('POST', this.props.submissionUrl, {
@@ -104,14 +93,11 @@ class CodingChallenge extends Component {
         onUnexpectedTerminate: (reason) => {
 
           if (reason === 'timeout') {
-            alert("Your code timed out")
-          }
-          else if (reason === 'unknown') {
-            alert("Your code threw an unknown error")
+            alert("Your code timed out.")
           }
           this.setState({
             showProcessing: false,
-            errorMessage: 'Error with your code'
+            errorMessage: 'Your code threw an error. Check your syntax.'
           })
         },
       }
@@ -132,7 +118,7 @@ class CodingChallenge extends Component {
                 </div>
                 <p className="section-row">This quick coding challenge will test your understanding of basic JavaScript syntax and start you on your admissions journey. If you're new to programming or JavaScript, don't be deterred. Try this challenge as many times as you need - your application will not be affected by errors. Best of luck!</p>
                 <div className="challenge-editor">
-                  <CodingInstructions/>
+                  <CodingInstructions tests={this.state.localTestResults}/>
                   <div className="code-editor col">
                     <h4 className="column-header">Code Editor</h4>
                     <CodeEditor codeSubmit={this.runLocal} errorMessage={this.state.errorMessage}/>
