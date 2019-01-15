@@ -1,5 +1,13 @@
 export const GALVANIZE_BASE_URL = 'https://www.galvanize.com';
 
+export const PROSPECT_RECORD_ID = '012j00000004QndAAE';
+export const STUDENT_RECORD_ID = '012j0000000kfkDAAQ';
+export const SF_WDI_SYLLABUS_CAMPAIGN_ID = process.env.SF_WDI_SYLLABUS_CAMPAIGN_ID;
+export const SF_WDI_APPLICATION_CAMPAIGN_ID = process.env.SF_WDI_APPLICATION_CAMPAIGN_ID;
+export const SF_DSI_SYLLABUS_CAMPAIGN_ID = process.env.SF_DSI_SYLLABUS_CAMPAIGN_ID;
+export const SF_DSI_APPLICATION_CAMPAIGN_ID = process.env.SF_DSI_APPLICATION_CAMPAIGN_ID;
+export const SF_NEWSLETTER_CAMPAIGN_ID = process.env.SF_NEWSLETTER_CAMPAIGN_ID;
+
 export const CAMPUSES = [
   { name: 'austin',
     optionName: 'Austin, TX', // used in select dropdowns

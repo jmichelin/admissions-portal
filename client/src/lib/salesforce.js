@@ -358,6 +358,20 @@ class Salesforce {
     });
   }
 
+  contactQuery(email) {
+    let queryString = this._makeQueryForExistingContact(email);
+    return new Promise( (resolve, reject) => {
+      this.connection.query(
+        queryString,
+      (err, res) => {
+        console.log('response', res);
+        if (err) { reject(err); }
+        resolve(res);
+      });
+    });
+  }
+
+
   // query salesforce for campaign id
   leadCampaignQuery(leadId, campaignType, product) {
     return new Promise( (resolve, reject) => {
@@ -449,5 +463,13 @@ function _makeQueryForExistingLeadForApplication(email) {
     OR RecordTypeId = '${STUDENT_RECORD_ID}' )
     AND Email = '${email}'
     AND IsConverted = false
+    ORDER BY LastModifiedDate DESC LIMIT 1`;
+}
+
+function _makeQueryForExistingContact(email) {
+  return `SELECT Id FROM Contact
+    WHERE ( RecordTypeId = '${PROSPECT_RECORD_ID}'
+    OR RecordTypeId = '${STUDENT_RECORD_ID}' )
+    AND Email = '${email}'
     ORDER BY LastModifiedDate DESC LIMIT 1`;
 }
