@@ -3,8 +3,8 @@
 import jsforce from 'jsforce';
 import _ from 'lodash';
 
-import DB from './db';
-import utils from './utils';
+// import DB from './db';
+// import utils from './utils';
 import {
   PROSPECT_RECORD_ID,
   STUDENT_RECORD_ID,
@@ -15,7 +15,7 @@ import {
   SF_NEWSLETTER_CAMPAIGN_ID,
   CAMPUSES
 } from '../constants';
-import Application from './application-form/application';
+// import Application from './application-form/application';
 
 var dotenv = require('dotenv');
 var environment = process.env.NODE_ENV || 'development';
@@ -267,83 +267,83 @@ class Salesforce {
     return formParams;
   }
 
-  updateApplicationStepOne(formParams, leadId) {
-    return new Promise( (resolve, reject) => {
-      let application = new Application(formParams.Product__c);
-      let formData = {};
-      formData.Id = leadId;
+  // updateApplicationStepOne(formParams, leadId) {
+  //   return new Promise( (resolve, reject) => {
+  //     let application = new Application(formParams.Product__c);
+  //     let formData = {};
+  //     formData.Id = leadId;
+  //
+  //     application.stepOneParams.forEach(param => {
+  //       formData[param] = formParams[param];
+  //     });
+  //
+  //    formData = this.prepFormParamsForSFDC(formData);
+  //
+  //     this.connection.sobject('Lead').update(formData, (err, res) => {
+  //       if(err) reject(err);
+  //       resolve(res);
+  //     });
+  //   });
+  // }
 
-      application.stepOneParams.forEach(param => {
-        formData[param] = formParams[param];
-      });
+  // updateApplicationStepTwo(formParams, leadId) {
+  //   return new Promise( (resolve, reject) => {
+  //     let application = new Application(formParams.Product__c);
+  //     let formData = {};
+  //     formData.Id = leadId;
+  //
+  //     application.stepTwoParams.forEach(param => {
+  //       formData[param] = formParams[param];
+  //     });
+  //
+  //     formData = this.prepFormParamsForSFDC(formData);
+  //
+  //     this.connection.sobject('Lead').update(formData, (err, res) => {
+  //       if(err) { reject(err); }
+  //       resolve(res);
+  //     });
+  //   });
+  // }
 
-     formData = this.prepFormParamsForSFDC(formData);
-
-      this.connection.sobject('Lead').update(formData, (err, res) => {
-        if(err) reject(err);
-        resolve(res);
-      });
-    });
-  }
-
-  updateApplicationStepTwo(formParams, leadId) {
-    return new Promise( (resolve, reject) => {
-      let application = new Application(formParams.Product__c);
-      let formData = {};
-      formData.Id = leadId;
-
-      application.stepTwoParams.forEach(param => {
-        formData[param] = formParams[param];
-      });
-
-      formData = this.prepFormParamsForSFDC(formData);
-
-      this.connection.sobject('Lead').update(formData, (err, res) => {
-        if(err) { reject(err); }
-        resolve(res);
-      });
-    });
-  }
-
-  updateApplicationStepThree(formParams, leadId) {
-    return new Promise( (resolve, reject) => {
-      let application = new Application(formParams.Product__c);
-      let formData = {};
-      formData.Id = leadId;
-
-      application.stepThreeParams.forEach(param => {
-        formData[param] = formParams[param];
-      });
-
-      formData = this.prepFormParamsForSFDC(formData);
-
-      this.connection.sobject('Lead').update(formData, (err, res) => {
-        if(err) { reject(err); }
-        resolve(res);
-      });
-    });
-  }
-
-  updateApplicationStepFour(formParams, leadId) {
-    return new Promise( (resolve, reject) => {
-      let application = new Application(formParams.Product__c);
-      let formData = {};
-      formData.Id = leadId;
-
-      application.stepFourParams.forEach(param => {
-        formData[param] = formParams[param];
-      });
-
-      formData = this.prepFormParamsForSFDC(formData);
-      formData.Application_Completed__c = true;
-      formData.LeadSource = 'Galvanize.com';
-
-      this.connection.sobject('Lead').update(formData, (err, res) => {
-        if(err) { reject(err); }
-        resolve(res);
-      });
-    });
-  }
+  // updateApplicationStepThree(formParams, leadId) {
+  //   return new Promise( (resolve, reject) => {
+  //     let application = new Application(formParams.Product__c);
+  //     let formData = {};
+  //     formData.Id = leadId;
+  //
+  //     application.stepThreeParams.forEach(param => {
+  //       formData[param] = formParams[param];
+  //     });
+  //
+  //     formData = this.prepFormParamsForSFDC(formData);
+  //
+  //     this.connection.sobject('Lead').update(formData, (err, res) => {
+  //       if(err) { reject(err); }
+  //       resolve(res);
+  //     });
+  //   });
+  // }
+  //
+  // updateApplicationStepFour(formParams, leadId) {
+  //   return new Promise( (resolve, reject) => {
+  //     let application = new Application(formParams.Product__c);
+  //     let formData = {};
+  //     formData.Id = leadId;
+  //
+  //     application.stepFourParams.forEach(param => {
+  //       formData[param] = formParams[param];
+  //     });
+  //
+  //     formData = this.prepFormParamsForSFDC(formData);
+  //     formData.Application_Completed__c = true;
+  //     formData.LeadSource = 'Galvanize.com';
+  //
+  //     this.connection.sobject('Lead').update(formData, (err, res) => {
+  //       if(err) { reject(err); }
+  //       resolve(res);
+  //     });
+  //   });
+  // }
 
   leadQuery(formType, formParams) {
     let queryString = this.getQueryString(formType, formParams.Email);
@@ -359,7 +359,7 @@ class Salesforce {
   }
 
   contactQuery(email) {
-    let queryString = this._makeQueryForExistingContact(email);
+    let queryString = _makeQueryForExistingContact(email);
     return new Promise( (resolve, reject) => {
       this.connection.query(
         queryString,
@@ -467,9 +467,7 @@ function _makeQueryForExistingLeadForApplication(email) {
 }
 
 function _makeQueryForExistingContact(email) {
-  return `SELECT Id FROM Contact
-    WHERE ( RecordTypeId = '${PROSPECT_RECORD_ID}'
-    OR RecordTypeId = '${STUDENT_RECORD_ID}' )
-    AND Email = '${email}'
+  return `SELECT Id, Phone, Campus__c  FROM Contact
+    WHERE Email = '${email}'
     ORDER BY LastModifiedDate DESC LIMIT 1`;
 }

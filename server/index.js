@@ -1,3 +1,7 @@
+require('babel-register')({
+   presets: [ 'es2015' ]
+});
+
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
@@ -21,7 +25,7 @@ app.use(middlewares.checkTokenSetUser);
 app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.use('/auth', auth);
-app.use('/api/v1/user', middlewares.isLoggedIn, users);
+app.use('/api/v1/user', users);
 
 // app.get('/sandbox/sandbox.html', (req, res) => {
 //   res.sendFile(path.join(__dirname+'../client/public/index.html'));
