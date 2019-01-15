@@ -15,13 +15,19 @@ router.get('/', (req, res) => {
       return salesforce.contactQuery('murph@test.com');
     }).then(response => {
       if (response.records.length) {
-        let user = {};
-        user.contactId = response.records[0].Id;
-        user.accountId = response.records[0].Account.Id;
-        return salesforce.oppQuery(user.accountId)
+
+        return salesforce.oppQuery(response.records[0].Account.Id)
         .then(opp => {
           if (opp.records.length) {
-            res.send(opp.records);
+            let opp = {};
+            opp.contactId = response.records[0].Id;
+            opp.accountId = response.records[0].Account.Id;
+            opp.stage = response.records[0].StageName,
+            opp.courseProduct = response.records[0].Course_Product__c,
+            opp.courseType = response.records[0].Course_Type__c,
+            opp.createdDate = response.records[0].CreatedDate
+          
+            res.send(opp);
           } else {
             res.send('No Applications Exist for this User');
             return;
