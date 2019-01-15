@@ -204,7 +204,6 @@ class Salesforce {
   }
 
   createLead(formParams, formType) {
-    console.log(formType);
     return new Promise( (resolve, reject) => {
       if (formType === 'application') {
         formParams.LeadSource = 'Galvanize.com';
@@ -364,7 +363,18 @@ class Salesforce {
       this.connection.query(
         queryString,
       (err, res) => {
-        console.log('response', res);
+        if (err) { reject(err); }
+        resolve(res);
+      });
+    });
+  }
+
+  oppQuery(id) {
+    let queryString = _makeQueryForExistingOpportunity(id);
+    return new Promise( (resolve, reject) => {
+      this.connection.query(
+        queryString,
+      (err, res) => {
         if (err) { reject(err); }
         resolve(res);
       });
@@ -467,7 +477,13 @@ function _makeQueryForExistingLeadForApplication(email) {
 }
 
 function _makeQueryForExistingContact(email) {
-  return `SELECT Id, Phone, Campus__c  FROM Contact
+  return `SELECT Id, Name, Account.Id, Account.Name FROM Contact
     WHERE Email = '${email}'
     ORDER BY LastModifiedDate DESC LIMIT 1`;
+}
+
+function _makeQueryForExistingOpportunity(id) {
+  return `SELECT Id, StageName, Name, Course_Product__c, Course_Type__c
+    FROM   Opportunity
+    WHERE  AccountId = '${id}'`;
 }
