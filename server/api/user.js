@@ -15,26 +15,25 @@ router.get('/', (req, res) => {
       return salesforce.contactQuery('murph@test.com');
     }).then(response => {
       if (response.records.length) {
-        let user = {}
+        let user = {};
         user.contactId = response.records[0].Id;
         user.accountId = response.records[0].Account.Id;
-        user.accountName = response.records[0].Account.Name;
         return salesforce.oppQuery(user.accountId)
         .then(opp => {
           if (opp.records.length) {
-            res.json(opp.records);
+            res.send(opp.records);
           } else {
-            console.log('No opp exists');
+            res.send('No Applications Exist for this User');
             return;
           }
-        })
+        });
       } else {
-        console.log('No contact exists');
+        res.send('No Applications Exist for this User');
         return;
       }
       res.json(response);
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log(err));
 });
 
 
