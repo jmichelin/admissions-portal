@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import NextSteps from './sei-steps-process';
+import AdmissionsProcessSEI from './admissions-process-sei';
+import AdmissionsProcessDSI from './admissions-process-dsi';
+
 
 class OpportunityList extends Component {
   constructor(props){
@@ -13,11 +15,12 @@ class OpportunityList extends Component {
 
 
   render() {
-    let course;
+    let course, nextSteps;
 
     let opptyList = this.props.opps.map((opp, i) => {
       let campus = opp.Campus__c;
       if (opp.Course_Product__c === 'Web Development' && opp.Course_Type__c.includes('Immersive')) {
+        nextSteps = <AdmissionsProcessSEI />
         if (opp.Product_Code__c && opp.Product_Code__c.includes('-WD-')) {
           if (opp.Product_Code__c && opp.Product_Code__c.includes('-WD-REM')) {
             course = 'Software Engineering Remote Immersive';
@@ -32,20 +35,20 @@ class OpportunityList extends Component {
         }
       } else if (opp.Product_Code__c && opp.Product_Code__c.includes('-DS-')) {
             course = 'Data Science Immersive';
+            nextSteps = <AdmissionsProcessDSI />
       } else {
         return null;
       }
       return (
-        <div className="application-row">
-          <ul key={i} className="table-row">
+        <div className="application-row" key={i}>
+          <ul className="table-row -listing">
             <li>{course}</li>
             <li>{campus}</li>
             <li>{opp.Course_Start_Date_Actual__c}</li>
-            <li>{opp.StageName}</li>
             <li>Coding Challenge</li>
           </ul>
           <div className="table-row -steps">
-            <NextSteps />
+            {nextSteps}
           </div>
         </div>
       )
@@ -58,7 +61,6 @@ class OpportunityList extends Component {
             <li>Course</li>
             <li>Campus</li>
             <li>Start Date</li>
-            <li>Status</li>
             <li>Next Step</li>
           </ul>
         </div>

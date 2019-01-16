@@ -39,6 +39,10 @@
       background: $color-gray-1;
       margin-top: $space;
       border: 1px solid $color-brand-primary;
+
+      .-listing {
+        border-bottom: 1px solid $color-brand-primary;
+      }
     }
 
     & :first-child.application-row  {
@@ -56,40 +60,44 @@
 
   .steps-list {
     width: 80%;
-
-    h5 {
-      text-align: center;
-    }
   }
 
-  .steps-list ul {
+  .steps-list .steps {
     display: flex;
-    list-style: none;
     padding: 0;
   }
 
-  .steps-list ul li {
+  .steps-list .steps .step {
     padding: 0 $pad;
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 1;
 
-    span {
-      padding: $pad;
+    .label {
+      margin: $space 0;
+    }
+
+    .number {
       position: relative;
       z-index: 1;
+      font-size: 20px;
+      color: $color-white;
+      background: $color-brand-primary;
+      border-radius: 50%;
+      width: 40px;
+      line-height: 40px;
+      text-align: center;
+    }
 
-      &::after {
-        position: absolute;
-        content: '';
-        left: 0px;
-        top: 6px;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        background: $color-brand-primary;
-        z-index: -1;
-      }
+
+    &:not(:last-child) .number::after {
+      position: absolute;
+      content: '';
+      top: 50%;
+      width: 255px;
+      height: 2px;
+      background: $color-brand-primary;
     }
   }
 }
