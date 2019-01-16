@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
   salesforce.login()
     .then(() => {
       // check if there is a contact with this email
-      return salesforce.contactQuery('murph@test.com');
+      return salesforce.contactQuery(req.user.email);
     }).then(response => {
       if (response.records.length) {
 

@@ -20,7 +20,8 @@ class Dashboard extends Component {
       campus: '',
       errorMessage: '',
       opportunities: [],
-      noOpportunities: false
+      noOpportunities: false,
+      isLoading: true
     };
 
     this.onProgramChange = this.onProgramChange.bind(this);
@@ -36,7 +37,7 @@ class Dashboard extends Component {
     })
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const API_URL = '/api/v1/user'
     fetch(API_URL, {
       headers: {
@@ -106,7 +107,7 @@ handleSubmit(event) {
   render() {
     let noOpptys = <p className="section-row">Looks like you don't have any active applications. Select a program and campus below to start your application.</p>
     let opptyList = this.state.opportunities.map((opp, i) => {
-      return <p className="section-row" key={i}>{opp.Course_Product__c}</p>
+      return <p className="section-row" key={i}>{opp.Course_Product__c}, {opp.Campus__c}, {opp.Course_Start_Date_Actual__c}</p>
     })
 
     return (
