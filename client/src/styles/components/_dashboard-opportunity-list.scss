@@ -1,0 +1,95 @@
+.dashboard .table {
+  & {
+    width: 100%;
+    margin-top: $space;
+  }
+
+  .table-head {
+    border-bottom: 1px solid $color-brand-primary;
+    .table-row {
+      margin: 0;
+      padding: $pad/2 $pad;
+
+      li {
+        font-weight: 500;
+      }
+    }
+  }
+
+  .table-row {
+    display: flex;
+    list-style: none;
+    justify-content: space-between;
+    margin: 0;
+
+     li {
+      flex: 1;
+    }
+    > li:first-child {
+      flex: 2;
+    }
+  }
+
+  .table-body {
+    .table-row {
+      padding: $pad-and-half $pad;
+    }
+
+    .application-row {
+      background: $color-gray-1;
+      margin-top: $space;
+      border: 1px solid $color-brand-primary;
+    }
+
+    & :first-child.application-row  {
+      margin-top: 0;
+      border-top: 0;
+    }
+  }
+
+  .table-row.-steps {
+    display: flex;
+    justify-content: center;
+    background: white;
+    border-radius: 4px;
+  }
+
+  .steps-list {
+    width: 80%;
+
+    h5 {
+      text-align: center;
+    }
+  }
+
+  .steps-list ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+  }
+
+  .steps-list ul li {
+    padding: 0 $pad;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    span {
+      padding: $pad;
+      position: relative;
+      z-index: 1;
+
+      &::after {
+        position: absolute;
+        content: '';
+        left: 0px;
+        top: 6px;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        background: $color-brand-primary;
+        z-index: -1;
+      }
+    }
+  }
+}

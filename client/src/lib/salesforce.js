@@ -483,7 +483,7 @@ function _makeQueryForExistingContact(email) {
 }
 
 function _makeQueryForExistingOpportunity(id) {
-  return `SELECT Id, StageName, Name, Course_Product__c, Course_Type__c, CreatedDate, Campus__c, Course_Start_Date_Actual__c
+  return `SELECT Id, StageName, Name, Course_Product__c, Course_Type__c, CreatedDate, Campus__c, Course_Start_Date_Actual__c, 	Product_Code__c
     FROM   Opportunity
     WHERE  AccountId = '${id}'
     ORDER BY CreatedDate`;
