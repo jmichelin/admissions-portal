@@ -31,7 +31,11 @@ router.get('/', (req, res) => {
         res.json({message: 'No Applications Exist for this User'});
       }
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      res.status(501);
+      const error = new Error('Error retreiving applications.');
+      next(error);
+    });
 });
 
 

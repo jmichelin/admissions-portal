@@ -13,7 +13,10 @@ class ProgramSelect extends Component {
 
   render() {
     let loadingWheel =
-    <p className="section-row">Looking for active applications...</p>
+    <div className="program-select">
+      <p className="section-row">Looking for active applications...</p>
+    </div>
+
 
     let programSelectForm =
     <div className="program-select">
@@ -22,8 +25,7 @@ class ProgramSelect extends Component {
           <div className="form-group">
                 <Select name="select-normal"
                 label='Select a Program'
-                fieldName="Campus__c"
-                id="modal-campus"
+                fieldName=""
                 options={this.props.programInputs.options}
                 className="select"
                 showError={this.props.submitAttempted && !this.props.isValid('program')}
@@ -34,13 +36,14 @@ class ProgramSelect extends Component {
             <div className="form-group">
                 <Select name="select-normal"
                 label='Select a Campus'
-                fieldName="Campus__c"
-                id="modal-campus"
+                id="campus"
+                fieldName=""
                 options={this.props.campusInputs.options}
                 className="select"
                 showError={this.props.submitAttempted && !this.props.isValid('campus')}
                 currentSelection={this.props.campus}
                 onOptionClick={this.props.onCampusChange}
+                program={this.props.program}
                 />
             </div>
             <div className="action">

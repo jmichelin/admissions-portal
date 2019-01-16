@@ -17,7 +17,7 @@ export default (props) => {
   // e.g. { name: 'I want the user to see this', value: 'I want the db to see this' }
   let options = props.options.map((option, i) => {
     return (
-      <SelectItem  key={ i } option={ option } />
+      <SelectItem  key={ i } option={ option } program={props.program}/>
     )
   });
 

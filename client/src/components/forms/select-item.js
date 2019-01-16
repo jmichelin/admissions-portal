@@ -10,8 +10,25 @@ export default (props) => {
     )
   }
 
+  if (props.program && props.program.includes('Remote')) {
+    return (
+      <option value={ props.option.value } disabled={!props.option.name.includes('Remote')}>
+        { props.option.name }
+      </option>
+    )
+  }
+
+  if (props.program && !props.program.includes('Remote')) {
+    return (
+      <option value={ props.option.value } disabled={props.option.name.includes('Remote')}>
+        { props.option.name }
+      </option>
+    )
+  }
+
+
   return (
-    <option value={ props.option.value } >
+    <option value={ props.option.value }>
       { props.option.name }
     </option>
   )

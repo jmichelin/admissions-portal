@@ -62,9 +62,17 @@ class Dashboard extends Component {
   }
 
 onProgramChange(e, field) {
-  this.setState({
-    program: e.target.value,
-  });
+  if (e.target.value.includes('Remote')) {
+    this.setState({
+      program: e.target.value,
+      campus: 'Remote'
+    });
+  } else {
+    this.setState({
+      program: e.target.value,
+      campus: ''
+    });
+  }
 }
 
 onCampusChange(e, field) {
@@ -95,13 +103,15 @@ handleSubmit(event) {
     let query = `?campus=${formData.campus}&first_name=${this.state.user.first_name}&last_name=${this.state.user.last_name}&email=${this.state.user.email}`
     if (formData.program === 'Data Science') {
       window.location.href = `${GALVANIZE_BASE_URL}/data-science/application${query}`;
-    } else if (formData.program.includes("Web Development")) {
+      return;
+    } else if (formData.program.includes("Software Engineering")) {
       window.location.href = `${GALVANIZE_BASE_URL}/web-development/application${query}`;
+      return;
     }
-    } else {
+  } else {
     this.setState({
       isLoading: false,
-      errorMessage: 'There was a problem with your request. Please try again.'
+      errorMessage: 'Please select a program and campus.'
      });
   }
 }
@@ -128,10 +138,12 @@ handleSubmit(event) {
                   programInputs={this.state.programInputs}
                   program={this.state.program}
                   isValid={this.isValid}
-                  onOptionClick={this.props.onProgramChange}
+                  onProgramChange={this.onProgramChange}
                   campusInputs={this.state.campusInputs}
                   campus={this.state.campus}
-                  onCampusChange={this.onCampusChange}/>}
+                  errorMessage={this.state.errorMessage}
+                  onCampusChange={this.onCampusChange}/>
+              }
             </div>
           </div>
         </div>

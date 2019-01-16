@@ -116,14 +116,14 @@ export const FULL_TIME_PROGRAMS = [
   sfdcName: 'Data Science'
   },{
   name:'Software Engineering Immersive',
-  sfdcName: 'Web Development'
+  sfdcName: 'Software Engineering Immersive'
 },{
   name:'Software Engineering Remote Immersive',
-  sfdcName: 'Web Development'
+  sfdcName: 'Software Engineering Remote Immersive'
 },{
-  name:'Software Engineering Part Time Immersive',
-  sfdcName: 'Web Development'
-}]
+  name:'Software Engineering Remote Part Time Immersive',
+  sfdcName: 'Software Engineering Remote Part Time Immersive'
+}];
 
 
 export const CODING_CHALLENGE_TESTS = `describe("declaredAnArray", function() {
