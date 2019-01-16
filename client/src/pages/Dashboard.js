@@ -100,7 +100,7 @@ handleSubmit(event) {
   })
 
   const { program, campus } = this.state;
-  const formData = { program, campus }
+  const formData = { program, campus };
 
   if (this.formIsValid(formData)) {
     let query = `?campus=${formData.campus}&first_name=${this.state.user.first_name}&last_name=${this.state.user.last_name}&email=${this.state.user.email}`

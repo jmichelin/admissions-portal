@@ -19,7 +19,7 @@ class OpportunityList extends Component {
     let opptyList = this.props.opps.map((opp, i) => {
       let campus = opp.Campus__c;
       if (opp.Course_Product__c === 'Web Development' && opp.Course_Type__c.includes('Immersive')) {
-        nextSteps = <AdmissionsProcessSEI />
+        nextSteps = <AdmissionsProcessSEI opp={opp}/>
         if (opp.Product_Code__c && opp.Product_Code__c.includes('-WD-')) {
           if (opp.Product_Code__c && opp.Product_Code__c.includes('-WD-REM')) {
             course = 'Software Engineering Remote Immersive';
