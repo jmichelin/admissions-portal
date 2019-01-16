@@ -18,7 +18,9 @@ class Dashboard extends Component {
       campusInputs: campusInputs,
       program: '',
       campus: '',
-      errorMessage: ''
+      errorMessage: '',
+      opportunities: [],
+      noOpportunities: false
     };
 
     this.onProgramChange = this.onProgramChange.bind(this);
@@ -35,19 +37,22 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    const API_URL = '/auth'
+    const API_URL = '/api/v1/user'
     fetch(API_URL, {
       headers: {
         Authorization: `Bearer ${localStorage.token}`
       },
     }).then(res => res.json())
       .then(result => {
-        if (result.user) {
+        if (result.opportunities) {
           this.setState({
-            user: result.user
+            opportunities: result.opportunities,
+            user:result.user
           })
         } else {
-          this.logout();
+          this.setState({
+            noOpportunities: true
+          })
         }
       }).catch(err => console.log(err))
   }
@@ -99,6 +104,11 @@ handleSubmit(event) {
 
 
   render() {
+    let noOpptys = <p className="section-row">Looks like you don't have any active applications. Select a program and campus below to start your application.</p>
+    let opptyList = this.state.opportunities.map((opp, i) => {
+      return <p className="section-row" key={i}>{opp.Course_Product__c}</p>
+    })
+
     return (
       <div className="dashboard">
         <div className="container">
@@ -109,7 +119,7 @@ handleSubmit(event) {
               <div className="section-header">
                 <h4>Current Applications</h4>
               </div>
-              <p className="section-row">Looks like you don't have any active applications. Select a program and campus below to start your application.</p>
+              {this.state.opportunities.length ? opptyList : noOpptys}
               <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
                       <Select name="select-normal"
