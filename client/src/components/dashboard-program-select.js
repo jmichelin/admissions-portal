@@ -20,7 +20,7 @@ class ProgramSelect extends Component {
 
     let programSelectForm =
     <div className="program-select">
-      <p className="section-row">Looks like you don't have any active applications. Select a program and campus below to start your application.</p>
+      <p className="section-row">Looks like you don't have any active applications. Select a program and campus below to start your application:</p>
         <form onSubmit={this.props.handleSubmit}>
           <div className="form-group">
                 <Select name="select-normal"
@@ -51,6 +51,7 @@ class ProgramSelect extends Component {
             </div>
         </form>
         <span className="form-note form-error">{ this.props.errorMessage }</span>
+        <p className="citation">Once you submit an application you can log back into this portal to complete the rest of the admissions process.</p>
       </div>
 
   return (

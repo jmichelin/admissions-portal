@@ -37,8 +37,6 @@ class CodingChallenge extends Component {
 
   runLocal = async (code, e) => {
     e.preventDefault();
-    let passingTests = [];
-    let failingTests = [];
     let results = [];
     this.setState({ showProcessing: true })
 
@@ -59,7 +57,7 @@ class CodingChallenge extends Component {
     const {runLocalChallenge} = await import('../lib/code-challenge/run-local-challenge')
 
     runLocalChallenge({
-      code: code,
+      code: es5.code,
       spec: CODING_CHALLENGE_TESTS,
       handlers: {
         onSingleTestResult: (result) => {

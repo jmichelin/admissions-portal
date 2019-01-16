@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as Sandbox from './sandbox'
 import { cleanMochaStackTrace } from './stack-traces'
 

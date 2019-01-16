@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 import AdmissionsProcessSEI from './admissions-process-sei';
 import AdmissionsProcessDSI from './admissions-process-dsi';

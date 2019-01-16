@@ -1,3 +1,4 @@
+/* eslint-disable */
 export function cleanMochaStackTrace (stackString, specLineOffset) {
   var matches = stackString
     .filter(function(line) {

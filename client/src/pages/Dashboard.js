@@ -65,12 +65,14 @@ onProgramChange(e, field) {
   if (e.target.value.includes('Remote')) {
     this.setState({
       program: e.target.value,
-      campus: 'Remote'
+      campus: 'Remote',
+      errorMessage: ''
     });
   } else {
     this.setState({
       program: e.target.value,
-      campus: ''
+      campus: '',
+      errorMessage: ''
     });
   }
 }
@@ -78,6 +80,7 @@ onProgramChange(e, field) {
 onCampusChange(e, field) {
 this.setState({
   campus: e.target.value,
+  errorMessage: ''
 });
 }
 

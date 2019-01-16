@@ -1,3 +1,4 @@
+/* eslint-disable */
 //
 // Runs code in a webworker sandbox.
 //
