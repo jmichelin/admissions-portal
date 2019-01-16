@@ -16,7 +16,7 @@ class ProgramSelect extends Component {
     <p className="section-row">Looking for active applications...</p>
 
     let programSelectForm =
-    <div>
+    <div className="program-select">
       <p className="section-row">Looks like you don't have any active applications. Select a program and campus below to start your application.</p>
         <form onSubmit={this.props.handleSubmit}>
           <div className="form-group">

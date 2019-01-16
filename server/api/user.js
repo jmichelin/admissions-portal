@@ -24,11 +24,11 @@ router.get('/', (req, res) => {
               user: req.user
             });
           } else {
-            res.send('No Applications Exist for this User');
+            res.json({message: 'No Applications Exist for this User'});
           }
         });
       } else {
-        res.send('No Applications Exist for this User');
+        res.json({message: 'No Applications Exist for this User'});
       }
     })
     .catch(err => console.log(err));

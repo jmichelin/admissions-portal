@@ -11,10 +11,15 @@
     font-weight: 400;
   }
 
-  .section-row {
-    padding: $pad-double 0;
+  .program-select {
     background: $color-gray-1;
-    padding-left: $pad;
+    padding: $pad;
+  }
+
+  .section-row {
+    padding: $pad-and-half 0;
+    background: $color-gray-1;
+    margin: 0;
   }
 
   form {

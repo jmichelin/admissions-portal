@@ -33,7 +33,7 @@ class OpportunityList extends Component {
             course = 'Software Engineering Immersive';
           }
         }
-      } else if (opp.Product_Code__c && opp.Product_Code__c.includes('-DS-')) {
+      } else if (opp.Product_Code__c && opp.Product_Code__c.includes('-DS-')  && opp.Course_Type__c.includes('Immersive')) {
             course = 'Data Science Immersive';
             nextSteps = <AdmissionsProcessDSI />
       } else {
