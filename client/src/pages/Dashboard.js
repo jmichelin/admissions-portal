@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
-import Select from '../components/forms/select';
-import inputs from '../components/forms/inputs/select-inputs';
+import ProgramSelect from '../components/dashboard-program-select';
+import OpportunityList from '../components/dashboard-opportunity-list';
 
 import { CAMPUSES, FULL_TIME_PROGRAMS, GALVANIZE_BASE_URL } from '../constants';
+import inputs from '../components/forms/inputs/select-inputs';
 
 
 class Dashboard extends Component {
@@ -48,11 +49,13 @@ class Dashboard extends Component {
         if (result.opportunities) {
           this.setState({
             opportunities: result.opportunities,
-            user:result.user
+            user:result.user,
+            isLoading: false
           })
         } else {
           this.setState({
-            noOpportunities: true
+            noOpportunities: true,
+            isLoading: false
           })
         }
       }).catch(err => console.log(err))
@@ -105,52 +108,30 @@ handleSubmit(event) {
 
 
   render() {
-    let noOpptys = <p className="section-row">Looks like you don't have any active applications. Select a program and campus below to start your application.</p>
-    let opptyList = this.state.opportunities.map((opp, i) => {
-      return <p className="section-row" key={i}>{opp.Course_Product__c}, {opp.Campus__c}, {opp.Course_Start_Date_Actual__c}</p>
-    })
-
-    return (
+      return (
       <div className="dashboard">
         <div className="container">
           <div>
             <h3 className="portal-title">Admissions Portal Dashboard</h3>
-            <h4 className="title-subtext">Welcome {this.state.user.first_name}!</h4>
             <div className="portal-inner">
               <div className="section-header">
-                <h4>Current Applications</h4>
+                <h4>Your Current Applications</h4>
               </div>
-              {this.state.opportunities.length ? opptyList : noOpptys}
-              <form onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                      <Select name="select-normal"
-                      label='Select a Program'
-                      fieldName="Campus__c"
-                      id="modal-campus"
-                      options={this.state.programInputs.options}
-                      className="select"
-                      showError={this.state.submitAttempted && !this.isValid('program')}
-                      currentSelection={this.state.program}
-                      onOptionClick={this.onProgramChange}
-                      />
-                  </div>
-                  <div className="form-group">
-                      <Select name="select-normal"
-                      label='Select a Campus'
-                      fieldName="Campus__c"
-                      id="modal-campus"
-                      options={this.state.campusInputs.options}
-                      className="select"
-                      showError={this.state.submitAttempted && !this.isValid('campus')}
-                      currentSelection={this.state.campus}
-                      onOptionClick={this.onCampusChange}
-                      />
-                  </div>
-                  <div className="action">
-                  <button className="button-primary" type="submit">Start Your Application</button>
-                  </div>
-              </form>
-              <span className="form-note form-error">{ this.state.errorMessage }</span>
+              {this.state.opportunities.length ?
+                <OpportunityList
+                  opps={this.state.opportunities}
+                  user={this.state.user}/>
+                :
+                <ProgramSelect
+                  isLoading={this.state.isLoading}
+                  handleSubmit={this.handleSubmit}
+                  programInputs={this.state.programInputs}
+                  program={this.state.program}
+                  isValid={this.isValid}
+                  onOptionClick={this.props.onProgramChange}
+                  campusInputs={this.state.campusInputs}
+                  campus={this.state.campus}
+                  onCampusChange={this.onCampusChange}/>}
             </div>
           </div>
         </div>
