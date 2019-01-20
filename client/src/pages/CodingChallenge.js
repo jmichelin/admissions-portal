@@ -15,11 +15,21 @@ class CodingChallenge extends Component {
       localTestResults: [],
       showProcessing: false,
       allPassed: false,
-      errorMessage: ''
+      errorMessage: '',
+      opp: {}
     };
 
     this.runLocal = this.runLocal.bind(this);
     this.codeSubmit = this.codeSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    const {opp} = this.props.location.state;
+    opp ? this.setState({
+      opp: opp
+    }) : this.setState({
+      opp: {}
+    })
   }
 
   logout() {

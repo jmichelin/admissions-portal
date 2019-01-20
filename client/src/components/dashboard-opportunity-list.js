@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import AdmissionsProcessSEI from './admissions-process-sei';
-import AdmissionsProcessDSI from './admissions-process-dsi';
+import AdmissionsProcessList from './admissions-process-list';
+import NextStepBlock from './next-steps-coding-challenge';
 
 
 class OpportunityList extends Component {
@@ -18,8 +18,8 @@ class OpportunityList extends Component {
 
     let opptyList = this.props.opps.map((opp, i) => {
       let campus = opp.Campus__c;
+      nextSteps = <AdmissionsProcessList program={opp.Course_Product__c} opp={opp}/>
       if (opp.Course_Product__c === 'Web Development' && opp.Course_Type__c.includes('Immersive')) {
-        nextSteps = <AdmissionsProcessSEI opp={opp}/>
         if (opp.Product_Code__c && opp.Product_Code__c.includes('-WD-')) {
           if (opp.Product_Code__c && opp.Product_Code__c.includes('-WD-REM')) {
             course = 'Software Engineering Remote Immersive';
@@ -34,7 +34,6 @@ class OpportunityList extends Component {
         }
       } else if (opp.Product_Code__c && opp.Product_Code__c.includes('-DS-')  && opp.Course_Type__c.includes('Immersive')) {
             course = 'Data Science Immersive';
-            nextSteps = <AdmissionsProcessDSI />
       } else {
         return null;
       }
@@ -44,11 +43,11 @@ class OpportunityList extends Component {
             <li>{course}</li>
             <li>{campus}</li>
             <li>{opp.Course_Start_Date_Actual__c}</li>
-            <li>Coding Challenge</li>
           </ul>
           <div className="table-row -steps">
             {nextSteps}
           </div>
+          <NextStepBlock opp={opp}/>
         </div>
       )
     })
@@ -60,7 +59,6 @@ class OpportunityList extends Component {
             <li>Course</li>
             <li>Campus</li>
             <li>Start Date</li>
-            <li>Next Step</li>
           </ul>
         </div>
         <div className="table-body">

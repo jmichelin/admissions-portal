@@ -159,4 +159,7 @@ it("myInfo.github is defined as a string or null", function() {
      return s === null || typeof s == 'string'
  });
 });
-});`
+});`;
+
+
+const OPP_STAGES = ['New', 'Sent Takehome', 'Returned Takehome', 'Offer Out'];

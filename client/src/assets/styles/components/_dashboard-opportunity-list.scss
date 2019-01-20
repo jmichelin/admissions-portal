@@ -36,12 +36,13 @@
     }
 
     .application-row {
-      background: $color-gray-1;
+      background: $color-white;
       margin-top: $space;
       border: 1px solid $color-brand-primary;
 
       .-listing {
         border-bottom: 1px solid $color-brand-primary;
+        background: $color-gray-1;
       }
     }
 
@@ -75,9 +76,13 @@
     align-items: center;
     flex: 1;
     max-width: 275px;
+    position: relative;
 
     .label {
       margin: $space 0;
+      text-align: center;
+      font-size: 14px;
+      max-width: 130px;
     }
 
     .number {
@@ -92,14 +97,37 @@
       text-align: center;
     }
 
+    .-complete {
+      border: 2px solid $color-brand-primary;
+      background: $color-white;
+      img {
+        width: 18px;
+        margin-left: 2px;
+        margin-bottom: -2px;
+      }
+    }
 
-    &:not(:last-child) .number::after {
+    &::after {
       position: absolute;
       content: '';
-      top: 50%;
-      width: 255px;
+      top: 22px;
+      left: 122px;
+      width: 185px;
       height: 2px;
       background: $color-brand-primary;
     }
+    &:last-child::after {
+      display: none;
+    }
+  }
+
+  .next-steps {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: $color-gray-5;
+    padding: $pad-and-half;
+    margin: $space;
+    color: white;
   }
 }

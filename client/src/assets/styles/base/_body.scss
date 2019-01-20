@@ -49,7 +49,7 @@ body {
 .container {
   max-width: $container-width;
   margin: auto;
-  margin-top: $space-triple;
+  overflow: hidden;
 }
 
 .font-secondary {
