@@ -102,7 +102,7 @@ handleSubmit(event) {
       <div className="dashboard">
         <div className="container">
           <div>
-            <h3 className="portal-title">Admissions Portal Dashboard</h3>
+            <h4 className="page-title">Admissions Portal Dashboard</h4>
             <div className="portal-inner">
               {this.props.opportunities && this.props.opportunities.length ?
                 <OpportunityList

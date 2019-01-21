@@ -43,6 +43,7 @@ class OpportunityList extends Component {
             <li>{course}</li>
             <li>{campus}</li>
             <li>{opp.Course_Start_Date_Actual__c}</li>
+            <li>Awaiting Coding Challenge</li>
           </ul>
           <div className="table-row -steps">
             {nextSteps}
@@ -56,9 +57,10 @@ class OpportunityList extends Component {
     <div className="table">
         <div className="table-head">
           <ul className="table-row">
-            <li>Your Applications</li>
+            <li>Your Active Applications</li>
             <li>Campus</li>
             <li>Start Date</li>
+            <li>Status</li>
           </ul>
         </div>
         <div className="table-body">

@@ -79,7 +79,7 @@
     position: relative;
 
     .label {
-      margin: $space 0;
+      margin-top: $space;
       text-align: center;
       font-size: 14px;
       max-width: 130px;
@@ -127,7 +127,7 @@
     align-items: center;
     background: $color-gray-5;
     padding: $pad-and-half;
-    margin: $space;
+    margin: 0 $space $space $space;
     color: white;
   }
 }

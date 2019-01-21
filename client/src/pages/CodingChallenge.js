@@ -118,13 +118,9 @@ class CodingChallenge extends Component {
       <div className="coding-challenge">
           <div className="container">
             <div>
-              <h3 className="portal-title">Admissions Portal</h3>
-              <h4 className="title-subtext">Coding Challenge</h4>
+              <h4 className="page-title">Coding Challenge</h4>
               <Link to="/dashboard"><button className="-inline">Back to Dashboard</button></Link>
               <div className="portal-inner">
-                <div className="section-header">
-                  <h4>Start the Challenge</h4>
-                </div>
                 <p className="section-row">This quick coding challenge will test your understanding of basic JavaScript syntax and start you on your admissions journey. If you're new to programming or JavaScript, don't be deterred. Try this challenge as many times as you need - your application will not be affected by errors. Best of luck!</p>
                 <div className="challenge-editor">
                   <CodingInstructions tests={this.state.localTestResults}/>
