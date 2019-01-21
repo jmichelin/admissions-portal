@@ -62,3 +62,10 @@ abbr {
     border-bottom: 1px dotted $color-gray-4;
     cursor: help;
 }
+
+.page-title {
+  font-weight: 500;
+  text-align: center;
+  margin-top: $space-triple;
+  font-size: 24px;
+}
