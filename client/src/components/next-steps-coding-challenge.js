@@ -10,7 +10,7 @@ export default (props) => {
         <h4>Next Steps</h4>
         <p className="-inverse"><span>Complete the Coding Challenge.</span>  Try as many times as you need and submit the code when you're ready.</p>
       </div>
-      <Link to={{ pathname: '/coding-challenge', state: { opp: props.opp} }}><button className="button-primary">Start the Challenge</button></Link>
+      <Link to="/coding-challenge"><button className="button-primary">Start the Challenge</button></Link>
   </div>
   )
 }

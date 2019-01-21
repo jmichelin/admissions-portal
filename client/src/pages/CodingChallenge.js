@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect, Link } from 'react-router-dom';
 
 import * as buble from 'buble'
 
@@ -16,20 +17,10 @@ class CodingChallenge extends Component {
       showProcessing: false,
       allPassed: false,
       errorMessage: '',
-      opp: {}
     };
 
     this.runLocal = this.runLocal.bind(this);
     this.codeSubmit = this.codeSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    const {opp} = this.props.location.state;
-    opp ? this.setState({
-      opp: opp
-    }) : this.setState({
-      opp: {}
-    })
   }
 
   logout() {
@@ -119,12 +110,17 @@ class CodingChallenge extends Component {
   }
 
   render() {
+
+    if (!this.props.opportunities) {
+      return (<Redirect to="/dashboard"/>)
+    }
     return (
       <div className="coding-challenge">
           <div className="container">
             <div>
-              <h3 className="portal-title">Admissions Portal Dashboard</h3>
-              <h4 className="title-subtext">Basic JavaScript Coding Challenge</h4>
+              <h3 className="portal-title">Admissions Portal</h3>
+              <h4 className="title-subtext">Coding Challenge</h4>
+              <Link to="/dashboard"><button className="-inline">Back to Dashboard</button></Link>
               <div className="portal-inner">
                 <div className="section-header">
                   <h4>Start the Challenge</h4>

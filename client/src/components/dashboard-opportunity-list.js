@@ -56,7 +56,7 @@ class OpportunityList extends Component {
     <div className="table">
         <div className="table-head">
           <ul className="table-row">
-            <li>Course</li>
+            <li>Your Applications</li>
             <li>Campus</li>
             <li>Start Date</li>
           </ul>

@@ -38,29 +38,6 @@ class Dashboard extends Component {
     })
   }
 
-  componentWillMount() {
-    const API_URL = '/api/v1/user'
-    fetch(API_URL, {
-      headers: {
-        Authorization: `Bearer ${localStorage.token}`
-      },
-    }).then(res => res.json())
-      .then(result => {
-        if (result.opportunities) {
-          this.setState({
-            opportunities: result.opportunities,
-            user:result.user,
-            isLoading: false
-          })
-        } else {
-          this.setState({
-            noOpportunities: true,
-            isLoading: false
-          })
-        }
-      }).catch(err => console.log(err))
-  }
-
 onProgramChange(e, field) {
   if (e.target.value.includes('Remote')) {
     this.setState({
@@ -103,7 +80,7 @@ handleSubmit(event) {
   const formData = { program, campus };
 
   if (this.formIsValid(formData)) {
-    let query = `?campus=${formData.campus}&first_name=${this.state.user.first_name}&last_name=${this.state.user.last_name}&email=${this.state.user.email}`
+    let query = `?campus=${formData.campus}&first_name=${this.props.user.first_name}&last_name=${this.props.user.last_name}&email=${this.props.user.email}`
     if (formData.program === 'Data Science') {
       window.location.href = `${GALVANIZE_BASE_URL}/data-science/application${query}`;
       return;
@@ -127,13 +104,10 @@ handleSubmit(event) {
           <div>
             <h3 className="portal-title">Admissions Portal Dashboard</h3>
             <div className="portal-inner">
-              <div className="section-header">
-                <h4>Your Current Applications</h4>
-              </div>
-              {this.state.opportunities.length ?
+              {this.props.opportunities && this.props.opportunities.length ?
                 <OpportunityList
-                  opps={this.state.opportunities}
-                  user={this.state.user}/>
+                  opps={this.props.opportunities}
+                  user={this.props.user}/>
                 :
                 <ProgramSelect
                   isLoading={this.state.isLoading}
