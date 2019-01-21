@@ -1,9 +1,8 @@
 const express = require('express');
-require("@babel/register");
 
 const router = express.Router();
 
-import Salesforce from '../../client/src/lib/salesforce';
+import Salesforce from '../lib/salesforce';
 
 const salesforce = new Salesforce();
 

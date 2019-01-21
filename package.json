@@ -8,9 +8,12 @@
   },
   "scripts": {
     "client": "cd client && npm start",
-    "start": "cd server && node index.js",
     "server": "cd server && nodemon index.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "clean": "rm -rf dist && mkdir dist",
+    "build-babel": "babel -d ./dist ./server -s",
+    "build": "npm run clean && npm run build-babel",
+    "start": "npm run build && node ./dist/index.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "keywords": [],

@@ -2,7 +2,7 @@
 
 import _ from 'lodash';
 import inputs from '../../components/forms/application/application-inputs';
-import { CAMPUSES } from '../../constants';
+import { CAMPUSES } from '../constants';
 
 class Application {
   constructor(course) {

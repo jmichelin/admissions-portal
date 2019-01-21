@@ -1,6 +1,3 @@
-require('babel-register')({
-   presets: [ 'es2015' ]
-});
 
 const express = require('express');
 const path = require('path');
@@ -9,6 +6,12 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 require('dotenv').config();
+
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+  require('babel-register')({
+     presets: [ 'es2015' ]
+  });
+}
 
 const app = express();
 

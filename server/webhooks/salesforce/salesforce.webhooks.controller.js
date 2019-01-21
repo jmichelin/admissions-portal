@@ -2,7 +2,7 @@
 
 import Honeybadger from '../../../lib/honeybadger';
 import status from '../../../lib/status';
-import Salesforce from '../../../lib/salesforce';
+import Salesforce from '../lib/salesforce';
 
 const honeybadger = new Honeybadger();
 
