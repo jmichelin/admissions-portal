@@ -19,7 +19,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    const API_URL = '/api/v1/user'
+    const API_URL = '/api/v1/user';
 
     if (localStorage.token) {
       fetch(API_URL, {
@@ -28,7 +28,7 @@ class App extends Component {
         },
       }).then(res => res.json())
         .then(result => {
-          if (result.opportunities) {
+          if (result.opportunities && result.user) {
             this.setState({
               opportunities: result.opportunities,
               user:result.user,
@@ -36,11 +36,13 @@ class App extends Component {
             })
           } else {
             this.setState({
-              noOpportunities: true,
               isLoading: false
             })
           }
-        }).catch(err => console.log(err))
+        }).catch(err => {
+          localStorage.removeItem('token');
+          console.log(err)
+        })
     }
   }
 

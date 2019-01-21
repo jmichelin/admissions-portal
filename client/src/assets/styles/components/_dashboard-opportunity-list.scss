@@ -38,6 +38,7 @@
     .application-row {
       background: $color-white;
       margin-top: $space;
+      margin-bottom: $space-triple;
       border: 1px solid $color-brand-primary;
 
       .-listing {
@@ -58,11 +59,7 @@
     background: white;
     border-radius: 4px;
   }
-
-  .steps-list {
-    width: 80%;
-  }
-
+  
   .steps-list .steps {
     display: flex;
     justify-content: center;
@@ -75,7 +72,7 @@
     flex-direction: column;
     align-items: center;
     flex: 1;
-    max-width: 275px;
+    width: 210px;
     position: relative;
 
     .label {
