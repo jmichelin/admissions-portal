@@ -1,0 +1,130 @@
+.dashboard .table {
+  & {
+    width: 100%;
+    margin-top: $space;
+  }
+
+  .table-head {
+    border-bottom: 1px solid $color-brand-primary;
+    .table-row {
+      margin: 0;
+      padding: $pad/2 $pad;
+
+      li {
+        font-weight: 500;
+      }
+    }
+  }
+
+  .table-row {
+    display: flex;
+    list-style: none;
+    justify-content: space-between;
+    margin: 0;
+
+     li {
+      flex: 1;
+    }
+    > li:first-child {
+      flex: 2;
+    }
+  }
+
+  .table-body {
+    .table-row {
+      padding: $pad-and-half $pad;
+    }
+
+    .application-row {
+      background: $color-white;
+      margin-top: $space;
+      margin-bottom: $space-triple;
+      border: 1px solid $color-brand-primary;
+
+      .-listing {
+        border-bottom: 1px solid $color-brand-primary;
+        background: $color-gray-1;
+      }
+    }
+
+    & :first-child.application-row  {
+      margin-top: 0;
+      border-top: 0;
+    }
+  }
+
+  .table-row.-steps {
+    display: flex;
+    justify-content: center;
+    background: white;
+    border-radius: 4px;
+  }
+  
+  .steps-list .steps {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .steps-list .steps .step {
+    padding: 0 $pad;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    width: 210px;
+    position: relative;
+
+    .label {
+      margin-top: $space;
+      text-align: center;
+      font-size: 14px;
+      max-width: 130px;
+    }
+
+    .number {
+      position: relative;
+      z-index: 1;
+      font-size: 20px;
+      color: $color-white;
+      background: $color-brand-primary;
+      border-radius: 50%;
+      width: 40px;
+      line-height: 40px;
+      text-align: center;
+    }
+
+    .-complete {
+      border: 2px solid $color-brand-primary;
+      background: $color-white;
+      img {
+        width: 18px;
+        margin-left: 2px;
+        margin-bottom: -2px;
+      }
+    }
+
+    &::after {
+      position: absolute;
+      content: '';
+      top: 22px;
+      left: 122px;
+      width: 185px;
+      height: 2px;
+      background: $color-brand-primary;
+    }
+    &:last-child::after {
+      display: none;
+    }
+  }
+
+  .next-steps {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: $color-gray-5;
+    padding: $pad-and-half;
+    margin: 0 $space $space $space;
+    color: white;
+  }
+}

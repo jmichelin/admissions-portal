@@ -1,5 +1,13 @@
 export const GALVANIZE_BASE_URL = 'https://www.galvanize.com';
 
+export const PROSPECT_RECORD_ID = '012j00000004QndAAE';
+export const STUDENT_RECORD_ID = '012j0000000kfkDAAQ';
+export const SF_WDI_SYLLABUS_CAMPAIGN_ID = process.env.SF_WDI_SYLLABUS_CAMPAIGN_ID;
+export const SF_WDI_APPLICATION_CAMPAIGN_ID = process.env.SF_WDI_APPLICATION_CAMPAIGN_ID;
+export const SF_DSI_SYLLABUS_CAMPAIGN_ID = process.env.SF_DSI_SYLLABUS_CAMPAIGN_ID;
+export const SF_DSI_APPLICATION_CAMPAIGN_ID = process.env.SF_DSI_APPLICATION_CAMPAIGN_ID;
+export const SF_NEWSLETTER_CAMPAIGN_ID = process.env.SF_NEWSLETTER_CAMPAIGN_ID;
+
 export const CAMPUSES = [
   { name: 'austin',
     optionName: 'Austin, TX', // used in select dropdowns
@@ -108,11 +116,50 @@ export const FULL_TIME_PROGRAMS = [
   sfdcName: 'Data Science'
   },{
   name:'Software Engineering Immersive',
-  sfdcName: 'Web Development'
+  sfdcName: 'Software Engineering Immersive'
 },{
   name:'Software Engineering Remote Immersive',
-  sfdcName: 'Web Development'
+  sfdcName: 'Software Engineering Remote Immersive'
 },{
-  name:'Software Engineering Part Time Immersive',
-  sfdcName: 'Web Development'
-}]
+  name:'Software Engineering Remote Part Time Immersive',
+  sfdcName: 'Software Engineering Remote Part Time Immersive'
+}];
+
+
+export const CODING_CHALLENGE_TESTS = `describe("declaredAnArray", function() {
+it("myArray is defined as an array", function() {
+ expect(Array.isArray(myArray)).to.eq(true);
+});
+it("myArray has two strings", function() {
+ expect(myArray.length).to.eq(2);
+ expect(typeof(myArray[0])).to.eq('string');
+ expect(typeof(myArray[1])).to.eq('string');
+});
+it("cutName is defined as a function", function() {
+ expect(cutName).to.not.eq(undefined);
+ expect(typeof(cutName)).to.eq('function');
+});
+it("cutName splits strings", function() {
+ expect(cutName('Bob Bobson')).to.eql(['Bob', 'Bobson']);
+ expect(cutName('Romeo Alpha Nancy Delta')).to.eql(['Romeo', 'Alpha', 'Nancy', 'Delta']);
+});
+it("myInfo is defined as an object", function() {
+ expect(myInfo).to.be.an('object');
+});
+it("myInfo.fullName is the same as cutName(myArray[0])", function() {
+ expect(myInfo.fullName).to.eql(cutName(myArray[0]));
+});
+it("myInfo.skype should equal myArray[1]", function() {
+ expect(myInfo.skype).to.eql(myArray[1]);
+ expect(myInfo.skype).to.be.an('string');
+});
+it("myInfo.github is defined as a string or null", function() {
+ expect(myInfo).to.be.an('object');
+ expect(myInfo.github).to.satisfy(function(s){
+     return s === null || typeof s == 'string'
+ });
+});
+});`;
+
+
+const OPP_STAGES = ['New', 'Sent Takehome', 'Returned Takehome', 'Offer Out'];

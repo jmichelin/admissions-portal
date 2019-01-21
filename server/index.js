@@ -1,3 +1,7 @@
+require('babel-register')({
+   presets: [ 'es2015' ]
+});
+
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
@@ -22,7 +26,6 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.use('/auth', auth);
 app.use('/api/v1/user', middlewares.isLoggedIn, users);
-
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname+'../client/build/index.html'));

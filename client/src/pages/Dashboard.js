@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
-import Select from '../components/forms/select';
-import inputs from '../components/forms/inputs/select-inputs';
+import ProgramSelect from '../components/dashboard-program-select';
+import OpportunityList from '../components/dashboard-opportunity-list';
 
-import { CAMPUSES, FULL_TIME_PROGRAMS } from '../constants';
+import { CAMPUSES, FULL_TIME_PROGRAMS, GALVANIZE_BASE_URL } from '../constants';
+import inputs from '../components/forms/inputs/select-inputs';
 
 
 class Dashboard extends Component {
@@ -15,8 +16,19 @@ class Dashboard extends Component {
     this.state = {
       user: {},
       programInputs: programInputs,
-      campusInputs: campusInputs
+      campusInputs: campusInputs,
+      program: '',
+      campus: '',
+      errorMessage: '',
+      opportunities: [],
+      noOpportunities: false,
+      isLoading: true
     };
+
+    this.onProgramChange = this.onProgramChange.bind(this);
+    this.onCampusChange = this.onCampusChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+
   }
 
   logout() {
@@ -26,68 +38,89 @@ class Dashboard extends Component {
     })
   }
 
-  componentDidMount() {
-    const API_URL = '/auth'
-    fetch(API_URL, {
-      headers: {
-        Authorization: `Bearer ${localStorage.token}`
-      },
-    }).then(res => res.json())
-      .then(result => {
-        if (result.user) {
-          this.setState({
-            user: result.user
-          })
-        } else {
-          this.logout();
-        }
-      }).catch(err => console.log(err))
+onProgramChange(e, field) {
+  if (e.target.value.includes('Remote')) {
+    this.setState({
+      program: e.target.value,
+      campus: 'Remote',
+      errorMessage: ''
+    });
+  } else {
+    this.setState({
+      program: e.target.value,
+      campus: '',
+      errorMessage: ''
+    });
   }
+}
+
+onCampusChange(e, field) {
+this.setState({
+  campus: e.target.value,
+  errorMessage: ''
+});
+}
+
+isValid(fieldName) {
+  return !!this.state[fieldName];
+}
+
+formIsValid(data) {
+  return !!data.program && data.campus;
+}
+
+handleSubmit(event) {
+  event.preventDefault();
+  this.setState({
+    submitAttempted: true,
+    isLoading: true
+  })
+
+  const { program, campus } = this.state;
+  const formData = { program, campus };
+
+  if (this.formIsValid(formData)) {
+    let query = `?campus=${formData.campus}&first_name=${this.props.user.first_name}&last_name=${this.props.user.last_name}&email=${this.props.user.email}`
+    if (formData.program === 'Data Science') {
+      window.location.href = `${GALVANIZE_BASE_URL}/data-science/application${query}`;
+      return;
+    } else if (formData.program.includes("Software Engineering")) {
+      window.location.href = `${GALVANIZE_BASE_URL}/web-development/application${query}`;
+      return;
+    }
+  } else {
+    this.setState({
+      isLoading: false,
+      errorMessage: 'Please select a program and campus.'
+     });
+  }
+}
 
 
   render() {
-    return (
+      return (
       <div className="dashboard">
         <div className="container">
           <div>
-            <h3 className="portal-title">Admissions Portal Dashboard</h3>
-            <h4 className="title-subtext">Welcome {this.state.user.first_name}!</h4>
-            <div className="portal">
-              <div className="section-header">
-                <h4>Current Applications</h4>
-              </div>
-              <p className="section-row">Looks like you don't have any active applications. Select a program and campus below to start your application.</p>
-              <form>
-                <div className="form-group">
-                      <Select name="select-normal"
-                      label='Select a Program'
-                      fieldName="Campus__c"
-                      id="modal-campus"
-                      options={this.state.programInputs.options}
-                      className="select"
-                      showError={this.state.submitAttempted && !this.isValid('Campus__c')}
-                      currentSelection={this.state.campusValue || this.props.campusName}
-                      onOptionClick={this.onCampusChange}
-                      disabled={false}
-                      />
-                  </div>
-                  <div className="form-group">
-                      <Select name="select-normal"
-                      label='Select a Campus'
-                      fieldName="Campus__c"
-                      id="modal-campus"
-                      options={this.state.campusInputs.options}
-                      className="select"
-                      showError={this.state.submitAttempted && !this.isValid('Campus__c')}
-                      currentSelection={this.state.campusValue || this.props.campusName}
-                      onOptionClick={this.onCampusChange}
-                      disabled={false}
-                      />
-                  </div>
-                  <div className="action">
-                  <button className="button-primary">Start Your Application</button>
-                  </div>
-              </form>
+            <h4 className="page-title">Admissions Portal Dashboard</h4>
+            <div className="portal-inner">
+              {this.props.opportunities && this.props.opportunities.length ?
+                <OpportunityList
+                  opps={this.props.opportunities}
+                  user={this.props.user}/>
+                :
+                <ProgramSelect
+                  isLoading={this.state.isLoading}
+                  handleSubmit={this.handleSubmit}
+                  programInputs={this.state.programInputs}
+                  program={this.state.program}
+                  isValid={this.isValid}
+                  onProgramChange={this.onProgramChange}
+                  campusInputs={this.state.campusInputs}
+                  campus={this.state.campus}
+                  errorMessage={this.state.errorMessage}
+                  onCampusChange={this.onCampusChange}/>
+              }
             </div>
           </div>
         </div>

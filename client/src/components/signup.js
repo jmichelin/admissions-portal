@@ -51,7 +51,6 @@ class Signup extends Component {
     } else {
       return false;
     }
-
   }
 
   validField(input) {

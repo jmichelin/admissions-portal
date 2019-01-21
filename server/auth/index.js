@@ -106,7 +106,7 @@ router.post('/signin', (req, res, next) => {
 
 function respondError(res, next) {
   res.status(422);
-  const error = new Error('Unable to login.');
+  const error = new Error('Unable to login. Check your email and password.');
   next(error);
 }
 module.exports = router;

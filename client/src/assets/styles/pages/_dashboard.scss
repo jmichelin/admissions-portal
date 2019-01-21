@@ -1,0 +1,44 @@
+.dashboard {
+  & {
+    background: $color-gray-1;
+    min-height: 91vh;
+    overflow:auto;
+}
+
+.page-title {
+  font-weight: 500;
+  text-align: center;
+  margin-top: $space-triple;
+}
+
+  .program-select {
+    background: $color-gray-1;
+    padding: $pad;
+
+    .citation {
+      font-style: italic;
+      font-size: 14px;
+      margin-top: $space-triple;
+    }
+  }
+
+  .section-row {
+    padding: $pad-and-half 0;
+    background: $color-gray-1;
+    margin: 0;
+  }
+
+  form {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+
+    .form-group {
+      width: auto;
+      margin-right: $space-and-half;
+    }
+  }
+
+  .action {
+  }
+}

@@ -1,19 +1,22 @@
-@import 'styles/_variables.scss';
+@import './assets/styles/_variables.scss';
 
 // Base
-@import 'styles/base/_body.scss';
-@import 'styles/base/_headings.scss';
-@import 'styles/base/_text.scss';
-@import 'styles/base/_images.scss';
-@import 'styles/base/_links.scss';
-@import 'styles/base/_form.scss';
-@import 'styles/base/_button.scss';
+@import './assets/styles/base/_body.scss';
+@import './assets/styles/base/_headings.scss';
+@import './assets/styles/base/_text.scss';
+@import './assets/styles/base/_images.scss';
+@import './assets/styles/base/_links.scss';
+@import './assets/styles/base/_form.scss';
+@import './assets/styles/base/_button.scss';
 
 // Pages
-@import 'styles/pages/_home.scss';
-@import 'styles/pages/_dashboard.scss';
+@import './assets/styles/pages/_home.scss';
+@import './assets/styles/pages/_dashboard.scss';
+@import './assets/styles/pages/_coding-challenge.scss';
+
 
 // Components
-@import 'styles/components/_header.scss';
-@import 'styles/components/_signin.scss';
-@import 'styles/components/_signup.scss';
+@import './assets/styles/components/_header.scss';
+@import './assets/styles/components/_signin.scss';
+@import './assets/styles/components/_signup.scss';
+@import './assets/styles/components/_dashboard-opportunity-list.scss';
