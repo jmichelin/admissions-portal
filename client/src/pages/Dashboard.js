@@ -31,6 +31,33 @@ class Dashboard extends Component {
 
   }
 
+  componentDidMount() {
+    const API_URL = '/api/v1/user';
+
+    if (localStorage.token) {
+      fetch(API_URL, {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`
+        },
+      }).then(res => res.json())
+        .then(result => {
+          if (result.opportunities && result.user) {
+            this.setState({
+              opportunities: result.opportunities,
+              user:result.user,
+              isLoading: false
+            })
+          } else {
+            this.setState({
+              isLoading: false
+            })
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+  }
+
   logout() {
     localStorage.removeItem('token');
     this.setState({
@@ -104,10 +131,10 @@ handleSubmit(event) {
           <div>
             <h4 className="page-title">Admissions Portal Dashboard</h4>
             <div className="portal-inner">
-              {this.props.opportunities && this.props.opportunities.length ?
+              {this.state.opportunities && this.state.opportunities.length ?
                 <OpportunityList
-                  opps={this.props.opportunities}
-                  user={this.props.user}/>
+                  opps={this.state.opportunities}
+                  user={this.state.user}/>
                 :
                 <ProgramSelect
                   isLoading={this.state.isLoading}
