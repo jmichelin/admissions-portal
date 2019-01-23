@@ -12,15 +12,22 @@ class CodingChallenge extends Component {
     super(props);
 
     this.state = {
+      oppId:'',
       code: '',
       localTestResults: [],
       showProcessing: false,
       allPassed: false,
-      errorMessage: ''
+      errorMessage: '',
+      redirectToDashboard: false
     };
 
     this.runLocal = this.runLocal.bind(this);
     this.codeSubmit = this.codeSubmit.bind(this);
+  }
+
+  componentDidMount() {
+      const {oppId} = this.props.location.state;
+      if (oppId) this.setState({oppId: oppId})
   }
 
   logout() {
@@ -110,6 +117,9 @@ class CodingChallenge extends Component {
   }
 
   render() {
+    if (this.state.redirectToDashboard) {
+      return (<Redirect to='/dashboard'/>)
+    }
     return (
       <div className="coding-challenge">
           <div className="container">

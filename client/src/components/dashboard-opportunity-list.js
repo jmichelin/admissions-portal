@@ -48,7 +48,7 @@ class OpportunityList extends Component {
           <div className="table-row -steps">
             {nextSteps}
           </div>
-          <NextStepBlock opp={opp}/>
+          <NextStepBlock oppId={opp.Id}/>
         </div>
       )
     })
