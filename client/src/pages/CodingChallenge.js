@@ -16,7 +16,7 @@ class CodingChallenge extends Component {
       localTestResults: [],
       showProcessing: false,
       allPassed: false,
-      errorMessage: '',
+      errorMessage: ''
     };
 
     this.runLocal = this.runLocal.bind(this);
@@ -110,10 +110,6 @@ class CodingChallenge extends Component {
   }
 
   render() {
-
-    if (!this.props.opportunities) {
-      return (<Redirect to="/dashboard"/>)
-    }
     return (
       <div className="coding-challenge">
           <div className="container">

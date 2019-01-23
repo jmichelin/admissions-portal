@@ -14,13 +14,11 @@ class Dashboard extends Component {
     const campusInputs = inputs.getCampusInputs(CAMPUSES);
 
     this.state = {
-      user: {},
       programInputs: programInputs,
       campusInputs: campusInputs,
       program: '',
       campus: '',
       errorMessage: '',
-      opportunities: [],
       noOpportunities: false,
       isLoading: true
     };
@@ -33,28 +31,31 @@ class Dashboard extends Component {
 
   componentDidMount() {
     const API_URL = '/api/v1/user';
-
-    if (localStorage.token) {
-      fetch(API_URL, {
-        headers: {
-          Authorization: `Bearer ${localStorage.token}`
-        },
-      }).then(res => res.json())
-        .then(result => {
-          if (result.opportunities && result.user) {
-            this.setState({
-              opportunities: result.opportunities,
-              user:result.user,
-              isLoading: false
-            })
-          } else {
-            this.setState({
-              isLoading: false
-            })
-          }
-        }).catch(err => {
-          console.log(err)
-        })
+    if (!this.props.opportunities.length && localStorage.token) {
+        fetch(API_URL, {
+          headers: {
+            Authorization: `Bearer ${localStorage.token}`
+          },
+        }).then(res => res.json())
+          .then(result => {
+            if (result.opportunities && result.user) {
+              this.props.setOpps(result)
+              this.setState({
+                isLoading: false
+              })
+            } else {
+              this.setState({
+                isLoading: false
+              })
+            }
+          }).catch(err => {
+            console.log(err)
+            this.logout();
+          })
+    } else {
+      this.setState({
+        isLoading: false
+      })
     }
   }
 
@@ -131,10 +132,10 @@ handleSubmit(event) {
           <div>
             <h4 className="page-title">Admissions Portal Dashboard</h4>
             <div className="portal-inner">
-              {this.state.opportunities && this.state.opportunities.length ?
+              {this.props.opportunities && this.props.opportunities.length ?
                 <OpportunityList
-                  opps={this.state.opportunities}
-                  user={this.state.user}/>
+                  opps={this.props.opportunities}
+                  user={this.props.user}/>
                 :
                 <ProgramSelect
                   isLoading={this.state.isLoading}

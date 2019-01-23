@@ -10,6 +10,23 @@ import CodingChallenge from './pages/CodingChallenge';
 class App extends Component {
   constructor(props){
     super(props);
+
+    this.state = {
+      opportunities: [],
+      user: {}
+    }
+
+    this.setOpps = this.setOpps.bind(this);
+
+  }
+
+  setOpps(result) {
+    if (result) {
+      this.setState({
+        opportunities: result.opportunities,
+        user:result.user
+      })
+    }
   }
 
 render() {
@@ -19,8 +36,8 @@ render() {
           <main>
           <Switch>
             <PublicRoute exact path='/' component={Home}/>
-            <PrivateRoute exact path='/dashboard' component={Dashboard}/>
-            <PrivateRoute exact path='/coding-challenge' component={CodingChallenge}/>
+            <PrivateRoute exact path='/dashboard' setOpps={this.setOpps} opportunities={this.state.opportunities} user={this.state.user}component={Dashboard}/>
+            <PrivateRoute exact path='/coding-challenge' opportunities={this.state.opportunities} user={this.state.user} component={CodingChallenge}/>
             <NoMatch/>
           </Switch>
           </main>
