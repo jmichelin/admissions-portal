@@ -381,6 +381,18 @@ class Salesforce {
     });
   }
 
+  updateCodingChallenge(oppId, code) {
+    return new Promise( (resolve, reject) => {
+      this.connection.sobject('Opportunity').update({
+        Id: oppId,
+        Coding_Challenge_Code__c: code,
+      }, (err, res) => {
+        if(err) { reject(err); }
+        resolve(res);
+      });
+    });
+  }
+
 
   // query salesforce for campaign id
   leadCampaignQuery(leadId, campaignType, product) {

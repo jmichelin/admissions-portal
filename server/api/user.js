@@ -38,4 +38,21 @@ router.get('/', (req, res) => {
 });
 
 
+router.post('/code-submit', (req, res) => {
+  console.log(req.body);
+  //query salesforce to find contact if no contact return error
+  salesforce.login()
+    .then(() => {
+      return salesforce.updateCodingChallenge(req.body.id, req.body.code)
+    }).then(response => {
+      res.send(response);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(501);
+      const error = new Error('Error updating coding challenge.');
+    });
+});
+
+
 module.exports = router;

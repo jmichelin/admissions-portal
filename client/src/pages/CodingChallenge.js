@@ -104,11 +104,22 @@ class CodingChallenge extends Component {
   }
 
   codeSubmit(e) {
+    let CODE_CHALLENGE_ENDPOINT = '/api/v1/user/code-submit';
     e.preventDefault();
-      if (this.state.allPassed) {
-        // send to salesforce
-
-        return;
+      if (this.state.allPassed && this.state.submittedCode) {
+        let data = {
+          code: this.state.submittedCode,
+          oppId: this.state.oppId
+        }
+        console.log('data', data);
+        fetch(CODE_CHALLENGE_ENDPOINT, {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            Authorization: `Bearer ${localStorage.token}`
+          },
+        }).then(res => res.json())
+        .catch(err => console.log(err))
       } else {
         this.setState({
           errorMessage: 'There was an error submitting your code. Please try again.'
