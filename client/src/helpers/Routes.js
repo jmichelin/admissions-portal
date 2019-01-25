@@ -7,10 +7,10 @@ export const PrivateRoute = ({ component: Component, setOpps, opportunities, use
     localStorage.token ? (<Component {...props} setOpps={setOpps} opportunities={opportunities} user={user}/>) : ( <Redirect to={{pathname: '/'}}/>))} />
 );
 
-export const PublicRoute = ({ component: Component, ...rest }) => (
+export const PublicRoute = ({ component: Component, clearData, ...rest }) => (
   <Route {...rest}
     render={props => (
-    !localStorage.token ? (<Component {...props} />) : ( <Redirect to={{pathname: '/dashboard'}}/>))} />
+    !localStorage.token ? (<Component {...props} clearData={clearData} />) : ( <Redirect to={{pathname: '/dashboard'}}/>))} />
 );
 
 
