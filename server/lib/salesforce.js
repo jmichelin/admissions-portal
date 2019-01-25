@@ -393,8 +393,23 @@ class Salesforce {
   //   });
   // }
 
+  // updateCodingChallenge(oppId, code) {
+  //   return new Promise( (resolve, reject) => {
+  //     this.connection.sobject('Interview_Evaluation__c')
+  //     .find({Opportunity_Name__c: `${oppId}`})
+  //     .update({
+  //       Final_Code__c: code,
+  //       Move_Forward__c: 'Yes'
+  //     }, (err, res) => {
+  //       if(err) { reject(err); }
+  //       resolve(res);
+  //     });
+  //   });
+  // }
+
   updateCodingChallenge(oppId, code) {
-    return new Promise( (resolve, reject) => {
+  return new Promise( (resolve, reject) => {
+    return Promise.all([
       this.connection.sobject('Interview_Evaluation__c')
       .find({Opportunity_Name__c: `${oppId}`})
       .update({
@@ -402,10 +417,21 @@ class Salesforce {
         Move_Forward__c: 'Yes'
       }, (err, res) => {
         if(err) { reject(err); }
-        resolve(res);
-      });
-    });
-  }
+      }),
+      this.connection.sobject('Opportunity')
+      .find({Id: `${oppId}`})
+      .update({
+        StageName: 'Returned Takehome',
+      }, (err, res) => {
+        if(err) { reject(err); }
+      })])
+      .then(rows => {
+        if (!rows) return [];
+        return rows;
+      }).then(resolve)
+      .catch(reject)
+  });
+}
 
 
   // query salesforce for campaign id

@@ -44,6 +44,7 @@ router.post('/code-submit', (req, res, next) => {
     .then(() => {
       return salesforce.updateCodingChallenge(req.body.oppId, req.body.code)
     }).then(response => {
+      console.log('getting to here', response);
       res.send(response);
     })
     .catch(err => {

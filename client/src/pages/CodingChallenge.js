@@ -119,6 +119,7 @@ class CodingChallenge extends Component {
             'content-type': 'application/json'
           },
         }).then(response => {
+          console.log(response);
           if (response.ok) {
             return response.json()
           }
@@ -126,7 +127,6 @@ class CodingChallenge extends Component {
             throw new Error(error.message)
           })
         }).then(result => {
-          console.log(result);
           this.setState({ isLoading: false, redirectToDashboard:true});
         }).catch(err => {
             this.setState({
