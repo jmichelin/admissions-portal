@@ -38,12 +38,11 @@ router.get('/', (req, res) => {
 });
 
 
-router.post('/code-submit', (req, res) => {
-  console.log(req.body);
+router.post('/code-submit', (req, res, next) => {
   //query salesforce to find contact if no contact return error
   salesforce.login()
     .then(() => {
-      return salesforce.updateCodingChallenge(req.body.id, req.body.code)
+      return salesforce.updateCodingChallenge(req.body.oppId, req.body.code)
     }).then(response => {
       res.send(response);
     })
@@ -51,6 +50,7 @@ router.post('/code-submit', (req, res) => {
       console.log(err);
       res.status(501);
       const error = new Error('Error updating coding challenge.');
+      next(error);
     });
 });
 

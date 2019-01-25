@@ -116,7 +116,8 @@ class CodingChallenge extends Component {
           method: 'POST',
           body: JSON.stringify(data),
           headers: {
-            Authorization: `Bearer ${localStorage.token}`
+            Authorization: `Bearer ${localStorage.token}`,
+            'content-type': 'application/json'
           },
         }).then(res => res.json())
         .catch(err => console.log(err))

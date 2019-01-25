@@ -381,11 +381,25 @@ class Salesforce {
     });
   }
 
+  // scoreCardQuery(id) {
+  //   let queryString = _makeQueryForScorecard(id);
+  //   return new Promise( (resolve, reject) => {
+  //     this.connection.query(
+  //       queryString,
+  //     (err, res) => {
+  //       if (err) { reject(err); }
+  //       resolve(res);
+  //     });
+  //   });
+  // }
+
   updateCodingChallenge(oppId, code) {
+    console.log(oppId);
     return new Promise( (resolve, reject) => {
-      this.connection.sobject('Opportunity').update({
-        Id: oppId,
-        Coding_Challenge_Code__c: code,
+      this.connection.sobject('Interview_Evaluation__c')
+      .find({Opportunity_Name__c: `${oppId}`})
+      .update({
+        Final_Code__c: code,
       }, (err, res) => {
         if(err) { reject(err); }
         resolve(res);
@@ -495,8 +509,15 @@ function _makeQueryForExistingContact(email) {
 }
 
 function _makeQueryForExistingOpportunity(id) {
-  return `SELECT Id, StageName, Name, Course_Product__c, Course_Type__c, CreatedDate, Campus__c, Course_Start_Date_Actual__c, 	Product_Code__c
+  return `SELECT Id, StageName, Name, Course_Product__c, Course_Type__c, CreatedDate, Campus__c, Course_Start_Date_Actual__c, Product_Code__c, Scorecard__c
     FROM   Opportunity
     WHERE  AccountId = '${id}'
+    ORDER BY CreatedDate`;
+}
+
+function _makeQueryForScorecard(id) {
+  return `SELECT Final_Code__c, Opportunity_Name__c, opportunity_stage__c
+    FROM   Interview_Evaluation__c
+    WHERE  Id = '${id}'
     ORDER BY CreatedDate`;
 }
