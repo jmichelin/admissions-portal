@@ -2,32 +2,32 @@ function getProcessInputs(program) {
   if (program === 'Data Science') {
     return [{
       label: 'Complete the Application Form',
-      stage: 'New'
+      stage: 0
     },
     {
       label: 'Schedule the Technical Interview',
-      stage: 'Returned Takehome'
+      stage: 1
     },
     {
       label: 'Decision',
-      stage: 'Offer Out'
+      stage: 2
       }];
   } else {
     return [{
       label: 'Complete the Application Form',
-      stage: 'New'
+      stage: 0
     },
     {
       label: 'Pass the Coding Challenge',
-      stage: 'Sent Takehome'
+      stage: 1
     },
     {
       label: 'Schedule the Technical Interview',
-      stage: 'Returned Takehome'
+      stage: 2
     },
     {
-      label: 'Decision',
-      stage: 'Offer Out'
+      label: 'Pass the Technical Interview',
+      stage: 3
       }];
   }
 }

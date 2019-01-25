@@ -7,6 +7,8 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import CodingChallenge from './pages/CodingChallenge';
 
+import utils from './helpers/utils';
+
 class App extends Component {
   constructor(props){
     super(props);
@@ -14,6 +16,7 @@ class App extends Component {
     this.state = {
       opportunities: [],
       user: {},
+      stage: '',
       isLoading: true
     }
 
@@ -37,11 +40,10 @@ class App extends Component {
           },
         }).then(res => res.json())
           .then(result => {
-            if (result.data.opportunities && result.data.user) {
+            if (result.data && result.data.opportunities && result.data.user) {
               this.setState({
                 opportunities: result.data.opportunities,
                 user:result.data.user,
-                scorecards: result.data.scorecards,
                 isLoading: false
               })
             } else {

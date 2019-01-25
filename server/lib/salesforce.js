@@ -498,10 +498,17 @@ function _reformatData(ogData) {
 function _reformatOppty(ogData) {
   let opptys = [];
   let opptyTemplate = {
-    finalCode: '',
-    moveForward: '',
-    oppId: ''
-  }
+    id: '',
+    name: '',
+    campus: '',
+    courseProduct: '',
+    courseStart: '',
+    createdDate: '',
+    courseType: '',
+    productCode: '',
+    scorecardId: '',
+    stage: ''
+  };
 
   ogData.forEach( oppty => {
     let newOppty = Object.assign({}, opptyTemplate);
@@ -527,7 +534,7 @@ function _reformatScorecard(ogData) {
   let scorecards = [];
   let scorecardTemplate = {
     finalCode: '',
-    moveForward: '',
+    moveForwardCode: '',
     oppId: ''
   }
 
