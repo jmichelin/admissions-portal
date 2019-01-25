@@ -37,10 +37,12 @@ class App extends Component {
           },
         }).then(res => res.json())
           .then(result => {
-            if (result.opportunities && result.user) {
+            console.log(result);
+            if (result.data.opportunities && result.data.user) {
               this.setState({
-                opportunities: result.opportunities,
-                user:result.user,
+                opportunities: result.data.opportunities,
+                user:result.data.user,
+                scorecards: result.data.scorecards,
                 isLoading: false
               })
             } else {

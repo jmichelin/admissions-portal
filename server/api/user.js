@@ -6,7 +6,7 @@ import Salesforce from '../lib/salesforce';
 
 const salesforce = new Salesforce();
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
   //query salesforce to find contact if no contact return error
   salesforce.login()
     .then(() => {
@@ -14,14 +14,21 @@ router.get('/', (req, res) => {
       return salesforce.contactQuery(req.user.email);
     }).then(response => {
       if (response.records.length) {
-
         return salesforce.oppQuery(response.records[0].Account.Id)
         .then(opps => {
-          if (opps.records.length) {
-            res.json({
-              opportunities: opps.records,
-              user: req.user
-            });
+          let data = {};
+          if (opps.length) {
+            data.opportunities = opps;
+            data.user = req.user;
+            let scorecardIds = [];
+            opps.forEach(opp => scorecardIds.push(opp.Scorecard__c));
+            return salesforce.scorecardQueries(scorecardIds)
+              .then(scorecards => {
+                data.scorecards = scorecards;
+                res.json({
+                  data: data
+                });
+              });
           } else {
             res.json({message: 'No Applications Exist for this User'});
           }
@@ -31,6 +38,7 @@ router.get('/', (req, res) => {
       }
     })
     .catch(err => {
+      console.log(err);
       res.status(501);
       const error = new Error('Error retreiving applications.');
       next(error);

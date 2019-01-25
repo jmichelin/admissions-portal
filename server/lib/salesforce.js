@@ -370,42 +370,26 @@ class Salesforce {
   }
 
   oppQuery(id) {
-    let queryString = _makeQueryForExistingOpportunity(id);
     return new Promise( (resolve, reject) => {
-      this.connection.query(
-        queryString,
-      (err, res) => {
+      this.connection.sobject("Opportunity")
+    .select('Id, StageName, Name, Course_Product__c, Course_Type__c, CreatedDate, Campus__c, Course_Start_Date_Actual__c, Product_Code__c, Scorecard__c')
+    .where({AccountId: id})
+      .execute((err, res) => {
         if (err) { reject(err); }
         resolve(res);
       });
     });
   }
 
-  // scoreCardQuery(id) {
-  //   let queryString = _makeQueryForScorecard(id);
-  //   return new Promise( (resolve, reject) => {
-  //     this.connection.query(
-  //       queryString,
-  //     (err, res) => {
-  //       if (err) { reject(err); }
-  //       resolve(res);
-  //     });
-  //   });
-  // }
-
-  // updateCodingChallenge(oppId, code) {
-  //   return new Promise( (resolve, reject) => {
-  //     this.connection.sobject('Interview_Evaluation__c')
-  //     .find({Opportunity_Name__c: `${oppId}`})
-  //     .update({
-  //       Final_Code__c: code,
-  //       Move_Forward__c: 'Yes'
-  //     }, (err, res) => {
-  //       if(err) { reject(err); }
-  //       resolve(res);
-  //     });
-  //   });
-  // }
+  scorecardQueries(ids) {
+    return new Promise( (resolve, reject) => {
+      this.connection.sobject("Interview_Evaluation__c").retrieve(
+        ids, function(err, scorecards) {
+        if (err) { reject(err) };
+        resolve(_reformatScorecard(scorecards));
+      });
+    });
+  }
 
   updateCodingChallenge(oppId, code) {
   return new Promise( (resolve, reject) => {
@@ -511,6 +495,27 @@ function _reformatData(ogData) {
   return courses;
 }
 
+function _reformatScorecard(ogData) {
+  let scorecards = [];
+  let scorecardTemplate = {
+    finalCode: '',
+    moveForward: '',
+    oppId: ''
+  }
+
+  ogData.forEach( scorecard => {
+    let newScorecard = Object.assign({}, scorecardTemplate);
+
+    newScorecard.finalCode = scorecard['Final_Code__c'];
+    newScorecard.moveForward = scorecard['Move_Forward__c'];
+    newScorecard.oppId = scorecard['Opportunity_Name__c'];
+
+    scorecards.push(newScorecard);
+  })
+
+  return scorecards;
+}
+
 function _makeQueryForExistingLead(email) {
   return `SELECT Id FROM Lead
     WHERE ( RecordTypeId = '${PROSPECT_RECORD_ID}'
@@ -538,12 +543,5 @@ function _makeQueryForExistingOpportunity(id) {
   return `SELECT Id, StageName, Name, Course_Product__c, Course_Type__c, CreatedDate, Campus__c, Course_Start_Date_Actual__c, Product_Code__c, Scorecard__c
     FROM   Opportunity
     WHERE  AccountId = '${id}'
-    ORDER BY CreatedDate`;
-}
-
-function _makeQueryForScorecard(id) {
-  return `SELECT Final_Code__c, Opportunity_Name__c, opportunity_stage__c
-    FROM   Interview_Evaluation__c
-    WHERE  Id = '${id}'
     ORDER BY CreatedDate`;
 }

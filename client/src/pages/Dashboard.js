@@ -31,7 +31,6 @@ class Dashboard extends Component {
 
   componentDidMount() {
     if (!this.props.opportunities.length) {
-      console.log('hi from here');
       this.props.setOpps()
     }
   }
