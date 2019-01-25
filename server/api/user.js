@@ -7,10 +7,8 @@ import Salesforce from '../lib/salesforce';
 const salesforce = new Salesforce();
 
 router.get('/', (req, res, next) => {
-  //query salesforce to find contact if no contact return error
   salesforce.login()
     .then(() => {
-      // check if there is a contact with this email
       return salesforce.contactQuery(req.user.email);
     }).then(response => {
       if (response.records.length) {
@@ -21,10 +19,15 @@ router.get('/', (req, res, next) => {
             data.opportunities = opps;
             data.user = req.user;
             let scorecardIds = [];
-            opps.forEach(opp => scorecardIds.push(opp.Scorecard__c));
+            opps.forEach(opp => scorecardIds.push(opp.scorecardId));
             return salesforce.scorecardQueries(scorecardIds)
               .then(scorecards => {
-                data.scorecards = scorecards;
+                data.opportunities.forEach(opp => {
+                  scorecards.forEach(card => {
+                    console.log(card);
+                    if (card.oppId === opp.id)  opp.scorecard = card
+                  })
+                })
                 res.json({
                   data: data
                 });

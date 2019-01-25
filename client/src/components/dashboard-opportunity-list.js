@@ -17,14 +17,14 @@ class OpportunityList extends Component {
     let course, nextSteps;
 
     let opptyList = this.props.opps.map((opp, i) => {
-      let campus = opp.Campus__c;
-      nextSteps = <AdmissionsProcessList program={opp.Course_Product__c} opp={opp}/>
-      if (opp.Course_Product__c === 'Web Development' && opp.Course_Type__c.includes('Immersive')) {
-        if (opp.Product_Code__c && opp.Product_Code__c.includes('-WD-')) {
-          if (opp.Product_Code__c && opp.Product_Code__c.includes('-WD-REM')) {
+      let campus = opp.campus;
+      nextSteps = <AdmissionsProcessList program={opp.courseProduct} opp={opp}/>
+      if (opp.courseProduct === 'Web Development' && opp.courseType.includes('Immersive')) {
+        if (opp.productCode && opp.productCode.includes('-WD-')) {
+          if (opp.productCode && opp.productCode.includes('-WD-REM')) {
             course = 'Software Engineering Remote Immersive';
           }
-          if (opp.Product_Code__c && opp.Product_Code__c.includes('-WD-RPT')) {
+          if (opp.productCode && opp.productCode.includes('-WD-RPT')) {
             course = 'Software Engineering Remote Part-Time Immersive';
             campus = 'Remote';
 
@@ -32,7 +32,7 @@ class OpportunityList extends Component {
             course = 'Software Engineering Immersive';
           }
         }
-      } else if (opp.Product_Code__c && opp.Product_Code__c.includes('-DS-')  && opp.Course_Type__c.includes('Immersive')) {
+      } else if (opp.productCode && opp.productCode.includes('-DS-')  && opp.courseType.includes('Immersive')) {
             course = 'Data Science Immersive';
       } else {
         return null;
@@ -42,13 +42,13 @@ class OpportunityList extends Component {
           <ul className="table-row -listing">
             <li>{course}</li>
             <li>{campus}</li>
-            <li>{opp.Course_Start_Date_Actual__c}</li>
+            <li>{opp.courseStart}</li>
             <li>Awaiting Coding Challenge</li>
           </ul>
           <div className="table-row -steps">
             {nextSteps}
           </div>
-          <NextStepBlock oppId={opp.Id}/>
+          <NextStepBlock oppId={opp.id}/>
         </div>
       )
     })

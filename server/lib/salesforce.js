@@ -376,7 +376,7 @@ class Salesforce {
     .where({AccountId: id})
       .execute((err, res) => {
         if (err) { reject(err); }
-        resolve(res);
+        resolve(_reformatOppty(res));
       });
     });
   }
@@ -493,6 +493,34 @@ function _reformatData(ogData) {
   })
 
   return courses;
+}
+
+function _reformatOppty(ogData) {
+  let opptys = [];
+  let opptyTemplate = {
+    finalCode: '',
+    moveForward: '',
+    oppId: ''
+  }
+
+  ogData.forEach( oppty => {
+    let newOppty = Object.assign({}, opptyTemplate);
+
+    newOppty.id = oppty['Id'];
+    newOppty.name = oppty['Name'];
+    newOppty.campus = oppty['Campus__c'];
+    newOppty.courseProduct = oppty['Course_Product__c'];
+    newOppty.courseStart = oppty['Course_Start_Date_Actual__c'];
+    newOppty.createdDate = oppty['CreatedDate'];
+    newOppty.courseType = oppty['Course_Type__c'];
+    newOppty.productCode = oppty['Product_Code__c'];
+    newOppty.scorecardId = oppty['Scorecard__c'];
+    newOppty.stage = oppty['StageName'];
+
+    opptys.push(newOppty);
+  })
+
+  return opptys;
 }
 
 function _reformatScorecard(ogData) {
