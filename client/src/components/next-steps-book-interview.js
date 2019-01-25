@@ -7,12 +7,12 @@ export default (props) => {
     <div className="next-steps">
       <div>
         <h4>Next Steps</h4>
-        <p className="-inverse"><span>Complete the Coding Challenge.</span>  Try as many times as you need and submit the code when you're ready.</p>
+        <p className="-inverse"><span>Book Your Technical Interivew</span>  Study up and be ready to live-pair with an instructor on the call.</p>
       </div>
       <Link to={{
-            pathname: "/coding-challenge",
+            pathname: "/book-interview",
             state: { oppId: props.oppId} }}>
-            <button className="button-primary">Start the Challenge</button></Link>
+            <button className="button-primary">Schedule Your Interview</button></Link>
       </div>
   )
 }

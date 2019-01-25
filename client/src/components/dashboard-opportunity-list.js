@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import AdmissionsProcessList from './admissions-process-list';
-import NextStepBlock from './next-steps-coding-challenge';
+import NextStepBlock from './next-steps-block';
 
 import utils from '../helpers/utils';
 import moment from 'moment';
@@ -19,10 +19,9 @@ class OpportunityList extends Component {
     let nextSteps;
 
     let opptyList = this.props.opps.map((opp, i) => {
-      let stage = utils.getStage(opp);
-      nextSteps = <AdmissionsProcessList program={opp.courseProduct} stage={stage} opp={opp}/>
-      let course = utils.getCourseName(opp).course;
-      let campus = utils.getCourseName(opp).campus;
+    let stage = opp.courseProduct === 'Web Development' ? utils.getSEIStage(opp) : utils.getDSIStage(opp);
+    let course = utils.getCourseName(opp).course;
+    let campus = utils.getCourseName(opp).campus;
       return (
         <div className="application-row" key={i}>
           <ul className="table-row -listing">
@@ -32,9 +31,9 @@ class OpportunityList extends Component {
             <li>{stage.status}</li>
           </ul>
           <div className="table-row -steps">
-            {nextSteps}
+            <AdmissionsProcessList program={opp.courseProduct} stage={stage} opp={opp}/>
           </div>
-          <NextStepBlock oppId={opp.id}/>
+          <NextStepBlock opp={opp} stage={stage}/>
         </div>
       )
     })
