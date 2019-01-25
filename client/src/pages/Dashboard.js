@@ -30,32 +30,9 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    const API_URL = '/api/v1/user';
-    if (!this.props.opportunities.length && localStorage.token) {
-        fetch(API_URL, {
-          headers: {
-            Authorization: `Bearer ${localStorage.token}`
-          },
-        }).then(res => res.json())
-          .then(result => {
-            if (result.opportunities && result.user) {
-              this.props.setOpps(result)
-              this.setState({
-                isLoading: false
-              })
-            } else {
-              this.setState({
-                isLoading: false
-              })
-            }
-          }).catch(err => {
-            console.log(err)
-            this.logout();
-          })
-    } else {
-      this.setState({
-        isLoading: false
-      })
+    if (!this.props.opportunities.length) {
+      console.log('hi from here');
+      this.props.setOpps()
     }
   }
 
@@ -138,7 +115,7 @@ handleSubmit(event) {
                   user={this.props.user}/>
                 :
                 <ProgramSelect
-                  isLoading={this.state.isLoading}
+                  isLoading={this.props.isLoading}
                   handleSubmit={this.handleSubmit}
                   programInputs={this.state.programInputs}
                   program={this.state.program}

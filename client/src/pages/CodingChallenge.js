@@ -26,6 +26,10 @@ class CodingChallenge extends Component {
   }
 
   componentDidMount() {
+    if (!this.props.opportunities.length) {
+      this.props.setOpps()
+    }
+
       const {oppId} = this.props.location.state;
       if (oppId) this.setState({oppId: oppId})
   }

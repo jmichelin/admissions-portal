@@ -13,20 +13,12 @@ class App extends Component {
 
     this.state = {
       opportunities: [],
-      user: {}
+      user: {},
+      isLoading: true
     }
 
     this.setOpps = this.setOpps.bind(this);
     this.clearData = this.clearData.bind(this);
-  }
-
-  setOpps(result) {
-    if (result) {
-      this.setState({
-        opportunities: result.opportunities,
-        user:result.user
-      })
-    }
   }
 
   clearData() {
@@ -36,6 +28,32 @@ class App extends Component {
       })
   }
 
+  setOpps() {
+    const API_URL = '/api/v1/user';
+    if (!this.state.opportunities.length) {
+        fetch(API_URL, {
+          headers: {
+            Authorization: `Bearer ${localStorage.token}`
+          },
+        }).then(res => res.json())
+          .then(result => {
+            if (result.opportunities && result.user) {
+              this.setState({
+                opportunities: result.opportunities,
+                user:result.user,
+                isLoading: false
+              })
+            } else {
+              this.setState({
+                isLoading: false
+              })
+            }
+          }).catch(err => {
+            console.log(err)
+          })
+    }
+  }
+
 render() {
       return (
       <div>
@@ -43,8 +61,8 @@ render() {
           <main>
           <Switch>
             <PublicRoute exact path='/' clearData={this.clearData} component={Home}/>
-            <PrivateRoute exact path='/dashboard' setOpps={this.setOpps} opportunities={this.state.opportunities} user={this.state.user}component={Dashboard}/>
-            <PrivateRoute exact path='/coding-challenge' opportunities={this.state.opportunities} user={this.state.user} component={CodingChallenge}/>
+            <PrivateRoute exact path='/dashboard' setOpps={this.setOpps} isLoading={this.state.isLoading} opportunities={this.state.opportunities} user={this.state.user} component={Dashboard}/>
+            <PrivateRoute exact path='/coding-challenge' setOpps={this.setOpps} isLoading={this.state.isLoading} opportunities={this.state.opportunities} user={this.state.user} component={CodingChallenge}/>
             <NoMatch/>
           </Switch>
           </main>
