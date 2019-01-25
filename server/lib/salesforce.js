@@ -535,7 +535,8 @@ function _reformatScorecard(ogData) {
     let newScorecard = Object.assign({}, scorecardTemplate);
 
     newScorecard.finalCode = scorecard['Final_Code__c'];
-    newScorecard.moveForward = scorecard['Move_Forward__c'];
+    newScorecard.moveForwardCode = scorecard['Move_Forward__c'];
+    newScorecard.moveForwardInterview = scorecard['Move_Forward_m__c'];
     newScorecard.oppId = scorecard['Opportunity_Name__c'];
 
     scorecards.push(newScorecard);

@@ -37,7 +37,6 @@ class App extends Component {
           },
         }).then(res => res.json())
           .then(result => {
-            console.log(result);
             if (result.data.opportunities && result.data.user) {
               this.setState({
                 opportunities: result.data.opportunities,

@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import AdmissionsProcessList from './admissions-process-list';
 import NextStepBlock from './next-steps-coding-challenge';
 
+import utils from '../helpers/utils';
+import moment from 'moment';
 
 class OpportunityList extends Component {
   constructor(props){
@@ -14,35 +16,18 @@ class OpportunityList extends Component {
 
 
   render() {
-    let course, nextSteps;
+    let nextSteps;
 
     let opptyList = this.props.opps.map((opp, i) => {
-      let campus = opp.campus;
       nextSteps = <AdmissionsProcessList program={opp.courseProduct} opp={opp}/>
-      if (opp.courseProduct === 'Web Development' && opp.courseType.includes('Immersive')) {
-        if (opp.productCode && opp.productCode.includes('-WD-')) {
-          if (opp.productCode && opp.productCode.includes('-WD-REM')) {
-            course = 'Software Engineering Remote Immersive';
-          }
-          if (opp.productCode && opp.productCode.includes('-WD-RPT')) {
-            course = 'Software Engineering Remote Part-Time Immersive';
-            campus = 'Remote';
-
-          } else {
-            course = 'Software Engineering Immersive';
-          }
-        }
-      } else if (opp.productCode && opp.productCode.includes('-DS-')  && opp.courseType.includes('Immersive')) {
-            course = 'Data Science Immersive';
-      } else {
-        return null;
-      }
+      let course = utils.getCourseName(opp).course;
+      let campus = utils.getCourseName(opp).campus;
       return (
         <div className="application-row" key={i}>
           <ul className="table-row -listing">
             <li>{course}</li>
             <li>{campus}</li>
-            <li>{opp.courseStart}</li>
+            <li>{moment(opp.courseStart).format('MM/DD/YYYY')}</li>
             <li>Awaiting Coding Challenge</li>
           </ul>
           <div className="table-row -steps">
