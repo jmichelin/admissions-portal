@@ -394,12 +394,12 @@ class Salesforce {
   // }
 
   updateCodingChallenge(oppId, code) {
-    console.log(oppId);
     return new Promise( (resolve, reject) => {
       this.connection.sobject('Interview_Evaluation__c')
       .find({Opportunity_Name__c: `${oppId}`})
       .update({
         Final_Code__c: code,
+        Move_Forward__c: 'Yes'
       }, (err, res) => {
         if(err) { reject(err); }
         resolve(res);

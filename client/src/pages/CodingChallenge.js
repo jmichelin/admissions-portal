@@ -111,7 +111,6 @@ class CodingChallenge extends Component {
           code: this.state.submittedCode,
           oppId: this.state.oppId
         }
-        console.log('data', data);
         fetch(CODE_CHALLENGE_ENDPOINT, {
           method: 'POST',
           body: JSON.stringify(data),
@@ -119,8 +118,21 @@ class CodingChallenge extends Component {
             Authorization: `Bearer ${localStorage.token}`,
             'content-type': 'application/json'
           },
-        }).then(res => res.json())
-        .catch(err => console.log(err))
+        }).then(response => {
+          if (response.ok) {
+            return response.json()
+          }
+          return response.json().then(error => {
+            throw new Error(error.message)
+          })
+        }).then(result => {
+          console.log(result);
+          this.setState({ isLoading: false, redirectToDashboard:true});
+        }).catch(err => {
+            this.setState({
+              errorMessage: err.message
+            })
+        })
       } else {
         this.setState({
           errorMessage: 'There was an error submitting your code. Please try again.'
