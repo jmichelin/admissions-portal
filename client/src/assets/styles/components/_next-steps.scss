@@ -1,0 +1,26 @@
+
+  .next-steps {
+
+    & {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: $color-gray-5;
+      padding: $pad-and-half;
+      margin: 0 $space $space $space;
+      color: white;
+    }
+
+    &.-blue {
+      background: $color-blue;
+    }
+
+    &.-grey {
+      background: $color-gray-3;
+    }
+
+    &.-green {
+      background: $color-green;
+    }
+
+  }

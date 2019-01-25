@@ -20,6 +20,9 @@
   }
 
   function getSEIStage(opp) {
+    if (!opp.scorecard) {
+      return {index: 0, status: 'Contact Your EO'};
+    }
     if (!opp.scorecard.finalCode && !opp.scorecard.moveForwardCode) {
       //person needs to do coding challenge
       return {index: 1, status: 'Awaiting Coding Challenge'};
@@ -39,6 +42,9 @@
   }
 
   function getDSIStage(opp) {
+    if (!opp.scorecard) {
+      return {index: 0, status: 'Contact Your EO'};
+    }
     if (!opp.scorecard.finalCode && !opp.scorecard.moveForwardCode) {
       //person needs to do coding challenge
       return {index: 1, status: 'Awaiting Coding Challenge'};

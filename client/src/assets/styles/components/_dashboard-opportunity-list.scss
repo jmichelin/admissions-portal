@@ -59,7 +59,7 @@
     background: white;
     border-radius: 4px;
   }
-  
+
   .steps-list .steps {
     display: flex;
     justify-content: center;
@@ -116,15 +116,5 @@
     &:last-child::after {
       display: none;
     }
-  }
-
-  .next-steps {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: $color-gray-5;
-    padding: $pad-and-half;
-    margin: 0 $space $space $space;
-    color: white;
   }
 }
