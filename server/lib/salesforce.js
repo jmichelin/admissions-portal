@@ -370,16 +370,52 @@ class Salesforce {
   }
 
   oppQuery(id) {
-    let queryString = _makeQueryForExistingOpportunity(id);
     return new Promise( (resolve, reject) => {
-      this.connection.query(
-        queryString,
-      (err, res) => {
+      this.connection.sobject("Opportunity")
+    .select('Id, StageName, Name, Course_Product__c, Course_Type__c, CreatedDate, Campus__c, Course_Start_Date_Actual__c, Product_Code__c, Scorecard__c')
+    .where({AccountId: id})
+      .execute((err, res) => {
         if (err) { reject(err); }
-        resolve(res);
+        resolve(_reformatOppty(res));
       });
     });
   }
+
+  scorecardQueries(ids) {
+    return new Promise( (resolve, reject) => {
+      this.connection.sobject("Interview_Evaluation__c").retrieve(
+        ids, function(err, scorecards) {
+        if (err) { reject(err) };
+        resolve(_reformatScorecard(scorecards));
+      });
+    });
+  }
+
+  updateCodingChallenge(oppId, code) {
+  return new Promise( (resolve, reject) => {
+    return Promise.all([
+      this.connection.sobject('Interview_Evaluation__c')
+      .find({Opportunity_Name__c: `${oppId}`})
+      .update({
+        Final_Code__c: code,
+        Move_Forward__c: 'Yes'
+      }, (err, res) => {
+        if(err) { reject(err); }
+      }),
+      this.connection.sobject('Opportunity')
+      .find({Id: `${oppId}`})
+      .update({
+        StageName: 'Returned Takehome',
+      }, (err, res) => {
+        if(err) { reject(err); }
+      })])
+      .then(rows => {
+        if (!rows) return [];
+        return rows;
+      }).then(resolve)
+      .catch(reject)
+  });
+}
 
 
   // query salesforce for campaign id
@@ -459,6 +495,63 @@ function _reformatData(ogData) {
   return courses;
 }
 
+function _reformatOppty(ogData) {
+  let opptys = [];
+  let opptyTemplate = {
+    id: '',
+    name: '',
+    campus: '',
+    courseProduct: '',
+    courseStart: '',
+    createdDate: '',
+    courseType: '',
+    productCode: '',
+    scorecardId: '',
+    stage: ''
+  };
+
+  ogData.forEach( oppty => {
+    let newOppty = Object.assign({}, opptyTemplate);
+
+    newOppty.id = oppty['Id'];
+    newOppty.name = oppty['Name'];
+    newOppty.campus = oppty['Campus__c'];
+    newOppty.courseProduct = oppty['Course_Product__c'];
+    newOppty.courseStart = oppty['Course_Start_Date_Actual__c'];
+    newOppty.createdDate = oppty['CreatedDate'];
+    newOppty.courseType = oppty['Course_Type__c'];
+    newOppty.productCode = oppty['Product_Code__c'];
+    newOppty.scorecardId = oppty['Scorecard__c'];
+    newOppty.stage = oppty['StageName'];
+
+    opptys.push(newOppty);
+  })
+
+  return opptys;
+}
+
+function _reformatScorecard(ogData) {
+  let scorecards = [];
+  let scorecardTemplate = {
+    finalCode: '',
+    moveForwardCode: '',
+    oppId: ''
+  }
+
+  ogData.forEach( scorecard => {
+    let newScorecard = Object.assign({}, scorecardTemplate);
+
+    newScorecard.finalCode = scorecard['Final_Code__c'];
+    newScorecard.moveForwardCode = scorecard['Move_Forward__c'];
+    newScorecard.moveForwardInterview = scorecard['Move_Forward_m__c'];
+    newScorecard.oppId = scorecard['Opportunity_Name__c'];
+
+    scorecards.push(newScorecard);
+  })
+
+  return scorecards;
+}
+
 function _makeQueryForExistingLead(email) {
   return `SELECT Id FROM Lead
     WHERE ( RecordTypeId = '${PROSPECT_RECORD_ID}'
@@ -483,7 +576,7 @@ function _makeQueryForExistingContact(email) {
 }
 
 function _makeQueryForExistingOpportunity(id) {
-  return `SELECT Id, StageName, Name, Course_Product__c, Course_Type__c, CreatedDate, Campus__c, Course_Start_Date_Actual__c, 	Product_Code__c
+  return `SELECT Id, StageName, Name, Course_Product__c, Course_Type__c, CreatedDate, Campus__c, Course_Start_Date_Actual__c, Product_Code__c, Scorecard__c
     FROM   Opportunity
     WHERE  AccountId = '${id}'
     ORDER BY CreatedDate`;

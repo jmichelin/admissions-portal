@@ -12,15 +12,26 @@ class CodingChallenge extends Component {
     super(props);
 
     this.state = {
+      oppId:'',
       code: '',
       localTestResults: [],
       showProcessing: false,
       allPassed: false,
       errorMessage: '',
+      redirectToDashboard: false
     };
 
     this.runLocal = this.runLocal.bind(this);
     this.codeSubmit = this.codeSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    if (!this.props.opportunities.length) {
+      this.props.setOpps()
+    }
+
+      const {oppId} = this.props.location.state;
+      if (oppId) this.setState({oppId: oppId})
   }
 
   logout() {
@@ -97,11 +108,35 @@ class CodingChallenge extends Component {
   }
 
   codeSubmit(e) {
+    let CODE_CHALLENGE_ENDPOINT = '/api/v1/user/code-submit';
     e.preventDefault();
-      if (this.state.allPassed) {
-        // send to salesforce
-
-        return;
+      if (this.state.allPassed && this.state.submittedCode) {
+        let data = {
+          code: this.state.submittedCode,
+          oppId: this.state.oppId
+        }
+        fetch(CODE_CHALLENGE_ENDPOINT, {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            Authorization: `Bearer ${localStorage.token}`,
+            'content-type': 'application/json'
+          },
+        }).then(response => {
+          console.log(response);
+          if (response.ok) {
+            return response.json()
+          }
+          return response.json().then(error => {
+            throw new Error(error.message)
+          })
+        }).then(result => {
+          this.setState({ isLoading: false, redirectToDashboard:true});
+        }).catch(err => {
+            this.setState({
+              errorMessage: err.message
+            })
+        })
       } else {
         this.setState({
           errorMessage: 'There was an error submitting your code. Please try again.'
@@ -110,9 +145,8 @@ class CodingChallenge extends Component {
   }
 
   render() {
-
-    if (!this.props.opportunities) {
-      return (<Redirect to="/dashboard"/>)
+    if (this.state.redirectToDashboard) {
+      return (<Redirect to='/dashboard'/>)
     }
     return (
       <div className="coding-challenge">

@@ -14,13 +14,11 @@ class Dashboard extends Component {
     const campusInputs = inputs.getCampusInputs(CAMPUSES);
 
     this.state = {
-      user: {},
       programInputs: programInputs,
       campusInputs: campusInputs,
       program: '',
       campus: '',
       errorMessage: '',
-      opportunities: [],
       noOpportunities: false,
       isLoading: true
     };
@@ -29,6 +27,12 @@ class Dashboard extends Component {
     this.onCampusChange = this.onCampusChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 
+  }
+
+  componentDidMount() {
+    if (!this.props.opportunities.length) {
+      this.props.setOpps()
+    }
   }
 
   logout() {
@@ -110,7 +114,7 @@ handleSubmit(event) {
                   user={this.props.user}/>
                 :
                 <ProgramSelect
-                  isLoading={this.state.isLoading}
+                  isLoading={this.props.isLoading}
                   handleSubmit={this.handleSubmit}
                   programInputs={this.state.programInputs}
                   program={this.state.program}

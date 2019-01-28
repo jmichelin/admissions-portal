@@ -13,7 +13,7 @@ export default (props) => {
 
   let inputs  = steps.getProcessInputs(props.program);
   let list = inputs.map((input, i) => {
-    if (props.opp.StageName === input.stage) {
+    if (props.stage.index > input.stage) {
       return (
         <div className="step" key={i}>
           <span className="number -complete"><img src={checkMark}></img></span>

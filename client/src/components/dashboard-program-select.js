@@ -56,7 +56,7 @@ class ProgramSelect extends Component {
 
   return (
     <div>
-      { this.props.isLoading ? loadingWheel : programSelectForm}
+      { this.props.isLoading ? loadingWheel : programSelectForm }
     </div>
     )
   }

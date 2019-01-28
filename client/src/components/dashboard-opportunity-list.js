@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 
 import AdmissionsProcessList from './admissions-process-list';
-import NextStepBlock from './next-steps-coding-challenge';
+import NextStepBlock from './next-steps-block';
 
+import utils from '../helpers/utils';
+import moment from 'moment';
 
 class OpportunityList extends Component {
   constructor(props){
@@ -14,41 +16,24 @@ class OpportunityList extends Component {
 
 
   render() {
-    let course, nextSteps;
+    let nextSteps;
 
     let opptyList = this.props.opps.map((opp, i) => {
-      let campus = opp.Campus__c;
-      nextSteps = <AdmissionsProcessList program={opp.Course_Product__c} opp={opp}/>
-      if (opp.Course_Product__c === 'Web Development' && opp.Course_Type__c.includes('Immersive')) {
-        if (opp.Product_Code__c && opp.Product_Code__c.includes('-WD-')) {
-          if (opp.Product_Code__c && opp.Product_Code__c.includes('-WD-REM')) {
-            course = 'Software Engineering Remote Immersive';
-          }
-          if (opp.Product_Code__c && opp.Product_Code__c.includes('-WD-RPT')) {
-            course = 'Software Engineering Remote Part-Time Immersive';
-            campus = 'Remote';
-
-          } else {
-            course = 'Software Engineering Immersive';
-          }
-        }
-      } else if (opp.Product_Code__c && opp.Product_Code__c.includes('-DS-')  && opp.Course_Type__c.includes('Immersive')) {
-            course = 'Data Science Immersive';
-      } else {
-        return null;
-      }
+    let stage = opp.courseProduct === 'Web Development' ? utils.getSEIStage(opp) : utils.getDSIStage(opp);
+    let course = utils.getCourseName(opp).course;
+    let campus = utils.getCourseName(opp).campus;
       return (
         <div className="application-row" key={i}>
           <ul className="table-row -listing">
             <li>{course}</li>
             <li>{campus}</li>
-            <li>{opp.Course_Start_Date_Actual__c}</li>
-            <li>Awaiting Coding Challenge</li>
+            <li>{moment(opp.courseStart).format('MM/DD/YYYY')}</li>
+            <li>{stage.status}</li>
           </ul>
           <div className="table-row -steps">
-            {nextSteps}
+            <AdmissionsProcessList program={opp.courseProduct} stage={stage} opp={opp}/>
           </div>
-          <NextStepBlock opp={opp}/>
+          <NextStepBlock opp={opp} stage={stage}/>
         </div>
       )
     })

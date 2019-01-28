@@ -19,6 +19,10 @@ class Home extends Component {
     });
   }
 
+  componentWillMount() {
+    this.props.clearData()
+  }
+
   render() {
     return (
       <div className="home">
