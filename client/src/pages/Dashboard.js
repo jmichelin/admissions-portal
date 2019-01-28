@@ -28,17 +28,8 @@ class Dashboard extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    if (!this.props.opportunities.length) {
-      this.props.setOpps()
-    }
-  }
-
-  logout() {
-    localStorage.removeItem('token');
-    this.setState({
-      redirectToHome: true
-    })
+  componentWillMount() {
+    if (!this.props.fetchedData) this.props.getData();
   }
 
 onProgramChange(e, field) {

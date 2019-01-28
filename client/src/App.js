@@ -21,20 +21,23 @@ class App extends Component {
       fetchedData: false
     }
 
-    this.setOpps = this.setOpps.bind(this);
+    this.getData = this.getData.bind(this);
     this.clearData = this.clearData.bind(this);
   }
 
   clearData() {
-      this.setState({
-        opportunities: [],
-        user:{}
-      })
+    localStorage.removeItem('token');
+    this.setState({
+      opportunities: [],
+      user:{},
+      fetchedData: false
+    })
   }
 
-  setOpps() {
+
+  getData() {
     const API_URL = '/api/v1/user';
-    if (!this.state.opportunities.length && localStorage.token && !this.state.fetchedData) {
+    if (!this.state.opportunities.length && !this.state.fetchedData) {
         fetch(API_URL, {
           headers: {
             Authorization: `Bearer ${localStorage.token}`
@@ -42,7 +45,7 @@ class App extends Component {
         }).then(res => res.json())
           .then(result => {
             if (result.message === 'jwt expired') {
-              this.logout()
+              this.clearData()
             }
             else if (result.data && result.data.opportunities && result.data.user) {
               this.setState({
@@ -59,28 +62,25 @@ class App extends Component {
               })
             }
           }).catch(err => {
-            this.logout()
+            this.clearData()
           })
+    } else {
+      this.setState({
+        isLoading: false
+      })
     }
-  }
-
-  logout() {
-    localStorage.removeItem('token');
-    this.setState({
-      redirectToHome: true
-    })
   }
 
 render() {
       return (
       <div>
-        <Header/>
+        <Header clearData={this.clearData}/>
           <main>
           <Switch>
             <PublicRoute exact path='/' clearData={this.clearData} component={Home}/>
-            <PrivateRoute exact path='/dashboard' setOpps={this.setOpps} isLoading={this.state.isLoading} opportunities={this.state.opportunities} user={this.state.user} component={Dashboard}/>
-            <PrivateRoute exact path='/coding-challenge' setOpps={this.setOpps} isLoading={this.state.isLoading} opportunities={this.state.opportunities} user={this.state.user} component={CodingChallenge}/>
-            <PrivateRoute exact path='/book-interview' setOpps={this.setOpps} isLoading={this.state.isLoading} opportunities={this.state.opportunities} user={this.state.user} component={CodingChallenge}/>
+            <PrivateRoute exact path='/dashboard'{...this.state}  getData={this.getData} component={Dashboard}/>
+            <PrivateRoute exact path='/coding-challenge' {...this.state} getData={this.getData} component={CodingChallenge}/>
+            <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} component={CodingChallenge}/>
             <NoMatch/>
           </Switch>
           </main>
