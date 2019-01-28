@@ -1,3 +1,5 @@
+export const PORTAL_BASE_URL = 'https://admissions.galvanize.com';
+
 export const GALVANIZE_BASE_URL = 'https://www.galvanize.com';
 
 export const PROSPECT_RECORD_ID = '012j00000004QndAAE';

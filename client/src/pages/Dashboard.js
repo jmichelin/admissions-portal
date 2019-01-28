@@ -26,7 +26,6 @@ class Dashboard extends Component {
     this.onProgramChange = this.onProgramChange.bind(this);
     this.onCampusChange = this.onCampusChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
   }
 
   componentDidMount() {

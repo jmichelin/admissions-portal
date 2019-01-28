@@ -25,6 +25,14 @@ class CodingChallenge extends Component {
     this.codeSubmit = this.codeSubmit.bind(this);
   }
 
+  componentWillMount() {
+    if (this.props.stage !== 'coding challenge') {
+      this.setState({
+        redirectToDashboard: true
+      })
+    }
+  }
+
   componentDidMount() {
     if (!this.props.opportunities.length) {
       this.props.setOpps()

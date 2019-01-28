@@ -33,14 +33,17 @@ class App extends Component {
 
   setOpps() {
     const API_URL = '/api/v1/user';
-    if (!this.state.opportunities.length) {
+    if (!this.state.opportunities.length && localStorage.token) {
         fetch(API_URL, {
           headers: {
             Authorization: `Bearer ${localStorage.token}`
           },
         }).then(res => res.json())
           .then(result => {
-            if (result.data && result.data.opportunities && result.data.user) {
+            if (result.message === 'jwt expired') {
+              this.logout()
+            }
+            else if (result.data && result.data.opportunities && result.data.user) {
               this.setState({
                 opportunities: result.data.opportunities,
                 user:result.data.user,
@@ -48,13 +51,20 @@ class App extends Component {
               })
             } else {
               this.setState({
-                isLoading: false
+                isLoading: false,
               })
             }
           }).catch(err => {
-            console.log(err)
+            this.logout()
           })
     }
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.setState({
+      redirectToHome: true
+    })
   }
 
 render() {
@@ -66,6 +76,7 @@ render() {
             <PublicRoute exact path='/' clearData={this.clearData} component={Home}/>
             <PrivateRoute exact path='/dashboard' setOpps={this.setOpps} isLoading={this.state.isLoading} opportunities={this.state.opportunities} user={this.state.user} component={Dashboard}/>
             <PrivateRoute exact path='/coding-challenge' setOpps={this.setOpps} isLoading={this.state.isLoading} opportunities={this.state.opportunities} user={this.state.user} component={CodingChallenge}/>
+            <PrivateRoute exact path='/book-your-interview' setOpps={this.setOpps} isLoading={this.state.isLoading} opportunities={this.state.opportunities} user={this.state.user} component={CodingChallenge}/>
             <NoMatch/>
           </Switch>
           </main>
