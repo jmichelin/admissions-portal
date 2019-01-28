@@ -6,6 +6,7 @@ import Header from './components/header';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import CodingChallenge from './pages/CodingChallenge';
+import BookInterview from './pages/BookInterview';
 
 import utils from './helpers/utils';
 
@@ -80,7 +81,7 @@ render() {
             <PublicRoute exact path='/' clearData={this.clearData} component={Home}/>
             <PrivateRoute exact path='/dashboard'{...this.state}  getData={this.getData} component={Dashboard}/>
             <PrivateRoute exact path='/coding-challenge' {...this.state} getData={this.getData} component={CodingChallenge}/>
-            <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} component={CodingChallenge}/>
+            <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} component={BookInterview}/>
             <NoMatch/>
           </Switch>
           </main>

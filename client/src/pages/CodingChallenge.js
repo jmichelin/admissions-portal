@@ -139,7 +139,6 @@ class CodingChallenge extends Component {
     return (
       <div className="coding-challenge">
           <div className="container">
-            <div>
               <h4 className="page-title">Coding Challenge</h4>
               <Link to="/dashboard"><button className="-inline">Back to Dashboard</button></Link>
               <div className="portal-inner">
@@ -151,7 +150,6 @@ class CodingChallenge extends Component {
                     <CodeEditor codeTest={this.runLocal} codeSubmit={this.codeSubmit} errorMessage={this.state.errorMessage} allPassed={this.state.allPassed}/>
                   </div>
                 </div>
-              </div>
             </div>
           </div>
       </div>
