@@ -17,7 +17,8 @@ class App extends Component {
       opportunities: [],
       user: {},
       stage: '',
-      isLoading: true
+      isLoading: true,
+      fetchedData: false
     }
 
     this.setOpps = this.setOpps.bind(this);
@@ -33,7 +34,7 @@ class App extends Component {
 
   setOpps() {
     const API_URL = '/api/v1/user';
-    if (!this.state.opportunities.length && localStorage.token) {
+    if (!this.state.opportunities.length && localStorage.token && !this.state.fetchedData) {
         fetch(API_URL, {
           headers: {
             Authorization: `Bearer ${localStorage.token}`
@@ -47,11 +48,14 @@ class App extends Component {
               this.setState({
                 opportunities: result.data.opportunities,
                 user:result.data.user,
-                isLoading: false
+                isLoading: false,
+                fetchedData: true
               })
             } else {
+              // no opportunities and already fetched
               this.setState({
                 isLoading: false,
+                fetchedData: true
               })
             }
           }).catch(err => {
@@ -76,7 +80,7 @@ render() {
             <PublicRoute exact path='/' clearData={this.clearData} component={Home}/>
             <PrivateRoute exact path='/dashboard' setOpps={this.setOpps} isLoading={this.state.isLoading} opportunities={this.state.opportunities} user={this.state.user} component={Dashboard}/>
             <PrivateRoute exact path='/coding-challenge' setOpps={this.setOpps} isLoading={this.state.isLoading} opportunities={this.state.opportunities} user={this.state.user} component={CodingChallenge}/>
-            <PrivateRoute exact path='/book-your-interview' setOpps={this.setOpps} isLoading={this.state.isLoading} opportunities={this.state.opportunities} user={this.state.user} component={CodingChallenge}/>
+            <PrivateRoute exact path='/book-interview' setOpps={this.setOpps} isLoading={this.state.isLoading} opportunities={this.state.opportunities} user={this.state.user} component={CodingChallenge}/>
             <NoMatch/>
           </Switch>
           </main>

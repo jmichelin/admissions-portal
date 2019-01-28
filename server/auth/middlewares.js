@@ -8,6 +8,7 @@ function checkTokenSetUser(req, res, next) {
       jwt.verify(token, process.env.TOKEN_SECRET, (error, user) => {
         if (error) {
           res.status(401);
+          localStorage.removeItem('token');
           next(error);
         }
         req.user = user;

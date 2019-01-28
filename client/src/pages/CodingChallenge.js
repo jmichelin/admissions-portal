@@ -24,22 +24,14 @@ class CodingChallenge extends Component {
     this.runLocal = this.runLocal.bind(this);
     this.codeSubmit = this.codeSubmit.bind(this);
   }
-
-  componentWillMount() {
-    if (this.props.stage !== 'coding challenge') {
+  componentDidMount() {
+    if (this.props.stage !== 'Awaiting Coding Challenge') {
       this.setState({
         redirectToDashboard: true
       })
-    }
-  }
-
-  componentDidMount() {
-    if (!this.props.opportunities.length) {
+    } else if(!this.props.opportunities.length) {
       this.props.setOpps()
     }
-
-      const {oppId} = this.props.location.state;
-      if (oppId) this.setState({oppId: oppId})
   }
 
   logout() {
