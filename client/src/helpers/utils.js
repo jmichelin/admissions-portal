@@ -26,15 +26,18 @@
     if (!opp.scorecard.finalCode && !opp.scorecard.moveForwardCode) {
       //person needs to do coding challenge
       return {index: 1, status: 'Awaiting Coding Challenge'};
-    } else if (opp.scorecard.finalCode && opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview !== 'No' && opp.scorecard.moveForwardInterview !== 'Yes') {
+    } else if (opp.scorecard.finalCode && opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview !== 'No' && opp.scorecard.moveForwardInterview !== 'Yes' && opp.stage !== 'Interview 1 Scheduled') {
       //passed coding challenge but person needs to book the interview
       return {index: 2, status: 'Schedule Your Interview'};
     } else if (opp.scorecard.finalCode && opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview === 'No') {
       //passed coding challenge and booked interview but failed
-      return {index: 2, status: 'On Hold'};
+      return {index: 3, status: 'On Hold'};
+    } else if (opp.scorecard.finalCode && opp.scorecard.moveForwardCode === 'Yes' && opp.stage === 'Interview 1 Scheduled') {
+      //passed coding challenge and booked interview but failed
+      return {index: 3, status: 'Interview Scheduled'};
     } else if (opp.scorecard.finalCode && opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview === 'Yes') {
       //passed coding challenge and booked interview and passed
-      return {index: 3, status: 'Interview Passed'};
+      return {index: 4, status: 'Interview Passed'};
     } else {
       // catch all case - talk to your EO for next steps
       return {index: 1, status: 'Contact Your EO'};
