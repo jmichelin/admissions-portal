@@ -25,7 +25,7 @@ class CodingChallenge extends Component {
     this.codeSubmit = this.codeSubmit.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (!this.props.fetchedData) this.props.getData();
   }
 

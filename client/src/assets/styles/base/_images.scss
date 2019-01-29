@@ -97,6 +97,22 @@
   margin-bottom: -1px;
 }
 
+svg, .svg {
+  fill: currentColor;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-24px {
+  width: 24px;
+  height: 24px;
+}
+
+.svg-40px {
+  width: 40px;
+  height: 40px;
+}
+
 
 @media (min-width: 888px) {
   .course-image-lg {

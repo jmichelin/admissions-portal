@@ -31,7 +31,8 @@ class App extends Component {
     this.setState({
       opportunities: [],
       user:{},
-      fetchedData: false
+      fetchedData: false,
+      isLoading: true
     })
   }
 

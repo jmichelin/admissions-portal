@@ -48,6 +48,16 @@
     background-image: url('https://s3-us-west-2.amazonaws.com/galvanize.com-dev/loader-black.svg');
     background-size: auto 70%;
   }
+
+  &.loading-wheel {
+    background: url('https://s3-us-west-2.amazonaws.com/dotcom-files/loader-orange.svg');
+    background-size: auto 70%;
+    overflow: visible;
+    background-color: transparent;
+    width: 40px;
+    height: 40px;
+  }
+
 }
 
 .button-primary {

@@ -11,7 +11,7 @@ class BookInterview extends Component {
 
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (!this.props.fetchedData) this.props.getData();
   }
 
