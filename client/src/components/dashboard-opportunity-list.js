@@ -19,7 +19,6 @@ class OpportunityList extends Component {
     let nextSteps;
 
     let opptyList = this.props.opps.map((opp, i) => {
-    let stage = opp.courseProduct === 'Web Development' ? utils.getSEIStage(opp) : utils.getDSIStage(opp);
     let course = utils.getCourseName(opp).course;
     let campus = utils.getCourseName(opp).campus;
       return (
@@ -28,12 +27,12 @@ class OpportunityList extends Component {
             <li>{course}</li>
             <li>{campus}</li>
             <li>{moment(opp.courseStart).format('MM/DD/YYYY')}</li>
-            <li>{stage.status}</li>
+            <li>{opp.currentStep.status}</li>
           </ul>
           <div className="table-row -steps">
-            <AdmissionsProcessList program={opp.courseProduct} stage={stage} opp={opp}/>
+            <AdmissionsProcessList program={opp.courseProduct} currentStep={opp.currentStep} opp={opp}/>
           </div>
-          <NextStepBlock opp={opp} stage={stage}/>
+          <NextStepBlock opp={opp} currentStep={opp.currentStep}/>
         </div>
       )
     })
@@ -45,7 +44,7 @@ class OpportunityList extends Component {
             <li>Your Active Applications</li>
             <li>Campus</li>
             <li>Start Date</li>
-            <li>Status</li>
+            <li>Next Step</li>
           </ul>
         </div>
         <div className="table-body">

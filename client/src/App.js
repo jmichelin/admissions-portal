@@ -17,7 +17,6 @@ class App extends Component {
     this.state = {
       opportunities: [],
       user: {},
-      stage: '',
       isLoading: true,
       fetchedData: false
     }
@@ -50,11 +49,16 @@ class App extends Component {
               this.clearData()
             }
             else if (result.data && result.data.opportunities && result.data.user) {
+              let opps = result.data.opportunities.map(opp => {
+                let currentStep = opp.courseProduct === 'Web Development' ? utils.getSEIStage(opp) : utils.getDSIStage(opp);
+                opp.currentStep = currentStep;
+                return opp;
+              })
               this.setState({
-                opportunities: result.data.opportunities,
+                opportunities: opps,
                 user:result.data.user,
                 isLoading: false,
-                fetchedData: true
+                fetchedData: true,
               })
             } else {
               // no opportunities and already fetched

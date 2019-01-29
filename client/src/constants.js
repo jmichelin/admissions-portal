@@ -161,5 +161,45 @@ it("myInfo.github is defined as a string or null", function() {
 });
 });`;
 
+export const SEI_STEPS = {
+  STEP_ONE: {
+    step: 1,
+    status: 'Complete Your Application',
+    nextStep: 'Pass the Coding Challenge'
+  },
+  STEP_TWO: {
+    step: 2,
+    status: 'Pass the Coding Challenge',
+    nextStep: 'Book the Technical Interview'
+  },
+  STEP_THREE: {
+    step: 3,
+    status: 'Book the Technical Interview',
+    nextStep: 'Prepare for the Technical Interview'
+  },
+  STEP_FOUR: {
+    step: 4,
+    status: 'Pass the Technical Interview',
+    nextStep: 'Final Decision'
+  },
+  COMPLETE: {
+    step: 4,
+    status: 'Final Decision',
+    nextStep: 'Finish Enrollment Process'
+  },
+  HOLD: {
+    step: 5,
+    status: 'On Hold',
+    nextStep: 'On Hold'
+  }
+};
 
-const OPP_STAGES = ['New', 'Sent Takehome', 'Returned Takehome', 'Offer Out'];
+
+export const APPLICATION_STEPS_SEI = [
+  SEI_STEPS.STEP_ONE,
+  SEI_STEPS.STEP_TWO,
+  SEI_STEPS.STEP_THREE,
+  SEI_STEPS.STEP_FOUR,
+  SEI_STEPS.COMPLETE,
+  SEI_STEPS.HOLD
+];
