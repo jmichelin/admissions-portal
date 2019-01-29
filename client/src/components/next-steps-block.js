@@ -22,7 +22,7 @@ function getSEINextSteps() {
     return <NextStepsInterviewScheduled {...props}/>
       break;
     case 'Interview Passed':
-    return <NextStepsCodingChallenge {...props}/>
+    return <NextStepsPassedInterview {...props}/>
       break;
     case 'On Hold':
     return <NextStepsHold {...props}/>
