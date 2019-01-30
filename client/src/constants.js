@@ -18,6 +18,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: false,
     sfdcName: 'Austin-2nd St District',
+    ycbmLink: '',
     location: '2nd Street District'
   },
   { name: 'boulder',
@@ -29,6 +30,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Boulder-Walnut St.',
+    ycbmLink: '',
     location: 'Walnut'
   },
   { name: 'denver-platte',
@@ -40,6 +42,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Denver-Platte',
+    ycbmLink: '',
     location: 'Platte'
   },
   { name: 'new-york',
@@ -51,6 +54,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: false,
     sfdcName: 'NYC-SoHo',
+    ycbmLink: '',
     location: 'West SoHo'
   },
   { name: 'phoenix',
@@ -62,6 +66,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Phoenix-Warehouse District',
+    ycbmLink: '',
     location: 'Warehouse District'
   },
   { name: 'los-angeles',
@@ -73,6 +78,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Los Angeles',
+    ycbmLink: '',
     location: 'Los Angeles'
   },
   { name: 'san-francisco',
@@ -84,6 +90,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: false,
     sfdcName: 'San Francisco-SoMa',
+    ycbmLink: '',
     location: 'SoMa'
   },
   { name: 'seattle',
@@ -95,6 +102,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Seattle-Pioneer Square',
+    ycbmLink: '',
     location: 'Pioneer Square'
   },
   { name: 'remote',
@@ -106,6 +114,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Remote',
+    ycbmLink: '',
     location: 'Remote'
   }
 ];

@@ -11,7 +11,7 @@ export default (props) => {
       </div>
       <Link to={{
             pathname: "/coding-challenge",
-            state: { oppId: props.oppId} }}>
+            state: { opp: props.opp} }}>
             <button className="button-primary">Start the Challenge</button></Link>
       </div>
   )

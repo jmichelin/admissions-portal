@@ -2,13 +2,13 @@ import React from 'react';
 
 import checkMark from '../assets/images/icon-checkmark-orange.png';
 
-import { APPLICATION_STEPS_SEI } from '../constants';
+import { SEI_STEPS, APPLICATION_STEPS_SEI } from '../constants';
 
 
 export default (props) => {
 
   let list = APPLICATION_STEPS_SEI.map((step, i) => {
-    if (step.status === "On Hold" || step.status === "Final Decision") return null;
+    if (step.status === SEI_STEPS.HOLD.status || step.status === SEI_STEPS.COMPLETE.status) return null;
     if (props.currentStep.step > step.step) {
       return (
         <div className="step" key={i}>

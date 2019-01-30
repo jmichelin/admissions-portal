@@ -3,7 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 
 import * as buble from 'buble'
 
- import { CODING_CHALLENGE_TESTS } from '../constants';
+ import { CODING_CHALLENGE_TESTS, SEI_STEPS } from '../constants';
 import CodingInstructions from '../components/CodingInstructions';
 import CodeEditor from '../components/CodeEditor';
 
@@ -12,7 +12,7 @@ class CodingChallenge extends Component {
     super(props);
 
     this.state = {
-      oppId:'',
+      opp: {},
       code: '',
       localTestResults: [],
       showProcessing: false,
@@ -26,7 +26,15 @@ class CodingChallenge extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.fetchedData) this.props.getData();
+    if (this.props.location.state && this.props.location.state.opp) {
+      const {opp} = this.props.location.state;
+      if (opp.currentStep !== SEI_STEPS.STEP_TWO) {
+        this.setState({ redirectToDashboard: true })
+      }
+      this.setState({opp: opp})
+    } else {
+      this.setState({ redirectToDashboard: true })
+    }
   }
 
   prettyErrorMessage(err) {
@@ -101,7 +109,7 @@ class CodingChallenge extends Component {
       if (this.state.allPassed && this.state.submittedCode) {
         let data = {
           code: this.state.submittedCode,
-          oppId: this.state.oppId
+          oppId: this.state.opp.id
         }
         fetch(CODE_CHALLENGE_ENDPOINT, {
           method: 'POST',
@@ -111,7 +119,6 @@ class CodingChallenge extends Component {
             'content-type': 'application/json'
           },
         }).then(response => {
-          console.log(response);
           if (response.ok) {
             return response.json()
           }
@@ -119,6 +126,7 @@ class CodingChallenge extends Component {
             throw new Error(error.message)
           })
         }).then(result => {
+          this.props.getData(true)
           this.setState({ isLoading: false, redirectToDashboard:true});
         }).catch(err => {
             this.setState({

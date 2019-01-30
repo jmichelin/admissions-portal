@@ -29,7 +29,7 @@ class Dashboard extends Component {
   }
 
   componentWillMount() {
-    if (!this.props.fetchedData) this.props.getData();
+    if (!this.props.fetchedData) this.props.getData(true);
   }
 
 onProgramChange(e, field) {

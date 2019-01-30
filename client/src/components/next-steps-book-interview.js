@@ -11,7 +11,7 @@ export default (props) => {
       </div>
       <Link to={{
             pathname: "/book-interview",
-            state: { oppId: props.oppId} }}>
+            state: { opp: props.opp} }}>
             <button className="button-primary">Schedule Your Interview</button></Link>
       </div>
   )

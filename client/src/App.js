@@ -36,9 +36,10 @@ class App extends Component {
   }
 
 
-  getData() {
+  getData(refresh) {
+    if (refresh)this.setState({isLoading: true})
     const API_URL = '/api/v1/user';
-    if (!this.state.opportunities.length && !this.state.fetchedData && localStorage.token) {
+    if (!this.state.fetchedData && localStorage.token || refresh) {
         fetch(API_URL, {
           headers: {
             Authorization: `Bearer ${localStorage.token}`
