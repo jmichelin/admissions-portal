@@ -30,12 +30,12 @@ function getSEINextSteps() {
     return <NextStepsHold {...props}/>
       break;
     default:
-    return null;
+    return <NextStepsHold {...props}/>
     }
   }
 
   function getDSINextSteps() {
-    switch(props.stage.status) {
+    switch(props.currentStep.status) {
       case 'Awaiting Coding Challenge':
       return <NextStepsCodingChallenge {...props}/>
         break;
@@ -52,7 +52,7 @@ function getSEINextSteps() {
         return <NextStepsHold {...props}/>
           break;
       default:
-      return null;
+      return <NextStepsHold {...props}/>
       }
     }
 

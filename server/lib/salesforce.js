@@ -374,6 +374,7 @@ class Salesforce {
       this.connection.sobject("Opportunity")
     .select('Id, StageName, Name, Course_Product__c, Course_Type__c, CreatedDate, Campus__c, Course_Start_Date_Actual__c, Product_Code__c, Scorecard__c')
     .where({AccountId: id})
+    .orderby("CreatedDate", "DESC")
       .execute((err, res) => {
         if (err) { reject(err); }
         resolve(_reformatOppty(res));
