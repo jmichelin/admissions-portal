@@ -18,20 +18,14 @@ class BookInterview extends Component {
   }
 
   hideSpinner(iframe) {
-    console.log(iframe);
     this.setState({
       isLoading: false
     });
-
-
   };
 
   componentDidMount() {
     if (!this.props.fetchedData) this.props.getData(true);
   }
-
-
-
 
   render() {
 
