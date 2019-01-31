@@ -1,6 +1,77 @@
 .book-interview {
+  & {
+    padding: $space-triple;
+    background: $color-gray-1;
+  }
 
   iframe {
     width: 100%;
+  }
+
+  .two-col {
+    display: flex;
+    flex-direction: row;
+
+    .column-headline {
+      font-weight: 500;
+    }
+  }
+
+  .campus-group {
+    flex: 2;
+    margin: $space-double $space;
+
+    h4 {
+      text-align: center;
+    }
+    .card-holder {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .campus-card {
+      text-align: center;
+      padding: $pad;
+      margin: $space-half;
+      background: $color-gray-2;
+      border: 1px solid $color-gray-4;
+
+      h4 {
+        text-transform: none;
+        text-align: center;
+      }
+    }
+  }
+
+  .sidebar {
+    flex: 0;
+    padding: $pad-double $pad-double ;
+    background: $color-gray-2;
+
+    span {
+      font-weight: 500;
+    }
+
+    ul {
+      padding-left: 22px;
+
+      li {
+        margin-bottom: $space;
+      }
+    }
+
+    .card-help {
+      background: $color-gray-1;
+      padding: $pad;
+      text-align: center;
+      margin-top: $space-triple;
+      border: 1px solid $color-gray-4;
+
+      h5 {
+        margin-bottom: 0;
+        margin-top: $space-and-half;
+      }
+    }
   }
 }

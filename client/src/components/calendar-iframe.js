@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 
-class CalendarNYC extends Component {
+class CalendarIframe extends Component {
   constructor(props){
     super(props);
     this.iframe = React.createRef();
@@ -20,16 +20,16 @@ class CalendarNYC extends Component {
  }
 
  handleFrameTasks = (e) => {
-   document.getElementById("ycbmiframenyc-interviews").style.height = `${e.data + 'px'}`
+   document.getElementById("ycbmiframenyc-interviews").style.height = `${e.data}px`
     }
 
   render() {
       return (
         <div>
-          <iframe ref={(f) => this.iframe = f} src="https://remote-interviews.youcanbook.me/?noframe=true&skipHeaderFooter=true" onLoad={() => this.props.hideSpinner(this.iframe)} id="ycbmiframenyc-interviews" frameBorder="0" allowtransparency="true"></iframe>
+          <iframe ref={(f) => this.iframe = f} src={`${this.props.calendarUrl}/?noframe=true&skipHeaderFooter=true`} onLoad={() => this.props.hideSpinner(this.iframe)} id="ycbmiframenyc-interviews" frameBorder="0" allowtransparency="true"></iframe>
         </div>
         )
   }
 }
 
-export default CalendarNYC;
+export default CalendarIframe;

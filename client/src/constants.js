@@ -18,7 +18,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: false,
     sfdcName: 'Austin-2nd St District',
-    ycbmLink: '',
+    ycbmLink: 'https://atx-interviews.youcanbook.me',
     location: '2nd Street District'
   },
   { name: 'boulder',
@@ -30,7 +30,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Boulder-Walnut St.',
-    ycbmLink: '',
+    ycbmLink: 'https://agn-interviews.youcanbook.me',
     location: 'Walnut'
   },
   { name: 'denver-platte',
@@ -42,7 +42,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Denver-Platte',
-    ycbmLink: '',
+    ycbmLink: 'https://agn-interviews.youcanbook.me',
     location: 'Platte'
   },
   { name: 'new-york',
@@ -54,7 +54,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: false,
     sfdcName: 'NYC-SoHo',
-    ycbmLink: '',
+    ycbmLink: 'https://nyc-interviews.youcanbook.me',
     location: 'West SoHo'
   },
   { name: 'phoenix',
@@ -66,7 +66,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Phoenix-Warehouse District',
-    ycbmLink: '',
+    ycbmLink: 'https://agn-interviews.youcanbook.me',
     location: 'Warehouse District'
   },
   { name: 'los-angeles',
@@ -78,7 +78,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Los Angeles',
-    ycbmLink: '',
+    ycbmLink: 'https://la-interviews.youcanbook.me',
     location: 'Los Angeles'
   },
   { name: 'san-francisco',
@@ -90,7 +90,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: false,
     sfdcName: 'San Francisco-SoMa',
-    ycbmLink: '',
+    ycbmLink: 'https://sf-interviews.youcanbook.me',
     location: 'SoMa'
   },
   { name: 'seattle',
@@ -102,7 +102,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Seattle-Pioneer Square',
-    ycbmLink: '',
+    ycbmLink: 'https://agn-interviews.youcanbook.me',
     location: 'Pioneer Square'
   },
   { name: 'remote',
@@ -114,7 +114,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Remote',
-    ycbmLink: '',
+    ycbmLink: 'https://remote-interviews.youcanbook.me/',
     location: 'Remote'
   }
 ];
