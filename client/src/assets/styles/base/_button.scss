@@ -133,7 +133,7 @@
     border: 2px solid $bg-color;
   }
   &:hover {
-    color: $bg-color;
+    color: $color-white;
     background-color: color($fg-color shade(10));
     border: 2px solid color($fg-color shade(10));
     transition: none;

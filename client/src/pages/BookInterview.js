@@ -27,12 +27,25 @@ class BookInterview extends Component {
   }
 
   hideSpinner(iframe) {
+
+    iframe.contentWindow.postMessage('hello', "*");
+    window.addEventListener("message", this.handleFrameTasks);
+
     console.log('hey!!!');
     this.setState({
       isLoading: false,
       hideSpinner: true
     });
   };
+
+  handleFrameTasks = (e) => {
+      document.getElementById(this.state.campus.ycbmId).style.height = `${e.data}px`
+      if (!isNaN(e.data)) {
+        this.setState({
+          height:e.data
+        })
+      }
+     }
 
   componentDidMount() {
     if (!this.props.fetchedData) this.props.getData(true);
@@ -80,6 +93,7 @@ class BookInterview extends Component {
                       calendarUrl={this.state.campus.ycbmLink}
                       calendarId={this.state.campus.ycbmId}
                       hideSpinner={this.hideSpinner}
+                      handleFrameTasks={this.handleFrameTasks}
                       hideIframe={this.hideIframe}/> : null }
                 </div>
                 { !this.state.showIframe ? <InterviewSidebar/> : null }
