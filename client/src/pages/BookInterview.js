@@ -16,17 +16,21 @@ class BookInterview extends Component {
 
     this.state = {
       isLoading: false,
-      showIframe: false
+      showIframe: false,
+      hideSpinner: false,
+      campus: {}
     };
 
     this.hideSpinner = this.hideSpinner.bind(this);
     this.loadBookingTool = this.loadBookingTool.bind(this);
-
+    this.hideIframe = this.hideIframe.bind(this);
   }
 
   hideSpinner(iframe) {
+    console.log('hey!!!');
     this.setState({
-      isLoading: false
+      isLoading: false,
+      hideSpinner: true
     });
   };
 
@@ -34,20 +38,29 @@ class BookInterview extends Component {
     if (!this.props.fetchedData) this.props.getData(true);
   }
 
-  loadBookingTool(link) {
-    console.log('hey');
+  loadBookingTool(campus) {
     this.setState({
-      calendarLink: link,
-      showIframe: true
+      campus: campus,
+      showIframe: true,
+      isLoading: true
+    })
+  }
+
+  hideIframe() {
+    this.setState({
+      showIframe: false,
+      isLoading: false
     })
   }
 
   render() {
-
     let loadingBlock =
-      <div className="campus-group -loading"><h4 className="column-headline">Loading the booking tool...</h4>
-        <div><LoadingWheel/></div>
+      <div><h4 className="column-headline">Loading the booking tool...</h4>
+        <div className="column-headline"><LoadingWheel/></div>
       </div>
+
+      let breadcrumb = <button className="-inline" onClick={this.hideIframe}>Select a Different Calendar</button>
+
       return (
       <div className="book-interview">
         <div className="container">
@@ -58,8 +71,18 @@ class BookInterview extends Component {
                 <p className="section-row">All campuses share the same interview format and assessment rubric so you can interview at the location that's most convenient for you, regardless of your preferred campus.</p>
               </div>
               <div className="two-col">
-                { !this.state.showIframe ? <CampusList loadBookingTool={this.loadBookingTool}/> : loadingBlock }
-                <InterviewSidebar/>
+                <div className="campus-group">
+                  { !this.state.showIframe ? <CampusList loadBookingTool={this.loadBookingTool}/> : null }
+                  { !this.state.isLoading && this.state.showIframe ? breadcrumb : null }
+                  { this.state.isLoading ? loadingBlock : null }
+                  { this.state.showIframe ?
+                    <CalendarIframe
+                      calendarUrl={this.state.campus.ycbmLink}
+                      calendarId={this.state.campus.ycbmId}
+                      hideSpinner={this.hideSpinner}
+                      hideIframe={this.hideIframe}/> : null }
+                </div>
+                { !this.state.showIframe ? <InterviewSidebar/> : null }
             </div>
           </div>
         </div>
@@ -67,8 +90,5 @@ class BookInterview extends Component {
     );
   }
 }
-
-// { this.state.isLoading ? loadingBlock : null }
-// <CalendarIframe calendarUrl={this.state.campus.ycbmLink} hideSpinner={this.hideSpinner}/>
 
 export default BookInterview;

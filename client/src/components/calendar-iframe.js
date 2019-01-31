@@ -19,14 +19,18 @@ class CalendarIframe extends Component {
    }
  }
 
+ componentWillUnmount() {
+    window.removeEventListener("message", this.handleFrameTasks);
+ }
+
  handleFrameTasks = (e) => {
-   document.getElementById("ycbmiframenyc-interviews").style.height = `${e.data}px`
+     document.getElementById(this.props.calendarId).style.height = `${e.data}px`
     }
 
   render() {
       return (
         <div>
-          <iframe ref={(f) => this.iframe = f} src={`${this.props.calendarUrl}/?noframe=true&skipHeaderFooter=true`} onLoad={() => this.props.hideSpinner(this.iframe)} id="ycbmiframenyc-interviews" frameBorder="0" allowtransparency="true"></iframe>
+          <iframe ref={(f) => this.iframe = f} src={`${this.props.calendarUrl}/?noframe=true&skipHeaderFooter=true`} onLoad={() => this.props.hideSpinner(this.iframe)} id={this.props.calendarId} frameBorder="0" allowtransparency="true"></iframe>
         </div>
         )
   }

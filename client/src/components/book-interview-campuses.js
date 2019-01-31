@@ -9,13 +9,13 @@ export default (props) => {
     return (
       <div className="campus-card" key={i}>
         <h4>{campus.city}</h4>
-        <button className="button-tertiary" onClick={() => {props.loadBookingTool(campus.ycbmLink)}}>Book Interview</button>
+        <button className="button-tertiary" onClick={() => {props.loadBookingTool(campus)}}>Book Interview</button>
       </div>
     )
   })
 
   return (
-    <div className="campus-group">
+    <div>
     <h4 className="column-headline">Select an Interview Location</h4>
     <div className="card-holder">
       {campusCards}
