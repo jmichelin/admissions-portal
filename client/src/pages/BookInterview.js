@@ -15,11 +15,12 @@ class BookInterview extends Component {
     super(props);
 
     this.state = {
-      isLoading: true,
-      campus: CAMPUSES[0]
+      isLoading: false,
+      showIframe: false
     };
 
     this.hideSpinner = this.hideSpinner.bind(this);
+    this.loadBookingTool = this.loadBookingTool.bind(this);
 
   }
 
@@ -33,10 +34,20 @@ class BookInterview extends Component {
     if (!this.props.fetchedData) this.props.getData(true);
   }
 
+  loadBookingTool(link) {
+    console.log('hey');
+    this.setState({
+      calendarLink: link,
+      showIframe: true
+    })
+  }
+
   render() {
 
-    let loadingBlock = <div><p className="section-row">Loading the booking tool...</p>
-          <LoadingWheel/></div>
+    let loadingBlock =
+      <div className="campus-group -loading"><h4 className="column-headline">Loading the booking tool...</h4>
+        <div><LoadingWheel/></div>
+      </div>
       return (
       <div className="book-interview">
         <div className="container">
@@ -47,7 +58,7 @@ class BookInterview extends Component {
                 <p className="section-row">All campuses share the same interview format and assessment rubric so you can interview at the location that's most convenient for you, regardless of your preferred campus.</p>
               </div>
               <div className="two-col">
-                <CampusList/>
+                { !this.state.showIframe ? <CampusList loadBookingTool={this.loadBookingTool}/> : loadingBlock }
                 <InterviewSidebar/>
             </div>
           </div>
