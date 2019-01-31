@@ -27,11 +27,8 @@ class BookInterview extends Component {
   }
 
   hideSpinner(iframe) {
-
     iframe.contentWindow.postMessage('hello', "*");
     window.addEventListener("message", this.handleFrameTasks);
-
-    console.log('hey!!!');
     this.setState({
       isLoading: false,
       hideSpinner: true
