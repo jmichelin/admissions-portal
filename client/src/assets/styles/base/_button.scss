@@ -47,6 +47,8 @@
     color: transparent;
     background-image: url('https://s3-us-west-2.amazonaws.com/galvanize.com-dev/loader-black.svg');
     background-size: auto 70%;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   &.loading-wheel {

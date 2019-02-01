@@ -25,7 +25,7 @@
     if (!opp.scorecard) {
       return SEI_STEPS.HOLD;
     }
-    if (!opp.scorecard.finalCode && !opp.scorecard.moveForwardCode) {
+    if (!opp.scorecard.finalCode && !opp.scorecard.moveForwardCode !== 'Yes') {
       //person needs to do coding challenge
       return SEI_STEPS.STEP_TWO;
     } else if (opp.scorecard.finalCode && opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview !== 'No' && opp.scorecard.moveForwardInterview !== 'Yes' && opp.stage !== 'Interview 1 Scheduled') {

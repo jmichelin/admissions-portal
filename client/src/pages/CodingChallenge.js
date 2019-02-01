@@ -25,7 +25,7 @@ class CodingChallenge extends Component {
     this.codeSubmit = this.codeSubmit.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     if (this.props.location.state && this.props.location.state.opp) {
       const {opp} = this.props.location.state;
       if (opp.currentStep !== SEI_STEPS.STEP_TWO) {
@@ -107,6 +107,9 @@ class CodingChallenge extends Component {
     let CODE_CHALLENGE_ENDPOINT = '/api/v1/user/code-submit';
     e.preventDefault();
       if (this.state.allPassed && this.state.submittedCode) {
+        this.setState({
+          showProcessing: true
+        })
         let data = {
           code: this.state.submittedCode,
           oppId: this.state.opp.id
@@ -155,7 +158,7 @@ class CodingChallenge extends Component {
                   <CodingInstructions tests={this.state.localTestResults}/>
                   <div className="code-editor col">
                     <h4 className="column-header">Code Editor</h4>
-                    <CodeEditor codeTest={this.runLocal} codeSubmit={this.codeSubmit} errorMessage={this.state.errorMessage} allPassed={this.state.allPassed}/>
+                    <CodeEditor codeTest={this.runLocal} codeSubmit={this.codeSubmit} errorMessage={this.state.errorMessage} allPassed={this.state.allPassed} showProcessing={this.state.showProcessing}/>
                   </div>
                 </div>
             </div>

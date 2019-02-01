@@ -7,7 +7,7 @@ import LoadingWheel from '../components/base/loader-orange';
 import CampusList from '../components/book-interview-campuses';
 import InterviewSidebar from '../components/book-interview-sidebar';
 
-import { CAMPUSES } from '../constants';
+import { CAMPUSES, SEI_STEPS } from '../constants';
 
 
 class BookInterview extends Component {
@@ -18,12 +18,25 @@ class BookInterview extends Component {
       isLoading: false,
       showIframe: false,
       hideSpinner: false,
-      campus: {}
+      campus: {},
+      redirectToDashboard: false
     };
 
     this.hideSpinner = this.hideSpinner.bind(this);
     this.loadBookingTool = this.loadBookingTool.bind(this);
     this.hideIframe = this.hideIframe.bind(this);
+  }
+
+  componentWillMount() {
+    if (this.props.location.state && this.props.location.state.opp) {
+      const {opp} = this.props.location.state;
+      if (opp.currentStep !== SEI_STEPS.STEP_THREE) {
+        this.setState({ redirectToDashboard: true })
+      }
+      this.setState({opp: opp})
+    } else {
+      this.setState({ redirectToDashboard: true })
+    }
   }
 
   hideSpinner(iframe) {
@@ -64,13 +77,16 @@ class BookInterview extends Component {
   }
 
   render() {
-    let loadingBlock =
+        let loadingBlock =
       <div><h4 className="column-headline">Loading the booking tool...</h4>
         <div className="column-headline"><LoadingWheel/></div>
       </div>
 
       let breadcrumb = <button className="-inline" onClick={this.hideIframe}>Select a Different Calendar</button>
 
+    if (this.state.redirectToDashboard) {
+      return (<Redirect to='/dashboard'/>)
+    }
       return (
       <div className="book-interview">
         <div className="container">

@@ -23,8 +23,8 @@ class CodeEditor extends Component {
       styleActiveLine: true
     }
 
-    let runCodeButton = <button className="button-primary" onClick={ (e) => this.props.codeTest(this.state.code, e) }>Run Code</button>
-    let submitCodeButton = <button className="button-primary" onClick={ (e) => this.props.codeSubmit(e) }>Submit Code</button>
+    let runCodeButton = <button className={this.props.showProcessing ? "button-primary -loading" : "button-primary"} onClick={ (e) => this.props.codeTest(this.state.code, e) }>Run Code</button>
+    let submitCodeButton = <button className={this.props.showProcessing ? "button-primary -loading" : "button-primary"} onClick={ (e) => this.props.codeSubmit(e) }>Submit Code</button>
 
   return (
     <div className="editor-wrapper">

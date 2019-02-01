@@ -26,7 +26,7 @@ function getSEINextSteps() {
     case SEI_STEPS.COMPLETE.status:
     return <NextStepsPassedInterview {...props}/>
       break;
-    case SEI_STEPS.STEP_HOLD.status:
+    case SEI_STEPS.HOLD.status:
     return <NextStepsHold {...props}/>
       break;
     default:
