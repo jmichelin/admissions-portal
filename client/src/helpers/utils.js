@@ -5,10 +5,10 @@
     if (opp.courseProduct === 'Web Development' && opp.courseType.includes('Immersive')) {
       if (opp.productCode && opp.productCode.includes('-WD-')) {
         if (opp.productCode && opp.productCode.includes('-WD-REM')) {
-          return {course: 'Software Engineering Remote Immersive', campus : 'Remote'};
+          return {course: 'Remote Software Engineering Immersive', campus : 'Remote'};
         }
         if (opp.productCode && opp.productCode.includes('-WD-RPT')) {
-            return {course: 'Software Engineering Remote Part-Time Immersive', campus : "Remote"};
+            return {course: 'Remote Part-Time Software Engineering Immersive', campus : "Remote"};
         } else {
           return {course: 'Software Engineering Immersive', campus : campus};
 
