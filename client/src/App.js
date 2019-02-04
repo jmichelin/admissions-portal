@@ -23,6 +23,7 @@ class App extends Component {
 
     this.getData = this.getData.bind(this);
     this.clearData = this.clearData.bind(this);
+    this.statusUpdate = this.statusUpdate.bind(this);
   }
 
   clearData() {
@@ -78,6 +79,19 @@ class App extends Component {
     }
   }
 
+  statusUpdate(id, status) {
+    // get id of opp update and status to update with
+   let newOpps = this.state.opportunities.map(opp => {
+      opp.id === id ? opp.currentStep = status : opp.currentStep = opp.currentStep
+      return opp;
+   })
+     console.log('newOpps', newOpps);
+     this.setState({
+       opportunities: newOpps
+     })
+
+  }
+
 render() {
       return (
       <div>
@@ -85,9 +99,9 @@ render() {
           <main>
           <Switch>
             <PublicRoute exact path='/' clearData={this.clearData} component={Home}/>
-            <PrivateRoute exact path='/dashboard'{...this.state}  getData={this.getData} component={Dashboard}/>
-            <PrivateRoute exact path='/coding-challenge' {...this.state} getData={this.getData} component={CodingChallenge}/>
-            <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} component={BookInterview}/>
+            <PrivateRoute exact path='/dashboard'{...this.state}  getData={this.getData} statusUpdate={this.statusUpdate} component={Dashboard}/>
+            <PrivateRoute exact path='/coding-challenge' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={CodingChallenge}/>
+            <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterview}/>
             <NoMatch/>
           </Switch>
           </main>

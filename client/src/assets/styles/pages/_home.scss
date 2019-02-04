@@ -29,6 +29,10 @@
   .program-logo {
     height: 40px;
     width: auto;
+
+    &.-dsi {
+      height: 45px;
+    }
   }
   p  {
     color: $color-white;

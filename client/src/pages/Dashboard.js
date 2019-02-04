@@ -20,7 +20,6 @@ class Dashboard extends Component {
       program: '',
       campus: '',
       errorMessage: '',
-      noOpportunities: false,
       isLoading: true
     };
 
@@ -29,7 +28,7 @@ class Dashboard extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (!this.props.fetchedData) this.props.getData(true);
   }
 
@@ -101,6 +100,7 @@ handleSubmit(event) {
               <Hero headline={HERO_TEXT.DASHBOARD.heroHeadline} description={HERO_TEXT.DASHBOARD.heroDescription}/>
               {this.props.opportunities && this.props.opportunities.length ?
                 <OpportunityList
+                  internalStatusUpdate={this.state.internalStatusUpdate}
                   opps={this.props.opportunities}
                   user={this.props.user}/>
                 :

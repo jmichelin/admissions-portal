@@ -9,9 +9,6 @@ import moment from 'moment';
 class OpportunityList extends Component {
   constructor(props){
     super(props);
-
-    this.state = {
-    }
   }
 
 
