@@ -20,7 +20,8 @@ class CodingChallenge extends Component {
       showProcessing: false,
       allPassed: false,
       errorMessage: '',
-      redirectToDashboard: false
+      redirectToDashboard: false,
+      codeSubmitted: false
     };
 
     this.runLocal = this.runLocal.bind(this);
@@ -81,7 +82,7 @@ class CodingChallenge extends Component {
           this.setState({
             showProcessing: false,
             localTestResults: results,
-            errorMessage: allCorrect ? 'You have passed all the tests! Submit your code.' : `Keep working on Step ${firstFailingTest.index + 1}`,
+            errorMessage: allCorrect ? "You have passed all the tests! Submit your code to move to the next step in the admissions process." : `Keep working on Step ${firstFailingTest.index + 1}`,
             allPassed: allCorrect ? true : false,
             submittedCode: submittedCode
           })
@@ -131,8 +132,7 @@ class CodingChallenge extends Component {
             throw new Error(error.message)
           })
         }).then(result => {
-          this.props.getData(true)
-          this.setState({ isLoading: false, redirectToDashboard:true});
+          this.setState({ codeSubmitted: true, isLoading: false, redirectToDashboard:true});
         }).catch(err => {
             this.setState({
               errorMessage: err.message
@@ -147,7 +147,10 @@ class CodingChallenge extends Component {
 
   render() {
     if (this.state.redirectToDashboard) {
-      return (<Redirect to='/dashboard'/>)
+      return (<Redirect to={{
+            pathname: '/dashboard',
+            state: { codeSubmitted: this.state.codeSubmitted, opp: this.state.opp }
+        }}/>)
     }
     return (
       <div className="coding-challenge">
