@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
+import Hero from '../components/hero';
 import ProgramSelect from '../components/dashboard-program-select';
 import OpportunityList from '../components/dashboard-opportunity-list';
 
-import { CAMPUSES, FULL_TIME_PROGRAMS, GALVANIZE_BASE_URL } from '../constants';
+import { CAMPUSES, FULL_TIME_PROGRAMS, GALVANIZE_BASE_URL, HERO_TEXT } from '../constants';
 import inputs from '../components/forms/inputs/select-inputs';
 
 
@@ -97,10 +98,7 @@ handleSubmit(event) {
         <div className="container">
           <div>
             <div className="portal-inner">
-              <div className="hero">
-                <h3 className="">Admissions Portal Dashboard</h3>
-                <p className="">All campuses share the same interview format and assessment rubric so you can interview at the location that's most convenient for you, regardless of your preferred campus.</p>
-              </div>
+              <Hero headline={HERO_TEXT.DASHBOARD.heroHeadline} description={HERO_TEXT.DASHBOARD.heroDescription}/>
               {this.props.opportunities && this.props.opportunities.length ?
                 <OpportunityList
                   opps={this.props.opportunities}

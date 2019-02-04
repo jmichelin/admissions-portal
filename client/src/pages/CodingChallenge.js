@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 
+import Hero from '../components/hero';
+
 import * as buble from 'buble'
 
- import { CODING_CHALLENGE_TESTS, SEI_STEPS } from '../constants';
+ import { CODING_CHALLENGE_TESTS, SEI_STEPS, HERO_TEXT } from '../constants';
 import CodingInstructions from '../components/CodingInstructions';
 import CodeEditor from '../components/CodeEditor';
 
@@ -150,10 +152,9 @@ class CodingChallenge extends Component {
     return (
       <div className="coding-challenge">
           <div className="container">
-              <h4 className="page-title">Coding Challenge</h4>
               <Link to="/dashboard"><button className="-inline">Back to Dashboard</button></Link>
               <div className="portal-inner">
-                <p className="section-row">This quick coding challenge will test your understanding of basic JavaScript syntax and start you on your admissions journey. If you're new to programming or JavaScript, don't be deterred. Try this challenge as many times as you need - your application will not be affected by errors. Best of luck!</p>
+                <Hero headline={HERO_TEXT.CODING_CHALLENGE.heroHeadline} description={HERO_TEXT.CODING_CHALLENGE.heroDescription}/>
                 <div className="challenge-editor">
                   <CodingInstructions tests={this.state.localTestResults}/>
                   <div className="code-editor col">

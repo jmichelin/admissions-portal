@@ -11,12 +11,16 @@
       color: white;
     }
 
+    .left-text {
+      padding-right: $pad-and-half;
+    }
+
     &.-blue {
       background: $color-blue;
     }
 
     &.-grey {
-      background: $color-gray-3;
+      background: $color-gray-5;
     }
 
     &.-green {

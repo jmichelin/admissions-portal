@@ -93,7 +93,7 @@ class BookInterview extends Component {
             <Link to="/dashboard"><button className="-inline">Back to Dashboard</button></Link>
             <div className="portal-inner">
               <div className="hero">
-                <h3 className="">Book Your Technical Interview</h3>
+                <h3 className="hero-title">Book Your Technical Interview</h3>
                 <p className="section-row">All campuses share the same interview format and assessment rubric so you can interview at the location that's most convenient for you, regardless of your preferred campus.</p>
               </div>
               <div className="two-col">

@@ -47,9 +47,10 @@ body {
 }
 
 .container {
-  max-width: $container-width;
+  max-width: $portal-width;
   margin: auto;
   overflow: hidden;
+  padding: $pad-double $pad;
 }
 
 .font-secondary {

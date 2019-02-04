@@ -188,12 +188,12 @@ export const SEI_STEPS = {
   STEP_TWO: {
     step: 2,
     status: 'Pass the Coding Challenge',
-    nextStep: 'Book the Technical Interview'
+    nextStep: 'Book the Technical Interview',
   },
   STEP_THREE: {
     step: 3,
     status: 'Book the Technical Interview',
-    nextStep: 'Prepare for the Technical Interview'
+    nextStep: 'Prepare for the Technical Interview',
   },
   STEP_FOUR: {
     step: 4,
@@ -212,6 +212,20 @@ export const SEI_STEPS = {
   }
 };
 
+export const HERO_TEXT = {
+  DASHBOARD: {
+    heroHeadline: 'Admissions Portal Dashboard',
+    heroDescription: 'Manage your application, see next steps, and complete the admissions process from here.'
+  },
+  CODING_CHALLENGE: {
+    heroHeadline: 'Pass the Coding Challenge',
+    heroDescription: "This quick coding challenge will test your understanding of basic JavaScript syntax and start you on your admissions journey. If you're new to programming or JavaScript, don't be deterred. Try this challenge as many times as you need - your application will not be affected by errors. Submit your code when completed. Best of luck!"
+  },
+  SEI_BOOK_INTERVIEW: {
+    heroHeadline: 'Book the Technical Interview',
+    heroDescription: 'Description'
+  }
+};
 
 export const APPLICATION_STEPS_SEI = [
   SEI_STEPS.STEP_ONE,

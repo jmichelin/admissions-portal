@@ -1,7 +1,7 @@
 .dashboard .table {
   & {
     width: 100%;
-    margin-top: $space;
+    padding: $pad-double;
   }
 
   .table-head {
@@ -24,6 +24,8 @@
 
      li {
       flex: 1;
+      display: flex;
+      align-items: center;
     }
     > li:first-child {
       flex: 2;
