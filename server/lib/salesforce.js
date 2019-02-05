@@ -528,7 +528,9 @@ function _reformatOppty(ogData) {
     newOppty.scorecardId = oppty['Scorecard__c'];
     newOppty.stage = oppty['StageName'];
 
-    if (IMMERSIVE_COURSE_TYPES.includes(newOppty.courseType) && newOppty.courseStart > moment().format('YYYY-MM-DD')) {
+    if (IMMERSIVE_COURSE_TYPES.includes(newOppty.courseType)
+    && newOppty.stage !== 'Closed'
+    && newOppty.courseStart > moment().format('YYYY-MM-DD')) {
       opptys.push(newOppty);
     }
   })
