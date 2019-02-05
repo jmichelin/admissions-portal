@@ -165,3 +165,7 @@ it("myInfo.github is defined as a string or null", function() {
 
 
 const OPP_STAGES = ['New', 'Sent Takehome', 'Returned Takehome', 'Offer Out'];
+
+export const IMMERSIVE_COURSE_TYPES = [
+  '13 Week Full-Time Immersive', '12 Week Full-Time Immersive', '36 Week Part-Time Immersive'
+];
