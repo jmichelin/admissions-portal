@@ -31,7 +31,6 @@ app.use('/auth', auth);
 app.use('/api/v1/user', middlewares.isLoggedIn, users);
 
 app.get('*', (req, res) => {
-  console.log('working directory', __dirname);
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
