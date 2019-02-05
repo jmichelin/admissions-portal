@@ -25,14 +25,14 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 app.use(middlewares.checkTokenSetUser);
-app.use(express.static(path.join(__dirname, './client/build')));
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.use('/auth', auth);
 app.use('/api/v1/user', middlewares.isLoggedIn, users);
 
 app.get('*', (req, res) => {
   console.log('working directory', __dirname);
-  res.sendFile(path.join(__dirname+'./client/build/index.html'));
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
 function notFound(req, res, next) {
