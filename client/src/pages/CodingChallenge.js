@@ -18,6 +18,7 @@ class CodingChallenge extends Component {
       code: '',
       localTestResults: [],
       showProcessing: false,
+      submittingCode: false,
       allPassed: false,
       errorMessage: '',
       redirectToDashboard: false,
@@ -111,7 +112,7 @@ class CodingChallenge extends Component {
     e.preventDefault();
       if (this.state.allPassed && this.state.submittedCode) {
         this.setState({
-          showProcessing: true
+          submittingCode: true
         })
         let data = {
           code: this.state.submittedCode,
@@ -133,10 +134,10 @@ class CodingChallenge extends Component {
           })
         }).then(result => {
           this.props.statusUpdate(this.state.opp.id, SEI_STEPS.STEP_THREE)
-          this.setState({ isLoading: false, redirectToDashboard:true});
+          this.setState({ submittingCode: false, redirectToDashboard:true});
         }).catch(err => {
             this.setState({
-              errorMessage: err.message
+              errorMessage: err.message, submittingCode: false
             })
         })
       } else {
@@ -160,7 +161,12 @@ class CodingChallenge extends Component {
                   <CodingInstructions tests={this.state.localTestResults}/>
                   <div className="code-editor col">
                     <h4 className="column-header">Code Editor</h4>
-                    <CodeEditor codeTest={this.runLocal} codeSubmit={this.codeSubmit} errorMessage={this.state.errorMessage} allPassed={this.state.allPassed} showProcessing={this.state.showProcessing}/>
+                    <CodeEditor codeTest={this.runLocal}
+                      codeSubmit={this.codeSubmit}
+                      errorMessage={this.state.errorMessage}
+                      allPassed={this.state.allPassed}
+                      showProcessing={this.state.showProcessing} 
+                      submittingCode={this.state.submittingCode}/>
                   </div>
                 </div>
             </div>

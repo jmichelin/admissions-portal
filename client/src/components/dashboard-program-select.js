@@ -14,8 +14,8 @@ class ProgramSelect extends Component {
 
   render() {
     let loadingWheel =
-    <div className="program-select">
-      <p className="section-row">Looking for active applications...</p>
+    <div className="program-select column-headline">
+      <h4 className="column-headline">Looking for active applications...</h4>
       <LoadingWheel/>
         </div>
 

@@ -5,10 +5,10 @@ export default (props) => {
 
   return (
     <div className="next-steps">
-      <div>
+      <div className="left-text">
         <h4>Next Steps</h4>
         <p className="-inverse"><span>Reach out to your Enrollment Officer for next steps.</span></p>
       </div>
-      </div>
+    </div>
   )
 }

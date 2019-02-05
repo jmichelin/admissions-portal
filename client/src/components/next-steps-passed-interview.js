@@ -5,10 +5,10 @@ export default (props) => {
 
   return (
     <div className="next-steps -green">
-      <div>
+      <div className="left-text">
         <h4>Next Steps</h4>
         <p className="-inverse"><span>Congratulations on completing the admissions process!</span> Your Enrollment Officer will be in touch soon with our decision.</p>
       </div>
-      </div>
+    </div>
   )
 }

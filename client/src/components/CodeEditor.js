@@ -23,8 +23,7 @@ class CodeEditor extends Component {
       styleActiveLine: true
     }
 
-    let runCodeButton = <button className={this.props.showProcessing ? "button-primary -loading" : "button-primary"} onClick={ (e) => this.props.codeTest(this.state.code, e) }>Run Code</button>
-    let submitCodeButton = <button className={this.props.showProcessing ? "button-primary -loading" : "button-primary"} onClick={ (e) => this.props.codeSubmit(e) }>Submit Code</button>
+
 
   return (
     <div className="editor-wrapper">
@@ -36,9 +35,9 @@ class CodeEditor extends Component {
        onBeforeChange={(editor, data, code) => {this.setState({code})}}/>
        <div className="action">
          <span>{this.props.errorMessage}</span>
-
-       {this.props.allPassed ? submitCodeButton : runCodeButton}
-       </div>
+         <button className={this.props.showProcessing ? "button-primary -loading" : "button-primary"} onClick={ (e) => this.props.codeTest(this.state.code, e) }>Test Code</button>
+         <button className={this.props.submittingCode ? "button-primary -loading" : "button-secondary"} disabled={!this.props.allPassed} onClick={ (e) => this.props.codeSubmit(e) }>Submit Code</button>
+      </div>
     </div>
     )
   }

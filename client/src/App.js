@@ -80,16 +80,13 @@ class App extends Component {
   }
 
   statusUpdate(id, status) {
-    // get id of opp update and status to update with
    let newOpps = this.state.opportunities.map(opp => {
       opp.id === id ? opp.currentStep = status : opp.currentStep = opp.currentStep
       return opp;
    })
-     console.log('newOpps', newOpps);
      this.setState({
        opportunities: newOpps
      })
-
   }
 
 render() {
