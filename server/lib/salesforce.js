@@ -3,6 +3,8 @@
 import jsforce from 'jsforce';
 import _ from 'lodash';
 
+import moment from 'moment';
+
 // import DB from './db';
 // import utils from './utils';
 import {
@@ -13,7 +15,8 @@ import {
   SF_DSI_SYLLABUS_CAMPAIGN_ID,
   SF_DSI_APPLICATION_CAMPAIGN_ID,
   SF_NEWSLETTER_CAMPAIGN_ID,
-  CAMPUSES
+  CAMPUSES,
+  IMMERSIVE_COURSE_TYPES
 } from '../constants';
 // import Application from './application-form/application';
 
@@ -525,7 +528,11 @@ function _reformatOppty(ogData) {
     newOppty.scorecardId = oppty['Scorecard__c'];
     newOppty.stage = oppty['StageName'];
 
-    opptys.push(newOppty);
+    if (IMMERSIVE_COURSE_TYPES.includes(newOppty.courseType)
+    && newOppty.stage !== 'Closed'
+    && newOppty.courseStart > moment().format('YYYY-MM-DD')) {
+      opptys.push(newOppty);
+    }
   })
 
   return opptys;
