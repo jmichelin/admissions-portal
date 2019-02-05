@@ -45,7 +45,10 @@ class Salesforce {
 
   login() {
     return new Promise( (resolve, reject) => {
+      console.log('username', this.username);
+      console.log('pass', this.password);
       this.connection.login(this.username, this.password, (err, userInfo) => {
+        console.log('error', err);
         if (err) { reject(err); }
         resolve(userInfo);
       });
