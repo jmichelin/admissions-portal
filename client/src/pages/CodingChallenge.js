@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 
+import Hero from '../components/hero';
+
 import * as buble from 'buble'
 
- import { CODING_CHALLENGE_TESTS } from '../constants';
+ import { CODING_CHALLENGE_TESTS, SEI_STEPS, HERO_TEXT } from '../constants';
 import CodingInstructions from '../components/CodingInstructions';
 import CodeEditor from '../components/CodeEditor';
 
@@ -12,33 +14,31 @@ class CodingChallenge extends Component {
     super(props);
 
     this.state = {
-      oppId:'',
+      opp: {},
       code: '',
       localTestResults: [],
       showProcessing: false,
+      submittingCode: false,
       allPassed: false,
       errorMessage: '',
-      redirectToDashboard: false
+      redirectToDashboard: false,
+      internalStatusUpdate: ''
     };
 
     this.runLocal = this.runLocal.bind(this);
     this.codeSubmit = this.codeSubmit.bind(this);
   }
 
-  componentDidMount() {
-    if (!this.props.opportunities.length) {
-      this.props.setOpps()
+  componentWillMount() {
+    if (this.props.location.state && this.props.location.state.opp) {
+      const {opp} = this.props.location.state;
+      if (opp.currentStep !== SEI_STEPS.STEP_TWO) {
+        this.setState({ redirectToDashboard: true })
+      }
+      this.setState({opp: opp})
+    } else {
+      this.setState({ redirectToDashboard: true })
     }
-
-      const {oppId} = this.props.location.state;
-      if (oppId) this.setState({oppId: oppId})
-  }
-
-  logout() {
-    localStorage.removeItem('token');
-    this.setState({
-      redirectToHome: true
-    })
   }
 
   prettyErrorMessage(err) {
@@ -83,7 +83,7 @@ class CodingChallenge extends Component {
           this.setState({
             showProcessing: false,
             localTestResults: results,
-            errorMessage: allCorrect ? 'You have passed all the tests! Submit your code.' : `Keep working on Step ${firstFailingTest.index + 1}`,
+            errorMessage: allCorrect ? "You have passed all the tests! Submit your code to move to the next step in the admissions process." : `Keep working on Step ${firstFailingTest.index + 1}`,
             allPassed: allCorrect ? true : false,
             submittedCode: submittedCode
           })
@@ -111,9 +111,12 @@ class CodingChallenge extends Component {
     let CODE_CHALLENGE_ENDPOINT = '/api/v1/user/code-submit';
     e.preventDefault();
       if (this.state.allPassed && this.state.submittedCode) {
+        this.setState({
+          submittingCode: true
+        })
         let data = {
           code: this.state.submittedCode,
-          oppId: this.state.oppId
+          oppId: this.state.opp.id
         }
         fetch(CODE_CHALLENGE_ENDPOINT, {
           method: 'POST',
@@ -123,7 +126,6 @@ class CodingChallenge extends Component {
             'content-type': 'application/json'
           },
         }).then(response => {
-          console.log(response);
           if (response.ok) {
             return response.json()
           }
@@ -131,10 +133,11 @@ class CodingChallenge extends Component {
             throw new Error(error.message)
           })
         }).then(result => {
-          this.setState({ isLoading: false, redirectToDashboard:true});
+          this.props.statusUpdate(this.state.opp.id, SEI_STEPS.STEP_THREE)
+          this.setState({ submittingCode: false, redirectToDashboard:true});
         }).catch(err => {
             this.setState({
-              errorMessage: err.message
+              errorMessage: err.message, submittingCode: false
             })
         })
       } else {
@@ -151,19 +154,21 @@ class CodingChallenge extends Component {
     return (
       <div className="coding-challenge">
           <div className="container">
-            <div>
-              <h4 className="page-title">Coding Challenge</h4>
               <Link to="/dashboard"><button className="-inline">Back to Dashboard</button></Link>
               <div className="portal-inner">
-                <p className="section-row">This quick coding challenge will test your understanding of basic JavaScript syntax and start you on your admissions journey. If you're new to programming or JavaScript, don't be deterred. Try this challenge as many times as you need - your application will not be affected by errors. Best of luck!</p>
+                <Hero headline={HERO_TEXT.CODING_CHALLENGE.heroHeadline} description={HERO_TEXT.CODING_CHALLENGE.heroDescription}/>
                 <div className="challenge-editor">
                   <CodingInstructions tests={this.state.localTestResults}/>
                   <div className="code-editor col">
                     <h4 className="column-header">Code Editor</h4>
-                    <CodeEditor codeTest={this.runLocal} codeSubmit={this.codeSubmit} errorMessage={this.state.errorMessage} allPassed={this.state.allPassed}/>
+                    <CodeEditor codeTest={this.runLocal}
+                      codeSubmit={this.codeSubmit}
+                      errorMessage={this.state.errorMessage}
+                      allPassed={this.state.allPassed}
+                      showProcessing={this.state.showProcessing} 
+                      submittingCode={this.state.submittingCode}/>
                   </div>
                 </div>
-              </div>
             </div>
           </div>
       </div>

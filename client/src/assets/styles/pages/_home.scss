@@ -8,15 +8,35 @@
   background: $color-white;
   display: flex;
   box-shadow: 0px 0px 1px rgba(0,0,0,0.25);
-  margin: $pad-triple;
 }
 
 .portal-aside {
   flex: 10 0 50%;
-  background: url('https://s3-us-west-2.amazonaws.com/dotcom-files/white_orange_formbackground.jpg');
+  background: url('./assets/images/binary-gradient.jpg');
   background-position: center;
   background-size: cover;
-  padding: $pad-double;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.program-block {
+  background: rgba(201, 210, 210, .11);
+  padding: $pad;
+  margin: $space-and-half;
+  margin-top: 0;
+
+  .program-logo {
+    height: 40px;
+    width: auto;
+
+    &.-dsi {
+      height: 45px;
+    }
+  }
+  p  {
+    color: $color-white;
+  }
 }
 
 .form-content {

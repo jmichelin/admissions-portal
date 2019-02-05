@@ -47,7 +47,19 @@
     color: transparent;
     background-image: url('https://s3-us-west-2.amazonaws.com/galvanize.com-dev/loader-black.svg');
     background-size: auto 70%;
+    background-position: center;
+    background-repeat: no-repeat;
   }
+
+  &.loading-wheel {
+    background: url('https://s3-us-west-2.amazonaws.com/dotcom-files/loader-orange.svg');
+    background-size: auto 70%;
+    overflow: visible;
+    background-color: transparent;
+    width: 40px;
+    height: 40px;
+  }
+
 }
 
 .button-primary {
@@ -92,14 +104,14 @@
   }
   &:hover {
     color: $bg-color;
-    background-color: color($border-color shade(10));
-    border: 2px solid color($border-color shade(10));
+    background-color: darken($border-color, 10%);
+    border: 2px solid darken($border-color, 10%);
     transition: none;
   }
   &:focus, &:active {
     color: $bg-color;
-    background-color: color($border-color shade(50));
-    border: 2px solid color($border-color shade(50));
+    background-color: darken($border-color, 50%);
+    border: 2px solid darken($border-color, 50%);
   }
   &.-loading {
     /*@extend %hide-text;*/
@@ -123,15 +135,15 @@
     border: 2px solid $bg-color;
   }
   &:hover {
-    color: $bg-color;
-    background-color: color($fg-color shade(10));
-    border: 2px solid color($fg-color shade(10));
+    color: $color-white;
+    background-color: darken($fg-color, 10%);
+    border: 2px solid darken($fg-color, 10%);
     transition: none;
   }
   &:focus, &:active {
     color: $bg-color;
-    background-color: color($fg-color shade(50));
-    border: 2px solid color($fg-color shade(50));
+    background-color: darken($fg-color, 50%);
+    border: 2px solid darken($fg-color, 50%);
   }
   &.-loading {
     /*@extend %hide-text;*/
@@ -152,12 +164,12 @@
   }
   &:hover {
     color: $bg-color;
-    background-color: color($fg-color shade(10));
+    background-color: darken($fg-color, 10%);
     transition: none;
   }
   &:focus, &:active {
     color: $fg-color;
-    background-color: color($bg-color shade(50));
+    background-color: darken($bg-color, 50%);
   }
   &.-loading {
     /*@extend %hide-text;*/
@@ -284,11 +296,11 @@
 
   &:hover {
     .button-primary, .inner {
-      background-color: color($bg-color shade(10));
+      background-color: darken($bg-color, 10%);
     }
     .outer {
       transform: translateX(4px);
-      border-color: color($bg-color shade(10));
+      border-color: color($bg-color, 10%);
     }
   }
   &.-large .button-primary {

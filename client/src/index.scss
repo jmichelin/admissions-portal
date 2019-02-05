@@ -13,10 +13,13 @@
 @import './assets/styles/pages/_home.scss';
 @import './assets/styles/pages/_dashboard.scss';
 @import './assets/styles/pages/_coding-challenge.scss';
+@import './assets/styles/pages/_book-interview.scss';
 
 
 // Components
+@import './assets/styles/components/_hero.scss';
 @import './assets/styles/components/_header.scss';
+@import './assets/styles/components/_portal.scss';
 @import './assets/styles/components/_signin.scss';
 @import './assets/styles/components/_signup.scss';
 @import './assets/styles/components/_dashboard-opportunity-list.scss';

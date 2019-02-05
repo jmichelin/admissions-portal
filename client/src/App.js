@@ -6,6 +6,7 @@ import Header from './components/header';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import CodingChallenge from './pages/CodingChallenge';
+import BookInterview from './pages/BookInterview';
 
 import utils from './helpers/utils';
 
@@ -16,56 +17,88 @@ class App extends Component {
     this.state = {
       opportunities: [],
       user: {},
-      stage: '',
-      isLoading: true
+      isLoading: true,
+      fetchedData: false
     }
 
-    this.setOpps = this.setOpps.bind(this);
+    this.getData = this.getData.bind(this);
     this.clearData = this.clearData.bind(this);
+    this.statusUpdate = this.statusUpdate.bind(this);
   }
 
   clearData() {
-      this.setState({
-        opportunities: [],
-        user:{}
-      })
+    localStorage.removeItem('token');
+    this.setState({
+      opportunities: [],
+      user:{},
+      fetchedData: false,
+      isLoading: true
+    })
   }
 
-  setOpps() {
+
+  getData(refresh) {
+    if (refresh) { this.setState({isLoading: true}) }
     const API_URL = '/api/v1/user';
-    if (!this.state.opportunities.length) {
+    if ((!this.state.fetchedData && localStorage.token) || refresh && localStorage.token) {
         fetch(API_URL, {
           headers: {
             Authorization: `Bearer ${localStorage.token}`
           },
         }).then(res => res.json())
           .then(result => {
-            if (result.data && result.data.opportunities && result.data.user) {
+            if (result.message === 'jwt expired') {
+              this.clearData()
+            }
+            else if (result.data && result.data.opportunities && result.data.user) {
+              let opps = result.data.opportunities.map(opp => {
+                let currentStep = opp.courseProduct === 'Web Development' ? utils.getSEIStage(opp) : utils.getDSIStage(opp);
+                opp.currentStep = currentStep;
+                return opp;
+              })
               this.setState({
-                opportunities: result.data.opportunities,
+                opportunities: opps,
                 user:result.data.user,
-                isLoading: false
+                isLoading: false,
+                fetchedData: true,
               })
             } else {
+              // no opportunities and already fetched
               this.setState({
-                isLoading: false
+                isLoading: false,
+                fetchedData: true
               })
             }
           }).catch(err => {
-            console.log(err)
+            this.clearData()
           })
+    } else {
+      this.setState({
+        isLoading: false
+      })
     }
+  }
+
+  statusUpdate(id, status) {
+   let newOpps = this.state.opportunities.map(opp => {
+      opp.id === id ? opp.currentStep = status : opp.currentStep = opp.currentStep
+      return opp;
+   })
+     this.setState({
+       opportunities: newOpps
+     })
   }
 
 render() {
       return (
       <div>
-        <Header/>
+        <Header clearData={this.clearData}/>
           <main>
           <Switch>
             <PublicRoute exact path='/' clearData={this.clearData} component={Home}/>
-            <PrivateRoute exact path='/dashboard' setOpps={this.setOpps} isLoading={this.state.isLoading} opportunities={this.state.opportunities} user={this.state.user} component={Dashboard}/>
-            <PrivateRoute exact path='/coding-challenge' setOpps={this.setOpps} isLoading={this.state.isLoading} opportunities={this.state.opportunities} user={this.state.user} component={CodingChallenge}/>
+            <PrivateRoute exact path='/dashboard'{...this.state}  getData={this.getData} statusUpdate={this.statusUpdate} component={Dashboard}/>
+            <PrivateRoute exact path='/coding-challenge' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={CodingChallenge}/>
+            <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterview}/>
             <NoMatch/>
           </Switch>
           </main>

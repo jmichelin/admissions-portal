@@ -1,0 +1,14 @@
+.hero {
+  padding: $pad-double;
+  text-align: left;
+  background: url('./assets/images/binary-gradient.jpg');
+  background-size: cover;
+  .hero-title {
+    color: white;
+  }
+
+  p {
+    color: white;
+    max-width: 800px;
+  }
+}

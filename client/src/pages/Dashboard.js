@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
+import Hero from '../components/hero';
 import ProgramSelect from '../components/dashboard-program-select';
 import OpportunityList from '../components/dashboard-opportunity-list';
 
-import { CAMPUSES, FULL_TIME_PROGRAMS, GALVANIZE_BASE_URL } from '../constants';
+import { CAMPUSES, FULL_TIME_PROGRAMS, GALVANIZE_BASE_URL, HERO_TEXT } from '../constants';
 import inputs from '../components/forms/inputs/select-inputs';
 
 
@@ -19,27 +20,16 @@ class Dashboard extends Component {
       program: '',
       campus: '',
       errorMessage: '',
-      noOpportunities: false,
       isLoading: true
     };
 
     this.onProgramChange = this.onProgramChange.bind(this);
     this.onCampusChange = this.onCampusChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
   }
 
   componentDidMount() {
-    if (!this.props.opportunities.length) {
-      this.props.setOpps()
-    }
-  }
-
-  logout() {
-    localStorage.removeItem('token');
-    this.setState({
-      redirectToHome: true
-    })
+    if (!this.props.fetchedData) this.props.getData(true);
   }
 
 onProgramChange(e, field) {
@@ -106,10 +96,11 @@ handleSubmit(event) {
       <div className="dashboard">
         <div className="container">
           <div>
-            <h4 className="page-title">Admissions Portal Dashboard</h4>
             <div className="portal-inner">
+              <Hero headline={HERO_TEXT.DASHBOARD.heroHeadline} description={HERO_TEXT.DASHBOARD.heroDescription}/>
               {this.props.opportunities && this.props.opportunities.length ?
                 <OpportunityList
+                  internalStatusUpdate={this.state.internalStatusUpdate}
                   opps={this.props.opportunities}
                   user={this.props.user}/>
                 :

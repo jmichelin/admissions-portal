@@ -18,6 +18,8 @@ export const CAMPUSES = [
     dsi: true,
     wdi: false,
     sfdcName: 'Austin-2nd St District',
+    ycbmLink: 'https://atx-interviews.youcanbook.me',
+    ycbmId:'ycbmiframeatx-interviews',
     location: '2nd Street District'
   },
   { name: 'boulder',
@@ -29,6 +31,8 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Boulder-Walnut St.',
+    ycbmLink: 'https://agn-interviews.youcanbook.me',
+    ycbmId:'ycbmiframeagn-interviews',
     location: 'Walnut'
   },
   { name: 'denver-platte',
@@ -40,6 +44,8 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Denver-Platte',
+    ycbmLink: 'https://agn-interviews.youcanbook.me',
+    ycbmId:'ycbmiframeagn-interviews',
     location: 'Platte'
   },
   { name: 'new-york',
@@ -51,6 +57,8 @@ export const CAMPUSES = [
     dsi: true,
     wdi: false,
     sfdcName: 'NYC-SoHo',
+    ycbmLink: 'https://nyc-interviews.youcanbook.me',
+    ycbmId:'ycbmiframenyc-interviews',
     location: 'West SoHo'
   },
   { name: 'phoenix',
@@ -62,6 +70,8 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Phoenix-Warehouse District',
+    ycbmLink: 'https://agn-interviews.youcanbook.me',
+    ycbmId:'ycbmiframeagn-interviews',
     location: 'Warehouse District'
   },
   { name: 'los-angeles',
@@ -73,6 +83,8 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Los Angeles',
+    ycbmLink: 'https://la-interviews.youcanbook.me',
+    ycbmId:'ycbmiframela-interviews',
     location: 'Los Angeles'
   },
   { name: 'san-francisco',
@@ -84,6 +96,8 @@ export const CAMPUSES = [
     dsi: true,
     wdi: false,
     sfdcName: 'San Francisco-SoMa',
+    ycbmLink: 'https://sf-interviews.youcanbook.me',
+    ycbmId:'ycbmiframesf-interviews',
     location: 'SoMa'
   },
   { name: 'seattle',
@@ -95,6 +109,8 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Seattle-Pioneer Square',
+    ycbmLink: 'https://agn-interviews.youcanbook.me',
+    ycbmId:'ycbmiframeagn-interviews',
     location: 'Pioneer Square'
   },
   { name: 'remote',
@@ -106,6 +122,8 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Remote',
+    ycbmLink: 'https://remote-interviews.youcanbook.me/',
+    ycbmId:'ycbmiframeremote-interviews',
     location: 'Remote'
   }
 ];
@@ -161,5 +179,59 @@ it("myInfo.github is defined as a string or null", function() {
 });
 });`;
 
+export const SEI_STEPS = {
+  STEP_ONE: {
+    step: 1,
+    status: 'Complete Your Application',
+    nextStep: 'Pass the Coding Challenge'
+  },
+  STEP_TWO: {
+    step: 2,
+    status: 'Pass the Coding Challenge',
+    nextStep: 'Book the Technical Interview',
+  },
+  STEP_THREE: {
+    step: 3,
+    status: 'Book the Technical Interview',
+    nextStep: 'Prepare for the Technical Interview',
+  },
+  STEP_FOUR: {
+    step: 4,
+    status: 'Pass the Technical Interview',
+    nextStep: 'Final Decision'
+  },
+  COMPLETE: {
+    step: 4,
+    status: 'Final Decision',
+    nextStep: 'Finish Enrollment Process'
+  },
+  HOLD: {
+    step: 5,
+    status: 'On Hold',
+    nextStep: 'On Hold'
+  }
+};
 
-const OPP_STAGES = ['New', 'Sent Takehome', 'Returned Takehome', 'Offer Out'];
+export const HERO_TEXT = {
+  DASHBOARD: {
+    heroHeadline: 'Admissions Portal Dashboard',
+    heroDescription: 'Manage your application, see next steps, and complete the admissions process from here.'
+  },
+  CODING_CHALLENGE: {
+    heroHeadline: 'Pass the Coding Challenge',
+    heroDescription: "This quick coding challenge will test your understanding of basic JavaScript syntax and start you on your admissions journey. If you're new to programming or JavaScript, don't be deterred. Try this challenge as many times as you need - your application will not be affected by errors. Submit your code when completed. Best of luck!"
+  },
+  SEI_BOOK_INTERVIEW: {
+    heroHeadline: 'Book the Technical Interview',
+    heroDescription: 'Description'
+  }
+};
+
+export const APPLICATION_STEPS_SEI = [
+  SEI_STEPS.STEP_ONE,
+  SEI_STEPS.STEP_TWO,
+  SEI_STEPS.STEP_THREE,
+  SEI_STEPS.STEP_FOUR,
+  SEI_STEPS.COMPLETE,
+  SEI_STEPS.HOLD
+];

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Select from '../components/forms/select';
+import LoadingWheel from '../components/base/loader-orange';
 
 class ProgramSelect extends Component {
   constructor(props){
@@ -13,9 +14,10 @@ class ProgramSelect extends Component {
 
   render() {
     let loadingWheel =
-    <div className="program-select">
-      <p className="section-row">Looking for active applications...</p>
-    </div>
+    <div className="program-select column-headline">
+      <h4 className="column-headline">Looking for active applications...</h4>
+      <LoadingWheel/>
+        </div>
 
 
     let programSelectForm =

@@ -5,14 +5,14 @@ export default (props) => {
 
   return (
     <div className="next-steps -blue">
-      <div>
+      <div className="left-text">
         <h4>Next Steps</h4>
-        <p className="-inverse"><span>Book Your Technical Interivew</span>  Study up and be ready to live-pair with an instructor on the call.</p>
+        <p className="-inverse"><span>Book Your Technical Interivew:</span>  Study up and be ready to live-pair with an instructor on the call.</p>
       </div>
       <Link to={{
             pathname: "/book-interview",
-            state: { oppId: props.oppId} }}>
+            state: { opp: props.opp} }}>
             <button className="button-primary">Schedule Your Interview</button></Link>
-      </div>
+    </div>
   )
 }

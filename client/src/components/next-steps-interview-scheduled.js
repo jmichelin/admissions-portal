@@ -7,7 +7,7 @@ export default (props) => {
     <div className="next-steps -green">
       <div className="left-text">
         <h4>Next Steps</h4>
-        <p className="-inverse"><span>Congratulations on completing the admissions process!</span> Your Enrollment Officer will be in touch soon with our decision.</p>
+        <p className="-inverse"><span>Pass Your Technical Interview:</span> You've booked your technical interview and now it's time study up!  After your interview your Enrollment Officer will advise if you passed or failed.</p>
       </div>
     </div>
   )
