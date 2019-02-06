@@ -140,7 +140,8 @@
 }
 
 @media (max-width: 735px) {
-  .table {
+  .dashboard .table {
+    padding: $pad;
     .table-body .table-row.-steps {
       display: none;
     }
