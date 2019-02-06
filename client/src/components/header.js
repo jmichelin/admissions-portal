@@ -6,12 +6,36 @@ class Header extends Component {
     super(props);
 
     this.state = {
-      returnToHomepage: false
+      returnToHomepage: false,
+      mobileNav: false,
+      activeNavItem: false
     }
 
+    this.toggleMobileNav = this.toggleMobileNav.bind(this);
+    this.toggleMobileNavItem = this.toggleMobileNavItem.bind(this);
     this.logout = this.logout.bind(this);
-
   }
+
+
+  toggleMobileNav() {
+    this.setState({
+      mobileNav: !this.state.mobileNav
+    })
+  }
+
+  toggleMobileNavItem(item) {
+  let itemName = item.target.getAttribute('data-tag')
+  if (this.state.mobileNav) {
+    this.setState({
+      activeNavItemName: itemName
+    })
+  }
+  if (itemName === this.state.activeNavItemName) {
+    this.setState({
+      activeNavItemName: 'null'
+    })
+  }
+}
 
   isLoggedIn() {
     if (localStorage.token) {
@@ -38,23 +62,18 @@ class Header extends Component {
   <header className="main-navigation">
     <nav className="nav-wrapper">
       <Link to='/dashboard' className="galvanize-logo"><img id="logo" alt="Galvanize Logo" src="https://s3-us-west-2.amazonaws.com/galvanize.com-dev/galvanize-logo.svg"></img></Link>
-      <div className="nav-toggle"><i className="fa fa-bars fa-lg"></i></div>
-      <div className="nav-items">
-        <li className="nav-item">Courses<span className="caret"></span>
+        <div className="nav-toggle" onClick={() => this.toggleMobileNav()}><i className="fa fa-bars fa-lg"></i></div>
+        <div className={this.state.mobileNav ? "nav-items -open" : "nav-items"}>
+          <li data-tag="Courses" className={this.state.activeNavItemName === "Courses" ? "nav-item -open" : "nav-item"} onClick={(e) => this.toggleMobileNavItem(e)}>Courses<span className="caret"></span>
           <ul className="list">
             <span className="diagonal"></span>
-            <li className="nav-item-subheader"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/full-time">Full-Time Courses</a><span><img src="https://s3-us-west-2.amazonaws.com/dotcom-files/arrow-01.png" alt=""></img></span>
+            <li className="nav-item-subheader"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/full-time">Immersive Courses</a><span><img src="https://s3-us-west-2.amazonaws.com/dotcom-files/arrow-01.png" alt=""></img></span>
               <ul>
-                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/web-development">Software Engineering Immersive</a></li>
-                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/software-engineering-remote">Software Engineering Remote Immersive</a></li>
-                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/data-science">Data Science Immersive</a></li>
-              </ul>
-            </li>
-            <li className="nav-item-subheader"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/part-time">Part-Time Courses</a><span><img src="https://s3-us-west-2.amazonaws.com/dotcom-files/arrow-01.png" alt=""></img></span>
-              <ul>
-                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/part-time/software-engineering-remote">Software Engineering Remote</a></li>
-                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/part-time/data-analytics">Data Analytics</a></li>
-              </ul>
+                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/web-development">Software Engineering</a></li>
+                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/software-engineering-remote">Remote Software Engineering</a></li>
+                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/software-engineering-remote-part-time">Part-Time Remote Software Engineering</a></li>
+                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/data-science">Data Science</a></li>
+            </ul>
             </li>
             <li className="nav-item-subheader">Online Prep Courses
               <ul>
@@ -62,15 +81,9 @@ class Header extends Component {
                 <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/data-science/prep-programs">Data Science</a></li>
               </ul>
             </li>
-            <li className="nav-item-subheader">Explore Coding
-              <ul>
-                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/events/meetups">Meetups</a></li>
-                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/events">Workshops</a></li>
-              </ul>
-            </li>
           </ul>
         </li>
-        <li className="nav-item">Campuses<span className="caret"></span>
+        <li data-tag="Campuses" className={this.state.activeNavItemName === "Campuses" ? "nav-item -open" : "nav-item"} onClick={(e) => this.toggleMobileNavItem(e)}>Campuses<span className="caret"></span>
           <ul className="list">
             <span className="diagonal"></span>
             <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/campuses/austin">Austin</a></li>
