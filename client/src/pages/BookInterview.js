@@ -52,6 +52,7 @@ class BookInterview extends Component {
   };
 
   handleFrameTasks = (e) => {
+    console.log(e);
       document.getElementById(this.state.campus.ycbmId).style.height = `${e.data}px`
       if (!isNaN(e.data)) {
         this.setState({
