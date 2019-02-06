@@ -223,7 +223,7 @@ export const HERO_TEXT = {
   },
   SEI_BOOK_INTERVIEW: {
     heroHeadline: 'Book the Technical Interview',
-    heroDescription: 'Description'
+    heroDescription: "All campuses share the same interview format and assessment rubric so you can interview at the location that's most convenient for you, regardless of your preferred campus."
   }
 };
 

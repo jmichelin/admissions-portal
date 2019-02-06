@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 
 import Hero from '../components/hero';
+import Breadcrumb from '../components/breadcrumb';
 
 import * as buble from 'buble'
 
@@ -154,9 +155,9 @@ class CodingChallenge extends Component {
     return (
       <div className="coding-challenge">
           <div className="container">
-              <Link to="/dashboard"><button className="-inline">Back to Dashboard</button></Link>
               <div className="portal-inner">
                 <Hero headline={HERO_TEXT.CODING_CHALLENGE.heroHeadline} description={HERO_TEXT.CODING_CHALLENGE.heroDescription}/>
+                <Breadcrumb />
                 <div className="challenge-editor">
                   <CodingInstructions tests={this.state.localTestResults}/>
                   <div className="code-editor col">
@@ -165,7 +166,7 @@ class CodingChallenge extends Component {
                       codeSubmit={this.codeSubmit}
                       errorMessage={this.state.errorMessage}
                       allPassed={this.state.allPassed}
-                      showProcessing={this.state.showProcessing} 
+                      showProcessing={this.state.showProcessing}
                       submittingCode={this.state.submittingCode}/>
                   </div>
                 </div>

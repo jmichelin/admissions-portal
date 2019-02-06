@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 
+import Hero from '../components/hero';
+import Breadcrumb from '../components/breadcrumb';
+
 import CalendarIframe from '../components/calendar-iframe';
 import LoadingWheel from '../components/base/loader-orange';
 import CampusList from '../components/book-interview-campuses';
 import InterviewSidebar from '../components/book-interview-sidebar';
 
-import { CAMPUSES, SEI_STEPS } from '../constants';
+import { HERO_TEXT, CAMPUSES, SEI_STEPS } from '../constants';
 
 
 class BookInterview extends Component {
@@ -78,11 +81,10 @@ class BookInterview extends Component {
 
   render() {
         let loadingBlock =
-      <div><h4 className="column-headline">Loading the booking tool...</h4>
+      <div className="grouping">
+        <h4 className="column-headline">Loading the booking tool...</h4>
         <div className="column-headline"><LoadingWheel/></div>
       </div>
-
-      let breadcrumb = <button className="-inline" onClick={this.hideIframe}>Select a Different Calendar</button>
 
     if (this.state.redirectToDashboard) {
       return (<Redirect to='/dashboard'/>)
@@ -90,16 +92,15 @@ class BookInterview extends Component {
       return (
       <div className="book-interview">
         <div className="container">
-            <Link to="/dashboard"><button className="-inline">Back to Dashboard</button></Link>
             <div className="portal-inner">
-              <div className="hero">
-                <h3 className="hero-title">Book Your Technical Interview</h3>
-                <p className="section-row">All campuses share the same interview format and assessment rubric so you can interview at the location that's most convenient for you, regardless of your preferred campus.</p>
-              </div>
+              <Hero headline={HERO_TEXT.SEI_BOOK_INTERVIEW.heroHeadline} description={HERO_TEXT.SEI_BOOK_INTERVIEW.heroDescription}/>
               <div className="two-col">
                 <div className="campus-group">
+                  <Breadcrumb
+                    previousComponent={this.hideIframe}
+                    text={(!this.state.isLoading && this.state.showIframe) || this.state.isLoading ? 'Select a Different Calendar' : 'Back to Dashboard'}
+                    linkUrl={(!this.state.isLoading && this.state.showIframe) || this.state.isLoading ? null : '/dashboard'}/>
                   { !this.state.showIframe ? <CampusList loadBookingTool={this.loadBookingTool}/> : null }
-                  { !this.state.isLoading && this.state.showIframe ? breadcrumb : null }
                   { this.state.isLoading ? loadingBlock : null }
                   { this.state.showIframe ?
                     <CalendarIframe

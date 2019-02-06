@@ -15,7 +15,10 @@
 
   .campus-group {
     flex: 2;
-    margin: $space-double $space;
+
+    .grouping {
+      margin: $space-double $space;
+    }
 
     .card-holder {
       display: flex;
