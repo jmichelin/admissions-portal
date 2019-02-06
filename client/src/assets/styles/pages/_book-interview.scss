@@ -1,6 +1,5 @@
 .book-interview {
   & {
-    padding: $space-triple;
     background: $color-gray-1;
   }
 
@@ -10,11 +9,12 @@
 
   .two-col {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
   }
 
   .campus-group {
-    flex: 2;
+    flex: 3;
 
     .grouping {
       margin: $space-double $space;
@@ -27,6 +27,7 @@
     }
 
     .campus-card {
+      flex-grow: 2;
       text-align: center;
       padding: $pad;
       margin: $space-half;
@@ -43,8 +44,8 @@
   }
 
   .sidebar {
-    flex: 0;
-    padding: $pad-double $pad-double ;
+    flex: 1;
+    padding: $pad-double;
     background: $color-gray-2;
 
     span {
@@ -69,6 +70,18 @@
       h5 {
         margin-bottom: 0;
         margin-top: $space-and-half;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .book-interview {
+    .sidebar {
+      padding: $pad;
+
+      .button-secondary {
+        font-size: 14px;
       }
     }
   }
