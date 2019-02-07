@@ -201,12 +201,12 @@ export const SEI_STEPS = {
     nextStep: 'Final Decision'
   },
   COMPLETE: {
-    step: 4,
+    step: 5,
     status: 'Final Decision',
     nextStep: 'Finish Enrollment Process'
   },
   HOLD: {
-    step: 5,
+    step: 1,
     status: 'On Hold',
     nextStep: 'On Hold'
   }
