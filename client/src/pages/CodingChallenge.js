@@ -39,9 +39,13 @@ class CodingChallenge extends Component {
         this.setState({ redirectToDashboard: true })
       }
       this.setState({opp: opp})
-    } else {
+      window.analytics.ready(function() {
+       window.analytics.page('Coding Challenge')
+         });
+         } else {
       this.setState({ redirectToDashboard: true })
     }
+
   }
 
   prettyErrorMessage(err) {
