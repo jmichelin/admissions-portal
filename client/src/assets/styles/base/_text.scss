@@ -45,6 +45,19 @@ p.-inverse {
   }
 }
 
+.citation {
+  font-style: italic;
+  font-size: 14px;
+  margin-top: $space-triple;
+
+  &.-thin {
+    margin-top: 0;
+  }
+  &.-center {
+    text-align: center;
+  }
+}
+
 /**
  * Horizontal rule base styles
  */

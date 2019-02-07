@@ -152,6 +152,10 @@
     .next-steps {
       text-align: center;
       justify-content: center;
+
+      .left-text {
+        padding: 0;
+      }
     }
   }
 }

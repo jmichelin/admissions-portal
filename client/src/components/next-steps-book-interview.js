@@ -7,7 +7,7 @@ export default (props) => {
     <div className="next-steps -blue">
       <div className="left-text">
         <h4>Next Steps</h4>
-        <p className="-inverse"><span>Book Your Technical Interivew:</span>  Study up and be ready to live-pair with an instructor on the call.</p>
+        <p className="-inverse">Choose a time to complete your technical interview. Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing JavaScript fundamentals on your own.</p>
       </div>
       <Link to={{
             pathname: "/book-interview",

@@ -70,15 +70,15 @@ class Header extends Component {
             <li className="nav-item-subheader"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/full-time">Immersive Courses</a><span><img src="https://s3-us-west-2.amazonaws.com/dotcom-files/arrow-01.png" alt=""></img></span>
               <ul>
                 <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/web-development">Software Engineering</a></li>
-                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/software-engineering-remote">Remote Software Engineering</a></li>
-                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/software-engineering-remote-part-time">Part-Time Remote Software Engineering</a></li>
+                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/remote-software-engineering">Remote Software Engineering</a></li>
+                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/part-time-remote-software-engineering">Part-Time Remote Software Engineering</a></li>
                 <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/data-science">Data Science</a></li>
             </ul>
             </li>
             <li className="nav-item-subheader">Online Prep Courses
               <ul>
-                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/web-development/prep-programs">Software Engineering</a></li>
-                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/data-science/prep-programs">Data Science</a></li>
+                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/web-development/prep">Software Engineering</a></li>
+                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/data-science/prep">Data Science</a></li>
               </ul>
             </li>
           </ul>
