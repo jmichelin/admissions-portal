@@ -32,7 +32,7 @@ class CodingChallenge extends Component {
     this.codeAttemptUpdate = this.codeAttemptUpdate.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.location.state && this.props.location.state.opp) {
       const {opp} = this.props.location.state;
       if (opp.currentStep !== SEI_STEPS.STEP_TWO) {

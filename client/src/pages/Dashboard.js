@@ -20,7 +20,6 @@ class Dashboard extends Component {
       program: '',
       campus: '',
       errorMessage: '',
-      isLoading: true
     };
 
     this.onProgramChange = this.onProgramChange.bind(this);
@@ -28,9 +27,8 @@ class Dashboard extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (!this.props.fetchedData) this.props.getData(true);
-
     if (this.props.location.state && this.props.location.state.calendarRefresh) {
       const {calendarRefresh} = this.props.location.state;
       if (calendarRefresh) this.props.getData(true);
@@ -72,7 +70,6 @@ handleSubmit(event) {
   event.preventDefault();
   this.setState({
     submitAttempted: true,
-    isLoading: true
   })
 
   const { program, campus } = this.state;
@@ -89,7 +86,6 @@ handleSubmit(event) {
     }
   } else {
     this.setState({
-      isLoading: false,
       errorMessage: 'Please select a program and campus.'
      });
   }
@@ -103,7 +99,7 @@ handleSubmit(event) {
           <div>
             <div className="portal-inner">
               <Hero headline={HERO_TEXT.DASHBOARD.heroHeadline} description={HERO_TEXT.DASHBOARD.heroDescription}/>
-              {this.props.opportunities && this.props.opportunities.length ?
+              {this.props.opportunities && this.props.opportunities.length && !this.props.isLoading?
                 <OpportunityList
                   internalStatusUpdate={this.state.internalStatusUpdate}
                   opps={this.props.opportunities}

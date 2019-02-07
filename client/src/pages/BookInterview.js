@@ -29,7 +29,7 @@ class BookInterview extends Component {
     this.hideIframe = this.hideIframe.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.location.state && this.props.location.state.opp) {
       const {opp} = this.props.location.state;
       if (opp.currentStep !== SEI_STEPS.STEP_THREE) {
@@ -97,6 +97,7 @@ class BookInterview extends Component {
                 <div className="campus-group">
                   <Breadcrumb
                     previousComponent={this.hideIframe}
+                    refreshCalendar={!this.state.isLoading && this.state.showIframe}
                     text={(!this.state.isLoading && this.state.showIframe) || this.state.isLoading ? 'Select a Different Calendar' : 'Back to Dashboard'}
                     linkUrl={(!this.state.isLoading && this.state.showIframe) || this.state.isLoading ? null : '/dashboard'}/>
                   { !this.state.showIframe ? <CampusList loadBookingTool={this.loadBookingTool}/> : null }

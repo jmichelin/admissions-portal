@@ -38,10 +38,9 @@ class App extends Component {
 
 
   getData(refresh) {
-    if (refresh) { this.setState({isLoading: true}) }
     const API_URL = '/api/v1/user';
     if ((!this.state.fetchedData && localStorage.token) || (refresh && localStorage.token)) {
-      console.log('refreshing data');
+      this.setState({isLoading: true}, () => {
         fetch(API_URL, {
           headers: {
             Authorization: `Bearer ${localStorage.token}`
@@ -73,7 +72,8 @@ class App extends Component {
           }).catch(err => {
             this.clearData()
           })
-    } else {
+        })
+      } else {
       this.setState({
         isLoading: false
       })

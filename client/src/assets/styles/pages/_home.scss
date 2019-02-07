@@ -4,6 +4,10 @@
   min-height: 100vh;
 }
 
+.container {
+  max-width: 1000px;
+}
+
 .portal {
   background: $color-white;
   display: flex;
