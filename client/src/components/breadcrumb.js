@@ -1,19 +1,20 @@
 import React from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default (props) => {
 
+  let rightLink;
+
   if (props.previousComponent && !props.linkUrl) {
-    return (
-      <div className="breadcrumb">
-        <button className="-inline" onClick={(e) => props.previousComponent()}>&#8592; {props.text ? props.text : 'Back to Dashboard'}</button>
-      </div>
-    )
+      rightLink = <button className="-inline" onClick={(e) => props.previousComponent()}>{props.text ? props.text : 'Back to Dashboard'}</button>
   }
 
   return (
     <div className="breadcrumb">
-      <Link to={props.linkUrl ? props.linkUrl : '/dashboard'}><button className="-inline">&#8592; {props.text ? props.text : 'Back to Dashboard'}</button></Link>
-    </div>
+      <Link to={{
+            pathname: "/dashboard",
+            state: { calendarRefresh: true} }}><button className="-inline">&#8592; Back to Dashboard</button></Link>
+      {rightLink}
+</div>
   )
 }

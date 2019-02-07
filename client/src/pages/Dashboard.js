@@ -28,8 +28,13 @@ class Dashboard extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     if (!this.props.fetchedData) this.props.getData(true);
+
+    if (this.props.location.state && this.props.location.state.calendarRefresh) {
+      const {calendarRefresh} = this.props.location.state;
+      if (calendarRefresh) this.props.getData(true);
+    }
   }
 
 onProgramChange(e, field) {

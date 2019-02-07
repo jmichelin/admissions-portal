@@ -12,7 +12,7 @@ export default (props) => {
     if (props.currentStep.step > step.step) {
       return (
         <div className="step" key={i}>
-          <span className="number -complete"><img src={checkMark}></img></span>
+          <span className="number -complete"><img alt=""src={checkMark}></img></span>
           <span className="label">{step.status}</span>
         </div>
       )

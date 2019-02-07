@@ -40,7 +40,8 @@ class App extends Component {
   getData(refresh) {
     if (refresh) { this.setState({isLoading: true}) }
     const API_URL = '/api/v1/user';
-    if ((!this.state.fetchedData && localStorage.token) || refresh && localStorage.token) {
+    if ((!this.state.fetchedData && localStorage.token) || (refresh && localStorage.token)) {
+      console.log('refreshing data');
         fetch(API_URL, {
           headers: {
             Authorization: `Bearer ${localStorage.token}`
@@ -81,7 +82,7 @@ class App extends Component {
 
   statusUpdate(id, status) {
    let newOpps = this.state.opportunities.map(opp => {
-      opp.id === id ? opp.currentStep = status : opp.currentStep = opp.currentStep
+     if (opp.id === id) opp.currentStep = status
       return opp;
    })
      this.setState({

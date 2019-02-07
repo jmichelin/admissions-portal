@@ -9,14 +9,8 @@ import utils from '../helpers/utils';
 import moment from 'moment';
 
 class OpportunityList extends Component {
-  constructor(props){
-    super(props);
-  }
-
 
   render() {
-    let nextSteps;
-
     let opptyList = this.props.opps.map((opp, i) => {
     let course = utils.getCourseName(opp).course;
     let campus = utils.getCourseName(opp).campus;

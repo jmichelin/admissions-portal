@@ -1,6 +1,8 @@
 .breadcrumb {
   padding: $pad;
   background: $color-gray-1;
+  display: flex;
+  justify-content: space-between;
 
   a, button {
     cursor: pointer;

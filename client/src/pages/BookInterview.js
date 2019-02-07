@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
-import ReactDOM from 'react-dom';
+import { Redirect } from 'react-router-dom';
 
 import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
@@ -10,7 +9,7 @@ import LoadingWheel from '../components/base/loader-orange';
 import CampusList from '../components/book-interview-campuses';
 import InterviewSidebar from '../components/book-interview-sidebar';
 
-import { HERO_TEXT, CAMPUSES, SEI_STEPS } from '../constants';
+import { HERO_TEXT, SEI_STEPS } from '../constants';
 
 
 class BookInterview extends Component {
