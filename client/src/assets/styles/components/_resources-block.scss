@@ -1,8 +1,8 @@
 .resources-block {
   & {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
   }
 
   .block {
@@ -14,7 +14,6 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    min-height: 180px;
 
     h4 {
       width: 100%;
