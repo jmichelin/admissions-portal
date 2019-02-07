@@ -4,14 +4,20 @@
   min-height: 100vh;
 }
 
+.container {
+  max-width: 1000px;
+}
+
 .portal {
   background: $color-white;
   display: flex;
+  flex-wrap: wrap-reverse;
   box-shadow: 0px 0px 1px rgba(0,0,0,0.25);
 }
 
 .portal-aside {
   flex: 10 0 50%;
+  padding: $pad-double;
   background: url('./assets/images/binary-gradient.jpg');
   background-position: center;
   background-size: cover;
@@ -23,8 +29,10 @@
 .program-block {
   background: rgba(201, 210, 210, .11);
   padding: $pad;
-  margin: $space-and-half;
-  margin-top: 0;
+
+  &:first-child {
+    margin-bottom: $space-and-half;
+  }
 
   .program-logo {
     height: 40px;
@@ -89,12 +97,18 @@ form {
   .portal-title {
     margin: 32px 0 16px 0;
     font-weight: 500;
+    text-align: center;
   }
 
   .title-subtext {
     text-transform: uppercase;
     font-size: 12px;
+    text-align: center;
   }
+}
 
-
+@media (max-width: $width-mobile) {
+  .home .form-content {
+    padding: 0;
+  }
 }

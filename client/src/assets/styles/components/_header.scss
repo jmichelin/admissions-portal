@@ -250,14 +250,8 @@
   }
 }
 
-@media (min-width: 1201px) {
+@media (min-width: 601px) {
   .main-navigation {
-
-    .nav-items .nav-item:first-child {
-      >.list {
-        width: 750px;
-      }
-    }
 
     .nav-item >ul {
       top: 65px;
@@ -297,14 +291,14 @@
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 600px) {
   .main-navigation {
     max-height: 100vh;
     overflow-y: scroll;
     .nav-wrapper .nav-toggle {
       display: flex;
     }
-    .nav-items, .nav-item>ul {
+    .nav-items, .nav-item>.list {
       display: none;
       visibility: visible;
     }

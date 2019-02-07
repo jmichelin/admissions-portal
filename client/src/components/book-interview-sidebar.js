@@ -14,7 +14,7 @@ export default (props) => {
     <div className="card-help">
       <h4>Got Questions?</h4>
       <p>We have the answers to help you prepare for the technical interview.</p>
-      <button className="button-secondary" src="" target="_blank">About the Tech Interview</button>
+      <a className="button-secondary" href="https://www.galvanize.com/web-development/interview" rel="noopener noreferrer" target="_blank">About the Tech Interview</a>
       <h5>Contact</h5>
       <a href="mailto:admissions@galvanize.com">admissions@galvanize.com</a>
     </div>

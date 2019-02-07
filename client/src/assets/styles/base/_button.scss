@@ -110,8 +110,8 @@
   }
   &:focus, &:active {
     color: $bg-color;
-    background-color: darken($border-color, 50%);
-    border: 2px solid darken($border-color, 50%);
+    background-color: darken($border-color, 10%);
+    border: 2px solid darken($border-color, 10%);
   }
   &.-loading {
     /*@extend %hide-text;*/
@@ -136,14 +136,14 @@
   }
   &:hover {
     color: $color-white;
-    background-color: darken($fg-color, 10%);
-    border: 2px solid darken($fg-color, 10%);
+    background-color: darken($bg-color, 10%);
+    border: 2px solid darken($bg-color, 10%);
     transition: none;
   }
   &:focus, &:active {
     color: $bg-color;
-    background-color: darken($fg-color, 50%);
-    border: 2px solid darken($fg-color, 50%);
+    background-color: darken($bg-color, 10%);
+    border: 2px solid darken($bg-color, 10%);
   }
   &.-loading {
     /*@extend %hide-text;*/

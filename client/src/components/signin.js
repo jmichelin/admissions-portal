@@ -127,6 +127,7 @@ class Signin extends Component {
               <h1 className="logo-subtext">Admissions Portal</h1>
               <h3 className="portal-title">Sign In</h3>
               <p className="title-subtext">Don't have an account? <button className="-inline" onClick={this.props.toggleSignin}>Create Your Account</button></p>
+              <p className="citation -thin -center">Already have an account through Hack Reactor? Create a new account to continue the admissions process.</p>
                 <form onSubmit={this.handleSubmit}>
                   <div className="form-group">
                     {this.createInputs().slice(0,1)}

@@ -51,10 +51,9 @@ router.get('/', (req, res, next) => {
 
 
 router.post('/code-submit', (req, res, next) => {
-  //query salesforce to find contact if no contact return error
   salesforce.login()
     .then(() => {
-      return salesforce.updateCodingChallenge(req.body.oppId, req.body.code)
+      return salesforce.updateCodingChallenge(req.body.oppId, req.body.code, req.body.stage)
     }).then(response => {
       res.send(response);
     })

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import { CAMPUSES } from '../constants';
 
@@ -15,11 +14,11 @@ export default (props) => {
   })
 
   return (
-    <div>
-    <h4 className="column-headline">Select an Interview Location</h4>
-    <div className="card-holder">
-      {campusCards}
-    </div>
+    <div className="grouping">
+      <h4 className="column-headline">Select an Interview Location</h4>
+      <div className="card-holder">
+        {campusCards}
+      </div>
     </div>
   )
 }

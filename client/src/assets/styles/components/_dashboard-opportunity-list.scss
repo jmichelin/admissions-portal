@@ -120,3 +120,42 @@
     }
   }
 }
+
+@media (max-width: 875px) {
+  .table {
+    .table-body .table-row.-steps {
+      .step {
+        width: 165px;
+
+        &::after {
+          width: 160px;
+          left: 95px;
+        }
+      }
+    }
+    .hide-tablet {
+      display: none!important;
+    }
+  }
+}
+
+@media (max-width: 735px) {
+  .dashboard .table {
+    padding: $pad;
+    .table-body .table-row.-steps {
+      display: none;
+    }
+    .hide-mobile {
+      display: none!important;
+    }
+
+    .next-steps {
+      text-align: center;
+      justify-content: center;
+
+      .left-text {
+        padding: 0;
+      }
+    }
+  }
+}

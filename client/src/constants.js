@@ -1,4 +1,13 @@
 export const GALVANIZE_BASE_URL = 'https://www.galvanize.com';
+export const INFO_SESSION_SEI_URL = 'https://www.galvanize.com/events/info-sessions/web-development';
+export const INFO_SESSION_DSI_URL = 'https://www.galvanize.com/events/info-sessions/data-science';
+export const CAMPUS_TOUR_URL = 'https://www.galvanize.com/campus-tours';
+export const TECH_INTERVIEW_SEI_URL = 'https://www.galvanize.com/web-development/interview';
+export const TECH_INTERVIEW_DSI_URL = 'https://www.galvanize.com/data-science/interview';
+export const PREP_SEI_URL = 'https://www.galvanize.com/web-development/prep';
+export const PREP_DSI_URL = 'https://www.galvanize.com/data-science/prep';
+
+export const CODE_CHALLENGE_ENDPOINT = '/api/v1/user/code-submit';
 
 export const PROSPECT_RECORD_ID = '012j00000004QndAAE';
 export const STUDENT_RECORD_ID = '012j0000000kfkDAAQ';
@@ -201,12 +210,12 @@ export const SEI_STEPS = {
     nextStep: 'Final Decision'
   },
   COMPLETE: {
-    step: 4,
-    status: 'Final Decision',
+    step: 5,
+    status: 'Enroll',
     nextStep: 'Finish Enrollment Process'
   },
   HOLD: {
-    step: 5,
+    step: 1,
     status: 'On Hold',
     nextStep: 'On Hold'
   }
@@ -223,7 +232,7 @@ export const HERO_TEXT = {
   },
   SEI_BOOK_INTERVIEW: {
     heroHeadline: 'Book the Technical Interview',
-    heroDescription: 'Description'
+    heroDescription: "All campuses share the same interview format and assessment rubric so you can interview at the location that's most convenient for you, regardless of your preferred campus."
   }
 };
 
