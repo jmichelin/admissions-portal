@@ -59,10 +59,6 @@ class BookInterview extends Component {
       }
      }
 
-  componentDidMount() {
-    if (!this.props.fetchedData) this.props.getData(true);
-  }
-
   loadBookingTool(campus) {
     this.setState({
       campus: campus,
