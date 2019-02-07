@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import AdmissionsProcessList from './admissions-process-list';
 import NextStepBlock from './next-steps-block';
+import ResourcesSEI from './resources-sei';
+import ResourcesDSI from './resources-dsi';
 
 import utils from '../helpers/utils';
 import moment from 'moment';
@@ -30,6 +32,7 @@ class OpportunityList extends Component {
             <AdmissionsProcessList program={opp.courseProduct} currentStep={opp.currentStep} opp={opp}/>
           </div>
           <NextStepBlock opp={opp} currentStep={opp.currentStep}/>
+          {opp.courseProduct === 'Web Development' ? <ResourcesSEI/> : <ResourcesDSI/>}
         </div>
       )
     })

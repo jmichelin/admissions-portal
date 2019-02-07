@@ -13,6 +13,6 @@ export default (props) => {
             pathname: "/book-interview",
             state: { opp: props.opp} }}>
             <button className="button-primary">Schedule Your Interview</button></Link>
-    </div>
+      </div>
   )
 }
