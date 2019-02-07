@@ -1,5 +1,7 @@
 export const GALVANIZE_BASE_URL = 'https://www.galvanize.com';
 
+export const CODE_CHALLENGE_ENDPOINT = '/api/v1/user/code-submit';
+
 export const PROSPECT_RECORD_ID = '012j00000004QndAAE';
 export const STUDENT_RECORD_ID = '012j0000000kfkDAAQ';
 export const SF_WDI_SYLLABUS_CAMPAIGN_ID = process.env.SF_WDI_SYLLABUS_CAMPAIGN_ID;

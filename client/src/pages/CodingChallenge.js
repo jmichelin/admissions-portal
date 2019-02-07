@@ -6,7 +6,7 @@ import Breadcrumb from '../components/breadcrumb';
 
 import * as buble from 'buble'
 
- import { CODING_CHALLENGE_TESTS, SEI_STEPS, HERO_TEXT } from '../constants';
+ import { CODE_CHALLENGE_ENDPOINT, CODING_CHALLENGE_TESTS, SEI_STEPS, HERO_TEXT } from '../constants';
 import CodingInstructions from '../components/CodingInstructions';
 import CodeEditor from '../components/CodeEditor';
 
@@ -23,11 +23,13 @@ class CodingChallenge extends Component {
       allPassed: false,
       errorMessage: '',
       redirectToDashboard: false,
-      internalStatusUpdate: ''
+      internalStatusUpdate: '',
+      attemptSubmitted: false
     };
 
     this.runLocal = this.runLocal.bind(this);
     this.codeSubmit = this.codeSubmit.bind(this);
+    this.codeAttemptUpdate = this.codeAttemptUpdate.bind(this);
   }
 
   componentWillMount() {
@@ -89,6 +91,8 @@ class CodingChallenge extends Component {
             submittedCode: submittedCode
           })
 
+          this.codeAttemptUpdate();
+
           return submittedCode;
         },
         onUnexpectedTerminate: (reason) => {
@@ -108,8 +112,36 @@ class CodingChallenge extends Component {
 
   }
 
+  codeAttemptUpdate() {
+      if (!this.state.allPassed && !this.state.attemptSubmitted) {
+        let data = {
+          code: this.state.submittedCode,
+          oppId: this.state.opp.id,
+          stage: 'No'
+        }
+        fetch(CODE_CHALLENGE_ENDPOINT, {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            Authorization: `Bearer ${localStorage.token}`,
+            'content-type': 'application/json'
+          },
+        }).then(response => {
+          if (response.ok) {
+            return response.json()
+          }
+          return response.json().then(error => {
+            throw new Error(error.message)
+          })
+        }).then(result => {
+          this.setState({ attemptSubmitted: true});
+        }).catch(err => {
+            throw new Error(err.message)
+        })
+  }
+}
+
   codeSubmit(e) {
-    let CODE_CHALLENGE_ENDPOINT = '/api/v1/user/code-submit';
     e.preventDefault();
       if (this.state.allPassed && this.state.submittedCode) {
         this.setState({
@@ -117,7 +149,8 @@ class CodingChallenge extends Component {
         })
         let data = {
           code: this.state.submittedCode,
-          oppId: this.state.opp.id
+          oppId: this.state.opp.id,
+          stage: 'Yes'
         }
         fetch(CODE_CHALLENGE_ENDPOINT, {
           method: 'POST',
@@ -164,6 +197,7 @@ class CodingChallenge extends Component {
                     <h4 className="column-header">Code Editor</h4>
                     <CodeEditor codeTest={this.runLocal}
                       codeSubmit={this.codeSubmit}
+                      codeAttemptUpdate={this.codeAttemptUpdate}
                       errorMessage={this.state.errorMessage}
                       allPassed={this.state.allPassed}
                       showProcessing={this.state.showProcessing}
