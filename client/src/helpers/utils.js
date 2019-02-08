@@ -28,16 +28,16 @@
     if (opp.scorecard.moveForwardCode !== 'Yes') {
       //person needs to do coding challenge
       return SEI_STEPS.STEP_TWO;
-    } else if (opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview !== 'No' && opp.scorecard.moveForwardInterview !== 'Yes' && opp.stage !== 'Interview 1 Scheduled') {
+    } else if (opp.scorecard.finalCode && opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview !== 'No' && opp.scorecard.moveForwardInterview !== 'Yes' && opp.stage !== 'Interview 1 Scheduled') {
       //passed coding challenge but person needs to book the interview
       return SEI_STEPS.STEP_THREE;
-    } else if (opp.scorecard.moveForwardCode === 'Yes' && opp.stage === 'Interview 1 Scheduled') {
+    } else if (opp.scorecard.finalCode && opp.scorecard.moveForwardCode === 'Yes' && opp.stage === 'Interview 1 Scheduled') {
       //passed coding challenge and booked interview
       return SEI_STEPS.STEP_FOUR;
-    } else if (opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview === 'No') {
+    } else if (opp.scorecard.finalCode && opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview === 'No') {
       //passed coding challenge and booked interview but failed
       return SEI_STEPS.HOLD;
-    } else if (opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview === 'Yes') {
+    } else if (opp.scorecard.finalCode && opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview === 'Yes') {
       //passed coding challenge and booked interview and passed
       return SEI_STEPS.COMPLETE;
     } else {
