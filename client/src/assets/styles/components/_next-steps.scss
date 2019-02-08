@@ -1,0 +1,33 @@
+
+  .next-steps {
+
+    & {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      background: $color-gray-5;
+      padding: $pad-and-half;
+      margin: $space;
+      color: white;
+    }
+
+    .left-text {
+      padding-right: $pad-triple;
+      flex: 1;
+      min-width: 65%;
+    }
+
+    &.-blue {
+      background: $color-blue;
+    }
+
+    &.-grey {
+      background: $color-gray-5;
+    }
+
+    &.-green {
+      background: $color-green;
+    }
+
+  }

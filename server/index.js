@@ -1,8 +1,17 @@
+
 const express = require('express');
+const path = require('path');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+
 require('dotenv').config();
+
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+  require('babel-register')({
+     presets: [ 'es2015' ]
+  });
+}
 
 const app = express();
 
@@ -16,19 +25,13 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 app.use(middlewares.checkTokenSetUser);
-
-app.get('/', (req, res) => {
-  res.json({
-    user: req.user
-  });
-});
-
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.use('/auth', auth);
 app.use('/api/v1/user', middlewares.isLoggedIn, users);
 
-app.get('*', (req,res) =>{
-    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
 function notFound(req, res, next) {
@@ -38,8 +41,7 @@ function notFound(req, res, next) {
 }
 
 function errorHandler(err, req, res, next) {
-  res.status(res.statusCode || 500);
-  res.json({
+  res.status(res.statusCode || 500).json({
     message: err.message,
     stack: err.stack
   });

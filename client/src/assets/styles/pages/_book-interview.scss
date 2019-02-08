@@ -1,0 +1,88 @@
+.book-interview {
+  & {
+    background: $color-gray-1;
+  }
+
+  iframe {
+    width: 100%;
+  }
+
+  .two-col {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+
+  .campus-group {
+    flex: 3;
+
+    .grouping {
+      margin: $space-double $space;
+    }
+
+    .card-holder {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .campus-card {
+      flex-grow: 2;
+      text-align: center;
+      padding: $pad;
+      margin: $space-half;
+      background: $color-gray-2;
+      border: 1px solid $color-gray-4;
+
+      h4 {
+        text-transform: none;
+      }
+    }
+    &.-loading {
+      text-align: center;
+    }
+  }
+
+  .sidebar {
+    flex: 1;
+    padding: $pad-double;
+    background: $color-gray-2;
+
+    span {
+      font-weight: 500;
+    }
+
+    ul {
+      padding-left: 22px;
+
+      li {
+        margin-bottom: $space;
+      }
+    }
+
+    .card-help {
+      background: $color-gray-1;
+      padding: $pad;
+      text-align: center;
+      margin-top: $space-triple;
+      border: 1px solid $color-gray-4;
+
+      h5 {
+        margin-bottom: 0;
+        margin-top: $space-and-half;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .book-interview {
+    .sidebar {
+      padding: $pad;
+
+      .button-secondary {
+        font-size: 14px;
+      }
+    }
+  }
+}

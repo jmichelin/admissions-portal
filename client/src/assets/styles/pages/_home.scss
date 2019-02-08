@@ -1,0 +1,124 @@
+.home {
+& {
+  background: $color-gray-1;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1000px;
+}
+
+.portal {
+  background: $color-white;
+  display: flex;
+  flex-wrap: wrap-reverse;
+  box-shadow: 0px 0px 1px rgba(0,0,0,0.25);
+}
+
+.portal-aside {
+  flex: 10 0 50%;
+  padding: $pad-double;
+  background: url('./assets/images/binary-gradient.jpg');
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.program-block {
+  background: rgba(201, 210, 210, .11);
+  padding: $pad;
+
+  &:first-child {
+    margin-bottom: $space-and-half;
+  }
+
+  .program-logo {
+    height: 40px;
+    width: auto;
+
+    &.-dsi {
+      height: 45px;
+    }
+  }
+  p  {
+    color: $color-white;
+  }
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 5 0 50%;
+  padding: $pad-double;
+}
+
+.logo {
+  width: 200px;
+}
+
+form, .form-group, .input-group {
+  width: 100%;
+}
+
+form {
+  & {
+    margin-top: $space;
+  }
+  .input-group {
+    margin: 0 $space;
+  }
+
+  .checkbox-field {
+    text-align: left;
+  }
+
+  .form-footer {
+      margin: $space;
+      text-align: center;
+    }
+
+  .form-footer span {
+    text-align: left;
+    font-size: 12px;
+  }
+
+  .form-footer .button {
+    margin-top: $space-double;
+  }
+}
+  .logo-subtext {
+    font-size: 18px;
+    margin: 0;
+  }
+
+  .portal-title {
+    margin: 32px 0 16px 0;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .title-subtext {
+    text-transform: uppercase;
+    font-size: 12px;
+    text-align: center;
+  }
+}
+
+@media (max-width: $width-tablet) {
+  .home .signup {
+    padding: 0;
+  }
+  .home .form-content {
+    padding: $pad;
+  }
+}
+
+
+@media (max-width: $width-mobile) {
+  .home .signup {
+    padding: $pad;
+  }
+}

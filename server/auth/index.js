@@ -27,7 +27,7 @@ function createTokenSendResponse(user, res, next) {
     last_name:user.last_name
   };
   jwt.sign(payload, process.env.TOKEN_SECRET, {
-    expiresIn: '1d'
+    expiresIn: '4h'
   }, (err, token) => {
     if (err) {
       respondError(res, next);
@@ -39,12 +39,15 @@ function createTokenSendResponse(user, res, next) {
   });
 }
 
+
 router.get('/', (req, res) => {
-  Q.getAllUsers()
-    .then(users => {
-      res.json(users);
-    });
+  res.json({
+    user: req.user,
+    message: 'Hello!'
+  });
 });
+
+
 
 
 router.post('/signup', (req, res, next) => {
@@ -103,7 +106,7 @@ router.post('/signin', (req, res, next) => {
 
 function respondError(res, next) {
   res.status(422);
-  const error = new Error('Unable to login.');
+  const error = new Error('Unable to login. Check your email and password.');
   next(error);
 }
 module.exports = router;

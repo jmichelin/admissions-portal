@@ -1,0 +1,96 @@
+/*------------------------------------*\
+    #COLORS
+\*------------------------------------*/
+
+/* brand colors */
+
+$color-brand-primary: #F79020;
+$color-brand-secondary: #777879;
+
+$color-hr-blue: #0097E3;
+
+$color-blue: #41B6C5;
+$color-blue-dark: #003B4C;
+$color-blue-dark-rgb: rgb(0,59,76);
+$color-blue-dark-flat: #597F8A;
+
+/* new ui colors */
+
+$color-seafoam: #A4DBDE;
+$color-lime: #D5D755;
+$color-mushroom: #C6BFB6;
+$color-secondary-red-dark: #642240;
+$color-secondary-red: #D51067;
+$color-green: #009877;
+
+
+/* neutral colors */
+
+$color-white: #FFF;
+$color-black: #000;
+
+$color-gray-1: #F8F8F8;
+$color-gray-2: #E1E1E1;
+$color-gray-3: #BCBCBC;
+$color-gray-4: #828282;
+$color-gray-5: #4A4A4A;
+$color-gray-6: #252525;
+$color-gray-7: #777879;
+$color-gray-8: #A39D96;
+$color-gray-9: #78787A;
+$color-gray-10: #6a6f74;
+
+$color-light-gray:#f0f0f0;
+
+/*------------------------------------*\
+    #TYPOGRAPHY
+\*------------------------------------*/
+
+$font-primary: "museo-sans", "Helvetica", "Roboto", "Arial", sans-serif;
+$font-secondary: "proxima-nova", "Helvetica", "Roboto", "Arial",  sans-serif;
+$font: $font-secondary;
+
+/* modular scale sizes, 1.2 ratio */
+$heading-ms6: 2.986rem;
+$heading-ms5: 2.488rem;
+$heading-ms4: 2.074rem;
+$heading-ms3: 1.728rem;
+$heading-ms2: 1.44rem;
+$heading-ms1: 1.2rem;
+$heading-ms0: 1rem;
+$heading-ms1n: 0.833rem;
+$heading-ms2n: 0.694rem;
+
+/*------------------------------------*\
+    #LAYOUT
+\*------------------------------------*/
+
+/**
+ * Spacing Defaults
+ */
+$space : 1rem;
+$space-and-half : calc(#{$space}*1.5);
+$space-double : calc(#{$space}*2);
+$space-triple : calc(#{$space}*3);
+$space-quad : calc(#{$space}*4);
+$space-half : calc(#{$space}/2);
+$space-quarter : calc(#{$space}/4);
+
+$pad : 1rem;
+$pad-and-half : calc(#{$pad}*1.5);
+$pad-double : calc(#{$pad}*2);
+$pad-triple : calc(#{$pad}*3);
+$pad-quad : calc(#{$pad}*4);
+$pad-five: calc(#{$pad}*5);
+$pad-half : calc(#{$pad}/2);
+$pad-quarter : calc(#{$pad}/4);
+
+/* container area */
+$container-width: 1170px;
+$container-width-wide: 1440px;
+$portal-width: 1180px;
+
+/* responsive widths */
+$width-mobile: 480px;
+$width-tablet: 768px;
+$width-desktop: 1024px;

@@ -1,0 +1,30 @@
+.dashboard {
+  & {
+    background: $color-gray-1;
+    min-height: 91vh;
+    overflow:auto;
+}
+
+  .program-select {
+    padding: $pad-double;
+  }
+
+  .section-row {
+    padding: $pad-and-half 0;
+    margin: 0;
+  }
+
+  form {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+
+    .form-group {
+      width: auto;
+      margin-right: $space-and-half;
+    }
+  }
+
+  .action {
+  }
+}

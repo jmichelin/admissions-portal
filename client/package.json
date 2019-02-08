@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "buble": "^0.19.6",
+    "codemirror": "^5.42.2",
     "joi": "^14.0.4",
+    "node-sass": "^4.11.0",
     "react": "^16.6.0",
+    "react-codemirror2": "^5.1.0",
     "react-dom": "^16.6.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1"
@@ -16,6 +20,7 @@
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:5000",
+  "homepage": ".",
   "eslintConfig": {
     "extends": "react-app"
   },

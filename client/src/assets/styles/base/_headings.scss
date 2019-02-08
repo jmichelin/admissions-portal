@@ -1,0 +1,78 @@
+/*------------------------------------*\
+    #HEADINGS
+\*------------------------------------*/
+
+h1, h2, h3, h4, h5, h6{
+  font-family: $font-primary;
+}
+
+/**
+ * Heading 1
+ */
+h1  {
+  font-weight: 300;
+  font-size: $heading-ms6;
+  line-height: 1.2;
+  margin: $heading-ms1 0;
+}
+
+/**
+ * Heading 2
+ */
+h2 {
+  font-weight: 500;
+  font-size: $heading-ms5;
+  line-height: 1.2;
+  margin: $heading-ms1 0;
+}
+
+/**
+ * Heading 3
+ */
+h3  {
+  font-weight: 300;
+  font-size: $heading-ms4;
+  line-height: 1.2;
+  margin: $heading-ms1 0;
+}
+
+/**
+ * Heading 4
+ */
+h4 {
+  font-weight: 300;
+  font-size: $heading-ms1;
+  margin: $heading-ms0 0;
+  text-transform: uppercase;
+  letter-spacing: 0.0625em;
+}
+
+/**
+ * Heading 5
+ */
+h5 {
+  font-weight: 500;
+  font-size: $heading-ms1n;
+  margin: $heading-ms0 0;
+  text-transform: uppercase;
+  letter-spacing: 0.0625em;
+}
+
+/**
+ * Heading 6
+ */
+h6 {
+  font-weight: 500;
+  font-size: $heading-ms2n;
+  margin: $heading-ms0 0;
+  text-transform: uppercase;
+  letter-spacing: 0.0625em;
+}
+
+/**
+ * Subheading
+ */
+.subheading {
+  font-family: $font-secondary;
+  font-weight: normal;
+}
