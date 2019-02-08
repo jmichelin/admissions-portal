@@ -107,8 +107,18 @@ form {
   }
 }
 
-@media (max-width: $width-mobile) {
-  .home .form-content {
+@media (max-width: $width-tablet) {
+  .home .signup {
     padding: 0;
+  }
+  .home .form-content {
+    padding: $pad;
+  }
+}
+
+
+@media (max-width: $width-mobile) {
+  .home .signup {
+    padding: $pad;
   }
 }
