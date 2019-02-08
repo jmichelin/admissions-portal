@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Admissions portal application for Galvanize students to be able to apply.",
   "main": "index.js",
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/Galvanize-IT/admissions-portal.git"
+},
   "engines": {
     "node": "10.13.0"
   },
