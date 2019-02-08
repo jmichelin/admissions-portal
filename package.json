@@ -15,9 +15,8 @@
     "server": "cd server && nodemon index.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "clean": "rm -rf dist && mkdir dist",
-    "build-babel": "cd server",
-    "build": "npm run clean && npm run build-babel",
-    "heroku-prebuild": "npm run build",
+    "build-babel": "babel -d ./dist ./server -s",
+    "post-install": "npm run clean && npm run build-babel",
     "start": "node ./dist/index.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
