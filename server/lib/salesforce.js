@@ -397,7 +397,6 @@ class Salesforce {
 
   updateCodingChallenge(oppId, code, stage) {
   return new Promise( (resolve, reject) => {
-    return Promise.all([
       this.connection.sobject('Interview_Evaluation__c')
       .find({Opportunity_Name__c: `${oppId}`})
       .update({
@@ -405,20 +404,36 @@ class Salesforce {
         Move_Forward__c: stage
       }, (err, res) => {
         if(err) { reject(err); }
-      }),
-      this.connection.sobject('Opportunity')
-      .find({Id: `${oppId}`})
-      .update({
-        StageName: 'Returned Takehome',
-      }, (err, res) => {
-        if(err) { reject(err); }
-      })])
-      .then(rows => {
-        if (!rows) return [];
-        return rows;
-      }).then(resolve)
-      .catch(reject)
+        resolve(res);
+      });
   });
+}
+
+
+submitCodingChallenge(oppId, code, stage) {
+return new Promise( (resolve, reject) => {
+  return Promise.all([
+    this.connection.sobject('Interview_Evaluation__c')
+    .find({Opportunity_Name__c: `${oppId}`})
+    .update({
+      Final_Code__c: code,
+      Move_Forward__c: stage
+    }, (err, res) => {
+      if(err) { reject(err); }
+    }),
+    this.connection.sobject('Opportunity')
+    .find({Id: `${oppId}`})
+    .update({
+      StageName: 'Returned Takehome',
+    }, (err, res) => {
+      if(err) { reject(err); }
+    })])
+    .then(rows => {
+      if (!rows) return [];
+      return rows;
+    }).then(resolve)
+    .catch(reject)
+});
 }
 
 
