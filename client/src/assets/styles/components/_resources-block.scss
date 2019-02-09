@@ -20,10 +20,13 @@
       margin-bottom: 0;
     }
 
-    a {
+    button {
       flex: 1;
       flex-grow: 1;
       font-weight: 500;
+      display: flex;
+      margin: 0;
+      padding: 0;
     }
   }
 

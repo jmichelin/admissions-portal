@@ -53,11 +53,7 @@ router.get('/', (req, res, next) => {
 router.post('/code-submit', (req, res, next) => {
   salesforce.login()
     .then(() => {
-      if (req.body.stage === 'Yes') {
-        return salesforce.submitCodingChallenge(req.body.oppId, req.body.code, req.body.stage)
-      } else {
-        return salesforce.updateCodingChallenge(req.body.oppId, req.body.code, req.body.stage)
-      }
+        return salesforce.submitCodingChallenge(req.body.oppId, req.body.code, req.body.stage, req.body.moveForward);
     }).then(response => {
       res.send(response);
     })
