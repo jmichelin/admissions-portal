@@ -395,36 +395,22 @@ class Salesforce {
     });
   }
 
-  updateCodingChallenge(oppId, code, stage) {
-  return new Promise( (resolve, reject) => {
-      this.connection.sobject('Interview_Evaluation__c')
-      .find({Opportunity_Name__c: `${oppId}`})
-      .update({
-        Final_Code__c: code,
-        Move_Forward__c: stage
-      }, (err, res) => {
-        if(err) { reject(err); }
-        resolve(res);
-      });
-  });
-}
 
-
-submitCodingChallenge(oppId, code, stage) {
+submitCodingChallenge(oppId, code, moveForward, stage) {
 return new Promise( (resolve, reject) => {
   return Promise.all([
     this.connection.sobject('Interview_Evaluation__c')
     .find({Opportunity_Name__c: `${oppId}`})
     .update({
       Final_Code__c: code,
-      Move_Forward__c: stage
+      Move_Forward__c: moveForward
     }, (err, res) => {
       if(err) { reject(err); }
     }),
     this.connection.sobject('Opportunity')
     .find({Id: `${oppId}`})
     .update({
-      StageName: 'Returned Takehome',
+      StageName: stage,
     }, (err, res) => {
       if(err) { reject(err); }
     })])

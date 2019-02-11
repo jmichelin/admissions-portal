@@ -121,7 +121,8 @@ class CodingChallenge extends Component {
         let data = {
           code: this.state.submittedCode,
           oppId: this.state.opp.id,
-          stage: 'No'
+          moveForward: 'No',
+          stage: 'Sent Takehome'
         }
         fetch(CODE_CHALLENGE_ENDPOINT, {
           method: 'POST',
@@ -154,7 +155,8 @@ class CodingChallenge extends Component {
         let data = {
           code: this.state.submittedCode,
           oppId: this.state.opp.id,
-          stage: 'Yes'
+          moveForward: 'Yes',
+          stage: 'Returned Takehome'
         }
         fetch(CODE_CHALLENGE_ENDPOINT, {
           method: 'POST',
