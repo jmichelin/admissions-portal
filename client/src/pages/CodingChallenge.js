@@ -21,7 +21,7 @@ class CodingChallenge extends Component {
       showProcessing: false,
       submittingCode: false,
       allPassed: false,
-      errorMessage: '',
+      errorMessage: "Test your code to see if you pass each step on the left.  Click Submit once you've passed all steps.",
       redirectToDashboard: false,
       internalStatusUpdate: '',
       attemptSubmitted: false
