@@ -3,6 +3,8 @@ import { Redirect } from 'react-router-dom';
 import inputs from './forms/inputs/inputs';
 import InputGroup from './forms/input-group';
 
+import HRLogo from '../assets/images/hack-reactor-horizontal-logo.png';
+
 import Joi from 'joi';
 
 const SIGNIN_URL = '/auth/signin';
@@ -16,7 +18,8 @@ class Signin extends Component {
     this.state = {
       formInputs: accountInputs,
       email:'',
-      password:''
+      password:'',
+      isLoading: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -123,11 +126,14 @@ class Signin extends Component {
         }
     return (
             <div className="signin">
-              <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
-              <h1 className="logo-subtext">Admissions Portal</h1>
+              <h1 className="title">Admissions Portal<span>New!</span></h1>
+              <div className="logo-wrapper">
+                <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
+                <img className="logo -hr" src={HRLogo} alt="Hack Reactor Logo"></img>
+              </div>
               <h3 className="portal-title">Sign In</h3>
               <p className="title-subtext">Don't have an account? <button className="-inline" onClick={this.props.toggleSignin}>Create Your Account</button></p>
-              <p className="citation -thin -center">Already have an account through Hack Reactor? Create a new account to continue the admissions process.</p>
+                <p className="citation -thin -center">Have an account through Hack Reactor? Create a new account here to pick up where you left off in the admissions process.</p>
                 <form onSubmit={this.handleSubmit}>
                   <div className="form-group">
                     {this.createInputs().slice(0,1)}
@@ -136,10 +142,9 @@ class Signin extends Component {
                     {this.createInputs().slice(1,2)}
                   </div>
                   <div className="form-footer">
-                    <div className="forgot-password"><button className="-inline">Forgot Your Password?</button></div>
-                    <button className="button-primary">Sign In</button>
+                    <button className={this.state.isLoading ? "button-primary -loading" : "button-primary"}>Sign In</button>
                   </div>
-                  <span className="form note form-error">{ this.state.errorMessage }</span>
+                  <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
                 </form>
             </div>
     );

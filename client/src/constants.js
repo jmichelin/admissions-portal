@@ -1,7 +1,7 @@
 export const GALVANIZE_BASE_URL = 'https://www.galvanize.com';
 export const INFO_SESSION_SEI_URL = 'https://www.galvanize.com/events/info-sessions/web-development';
 export const INFO_SESSION_DSI_URL = 'https://www.galvanize.com/events/info-sessions/data-science';
-export const CAMPUS_TOUR_URL = 'https://www.galvanize.com/campus-tours';
+export const CAMPUS_TOUR_URL = 'https://www.hackreactor.com/campus-tours-and-info-sessions';
 export const TECH_INTERVIEW_SEI_URL = 'https://www.galvanize.com/web-development/interview';
 export const TECH_INTERVIEW_DSI_URL = 'https://www.galvanize.com/data-science/interview';
 export const PREP_SEI_URL = 'https://www.galvanize.com/web-development/prep';

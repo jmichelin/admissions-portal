@@ -68,7 +68,7 @@ function getSignInInputs() {
     fieldName: 'Password',
     value: '',
     required: true,
-    errorMessage: 'Password must be between 5 and 15 characters.'
+    errorMessage: 'Please enter a valid password.'
   }];
 }
 

@@ -14,10 +14,10 @@ export default (props) => {
 
   return (
     <div className="input-group">
-      <Label optional={ props.optional } text={ props.label } />
       <TextField id={ props.name }
         fieldName={ props.fieldName }
         value={ props.value }
+        placeholder={props.label}
         onInputChange={ props.onInputChange }
         className={ errorClass }
         type={ props.type }

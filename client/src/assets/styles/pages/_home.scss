@@ -40,7 +40,7 @@
     width: auto;
 
     &.-dsi {
-      height: 45px;
+      height: 48px;
     }
   }
   p  {
@@ -74,11 +74,31 @@
   flex-direction: column;
   align-items: center;
   flex: 5 0 50%;
-  padding: $pad;
+  padding: $pad-double;
 }
 
-.logo {
-  width: 200px;
+.citation {
+  background: #fdffe0;
+  padding: $pad 12px;
+  font-size: 13px;
+  margin: 0;
+}
+
+.logo-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  margin-top: 8px;
+
+  .logo {
+    height: 22px;
+  }
+  .logo.-hr {
+    height: 19px;
+    padding-left: 26px;
+  }
 }
 
 form, .form-group, .input-group {
@@ -87,10 +107,10 @@ form, .form-group, .input-group {
 
 form {
   & {
-    margin-top: $space;
+    margin-top: $space-and-half;
   }
   .input-group {
-    margin: 0 $space;
+    margin: 0 $space 12px $space;
   }
 
   .checkbox-field {
@@ -98,7 +118,7 @@ form {
   }
 
   .form-footer {
-      margin: $space;
+      margin: 0 $space $space $space;
       text-align: center;
     }
 
@@ -111,15 +131,26 @@ form {
     margin-top: $space-double;
   }
 }
-  .logo-subtext {
-    font-size: 18px;
+  .title {
+    font-size: 36px;
     margin: 0;
+    margin-top: 12px;
+    position: relative;
+     span {
+       font-size: 12px;
+       top: 0;
+       right: -35px;
+       position: absolute;
+       font-weight: 500;
+       color: $color-brand-primary;
+     }
   }
 
   .portal-title {
-    margin: 32px 0 16px 0;
+    margin: 45px 0 0 0;
     font-weight: 500;
     text-align: center;
+    font-size: 25px;
   }
 
   .title-subtext {
@@ -134,7 +165,7 @@ form {
     padding: 0;
   }
   .home .form-content {
-    padding: $pad;
+    padding: $pad-double $pad;
   }
 }
 
@@ -146,5 +177,12 @@ form {
 
   .home .portal-aside .-campuses {
     display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .home .title {
+    font-size: 30px;
+    white-space: nowrap;
   }
 }
