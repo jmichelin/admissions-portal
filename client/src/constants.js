@@ -224,7 +224,7 @@ export const SEI_STEPS = {
 export const HERO_TEXT = {
   DASHBOARD: {
     heroHeadline: 'Admissions Portal Dashboard',
-    heroDescription: 'Manage your application, see next steps, and complete the admissions process from here.'
+    heroDescription: 'Manage your application, see next steps and complete the admissions process from here.'
   },
   CODING_CHALLENGE: {
     heroHeadline: 'Pass the Coding Challenge',

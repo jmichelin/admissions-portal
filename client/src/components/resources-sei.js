@@ -9,8 +9,8 @@ export default (props) => {
     <div className="resources-block">
       <div className="block">
         <h4>Start Preparing Online</h4>
-        <p>We offer different prep programs based on your learning style.</p>
-        <a className="button-secondary" href={PREP_SEI_URL} target="_blank" rel="noopener noreferrer">Sign Up for Prep</a>
+          <p>We offer different Prep courses based on your learning style.</p>
+        <button><a className="button-secondary" href={PREP_SEI_URL} target="_blank" rel="noopener noreferrer">Sign Up for Prep</a></button>
       </div>
       <div className="block">
         <h4>Learn More</h4>
