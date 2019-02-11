@@ -26,7 +26,8 @@ class Signup extends Component {
       terms: false,
       isFormValid: false,
       submitAttempted: false,
-      errorMessage: ''
+      errorMessage: '',
+      isLoading: false
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
@@ -172,9 +173,9 @@ class Signup extends Component {
             </div>
             <div className="form-footer">
               {this.createInputs().slice(5,6)}
-              <input type="submit" value="Create Account" className="button-primary"/>
+              <input type="submit" value="Create Account" className={this.state.isLoading ? "button-primary -loading" : "button-primary"}/>
             </div>
-            <span className="form note form-error">{ this.state.errorMessage }</span>
+            <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
           </form>
         </div>
     );

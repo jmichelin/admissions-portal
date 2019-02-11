@@ -18,7 +18,8 @@ class Signin extends Component {
     this.state = {
       formInputs: accountInputs,
       email:'',
-      password:''
+      password:'',
+      isLoading: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -141,10 +142,9 @@ class Signin extends Component {
                     {this.createInputs().slice(1,2)}
                   </div>
                   <div className="form-footer">
-                    <div className="forgot-password"><button className="-inline">Forgot Your Password?</button></div>
-                    <button className="button-primary">Sign In</button>
+                    <button className={this.state.isLoading ? "button-primary -loading" : "button-primary"}>Sign In</button>
                   </div>
-                  <span className="form note form-error">{ this.state.errorMessage }</span>
+                  <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
                 </form>
             </div>
     );
