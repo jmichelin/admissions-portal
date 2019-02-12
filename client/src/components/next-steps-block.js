@@ -31,11 +31,11 @@ function getSEINextSteps() {
   function getDSINextSteps() {
     switch(props.currentStep.status) {
       case 'Awaiting Coding Challenge':
-      return <NextStepsCodingChallenge {...props}/>
+      return <NextStepsHold {...props}/>
       case 'Schedule Your Interview':
-      return <NextStepsBookInterview {...props}/>
+      return <NextStepsHold {...props}/>
       case 'Interview Passed':
-      return <NextStepsCodingChallenge {...props}/>
+      return <NextStepsHold {...props}/>
       case 'On Hold':
       return <NextStepsHold {...props}/>
       case 'Contact Your EO':
