@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import AdmissionsProcessList from './admissions-process-list';
+import AdmissionsProcessListSEI from './admissions-process-list-sei';
+import AdmissionsProcessListDSI from './admissions-process-list-dsi';
 import NextStepBlock from './next-steps-block';
 import ResourcesSEI from './resources-sei';
 import ResourcesDSI from './resources-dsi';
@@ -23,7 +24,10 @@ class OpportunityList extends Component {
             <li className="hide-tablet">{opp.currentStep.status}</li>
           </ul>
           <div className="table-row -steps">
-            <AdmissionsProcessList program={opp.courseProduct} currentStep={opp.currentStep} opp={opp}/>
+            {opp.courseProduct === 'Web Development' ?
+              <AdmissionsProcessListSEI program={opp.courseProduct} currentStep={opp.currentStep} opp={opp}/>
+              : <AdmissionsProcessListDSI program={opp.courseProduct} currentStep={opp.currentStep} opp={opp}/>
+            }
           </div>
           <NextStepBlock opp={opp} currentStep={opp.currentStep}/>
           {opp.courseProduct === 'Web Development' ? <ResourcesSEI/> : <ResourcesDSI/>}

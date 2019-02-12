@@ -58,7 +58,6 @@ router.post('/code-submit', (req, res, next) => {
       res.send(response);
     })
     .catch(err => {
-      console.log(err);
       res.status(501);
       const error = new Error('Error updating coding challenge.');
       next(error);

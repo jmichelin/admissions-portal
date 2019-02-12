@@ -215,7 +215,40 @@ export const SEI_STEPS = {
     nextStep: 'Finish Enrollment Process'
   },
   HOLD: {
+    step: 0,
+    status: 'On Hold',
+    nextStep: 'On Hold'
+  }
+};
+
+export const DSI_STEPS = {
+  STEP_ONE: {
     step: 1,
+    status: 'Complete Your Application',
+    nextStep: 'Pass the Takehome Assessment'
+  },
+  STEP_TWO: {
+    step: 2,
+    status: 'Pass the Takehome Assessment',
+    nextStep: 'Book Your Technical Interviews',
+  },
+  STEP_THREE: {
+    step: 3,
+    status: 'Book Your Technical Interviews',
+    nextStep: 'Prepare for Your Technical Interviews',
+  },
+  STEP_FOUR: {
+    step: 4,
+    status: 'Pass Your Technical Interviews',
+    nextStep: 'Final Decision'
+  },
+  COMPLETE: {
+    step: 5,
+    status: 'Enroll',
+    nextStep: 'Finish Enrollment Process'
+  },
+  HOLD: {
+    step: 0,
     status: 'On Hold',
     nextStep: 'On Hold'
   }
@@ -243,4 +276,13 @@ export const APPLICATION_STEPS_SEI = [
   SEI_STEPS.STEP_FOUR,
   SEI_STEPS.COMPLETE,
   SEI_STEPS.HOLD
+];
+
+export const APPLICATION_STEPS_DSI = [
+  DSI_STEPS.STEP_ONE,
+  DSI_STEPS.STEP_TWO,
+  DSI_STEPS.STEP_THREE,
+  DSI_STEPS.STEP_FOUR,
+  DSI_STEPS.COMPLETE,
+  DSI_STEPS.HOLD
 ];
