@@ -27,7 +27,7 @@ function isLoggedIn(req, res, next) {
     next();
   } else {
     const error = new Error('Un-Authorized');
-    res.redirect(401, '/');
+    next(error);
   }
 }
 

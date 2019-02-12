@@ -135,13 +135,12 @@ class CodingChallenge extends Component {
           if (response.ok) {
             return response.json()
           }
-          return response.json().then(error => {
-            throw new Error(error.message)
-          })
+          throw new Error();
+          this.setState({ redirectToDashboard: true});
         }).then(result => {
           this.setState({ attemptSubmitted: true});
         }).catch(err => {
-            throw new Error(err.message)
+          this.setState({ redirectToDashboard: true});
         })
   }
 }
@@ -169,9 +168,7 @@ class CodingChallenge extends Component {
           if (response.ok) {
             return response.json()
           }
-          return response.json().then(error => {
-            throw new Error(error.message)
-          })
+          throw new Error();
         }).then(result => {
           this.props.statusUpdate(this.state.opp.id, SEI_STEPS.STEP_THREE)
           this.setState({ submittingCode: false, redirectToDashboard:true});
