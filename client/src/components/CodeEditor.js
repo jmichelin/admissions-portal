@@ -19,6 +19,7 @@ class CodeEditor extends Component {
     const options = {
       mode: 'javascript',
       lineNumbers: true,
+      lineWrapping: true,
       showCursorWhenSelecting: true,
       styleActiveLine: true
     }

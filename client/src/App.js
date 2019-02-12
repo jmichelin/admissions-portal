@@ -47,7 +47,7 @@ class App extends Component {
           },
         }).then(res => res.json())
           .then(result => {
-            if (result.message === 'jwt expired') {
+            if (result.message === 'jwt expired' || result.message === 'jwt malformed') {
               this.clearData()
             }
             else if (result.data && result.data.opportunities && result.data.user) {

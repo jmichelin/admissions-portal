@@ -23,17 +23,17 @@ export default (props) => {
         </li>
 
         <li className={`${testPass(props.tests, 4)}`}>Declare a new variable named <code>myInfo</code> and assign it to an empty object literal.</li>
-      <li className={`${testPass(props.tests, 5)}`}>Add the following three key-value pairs to <code>myInfo</code>:
+      <li className={`${props.allPassed ? "-pass" : ""}`}>Add the following three key-value pairs to <code>myInfo</code>:
           <ul>
-            <li>
+            <li className={`${testPass(props.tests, 5)}`}>
               <b>Key:</b> <code>fullName</code><br />
               <b>Value:</b> The result of calling <code>cutName</code> on the name string within <code>myArray</code>.
             </li>
-            <li>
+            <li className={`${testPass(props.tests, 6)}`}>
               <b>Key:</b> <code>skype</code><br />
               <b>Value:</b> The Skype handle within <code>myArray</code>.
             </li>
-            <li>
+            <li className={`${testPass(props.tests, 7)}`}>
               <b>Key:</b> <code>github</code><br />
               <b>Value:</b>
                 If you have a github handle, enter it here as a string.

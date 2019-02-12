@@ -21,7 +21,7 @@ class CodingChallenge extends Component {
       showProcessing: false,
       submittingCode: false,
       allPassed: false,
-      errorMessage: '',
+      errorMessage: "Test your code to see if you pass each step.  Click Submit once you've passed all steps.",
       redirectToDashboard: false,
       internalStatusUpdate: '',
       attemptSubmitted: false
@@ -90,7 +90,7 @@ class CodingChallenge extends Component {
           this.setState({
             showProcessing: false,
             localTestResults: results,
-            errorMessage: allCorrect ? "You have passed all the tests! Submit your code to move to the next step in the admissions process." : `Keep working on Step ${firstFailingTest.index + 1}`,
+            errorMessage: allCorrect ? "You have passed all the tests! Submit your code to move to the next step in the admissions process." : `Keep working on Step ${firstFailingTest.index < 5 ? firstFailingTest.index + 1: 6}`,
             allPassed: allCorrect ? true : false,
             submittedCode: submittedCode
           })
@@ -135,13 +135,12 @@ class CodingChallenge extends Component {
           if (response.ok) {
             return response.json()
           }
-          return response.json().then(error => {
-            throw new Error(error.message)
-          })
+          throw new Error();
+          this.setState({ redirectToDashboard: true});
         }).then(result => {
           this.setState({ attemptSubmitted: true});
         }).catch(err => {
-            throw new Error(err.message)
+          this.setState({ redirectToDashboard: true});
         })
   }
 }
@@ -169,9 +168,7 @@ class CodingChallenge extends Component {
           if (response.ok) {
             return response.json()
           }
-          return response.json().then(error => {
-            throw new Error(error.message)
-          })
+          throw new Error();
         }).then(result => {
           this.props.statusUpdate(this.state.opp.id, SEI_STEPS.STEP_THREE)
           this.setState({ submittingCode: false, redirectToDashboard:true});
@@ -198,7 +195,7 @@ class CodingChallenge extends Component {
                 <Hero headline={HERO_TEXT.CODING_CHALLENGE.heroHeadline} description={HERO_TEXT.CODING_CHALLENGE.heroDescription}/>
                 <Breadcrumb />
                 <div className="challenge-editor">
-                  <CodingInstructions tests={this.state.localTestResults}/>
+                  <CodingInstructions tests={this.state.localTestResults} allPassed={this.state.allPassed}/>
                   <div className="code-editor col">
                     <h4 className="column-header">Code Editor</h4>
                     <CodeEditor codeTest={this.runLocal}
