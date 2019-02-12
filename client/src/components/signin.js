@@ -87,7 +87,8 @@ class Signin extends Component {
           return result;
         }).catch(err => {
             this.setState({
-              errorMessage: err.message
+              errorMessage: err.message,
+              isLoading: false
             })
         })
       } else {
