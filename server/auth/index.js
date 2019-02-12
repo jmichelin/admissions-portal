@@ -64,8 +64,7 @@ router.post('/signup', (req, res, next) => {
             .then(hashedPassword => {
               Q.addNewUser(req.body, hashedPassword)
                 .then((newUser) => {
-                  // res.status(200);
-                  createTokenSendResponse(newUser, res, next);
+                  createTokenSendResponse(newUser[0], res, next);
                 });
             })
             .catch(err => next(err));
