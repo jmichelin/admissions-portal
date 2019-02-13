@@ -10,11 +10,13 @@ import InputGroup from '../components/forms/input-group';
 import HRLogo from '../assets/images/hack-reactor-horizontal-logo.png';
 import Joi from 'joi';
 
+const API_URL = '/auth/forgot-password';
+
 
 class ForgotPassword extends Component {
   constructor() {
     super();
-    const accountInputs = inputs.getSignInInputs();
+    const accountInputs = inputs.getForgotPasswordInputs();
 
     this.state = {
       formInputs: accountInputs,
@@ -22,6 +24,7 @@ class ForgotPassword extends Component {
       showError: false,
       messageFromServer: '',
       showNullError: false,
+      errorMessage: ''
     };
 
     this.onInputChange = this.onInputChange.bind(this);
@@ -68,7 +71,16 @@ class ForgotPassword extends Component {
       return true;
     }
     return false;
-}
+  };
+
+  validUser(data) {
+    const result = Joi.validate(data, schema);
+    if (result.error === null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   sendEmail(e) {
     e.preventDefault();
@@ -80,40 +92,41 @@ class ForgotPassword extends Component {
 
     const { email } = this.state;
     const formData = { email }
-
-      if (this.validField(email)) {
-        fetch('/auth/forgot-password', {
+      if (this.validUser(formData)) {
+        fetch(API_URL, {
           method: 'POST',
           body: JSON.stringify(formData),
           headers: {
             'content-type': 'application/json'
             }
           }).then((response) => {
-          console.log(response.data);
-          if (response.data === 'recovery email sent') {
-            this.setState({
-              showError: false,
-              messageFromServer: 'recovery email sent',
-              showNullError: false,
-            });
+            if (response.ok) {
+            return response.json()
+          } else {
+            return response.json().then(error => {
+              throw new Error(error.message)
+            })
           }
+            if (response.data === 'recovery email sent') {
+              this.setState({
+                showError: false,
+                messageFromServer: 'recovery email sent',
+                showNullError: false,
+              });
+            }
         })
         .catch((error) => {
-          console.error(error.response.data);
-          if (error.response.data === 'email not in db') {
-            this.setState({
-              showError: true,
-              messageFromServer: '',
-              showNullError: false,
-            });
-          }
+          this.setState({
+            errorMessage: error.message,
+            isLoading: false
+          })
         });
     } else {
       this.setState({
         isLoading: false
       })
     }
-  };
+  }
 
   render() {
     const {email, messageFromServer, showNullError, showError} = this.state;
@@ -137,6 +150,7 @@ class ForgotPassword extends Component {
           <div className="form-footer">
             <button className={this.state.isLoading ? "button-primary -loading" : "button-primary"}>Sign In</button>
           </div>
+          <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
         </form>
         {showNullError && (
           <div>
@@ -171,7 +185,6 @@ class ForgotPassword extends Component {
 
 const schema = {
   email: Joi.string().email(),
-  password: Joi.string().min(5).max(15)
 }
 
 

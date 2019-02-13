@@ -3,6 +3,8 @@ const Joi = require('joi');
 const Q = require('../db/queries');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+import crypto from 'crypto';
+
 
 const router = express.Router();
 
@@ -92,7 +94,6 @@ router.post('/signin', (req, res, next) => {
         } else {
           respondError(res, next);
         }
-        // if user already exists throw error
       });
   } else {
     respondError(res, next);
@@ -100,12 +101,63 @@ router.post('/signin', (req, res, next) => {
 });
 
 router.post('/forgot-password', (req, res, next) => {
-  
+  Q.getUserbyEmail(req.body.email)
+  .then((user) => {
+    console.log(user);
+    if (!user) {
+      const error = new Error('No user with this email exists. Create an account.');
+      res.status(422);
+      next(error);
+    } else {
+      const token = crypto.randomBytes(20).toString('hex');
+      user.update({
+        resetPasswordToken: token,
+        resetPasswordExpires: Date.now() + 360000,
+      });
+
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: `${process.env.NODEMAILER_EMAIL}`,
+          pass: `${process.env.NODEMAILER_PASSWORD}`,
+        },
+      });
+
+      const mailOptions = {
+        from: 'admissions@galvanize.com',
+        to: `${user.email}`,
+        subject: 'Link To Reset Password',
+        text:
+          'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n'
+          + 'Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n'
+          + `http://localhost:3031/reset/${token}\n\n`
+          + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
+      };
+
+      console.log('sending mail');
+
+      transporter.sendMail(mailOptions, (err, response) => {
+        if (err) {
+          console.error('there was an error: ', err);
+          respondForgotError(res, next);
+        } else {
+          console.log('here is the res: ', response);
+          res.status(200).json('recovery email sent');
+        }
+      });
+    }
+  });
 });
 
 function respondError(res, next) {
   res.status(422);
   const error = new Error('Unable to login. Check your email and password.');
+  next(error);
+}
+
+function respondForgotError(res, next) {
+  res.status(501);
+  const error = new Error('Unable to reset password.');
   next(error);
 }
 module.exports = router;

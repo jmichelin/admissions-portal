@@ -72,7 +72,19 @@ function getSignInInputs() {
   }];
 }
 
+function getForgotPasswordInputs() {
+  return [{
+    id: 'email',
+    label: 'Email',
+    type: 'email',
+    value: '',
+    required: true,
+    errorMessage: 'Enter a valid email.'
+  }];
+}
+
 export default {
   getCreateAccountInputs: getCreateAccountInputs,
-  getSignInInputs: getSignInInputs
+  getSignInInputs: getSignInInputs,
+  getForgotPasswordInputs: getForgotPasswordInputs
 };

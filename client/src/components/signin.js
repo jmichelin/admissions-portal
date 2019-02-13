@@ -43,7 +43,6 @@ class Signin extends Component {
     } else {
       return false;
     }
-
   }
 
   validField(input) {

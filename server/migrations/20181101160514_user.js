@@ -5,6 +5,8 @@ exports.up = function(knex, Promise) {
     table.text('password').notNullable();
     table.text('first_name').notNullable()
     table.text('last_name').notNullable()
+    table.text('resetPasswordToken')
+    table.date('resetPasswordExpires')
   });
 };
 

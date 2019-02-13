@@ -16,7 +16,6 @@ function checkTokenSetUser(req, res, next) {
       });
     } else {
       next(err);
-
     }
   } else {
     next();
