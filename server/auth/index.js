@@ -78,8 +78,6 @@ router.post('/signup', (req, res, next) => {
 router.post('/signin', (req, res, next) => {
   const result = Joi.validate(req.body, signinSchema);
   if (result.error === null) {
-
-    //look for user by Email
     Q.getUserbyEmail(req.body.email)
       .then(user => {
         if (user) {
@@ -99,8 +97,10 @@ router.post('/signin', (req, res, next) => {
   } else {
     respondError(res, next);
   }
-  //if no email throw error, if email
+});
 
+router.post('/forgot-password', (req, res, next) => {
+  
 });
 
 function respondError(res, next) {
