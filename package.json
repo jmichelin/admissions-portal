@@ -17,7 +17,7 @@
     "clean": "rm -rf dist && mkdir dist",
     "build-babel": "babel -d ./dist ./server -s",
     "start": "npm run clean && npm run build-babel && node ./dist/index.js",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd client && npm install && npm run build:production"
   },
   "keywords": [],
   "author": "",
