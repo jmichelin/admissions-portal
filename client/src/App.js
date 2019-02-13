@@ -4,6 +4,7 @@ import { PrivateRoute, PublicRoute, NoMatch } from './helpers/Routes';
 
 import Header from './components/header';
 import Home from './pages/Home';
+import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
 import CodingChallenge from './pages/CodingChallenge';
 import BookInterview from './pages/BookInterview';
@@ -97,6 +98,7 @@ render() {
           <main>
           <Switch>
             <PublicRoute exact path='/' clearData={this.clearData} component={Home}/>
+            <PublicRoute exact path='/forgot-password' component={ForgotPassword}/>
             <PrivateRoute exact path='/dashboard'{...this.state}  getData={this.getData} statusUpdate={this.statusUpdate} component={Dashboard}/>
             <PrivateRoute exact path='/coding-challenge' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={CodingChallenge}/>
             <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterview}/>
