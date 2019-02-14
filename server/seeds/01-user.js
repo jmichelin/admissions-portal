@@ -7,7 +7,7 @@ exports.seed = function(knex, Promise) {
         first_name: 'Tom',
         last_name: 'Jones',
         resetPasswordToken: '',
-        resetPasswordExpires: '',
+        resetPasswordExpires: ''
       }];
       return knex('user').insert(user);
     });
