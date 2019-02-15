@@ -28,5 +28,12 @@ module.exports = {
           resetPasswordToken: token,
           resetPasswordExpires: Date.now() + 360000
         });
+    },
+
+    getUserbyToken: function(token) {
+      return knex('user')
+      .where('resetPasswordToken', token)
+      .andWhere('resetPasswordExpires', '>', Date.now())
+      .first();
     }
 };

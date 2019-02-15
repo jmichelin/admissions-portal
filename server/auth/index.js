@@ -152,6 +152,24 @@ router.post('/forgot-password', (req, res, next) => {
   });
 });
 
+
+router.get('/reset/:id', (req, res, next) => {
+  Q.getUserbyToken(req.params.id)
+    .then((user) => {
+    if (user == null) {
+      console.error('password reset link is invalid or has expired');
+      res.status(403).json('password reset link is invalid or has expired');
+    } else {
+      res.status(200).json({
+        username: user.email,
+        message: 'password reset link a-ok',
+      });
+    }
+  }).catch(err => {
+    console.log(error);
+  })
+});
+
 function respondError(res, next) {
   res.status(422);
   const error = new Error('Unable to login. Check your email and password.');
