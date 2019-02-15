@@ -20,5 +20,13 @@ module.exports = {
           first_name: user.first_name,
           last_name: user.last_name
         });
+    },
+
+    updateUserPasswordToken: function(token) {
+      return knex('user')
+        .update({
+          resetPasswordToken: token,
+          resetPasswordExpires: Date.now() + 360000
+        });
     }
 };

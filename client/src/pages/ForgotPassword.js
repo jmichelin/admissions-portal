@@ -107,13 +107,14 @@ class ForgotPassword extends Component {
               throw new Error(error.message)
             })
           }
-            if (response.data === 'recovery email sent') {
-              this.setState({
-                showError: false,
-                messageFromServer: 'recovery email sent',
-                showNullError: false,
-              });
-            }
+        }).then(result => {
+          console.log(result);
+          if (result === 'recovery email sent') {
+            this.setState({
+              isLoading: false,
+              errorMessage: 'Recovery Email Sent',
+            });
+          }
         })
         .catch((error) => {
           this.setState({

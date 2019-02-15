@@ -4,6 +4,7 @@ const Q = require('../db/queries');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 import crypto from 'crypto';
+const nodemailer = require('nodemailer');
 
 
 const router = express.Router();
@@ -110,10 +111,12 @@ router.post('/forgot-password', (req, res, next) => {
       next(error);
     } else {
       const token = crypto.randomBytes(20).toString('hex');
-      user.update({
-        resetPasswordToken: token,
-        resetPasswordExpires: Date.now() + 360000,
-      });
+      Q.updateUserPasswordToken(token)
+      .catch(err => {
+        const error = new Error('Error setting token. Try again.');
+        res.status(422);
+        next(error);
+      })
 
       const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -124,13 +127,13 @@ router.post('/forgot-password', (req, res, next) => {
       });
 
       const mailOptions = {
-        from: 'admissions@galvanize.com',
+        from: 'murph.grainger@gmail.com',
         to: `${user.email}`,
-        subject: 'Link To Reset Password',
+        subject: 'Reset Your Admissions Portal Password',
         text:
-          'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n'
+          'You are receiving this because you (or someone else) have requested the reset of the password for your Admissions Portal account.\n\n'
           + 'Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n'
-          + `http://localhost:3031/reset/${token}\n\n`
+          + `http://localhost:3000/reset/${token}\n\n`
           + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
       };
 
