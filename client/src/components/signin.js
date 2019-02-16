@@ -133,7 +133,7 @@ class Signin extends Component {
              <div>
                <h3 className="portal-title">Sign In</h3>
                <p className="title-subtext">Don't have an account? <button className="-inline" onClick={this.props.toggleSignin}>Create Your Account</button></p>
-                 <p className="citation -thin -center">Have an account through Hack Reactor? Create a new account here to pick up where you left off in the admissions process.</p>
+                 <p className="citation -thin -center -note">Have an account through Hack Reactor? Create a new account here to pick up where you left off in the admissions process.</p>
                  <form onSubmit={this.handleSubmit}>
                    <div className="form-group">
                      {this.createInputs().slice(0,1)}

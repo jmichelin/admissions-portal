@@ -141,38 +141,17 @@ class ForgotPassword extends Component {
               <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
               <img className="logo -hr" src={HRLogo} alt="Hack Reactor Logo"></img>
             </div>
-             <h3 className="portal-title">Forgot Password</h3>
+             <h3 className="portal-title -forgot-pass">Forgot Your Password?</h3>
+             <p className="citation -thin -center">Enter your email to receive a password reset link.</p>
           <form onSubmit={this.sendEmail}>
           <div className="form-group">
             {this.createInputs().slice(0,1)}
           </div>
           <div className="form-footer">
-            <button className={this.state.isLoading ? "button-primary -loading" : "button-primary"}>Sign In</button>
+            <button className={this.state.isLoading ? "button-primary -loading" : "button-primary"}>Submit</button>
           </div>
           <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
         </form>
-        {showNullError && (
-          <div>
-            <p>The email address cannot be null.</p>
-          </div>
-        )}
-        {showError && (
-          <div>
-            <p>
-              That email address isn't recognized. Please try again or
-              create a new account.
-            </p>
-            <button
-              buttonText="Register"
-              link="/register"
-            />
-          </div>
-        )}
-        {messageFromServer === 'recovery email sent' && (
-          <div>
-            <h3>Password Reset Email Successfully Sent!</h3>
-          </div>
-        )}
         <Link to="/"><button className="-inline">Back to Login</button></Link>
       </div>
       </div>

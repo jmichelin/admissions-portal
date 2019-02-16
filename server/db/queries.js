@@ -36,5 +36,12 @@ module.exports = {
       .where('resetPasswordToken', token)
       .andWhere('resetPasswordExpires', '>', Date.now())
       .first();
-    }
+    },
+    updateUserPassword: function(user, password) {
+      return knex('user')
+        .update({
+          password: password
+        })
+        .where('email', user.email);
+    },
 };

@@ -95,6 +95,8 @@ router.post('/signin', (req, res, next) => {
         } else {
           respondError(res, next);
         }
+      }).catch(err => {
+        respondError(res, next);
       });
   } else {
     respondError(res, next);
@@ -144,6 +146,8 @@ router.post('/forgot-password', (req, res, next) => {
         }
       });
     }
+  }).catch(err => {
+    respondError(res, next);
   });
 });
 
@@ -163,6 +167,34 @@ router.get('/reset/:id', (req, res, next) => {
   }).catch(err => {
     respondForgotError(res, next);
   });
+});
+
+router.put('/update-password', (req, res, next) => {
+  console.log(req.body);
+  const result = Joi.validate(req.body, signinSchema);
+  if (result.error === null) {
+    Q.getUserbyEmail(req.body.email)
+      .then(user => {
+        if (user) {
+          bcrypt.hash(req.body.password, 12)
+            .then(hashedPassword => {
+              Q.updateUserPassword(user, hashedPassword)
+                .then((newUser) => {
+                  res.status(200).json('Password reset successful. Proceed to Login.');
+                });
+            })
+            .catch(err => next(err));
+        } else {
+          const error = new Error('No user with this email exists.');
+          res.status(409);
+          next(error);
+        }
+      }).catch(err => {
+        respondError(res, next);
+      });
+  } else {
+    next(result.error);
+  }
 });
 
 function respondError(res, next) {

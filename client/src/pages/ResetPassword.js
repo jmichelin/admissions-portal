@@ -10,7 +10,8 @@ import InputGroup from '../components/forms/input-group';
 import HRLogo from '../assets/images/hack-reactor-horizontal-logo.png';
 import Joi from 'joi';
 
-const API_URL = '/auth/reset';
+const API_RESET_PASSWORD_URL = '/auth/reset';
+const API_UPDATE_PASSWORD_URL = '/auth/update-password';
 
 
 class ResetPassword extends Component {
@@ -29,7 +30,7 @@ class ResetPassword extends Component {
       messageFromServer: '',
       showNullError: false,
       errorMessage: '',
-      redirectToHome: false
+      disabled: false
     };
 
     this.onInputChange = this.onInputChange.bind(this);
@@ -37,7 +38,7 @@ class ResetPassword extends Component {
   }
 
    componentDidMount() {
-     fetch(`${API_URL}/${this.props.match.params.token}`, {
+     fetch(`${API_RESET_PASSWORD_URL}/${this.props.match.params.token}`, {
        method: 'GET',
        headers: {
          'content-type': 'application/json'
@@ -63,7 +64,8 @@ class ResetPassword extends Component {
       this.setState({
         errorMessage: error.message,
         isLoading: false,
-        updated: false
+        updated: false,
+        disabled: true
       });
     });
 }
@@ -137,8 +139,7 @@ class ResetPassword extends Component {
   const formData = { email, password }
 
   if (this.validUser(formData)) {
-    console.log('valid submission, calling API');
-  fetch(`${API_URL}/update-password`, {
+  fetch(API_UPDATE_PASSWORD_URL, {
     method: 'PUT',
     body: JSON.stringify(formData),
     headers: {
@@ -154,15 +155,14 @@ class ResetPassword extends Component {
       })
     }
   }).then(result => {
-      console.log(result);
         this.setState({
           updated: true,
-          error: false,
-          redirectToHome: true
+          disabled: true,
+          errorMessage: result,
+          isLoading: false
         });
     })
     .catch((error) => {
-      console.log(error);
       this.setState({
         errorMessage: error.message,
         isLoading: false,
@@ -190,7 +190,8 @@ class ResetPassword extends Component {
               <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
               <img className="logo -hr" src={HRLogo} alt="Hack Reactor Logo"></img>
             </div>
-             <h3 className="portal-title">Reset Your Password</h3>
+             <h3 className="portal-title -forgot-pass">Reset Your Password</h3>
+             <p className="citation -thin -center">Enter your new password below. Then proceed to login.</p>
           <form onSubmit={this.updatePassword}>
           <div className="form-group">
             {this.createInputs().slice(0,1)}
@@ -199,7 +200,7 @@ class ResetPassword extends Component {
             {this.createInputs().slice(1,3)}
           </div>
           <div className="form-footer">
-            <button className={this.state.isLoading ? "button-primary -loading" : "button-primary"}>Reset Password</button>
+            <button disabled={this.state.disabled} className={this.state.isLoading ? "button-primary -loading" : "button-primary"}>Reset Password</button>
           </div>
           <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
         </form>
