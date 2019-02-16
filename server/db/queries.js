@@ -22,12 +22,13 @@ module.exports = {
         });
     },
 
-    updateUserPasswordToken: function(token) {
+    updateUserPasswordToken: function(user, token) {
       return knex('user')
         .update({
           resetPasswordToken: token,
           resetPasswordExpires: Date.now() + 360000
-        });
+        })
+        .where('email', user.email);
     },
 
     getUserbyToken: function(token) {

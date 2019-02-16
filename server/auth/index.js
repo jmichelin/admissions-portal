@@ -104,14 +104,13 @@ router.post('/signin', (req, res, next) => {
 router.post('/forgot-password', (req, res, next) => {
   Q.getUserbyEmail(req.body.email)
   .then((user) => {
-    console.log(user);
     if (!user) {
       const error = new Error('No user with this email exists. Create an account.');
       res.status(422);
       next(error);
     } else {
       const token = crypto.randomBytes(20).toString('hex');
-      Q.updateUserPasswordToken(token)
+      Q.updateUserPasswordToken(user, token)
       .catch(err => {
         const error = new Error('Error setting token. Try again.');
         res.status(422);
@@ -137,15 +136,11 @@ router.post('/forgot-password', (req, res, next) => {
           + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
       };
 
-      console.log('sending mail');
-
       transporter.sendMail(mailOptions, (err, response) => {
         if (err) {
-          console.error('there was an error: ', err);
           respondForgotError(res, next);
         } else {
-          console.log('here is the res: ', response);
-          res.status(200).json('recovery email sent');
+          res.status(200).json('Recovery Email Sent');
         }
       });
     }
@@ -156,18 +151,17 @@ router.post('/forgot-password', (req, res, next) => {
 router.get('/reset/:id', (req, res, next) => {
   Q.getUserbyToken(req.params.id)
     .then((user) => {
+      console.log(user);
     if (user == null) {
-      console.error('password reset link is invalid or has expired');
-      res.status(403).json('password reset link is invalid or has expired');
+      res.status(403).json('Password Reset Link is invalid or has expired.');
     } else {
       res.status(200).json({
-        username: user.email,
-        message: 'password reset link a-ok',
+        email: user.email
       });
     }
   }).catch(err => {
-    console.log(error);
-  })
+    respondForgotError(res, next);
+  });
 });
 
 function respondError(res, next) {

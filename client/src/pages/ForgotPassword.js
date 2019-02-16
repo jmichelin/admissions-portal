@@ -109,12 +109,10 @@ class ForgotPassword extends Component {
           }
         }).then(result => {
           console.log(result);
-          if (result === 'recovery email sent') {
             this.setState({
               isLoading: false,
-              errorMessage: 'Recovery Email Sent',
+              errorMessage: result,
             });
-          }
         })
         .catch((error) => {
           this.setState({

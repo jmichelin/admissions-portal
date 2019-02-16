@@ -36,17 +36,20 @@ class ResetPassword extends Component {
        method: 'GET',
        headers: {
          'content-type': 'application/json'
-       },
-       params: {
-         resetPasswordToken: this.props.match.params.token,
        }
-     }).then((response) => {
-       return response.json().then(result => {
-         console.log(result);
+     }).then(response => {
+       if (response.ok) {
+       return response.json()
+     } else {
+       return response.json().then(error => {
+         throw new Error(error.message)
        })
-      if (response.data.message === 'password reset link a-ok') {
+     }
+    }).then(result => {
+       console.log(result);
+      if (result.email) {
         this.setState({
-          username: response.data.username,
+          email: result.email,
           updated: false,
           isLoading: false,
           error: false,
@@ -56,9 +59,9 @@ class ResetPassword extends Component {
     .catch((error) => {
       console.log(error);
       this.setState({
-        updated: false,
+        errorMessage: error.message,
         isLoading: false,
-        error: true,
+        updated: false
       });
     });
 }
