@@ -151,9 +151,10 @@ router.post('/forgot-password', (req, res, next) => {
 router.get('/reset/:id', (req, res, next) => {
   Q.getUserbyToken(req.params.id)
     .then((user) => {
-      console.log(user);
-    if (user == null) {
-      res.status(403).json('Password Reset Link is invalid or has expired.');
+    if (!user) {
+      const error = new Error('Password reset link is invalid or has expired.');
+      res.status(403);
+      next(error);
     } else {
       res.status(200).json({
         email: user.email

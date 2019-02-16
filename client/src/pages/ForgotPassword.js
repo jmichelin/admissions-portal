@@ -20,6 +20,7 @@ class ForgotPassword extends Component {
 
     this.state = {
       formInputs: accountInputs,
+      submitAttempted: false,
       email: '',
       showError: false,
       messageFromServer: '',
@@ -108,7 +109,6 @@ class ForgotPassword extends Component {
             })
           }
         }).then(result => {
-          console.log(result);
             this.setState({
               isLoading: false,
               errorMessage: result,

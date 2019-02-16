@@ -16,19 +16,24 @@ const API_URL = '/auth/reset';
 class ResetPassword extends Component {
   constructor() {
     super();
-    const accountInputs = inputs.getForgotPasswordInputs();
+    const accountInputs = inputs.resetPasswordInputs();
 
     this.state = {
       formInputs: accountInputs,
+      submitAttempted: false,
+      emailToReset: '',
       email: '',
+      password: '',
+      confirmed_password: '',
       showError: false,
       messageFromServer: '',
       showNullError: false,
-      errorMessage: ''
+      errorMessage: '',
+      redirectToHome: false
     };
 
     this.onInputChange = this.onInputChange.bind(this);
-
+    this.updatePassword = this.updatePassword.bind(this);
   }
 
    componentDidMount() {
@@ -46,18 +51,15 @@ class ResetPassword extends Component {
        })
      }
     }).then(result => {
-       console.log(result);
-      if (result.email) {
         this.setState({
           email: result.email,
+          emailToReset: result.email,
           updated: false,
           isLoading: false,
           error: false,
         });
-      }
     })
     .catch((error) => {
-      console.log(error);
       this.setState({
         errorMessage: error.message,
         isLoading: false,
@@ -102,20 +104,77 @@ class ResetPassword extends Component {
   validField(input) {
     const field = {[input.id]:this.state[input.id]}
     const result = Joi.validate(field, schema);
+    if (input.id === 'email') {
+      return this.state.email === this.state.emailToReset
+    }
+    if (input.id === 'confirmed_password') {
+      return this.state[input.id] === this.state.password;
+    }
     if (result.error === null) {
       return true;
     }
     return false;
-  };
+}
 
   validUser(data) {
     const result = Joi.validate(data, schema);
+    if (this.state.confirmed_password !== this.state.password) return false;
+    if (this.state.email !== this.state.emailToReset) return false;
     if (result.error === null) {
       return true;
     } else {
       return false;
     }
   }
+
+  updatePassword = (e) => {
+  e.preventDefault();
+  this.setState({
+    submitAttempted: true,
+    isLoading: true
+  })
+  const { email, password } = this.state;
+  const formData = { email, password }
+
+  if (this.validUser(formData)) {
+    console.log('valid submission, calling API');
+  fetch(`${API_URL}/update-password`, {
+    method: 'PUT',
+    body: JSON.stringify(formData),
+    headers: {
+      'content-type': 'application/json'
+    }
+  })
+    .then(response => {
+      if (response.ok) {
+      return response.json()
+    } else {
+      return response.json().then(error => {
+        throw new Error(error.message)
+      })
+    }
+  }).then(result => {
+      console.log(result);
+        this.setState({
+          updated: true,
+          error: false,
+          redirectToHome: true
+        });
+    })
+    .catch((error) => {
+      console.log(error);
+      this.setState({
+        errorMessage: error.message,
+        isLoading: false,
+        updated: false
+      });
+    });
+  } else {
+    this.setState({
+      isLoading: false
+    });
+  }
+};
 
   render() {
     const {email, messageFromServer, showNullError, showError} = this.state;
@@ -132,37 +191,18 @@ class ResetPassword extends Component {
               <img className="logo -hr" src={HRLogo} alt="Hack Reactor Logo"></img>
             </div>
              <h3 className="portal-title">Reset Your Password</h3>
-          <form onSubmit={this.sendEmail}>
+          <form onSubmit={this.updatePassword}>
           <div className="form-group">
             {this.createInputs().slice(0,1)}
           </div>
+          <div className="form-group">
+            {this.createInputs().slice(1,3)}
+          </div>
           <div className="form-footer">
-            <button className={this.state.isLoading ? "button-primary -loading" : "button-primary"}>Sign In</button>
+            <button className={this.state.isLoading ? "button-primary -loading" : "button-primary"}>Reset Password</button>
           </div>
           <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
         </form>
-        {showNullError && (
-          <div>
-            <p>The email address cannot be null.</p>
-          </div>
-        )}
-        {showError && (
-          <div>
-            <p>
-              That email address isn't recognized. Please try again or
-              create a new account.
-            </p>
-            <button
-              buttonText="Register"
-              link="/register"
-            />
-          </div>
-        )}
-        {messageFromServer === 'recovery email sent' && (
-          <div>
-            <h3>Password Reset Email Successfully Sent!</h3>
-          </div>
-        )}
         <Link to="/"><button className="-inline">Back to Login</button></Link>
       </div>
       </div>
@@ -174,6 +214,7 @@ class ResetPassword extends Component {
 
 const schema = {
   email: Joi.string().email(),
+  password: Joi.string().min(5).max(15)
 }
 
 

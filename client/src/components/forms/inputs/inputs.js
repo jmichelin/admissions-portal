@@ -83,8 +83,39 @@ function getForgotPasswordInputs() {
   }];
 }
 
+function resetPasswordInputs() {
+  return [{
+    id: 'email',
+    label: 'Email',
+    type: 'email',
+    value: '',
+    required: true,
+    errorMessage: 'Cannot change email on password reset.'
+  },
+  {
+    id: 'password',
+    label: 'Password',
+    type: 'password',
+    fieldName: 'Password',
+    value: '',
+    required: true,
+    errorMessage: 'Password must be between 5 and 15 characters.'
+  },
+  {
+    id: 'confirmed_password',
+    label: 'Confirm Password',
+    type: 'password',
+    fieldName: 'Confirm Password',
+    value: '',
+    required: true,
+    errorMessage: 'Passwords must match.'
+  }];
+}
+
 export default {
   getCreateAccountInputs: getCreateAccountInputs,
   getSignInInputs: getSignInInputs,
-  getForgotPasswordInputs: getForgotPasswordInputs
+  getForgotPasswordInputs: getForgotPasswordInputs,
+  resetPasswordInputs: resetPasswordInputs
+
 };
