@@ -42,7 +42,6 @@ router.get('/', (req, res, next) => {
       }
     })
     .catch(err => {
-      console.log(err);
       res.status(501);
       const error = new Error('Error retreiving applications.');
       next(error);

@@ -170,7 +170,6 @@ router.get('/reset/:id', (req, res, next) => {
 });
 
 router.put('/update-password', (req, res, next) => {
-  console.log(req.body);
   const result = Joi.validate(req.body, signinSchema);
   if (result.error === null) {
     Q.getUserbyEmail(req.body.email)
