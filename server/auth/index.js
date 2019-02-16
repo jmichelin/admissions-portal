@@ -127,6 +127,13 @@ router.post('/forgot-password', (req, res, next) => {
         },
       });
 
+      let LINK_RESET_URL = 'https://admissions.galvanize.com';
+      if (process.env.NODE_ENV === 'development') {
+        LINK_RESET_URL = 'http://localhost:3000';
+      } else if (process.env.NODE_ENV === 'staging') {
+        LINK_RESET_URL = process.env.STAGING_URL;
+      }
+
       const mailOptions = {
         from: 'murph.grainger@gmail.com',
         to: `${user.email}`,
@@ -134,7 +141,7 @@ router.post('/forgot-password', (req, res, next) => {
         text:
           'You are receiving this because you (or someone else) have requested the reset of the password for your Admissions Portal account.\n\n'
           + 'Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n'
-          + `http://localhost:3000/reset/${token}\n\n`
+          + `${LINK_RESET_URL}/reset/${token}\n\n`
           + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
       };
 
