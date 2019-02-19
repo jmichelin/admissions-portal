@@ -75,10 +75,10 @@
   align-items: center;
   flex: 5 0 50%;
   padding: $pad-double;
+  min-height: 625px;
 }
 
 .citation {
-  background: #fdffe0;
   padding: $pad 12px;
   font-size: 13px;
   margin: 0;
@@ -110,7 +110,7 @@ form {
     margin-top: $space-and-half;
   }
   .input-group {
-    margin: 0 $space 12px $space;
+    margin: 0 10px 12px 10px;
   }
 
   .checkbox-field {
@@ -151,6 +151,10 @@ form {
     font-weight: 500;
     text-align: center;
     font-size: 25px;
+
+    &.-forgot-pass {
+      margin-top: 90px;
+    }
   }
 
   .title-subtext {

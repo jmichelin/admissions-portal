@@ -77,7 +77,7 @@ handleSubmit(event) {
   const formData = { program, campus };
 
   if (this.formIsValid(formData)) {
-    let query = `?campus=${formData.campus}&first_name=${this.props.user.first_name}&last_name=${this.props.user.last_name}&email=${this.props.user.email}`
+    let query = `?campus=${formData.campus}`
     if (formData.program === 'Data Science') {
       window.location.href = `${GALVANIZE_BASE_URL}/data-science/application${query}`;
       return;

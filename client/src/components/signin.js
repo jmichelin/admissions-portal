@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import inputs from './forms/inputs/inputs';
 import InputGroup from './forms/input-group';
 
@@ -19,14 +19,12 @@ class Signin extends Component {
       formInputs: accountInputs,
       email:'',
       password:'',
-      isLoading: false
+      isLoading: false,
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
-
   }
-
 
   onInputChange(event) {
     const target = event.target;
@@ -45,7 +43,6 @@ class Signin extends Component {
     } else {
       return false;
     }
-
   }
 
   validField(input) {
@@ -125,6 +122,7 @@ class Signin extends Component {
           <Redirect to="/dashboard"/>
           )
         }
+
     return (
             <div className="signin">
               <h1 className="title">Admissions Portal<span>New!</span></h1>
@@ -132,21 +130,26 @@ class Signin extends Component {
                 <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
                 <img className="logo -hr" src={HRLogo} alt="Hack Reactor Logo"></img>
               </div>
-              <h3 className="portal-title">Sign In</h3>
-              <p className="title-subtext">Don't have an account? <button className="-inline" onClick={this.props.toggleSignin}>Create Your Account</button></p>
-                <p className="citation -thin -center">Have an account through Hack Reactor? Create a new account here to pick up where you left off in the admissions process.</p>
-                <form onSubmit={this.handleSubmit}>
-                  <div className="form-group">
-                    {this.createInputs().slice(0,1)}
-                  </div>
-                  <div className="form-group">
-                    {this.createInputs().slice(1,2)}
-                  </div>
-                  <div className="form-footer">
-                    <button className={this.state.isLoading ? "button-primary -loading" : "button-primary"}>Sign In</button>
-                  </div>
-                  <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
-                </form>
+             <div>
+               <h3 className="portal-title">Sign In</h3>
+               <p className="title-subtext">Don't have an account? <button className="-inline" onClick={this.props.toggleSignin}>Create Your Account</button></p>
+                 <p className="citation -thin -center -note">Have an account through Hack Reactor? Create a new account here to pick up where you left off in the admissions process.</p>
+                 <form onSubmit={this.handleSubmit}>
+                   <div className="form-group">
+                     {this.createInputs().slice(0,1)}
+                   </div>
+                   <div className="form-group">
+                     {this.createInputs().slice(1,2)}
+                   </div>
+                   <div className="form-footer">
+                     <div className="forgot-password">
+                       <Link to="/forgot-password"><button className="-inline" onClick={this.toggleForgotPassword}>Forgot Your Password?</button></Link>
+                     </div>
+                     <button className={this.state.isLoading ? "button-primary -loading" : "button-primary"}>Sign In</button>
+                   </div>
+                   <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
+                 </form>
+             </div>
             </div>
     );
   }
