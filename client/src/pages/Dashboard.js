@@ -33,7 +33,7 @@ class Dashboard extends Component {
       const {calendarRefresh} = this.props.location.state;
       if (calendarRefresh) this.props.getData(true);
     }
-    window.analytics.ready(function() {
+    window && window.analytics.ready(function() {
       window.analytics.page('Dashboard')
        });
    }
