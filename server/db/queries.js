@@ -20,5 +20,28 @@ module.exports = {
           first_name: user.first_name,
           last_name: user.last_name
         });
-    }
+    },
+
+    updateUserPasswordToken: function(user, token) {
+      return knex('user')
+        .update({
+          resetPasswordToken: token,
+          resetPasswordExpires: Date.now() + 360000
+        })
+        .where('email', user.email);
+    },
+
+    getUserbyToken: function(token) {
+      return knex('user')
+      .where('resetPasswordToken', token)
+      .andWhere('resetPasswordExpires', '>', Date.now())
+      .first();
+    },
+    updateUserPassword: function(user, password) {
+      return knex('user')
+        .update({
+          password: password
+        })
+        .where('email', user.email);
+    },
 };

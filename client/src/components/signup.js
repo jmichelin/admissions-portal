@@ -161,7 +161,7 @@ class Signup extends Component {
           </div>
           <h3 className="portal-title">Create Your Account</h3>
           <p className="title-subtext">Already have an account? <button className="-inline" onClick={this.props.toggleSignin}>Sign In</button></p>
-            <p className="citation -thin -center">Have an account through Hack Reactor? Create a new account here to pick up where you left off in the admissions process.</p>
+            <p className="citation -thin -center -note">Have an account through Hack Reactor? Create a new account here to pick up where you left off in the admissions process.</p>
           <form onSubmit={this.handleSubmit}>
             <div className="form-group">
               {this.createInputs().slice(0,2)}

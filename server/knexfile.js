@@ -9,13 +9,7 @@ module.exports = {
   staging: {
     client: 'pg',
     connection: process.env.DATABASE_URL,
-    ssl: true,
-    migrations: {
-      directory: __dirname + '/db/migrations'
-    },
-    seeds: {
-      directory: __dirname + '/db/seeds'
-    }
+    ssl: true
   },
 
   production: {
