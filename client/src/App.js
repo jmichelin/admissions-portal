@@ -49,7 +49,7 @@ class App extends Component {
           },
         }).then(res => res.json())
           .then(result => {
-            if (result.message === 'jwt expired' || result.message === 'jwt malformed') {
+            if (result.message === 'jwt expired' || result.message === 'jwt malformed' || result.message === 'Your session has expired. Please log back in.') {
               this.clearData()
             }
             else if (result.data && result.data.opportunities && result.data.user) {
@@ -76,9 +76,7 @@ class App extends Component {
           })
         })
       } else {
-      this.setState({
-        isLoading: false
-      })
+      this.clearData()
     }
   }
 
