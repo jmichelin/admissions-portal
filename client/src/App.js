@@ -4,6 +4,8 @@ import { PrivateRoute, PublicRoute, NoMatch } from './helpers/Routes';
 
 import Header from './components/header';
 import Home from './pages/Home';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Dashboard';
 import CodingChallenge from './pages/CodingChallenge';
 import BookInterview from './pages/BookInterview';
@@ -47,7 +49,7 @@ class App extends Component {
           },
         }).then(res => res.json())
           .then(result => {
-            if (result.message === 'jwt expired' || result.message === 'jwt malformed') {
+            if (result.message === 'jwt expired' || result.message === 'jwt malformed' || result.message === 'Your session has expired. Please log back in.') {
               this.clearData()
             }
             else if (result.data && result.data.opportunities && result.data.user) {
@@ -74,9 +76,7 @@ class App extends Component {
           })
         })
       } else {
-      this.setState({
-        isLoading: false
-      })
+      this.clearData()
     }
   }
 
@@ -97,6 +97,8 @@ render() {
           <main>
           <Switch>
             <PublicRoute exact path='/' clearData={this.clearData} component={Home}/>
+            <PublicRoute exact path='/forgot-password' component={ForgotPassword}/>
+            <PublicRoute path="/reset:token" component={ResetPassword}/>
             <PrivateRoute exact path='/dashboard'{...this.state}  getData={this.getData} statusUpdate={this.statusUpdate} component={Dashboard}/>
             <PrivateRoute exact path='/coding-challenge' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={CodingChallenge}/>
             <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterview}/>

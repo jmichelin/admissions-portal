@@ -21,14 +21,14 @@ router.get('/', (req, res, next) => {
             let scorecardIds = [];
             opps.forEach(opp => {
               if(opp.scorecardId) scorecardIds.push(opp.scorecardId);
-            })
+            });
             return salesforce.scorecardQueries(scorecardIds)
               .then(scorecards => {
                 data.opportunities.forEach(opp => {
                   scorecards.forEach(card => {
-                    if (card.oppId === opp.id)  opp.scorecard = card
-                  })
-                })
+                    if (card.oppId === opp.id)  opp.scorecard = card;
+                  });
+                });
                 res.json({
                   data: data
                 });
@@ -42,7 +42,6 @@ router.get('/', (req, res, next) => {
       }
     })
     .catch(err => {
-      console.log(err);
       res.status(501);
       const error = new Error('Error retreiving applications.');
       next(error);

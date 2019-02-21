@@ -8,7 +8,7 @@
           return {course: 'Remote Software Engineering Immersive', campus : 'Remote'};
         }
         if (opp.productCode && opp.productCode.includes('-WD-RPT')) {
-            return {course: 'Remote Part-Time Software Engineering Immersive', campus : "Remote"};
+            return {course: 'Part-Time Remote Software Engineering Immersive', campus : "Remote"};
         } else {
           return {course: 'Software Engineering Immersive', campus : campus};
 
