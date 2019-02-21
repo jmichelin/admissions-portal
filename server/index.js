@@ -1,5 +1,6 @@
 
 const express = require('express');
+var secure = require('express-force-https');
 const path = require('path');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
@@ -14,6 +15,7 @@ if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
 }
 
 const app = express();
+app.use(secure);
 
 const middlewares = require('./auth/middlewares');
 const auth = require('./auth');

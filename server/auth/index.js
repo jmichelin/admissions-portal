@@ -112,46 +112,48 @@ router.post('/forgot-password', (req, res, next) => {
       next(error);
     } else {
       const token = crypto.randomBytes(20).toString('hex');
-      Q.updateUserPasswordToken(user, token)
+      return Q.updateUserPasswordToken(user, token)
+      .then(result => {
+          const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: `${process.env.NODEMAILER_EMAIL}`,
+              pass: `${process.env.NODEMAILER_PASSWORD}`,
+            },
+          });
+
+          let LINK_RESET_URL = 'https://admissions.galvanize.com';
+          if (process.env.NODE_ENV === 'development') {
+            LINK_RESET_URL = 'http://localhost:3000';
+          } else if (process.env.NODE_ENV === 'staging') {
+            LINK_RESET_URL = process.env.STAGING_URL;
+          }
+
+          const mailOptions = {
+            from: 'murph.grainger@gmail.com',
+            to: `${user.email}`,
+            subject: 'Reset Your Admissions Portal Password',
+            text:
+              'You are receiving this because you (or someone else) have requested the reset of the password for your Admissions Portal account.\n\n'
+              + 'Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n'
+              + `${LINK_RESET_URL}/reset${token}\n\n`
+              + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
+          };
+
+          transporter.sendMail(mailOptions, (err, response) => {
+            if (err) {
+              respondForgotError(res, next);
+            } else {
+              res.status(200).json('Recovery Email Sent');
+            }
+          });
+
+      })
       .catch(err => {
         const error = new Error('Error setting token. Try again.');
         res.status(422);
         next(error);
       })
-
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: `${process.env.NODEMAILER_EMAIL}`,
-          pass: `${process.env.NODEMAILER_PASSWORD}`,
-        },
-      });
-
-      let LINK_RESET_URL = 'https://admissions.galvanize.com';
-      if (process.env.NODE_ENV === 'development') {
-        LINK_RESET_URL = 'http://localhost:3000';
-      } else if (process.env.NODE_ENV === 'staging') {
-        LINK_RESET_URL = process.env.STAGING_URL;
-      }
-
-      const mailOptions = {
-        from: 'murph.grainger@gmail.com',
-        to: `${user.email}`,
-        subject: 'Reset Your Admissions Portal Password',
-        text:
-          'You are receiving this because you (or someone else) have requested the reset of the password for your Admissions Portal account.\n\n'
-          + 'Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n'
-          + `${LINK_RESET_URL}/reset/${token}\n\n`
-          + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
-      };
-
-      transporter.sendMail(mailOptions, (err, response) => {
-        if (err) {
-          respondForgotError(res, next);
-        } else {
-          res.status(200).json('Recovery Email Sent');
-        }
-      });
     }
   }).catch(err => {
     respondError(res, next);
@@ -159,7 +161,7 @@ router.post('/forgot-password', (req, res, next) => {
 });
 
 
-router.get('/reset/:id', (req, res, next) => {
+router.get('/reset:id', (req, res, next) => {
   Q.getUserbyToken(req.params.id)
     .then((user) => {
     if (!user) {

@@ -21,7 +21,7 @@ class BookInterview extends Component {
       showIframe: false,
       hideSpinner: false,
       campus: {},
-      redirectToDashboard: false
+      redirectToDashboard: false,
     };
 
     this.hideSpinner = this.hideSpinner.bind(this);
@@ -32,7 +32,8 @@ class BookInterview extends Component {
   componentDidMount() {
     if (this.props.location.state && this.props.location.state.opp) {
       const {opp} = this.props.location.state;
-      if (opp.currentStep !== SEI_STEPS.STEP_THREE) {
+
+      if (opp.currentStep !== SEI_STEPS.STEP_THREE && !this.props.location.state.override) {
         this.setState({ redirectToDashboard: true })
       }
       this.setState({opp: opp})

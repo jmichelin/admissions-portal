@@ -143,11 +143,11 @@ class Signin extends Component {
                    </div>
                    <div className="form-footer">
                      <div className="forgot-password">
-                       <Link to="/forgot-password"><button className="-inline" onClick={this.toggleForgotPassword}>Forgot Your Password?</button></Link>
                      </div>
                      <button className={this.state.isLoading ? "button-primary -loading" : "button-primary"}>Sign In</button>
                    </div>
                    <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
+                   <div className="-center -margin-top"><Link to="/forgot-password"><button className="-inline" onClick={this.toggleForgotPassword}>Forgot Your Password?</button></Link></div>
                  </form>
              </div>
             </div>

@@ -152,7 +152,7 @@ class ForgotPassword extends Component {
           </div>
           <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
         </form>
-        <Link to="/"><button className="-inline">Back to Login</button></Link>
+        <div className="-center"><Link to="/"><button className="-inline">Back to Login</button></Link></div>
       </div>
       </div>
     </div>
