@@ -38,7 +38,7 @@ class ResetPassword extends Component {
   }
 
    componentDidMount() {
-     fetch(`${API_RESET_PASSWORD_URL}/${this.props.match.params.token}`, {
+     fetch(`${API_RESET_PASSWORD_URL}${this.props.match.params.token}`, {
        method: 'GET',
        headers: {
          'content-type': 'application/json'

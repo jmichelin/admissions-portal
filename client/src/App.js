@@ -98,7 +98,7 @@ render() {
           <Switch>
             <PublicRoute exact path='/' clearData={this.clearData} component={Home}/>
             <PublicRoute exact path='/forgot-password' component={ForgotPassword}/>
-            <PublicRoute path="/reset/:token" component={ResetPassword}/>
+            <PublicRoute path="/reset:token" component={ResetPassword}/>
             <PrivateRoute exact path='/dashboard'{...this.state}  getData={this.getData} statusUpdate={this.statusUpdate} component={Dashboard}/>
             <PrivateRoute exact path='/coding-challenge' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={CodingChallenge}/>
             <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterview}/>

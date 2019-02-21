@@ -67,3 +67,10 @@ body {
   text-transform: none;
   padding-left: $pad;
 }
+
+.-center {
+  text-align: center;
+}
+.-margin-top {
+  margin-top: $space-double;
+}
