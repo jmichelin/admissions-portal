@@ -6,22 +6,22 @@ import NextStepsInterviewScheduled from './next-steps-interview-scheduled';
 import NextStepsPassedInterview from './next-steps-passed-interview';
 import NextStepsHold from './next-steps-hold';
 
-import { SEI_STEPS } from '../constants';
+import { SEI_STEPS_12_WK } from '../constants';
 
 
 export default (props) => {
 
 function getSEINextSteps() {
   switch(props.currentStep.status) {
-    case SEI_STEPS.STEP_TWO.status:
+    case SEI_STEPS_12_WK.STEP_TWO.status:
     return <NextStepsCodingChallenge {...props}/>
-    case SEI_STEPS.STEP_THREE.status:
+    case SEI_STEPS_12_WK.STEP_THREE.status:
     return <NextStepsBookInterview {...props}/>
-    case SEI_STEPS.STEP_FOUR.status:
+    case SEI_STEPS_12_WK.STEP_FOUR.status:
     return <NextStepsInterviewScheduled {...props}/>
-    case SEI_STEPS.COMPLETE.status:
+    case SEI_STEPS_12_WK.COMPLETE.status:
     return <NextStepsPassedInterview {...props}/>
-    case SEI_STEPS.HOLD.status:
+    case SEI_STEPS_12_WK.HOLD.status:
     return <NextStepsHold {...props}/>
     default:
     return <NextStepsHold {...props}/>

@@ -188,69 +188,81 @@ it("myInfo.github is defined as a string or null", function() {
 });
 });`;
 
-export const SEI_STEPS = {
+export const SEI_STEPS_12_WK = {
   STEP_ONE: {
     step: 1,
-    status: 'Complete Your Application',
-    nextStep: 'Pass the Coding Challenge'
+    status: 'Complete Your Application'
   },
   STEP_TWO: {
     step: 2,
-    status: 'Pass the Coding Challenge',
-    nextStep: 'Book the Technical Interview',
+    status: 'Pass the Coding Challenge'
   },
   STEP_THREE: {
     step: 3,
-    status: 'Book the Technical Interview',
-    nextStep: 'Prepare for the Technical Interview',
+    status: 'Book the Technical Interview'
   },
   STEP_FOUR: {
     step: 4,
-    status: 'Pass the Technical Interview',
-    nextStep: 'Final Decision'
+    status: 'Pass the Technical Interview'
+  },
+  COMPLETE: {
+    step: 5,
+    status: 'Enroll'
+  },
+  HOLD: {
+    step: 0,
+    status: 'On Hold'
+  }
+};
+
+
+export const SEI_STEPS_18_WK = {
+  STEP_ONE: {
+    step: 1,
+    status: 'Complete Your Application'
+  },
+  STEP_TWO: {
+    step: 2,
+    status: 'Book Group Assessment'
+  },
+  STEP_THREE: {
+    step: 3,
+    status: 'Pass the Group Assessment'
   },
   COMPLETE: {
     step: 5,
     status: 'Enroll',
-    nextStep: 'Finish Enrollment Process'
   },
   HOLD: {
     step: 0,
     status: 'On Hold',
-    nextStep: 'On Hold'
   }
 };
 
 export const DSI_STEPS = {
   STEP_ONE: {
     step: 1,
-    status: 'Complete Your Application',
-    nextStep: 'Pass the Takehome Assessment'
+    status: 'Complete Your Application'
   },
   STEP_TWO: {
     step: 2,
-    status: 'Pass the Takehome Assessment',
-    nextStep: 'Book Your Technical Interviews',
+    status: 'Pass the Takehome Assessment'
   },
   STEP_THREE: {
     step: 3,
-    status: 'Book Your Technical Interviews',
-    nextStep: 'Prepare for Your Technical Interviews',
+    status: 'Book Your Technical Interviews'
   },
   STEP_FOUR: {
     step: 4,
-    status: 'Pass Your Technical Interviews',
-    nextStep: 'Final Decision'
+    status: 'Pass Your Technical Interviews'
   },
   COMPLETE: {
     step: 5,
     status: 'Enroll',
-    nextStep: 'Finish Enrollment Process'
   },
   HOLD: {
     step: 0,
-    status: 'On Hold',
-    nextStep: 'On Hold'
+    status: 'On Hold'
   }
 };
 
@@ -269,13 +281,21 @@ export const HERO_TEXT = {
   }
 };
 
-export const APPLICATION_STEPS_SEI = [
-  SEI_STEPS.STEP_ONE,
-  SEI_STEPS.STEP_TWO,
-  SEI_STEPS.STEP_THREE,
-  SEI_STEPS.STEP_FOUR,
-  SEI_STEPS.COMPLETE,
-  SEI_STEPS.HOLD
+export const APPLICATION_STEPS_SEI_12WK = [
+  SEI_STEPS_12_WK.STEP_ONE,
+  SEI_STEPS_12_WK.STEP_TWO,
+  SEI_STEPS_12_WK.STEP_THREE,
+  SEI_STEPS_12_WK.STEP_FOUR,
+  SEI_STEPS_12_WK.COMPLETE,
+  SEI_STEPS_12_WK.HOLD
+];
+
+export const APPLICATION_STEPS_SEI_18WK = [
+  SEI_STEPS_18_WK.STEP_ONE,
+  SEI_STEPS_18_WK.STEP_TWO,
+  SEI_STEPS_18_WK.STEP_THREE,
+  SEI_STEPS_18_WK.COMPLETE,
+  SEI_STEPS_18_WK.HOLD
 ];
 
 export const APPLICATION_STEPS_DSI = [

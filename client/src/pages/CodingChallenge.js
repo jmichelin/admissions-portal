@@ -6,7 +6,7 @@ import Breadcrumb from '../components/breadcrumb';
 
 import * as buble from 'buble'
 
- import { CODE_CHALLENGE_ENDPOINT, CODING_CHALLENGE_TESTS, SEI_STEPS, HERO_TEXT } from '../constants';
+ import { CODE_CHALLENGE_ENDPOINT, CODING_CHALLENGE_TESTS, SEI_STEPS_12_WK, HERO_TEXT } from '../constants';
 import CodingInstructions from '../components/CodingInstructions';
 import CodeEditor from '../components/CodeEditor';
 
@@ -35,7 +35,7 @@ class CodingChallenge extends Component {
   componentDidMount() {
     if (this.props.location.state && this.props.location.state.opp) {
       const {opp} = this.props.location.state;
-      if (opp.currentStep !== SEI_STEPS.STEP_TWO) {
+      if (opp.currentStep !== SEI_STEPS_12_WK.STEP_TWO) {
         this.setState({ redirectToDashboard: true })
       }
       this.setState({opp: opp})
@@ -169,7 +169,7 @@ class CodingChallenge extends Component {
           }
           throw new Error();
         }).then(result => {
-          this.props.statusUpdate(this.state.opp.id, SEI_STEPS.STEP_THREE)
+          this.props.statusUpdate(this.state.opp.id, SEI_STEPS_12_WK.STEP_THREE)
           this.setState({ submittingCode: false, redirectToDashboard:true});
         }).catch(err => {
             this.setState({
