@@ -21,6 +21,7 @@ const middlewares = require('./auth/middlewares');
 const auth = require('./auth');
 const users = require('./api/user');
 
+
 app.use(morgan('dev'));
 app.use(cors({
   origin: 'http://localhost:3000'
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.use('/auth', auth);
 app.use('/api/v1/user', middlewares.isLoggedIn, users);
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
