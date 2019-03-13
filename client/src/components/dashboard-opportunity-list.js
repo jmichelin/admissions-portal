@@ -17,7 +17,7 @@ class OpportunityList extends Component {
             <li>{course}</li>
             <li className="hide-mobile">{campus}</li>
             <li className="hide-mobile">{moment(opp.courseStart).format('MM/DD/YYYY')}</li>
-            <li className="hide-tablet">{opp.currentStep ? opp.currentStep.status : 'On Hold'}</li>
+            <li className="hide-tablet">{opp.currentStep ? opp.currentStep.status : 'Talk to Your Enrollment Officer'}</li>
           </ul>
           <AdmissionsProcessList opp={opp}/>
         </div>

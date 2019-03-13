@@ -227,7 +227,7 @@ export const SEI_STEPS_12_WK = {
     step: 4,
     status: 'Pass the Technical Interview',
     description: 'Your interview is booked! Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing the JavaScript fundamentals on your own.',
-    alertText: 'Need to reschedule or cancel your interview?  Refer to your booking confirmation email.'
+    alertText: 'Need to cancel your interview?  Refer to your booking confirmation email.'
   },
   COMPLETE: {
     step: 5,
@@ -237,7 +237,7 @@ export const SEI_STEPS_12_WK = {
   },
   HOLD: {
     step: 0,
-    status: 'On Hold',
+    status: 'Talk to Your Enrollment Officer',
     description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
     buttonText: 'Email Us',
     buttonUrl: 'mailto:admissions@galvanize.com'
@@ -251,32 +251,36 @@ export const SEI_STEPS_18_WK = {
     status: 'Complete Your Application'
   },
   STEP_TWO: {
-    step: 3,
+    step: 1.5,
     status: 'FastTrack: Book the Technical Interview',
     description: 'Congrats! You passed the coding challenge!  In order to determine final eligibility for our FastTrack program - choose a time to complete your technical interview. Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing JavaScript fundamentals on your own.',
     buttonPath: '/book-interview',
     buttonText: 'Schedule the Technical Interview',
     override: true,
     hidden: true,
-    blockClass:'-blue'
+    blockClass:'-blue',
+    alertText: 'We still recommend you do the Group Assessment even if you also attempt to FastTrack.'
+
   },
   STEP_THREE: {
-    step: 4,
+    step: 1.75,
     status: 'FastTrack: Pass Your Technical Interview',
     description: 'Your FastTrack interview is booked! Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing the JavaScript fundamentals on your own.  Note - You can still elect to follow the standard track and register for the group assessment during this time.  Reach out to your Enrollment Officer if you have any questions.',
-    alertText: 'Need to reschedule or cancel your interview?  Refer to your booking confirmation email.',
+    alertText: 'Need to cancel your interview?  Refer to your booking confirmation email.',
     hidden: true
   },
   STEP_FOUR: {
-    step: 5,
+    step: 2,
     status: 'Register for the Group Assessment',
-    description: 'Look out for a link from your Enrollment Officer to register for the Group Assessment.  Want to see if you are eligible for our FastTrack program?  Pass this coding challenge to be eligible for a final Technical Interview to get into FastTrack.',
+    description: 'Register for the Group Assessment via a link emailed from your Enrollment Officer.',
     buttonPath: '/coding-challenge',
     buttonText: 'FastTrack Coding Challenge',
-    override: true
+    override: true,
+    alertText: 'Want to see if you can do our accelerated FastTrack program?  Pass this coding challenge to be eligible for a final Technical Interview to get into FastTrack.'
+
   },
   STEP_FIVE: {
-    step: 5,
+    step: 3,
     status: 'Pass the Group Assessment',
     description: 'You are registered for the Group Assessment! Prepare to pass the assessment by enrolling in a Galvanize Software Engineering Prep course or by practicing the JavaScript fundamentals on your own.'
   },
@@ -288,7 +292,10 @@ export const SEI_STEPS_18_WK = {
   },
   HOLD: {
     step: 0,
-    status: 'On Hold',
+    status: 'Talk to Your Enrollment Officer',
+    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
+    buttonText: 'Email Us',
+    buttonUrl: 'mailto:admissions@galvanize.com'
   }
 };
 
@@ -299,23 +306,38 @@ export const DSI_STEPS = {
   },
   STEP_TWO: {
     step: 2,
-    status: 'Pass the Takehome Assessment'
+    status: 'Pass the Takehome Assessment',
+    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
+    buttonText: 'Email Us',
+    buttonUrl: 'mailto:admissions@galvanize.com'
   },
   STEP_THREE: {
     step: 3,
-    status: 'Book Your Technical Interviews'
+    status: 'Book Your Technical Interviews',
+    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
+    buttonText: 'Email Us',
+    buttonUrl: 'mailto:admissions@galvanize.com'
   },
   STEP_FOUR: {
     step: 4,
-    status: 'Pass Your Technical Interviews'
+    status: 'Pass Your Technical Interviews',
+    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
+    buttonText: 'Email Us',
+    buttonUrl: 'mailto:admissions@galvanize.com'
   },
   COMPLETE: {
     step: 5,
     status: 'Enroll',
+    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
+    buttonText: 'Email Us',
+    buttonUrl: 'mailto:admissions@galvanize.com'
   },
   HOLD: {
     step: 0,
-    status: 'On Hold'
+    status: 'Talk to Your Enrollment Officer',
+    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
+    buttonText: 'Email Us',
+    buttonUrl: 'mailto:admissions@galvanize.com'
   }
 };
 
