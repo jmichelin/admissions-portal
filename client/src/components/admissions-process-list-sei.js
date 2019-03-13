@@ -34,7 +34,7 @@ export default (props) => {
             </div>
         </div>
     </div>
-    <NextStepBlock step={activeStep}/>
+    <NextStepBlock opp={props.opp} step={activeStep}/>
   </div>
   )
 }

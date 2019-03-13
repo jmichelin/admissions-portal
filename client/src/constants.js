@@ -232,7 +232,8 @@ export const SEI_STEPS_18_WK = {
     status: 'Book Group Assessment',
     description: 'Look out for a link from your Enrollment Officer to register for the Group Assessment.  Want to see if you are eligible for our FastTrack program?  Complete a coding challenge and book a technical interview to see if you qualify.',
     buttonPath: '/coding-challenge',
-    buttonText: 'Try the Coding Challenge'
+    buttonText: 'Try the Coding Challenge',
+    override: true
   },
   STEP_THREE: {
     step: 3,

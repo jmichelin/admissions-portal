@@ -33,7 +33,7 @@ class BookInterview extends Component {
     if (this.props.location.state && this.props.location.state.opp) {
       const {opp} = this.props.location.state;
 
-      if (opp.currentStep !== SEI_STEPS_12_WK.STEP_THREE && !this.props.location.state.override) {
+      if (opp.currentStep !== SEI_STEPS_12_WK.STEP_THREE && !this.props.location.override) {
         this.setState({ redirectToDashboard: true })
       }
       this.setState({opp: opp})
