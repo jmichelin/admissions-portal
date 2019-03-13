@@ -9,7 +9,7 @@ import { APPLICATION_STEPS_DSI, APPLICATION_STEPS_SEI_12WK, APPLICATION_STEPS_SE
 
 
 function renderProgramAdmissionsSteps(opp) {
-  switch(opp.courseType, opp.courseProduct) {
+  switch(opp.courseType + '&&' +  opp.courseProduct) {
     case '18 Week Full-Time Immersive' && 'Web Development':
     return <AdmissionsProcessSteps opp={opp} steps={APPLICATION_STEPS_SEI_18WK}/>
     case 'Specialty Immersive' && 'Web Development':

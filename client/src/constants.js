@@ -188,6 +188,21 @@ it("myInfo.github is defined as a string or null", function() {
 });
 });`;
 
+export const HERO_TEXT = {
+  DASHBOARD: {
+    heroHeadline: 'Admissions Portal Dashboard',
+    heroDescription: 'Manage your application, see next steps and complete the admissions process from here.'
+  },
+  CODING_CHALLENGE: {
+    heroHeadline: 'Pass the Coding Challenge',
+    heroDescription: "This quick coding challenge will test your understanding of basic JavaScript syntax and start you on your admissions journey. If you're new to programming or JavaScript, don't be deterred. Try this challenge as many times as you need - your application will not be affected by errors. Submit your code when completed. Best of luck!"
+  },
+  SEI_BOOK_INTERVIEW: {
+    heroHeadline: 'Book the Technical Interview',
+    heroDescription: "All campuses share the same interview format and assessment rubric so you can interview at the location that's most convenient for you, regardless of your preferred campus."
+  }
+};
+
 export const SEI_STEPS_12_WK = {
   STEP_ONE: {
     step: 1,
@@ -299,21 +314,6 @@ export const DSI_STEPS = {
   HOLD: {
     step: 0,
     status: 'On Hold'
-  }
-};
-
-export const HERO_TEXT = {
-  DASHBOARD: {
-    heroHeadline: 'Admissions Portal Dashboard',
-    heroDescription: 'Manage your application, see next steps and complete the admissions process from here.'
-  },
-  CODING_CHALLENGE: {
-    heroHeadline: 'Pass the Coding Challenge',
-    heroDescription: "This quick coding challenge will test your understanding of basic JavaScript syntax and start you on your admissions journey. If you're new to programming or JavaScript, don't be deterred. Try this challenge as many times as you need - your application will not be affected by errors. Submit your code when completed. Best of luck!"
-  },
-  SEI_BOOK_INTERVIEW: {
-    heroHeadline: 'Book the Technical Interview',
-    heroDescription: "All campuses share the same interview format and assessment rubric so you can interview at the location that's most convenient for you, regardless of your preferred campus."
   }
 };
 
