@@ -195,11 +195,17 @@ export const SEI_STEPS_12_WK = {
   },
   STEP_TWO: {
     step: 2,
-    status: 'Pass the Coding Challenge'
+    status: 'Pass the Coding Challenge',
+    description: 'Click to review the coding challenge question prior to beginning your assessment. There is no limit to how many times you can attempt this challenge.  After passing the challenge, submit your code to continue the admissions process for this program.',
+    buttonPath: '/coding-challenge',
+    buttonText: 'Begin Coding Challenge'
   },
   STEP_THREE: {
     step: 3,
-    status: 'Book the Technical Interview'
+    status: 'Book the Technical Interview',
+    description: 'Choose a time to complete your technical interview. Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing JavaScript fundamentals on your own.',
+    buttonPath: '/book-interview',
+    buttonText: 'Schedule Your Interview'
   },
   STEP_FOUR: {
     step: 4,
@@ -223,7 +229,10 @@ export const SEI_STEPS_18_WK = {
   },
   STEP_TWO: {
     step: 2,
-    status: 'Book Group Assessment'
+    status: 'Book Group Assessment',
+    description: 'Look out for a link from your Enrollment Officer to register for the Group Assessment.  Want to see if you are eligible for our FastTrack program?  Complete a coding challenge and book a technical interview to see if you qualify.',
+    buttonPath: '/coding-challenge',
+    buttonText: 'Try the Coding Challenge'
   },
   STEP_THREE: {
     step: 3,

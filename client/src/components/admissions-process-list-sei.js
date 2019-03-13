@@ -1,9 +1,12 @@
 import React from 'react';
 
 import checkMark from '../assets/images/icon-checkmark-orange.png';
+import NextStepBlock from './next-steps-block';
 
 
 export default (props) => {
+  let activeStep = props.steps.find(el => el.step === props.opp.currentStep.step);
+
   let list = props.steps.map((step, i) => {
     if (!props.opp.currentStep || step.status.includes('Enroll') || step.status.includes('Hold')) return null;
     if (props.opp.currentStep.step > step.step) {
@@ -23,10 +26,15 @@ export default (props) => {
   })
 
   return (
-    <div className="steps-list">
-      <div className="steps">
-          {list}
+    <div>
+      <div className="table-row -steps">
+        <div className="steps-list">
+          <div className="steps">
+              {list}
+            </div>
+        </div>
     </div>
+    <NextStepBlock step={activeStep}/>
   </div>
   )
 }

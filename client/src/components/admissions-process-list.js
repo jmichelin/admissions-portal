@@ -3,7 +3,6 @@ import React from 'react';
 import AdmissionsProcessListSEI from './admissions-process-list-sei';
 import AdmissionsProcessListDSI from './admissions-process-list-dsi';
 
-import NextStepBlock from './next-steps-block';
 import ResourcesSEI from './resources-sei';
 import ResourcesDSI from './resources-dsi';
 
@@ -26,10 +25,7 @@ export default (props) => {
 
   return (
     <div>
-      <div className="table-row -steps">
       { renderProgramAdmissionsSteps(props.opp) }
-      </div>
-      <NextStepBlock currentStep={props.opp.currentStep} opp={props.opp}/>
       {props.opp.courseProduct === 'Web Development' ? <ResourcesSEI/> : <ResourcesDSI/>}
     </div>
   )

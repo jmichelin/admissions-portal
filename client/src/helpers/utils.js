@@ -26,14 +26,14 @@
       return SEI_STEPS_12_WK.HOLD;
     } else if (opp.courseProduct === 'Web Development') {
       if (opp.courseType === '18 Week Full-Time Immersive') {
-        getSEI18WkStage(opp);
+        return getSEI18WkStage(opp);
       } else if (opp.courseType === 'Specialty Immersive') {
-        getSEI12WkStage(opp);
+        return getSEI12WkStage(opp);
       } else {
-        getSEI12WkStage(opp);
+        return getSEI12WkStage(opp);
       }
     } else if (opp.courseProduct === 'Data Science') {
-        getDSIStage(opp);
+        return getDSIStage(opp);
     } else {
       return SEI_STEPS_12_WK.HOLD;
     }
