@@ -248,6 +248,7 @@ export const SEI_STEPS_18_WK = {
     step: 4,
     status: 'FastTrack: Pass Your Technical Interview',
     description: 'Your FastTrack interview is booked! Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing the JavaScript fundamentals on your own.  Note - You can still elect to follow the standard track and register for the group assessment during this time.  Reach out to your Enrollment Officer if you have any questions.',
+    alertText: 'Need to reschedule or cancel your interview?  Refer to your booking confirmation email.',
     hidden: true
   },
   STEP_FOUR: {

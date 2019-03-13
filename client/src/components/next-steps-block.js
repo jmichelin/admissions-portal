@@ -8,7 +8,7 @@ export default (props) => {
       <div className="left-text">
         <h4>Next Steps</h4>
         <p className="-inverse">{props.step.description}</p>
-        {props.alertText ? <p className="-alert -inverse">{props.step.alertText}</p> : null}
+        {props.step.alertText ? <p className="-alert -inverse">{props.step.alertText}</p> : null}
       </div>
       { props.step.buttonPath ? <Link to={{
             pathname: `${props.step.buttonPath}`,
