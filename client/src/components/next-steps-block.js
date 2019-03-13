@@ -15,6 +15,8 @@ export default (props) => {
             state: { opp: props.opp},
             override: props.step.override }}>
             <button className="button-primary">{props.step.buttonText}</button></Link> : null}
+      { props.step.buttonUrl ?
+          <a href={props.step.buttonUrl} target="_blank"><button className="button-primary">{props.step.buttonText}</button></a> : null}
       </div>
   )
 }
