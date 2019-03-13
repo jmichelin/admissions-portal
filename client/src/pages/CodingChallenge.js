@@ -33,7 +33,6 @@ class CodingChallenge extends Component {
   }
 
   componentDidMount() {
-    debugger;
     if (this.props.location.state && this.props.location.state.opp) {
       const {opp} = this.props.location.state;
       if (opp.currentStep !== SEI_STEPS_12_WK.STEP_TWO && !this.props.location.override) {

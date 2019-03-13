@@ -20,6 +20,8 @@ app.use(secure);
 const middlewares = require('./auth/middlewares');
 const auth = require('./auth');
 const users = require('./api/user');
+const interview = require('./webhooks/youcanbookme/routes');
+
 
 app.use(morgan('dev'));
 app.use(cors({
@@ -31,6 +33,9 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.use('/auth', auth);
 app.use('/api/v1/user', middlewares.isLoggedIn, users);
+
+app.use('/webhooks/interview', interview);
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));

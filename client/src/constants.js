@@ -220,20 +220,20 @@ export const SEI_STEPS_12_WK = {
     status: 'Book the Technical Interview',
     description: 'Choose a time to complete your technical interview. Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing JavaScript fundamentals on your own.',
     buttonPath: '/book-interview',
-    buttonText: 'Schedule Your Interview'
+    buttonText: 'Schedule Your Interview',
+    blockClass:'-blue'
   },
   STEP_FOUR: {
     step: 4,
     status: 'Pass the Technical Interview',
     description: 'Your interview is booked! Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing the JavaScript fundamentals on your own.',
-    alertText: 'Need to reschedule or cancel your interview?  Refer to your booking confirmation email.',
-    buttonPath: '/coding-challenge',
-    buttonText: 'Begin Coding Challenge'
+    alertText: 'Need to reschedule or cancel your interview?  Refer to your booking confirmation email.'
   },
   COMPLETE: {
     step: 5,
     status: 'Enroll',
-    description: 'Congrats! You passed your technical interview.  Within one to two business days, you’ll receive an email containing your Student Enrollment Agreement. Review your Enrollment Agreement within seven days of receipt to confirm your cohort seat.'
+    description: 'Congrats! You passed your technical interview.  Within one to two business days, you’ll receive an email containing your Student Enrollment Agreement. Review your Enrollment Agreement within seven days of receipt to confirm your cohort seat.',
+    blockClass:'-green'
   },
   HOLD: {
     step: 0,
@@ -257,7 +257,8 @@ export const SEI_STEPS_18_WK = {
     buttonPath: '/book-interview',
     buttonText: 'Schedule the Technical Interview',
     override: true,
-    hidden: true
+    hidden: true,
+    blockClass:'-blue'
   },
   STEP_THREE: {
     step: 4,
@@ -271,7 +272,7 @@ export const SEI_STEPS_18_WK = {
     status: 'Register for the Group Assessment',
     description: 'Look out for a link from your Enrollment Officer to register for the Group Assessment.  Want to see if you are eligible for our FastTrack program?  Pass this coding challenge to be eligible for a final Technical Interview to get into FastTrack.',
     buttonPath: '/coding-challenge',
-    buttonText: 'Try the Coding Challenge',
+    buttonText: 'FastTrack Coding Challenge',
     override: true
   },
   STEP_FIVE: {
@@ -282,7 +283,8 @@ export const SEI_STEPS_18_WK = {
   COMPLETE: {
     step: 6,
     status: 'Enroll',
-    description: 'Congrats! You have passed.  Within one to two business days, you’ll receive an email containing your Student Enrollment Agreement. Review your Enrollment Agreement within seven days of receipt to confirm your cohort seat.'
+    description: 'Congrats! You have passed.  Within one to two business days, you’ll receive an email containing your Student Enrollment Agreement. Review your Enrollment Agreement within seven days of receipt to confirm your cohort seat.',
+    blockClass:'-green'
   },
   HOLD: {
     step: 0,
