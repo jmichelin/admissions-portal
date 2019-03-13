@@ -1,4 +1,4 @@
-  import { SEI_STEPS_12_WK } from '../constants';
+  import { SEI_STEPS_12_WK, SEI_STEPS_18_WK } from '../constants';
 
   function getCourseName(opp) {
     let campus = opp.campus;
@@ -21,10 +21,25 @@
     }
   }
 
-  function getSEIStage(opp) {
+  function getStage(opp) {
     if (!opp.scorecard) {
       return SEI_STEPS_12_WK.HOLD;
+    } else if (opp.courseProduct === 'Web Development') {
+      if (opp.courseType === '18 Week Full-Time Immersive') {
+        getSEI18WkStage(opp);
+      } else if (opp.courseType === 'Specialty Immersive') {
+        getSEI12WkStage(opp);
+      } else {
+        getSEI12WkStage(opp);
+      }
+    } else if (opp.courseProduct === 'Data Science') {
+        getDSIStage(opp);
+    } else {
+      return SEI_STEPS_12_WK.HOLD;
     }
+  }
+
+  function getSEI12WkStage(opp) {
     if (opp.scorecard.moveForwardCode !== 'Yes') {
       //person needs to do coding challenge
       return SEI_STEPS_12_WK.STEP_TWO;
@@ -43,6 +58,28 @@
     } else {
       // catch all case - talk to your EO for next steps
       return SEI_STEPS_12_WK.HOLD;
+    }
+  }
+
+  function getSEI18WkStage(opp) {
+    if (opp.scorecard.moveForwardCode !== 'Yes') {
+      //person needs to do coding challenge
+      return SEI_STEPS_18_WK.STEP_TWO;
+    } else if (opp.scorecard.finalCode && opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview !== 'No' && opp.scorecard.moveForwardInterview !== 'Yes' && opp.stage !== 'Interview 1 Scheduled') {
+      //passed coding challenge but person needs to book the interview
+      return SEI_STEPS_18_WK.STEP_THREE;
+    } else if (opp.scorecard.finalCode && opp.scorecard.moveForwardCode === 'Yes' && opp.stage === 'Interview 1 Scheduled') {
+      //passed coding challenge and booked interview
+      return SEI_STEPS_18_WK.STEP_FOUR;
+    } else if (opp.scorecard.finalCode && opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview === 'No') {
+      //passed coding challenge and booked interview but failed
+      return SEI_STEPS_18_WK.HOLD;
+    } else if (opp.scorecard.finalCode && opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview === 'Yes') {
+      //passed coding challenge and booked interview and passed
+      return SEI_STEPS_18_WK.COMPLETE;
+    } else {
+      // catch all case - talk to your EO for next steps
+      return SEI_STEPS_18_WK.HOLD;
     }
   }
 
@@ -69,6 +106,6 @@
   }
 export default {
   getCourseName,
-  getSEIStage,
+  getStage,
   getDSIStage
 };

@@ -12,6 +12,7 @@ import { SEI_STEPS_12_WK } from '../constants';
 export default (props) => {
 
 function getSEINextSteps() {
+  if(!props.currentStep ) return <NextStepsHold {...props}/>
   switch(props.currentStep.status) {
     case SEI_STEPS_12_WK.STEP_TWO.status:
     return <NextStepsCodingChallenge {...props}/>
@@ -29,6 +30,7 @@ function getSEINextSteps() {
   }
 
   function getDSINextSteps() {
+    if(!props.currentStep ) return <NextStepsHold {...props}/>
     switch(props.currentStep.status) {
       case 'Awaiting Coding Challenge':
       return <NextStepsHold {...props}/>
