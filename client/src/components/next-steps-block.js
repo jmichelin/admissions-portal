@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { SEI_STEPS_12_WK } from '../constants';
-
 export default (props) => {
 
   return (

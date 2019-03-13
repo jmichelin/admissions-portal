@@ -209,15 +209,23 @@ export const SEI_STEPS_12_WK = {
   },
   STEP_FOUR: {
     step: 4,
-    status: 'Pass the Technical Interview'
+    status: 'Pass the Technical Interview',
+    description: 'Your interview is booked! Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing the JavaScript fundamentals on your own.',
+    alertText: 'Need to reschedule or cancel your interview?  Refer to your booking confirmation email.',
+    buttonPath: '/coding-challenge',
+    buttonText: 'Begin Coding Challenge'
   },
   COMPLETE: {
     step: 5,
-    status: 'Enroll'
+    status: 'Enroll',
+    description: 'Congrats! You passed your technical interview.  Within one to two business days, you’ll receive an email containing your Student Enrollment Agreement. Review your Enrollment Agreement within seven days of receipt to confirm your cohort seat.'
   },
   HOLD: {
     step: 0,
-    status: 'On Hold'
+    status: 'On Hold',
+    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
+    buttonText: 'Email Us',
+    buttonUrl: 'mailto:admissions@galvanize.com'
   }
 };
 
@@ -228,20 +236,37 @@ export const SEI_STEPS_18_WK = {
     status: 'Complete Your Application'
   },
   STEP_TWO: {
-    step: 2,
-    status: 'Book Group Assessment',
-    description: 'Look out for a link from your Enrollment Officer to register for the Group Assessment.  Want to see if you are eligible for our FastTrack program?  Complete a coding challenge and book a technical interview to see if you qualify.',
+    step: 3,
+    status: 'FastTrack: Book the Technical Interview',
+    description: 'Congrats! You passed the coding challenge!  In order to determine final eligibility for our FastTrack program - choose a time to complete your technical interview. Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing JavaScript fundamentals on your own.',
+    buttonPath: '/book-interview',
+    buttonText: 'Schedule the Technical Interview',
+    override: true,
+    hidden: true
+  },
+  STEP_THREE: {
+    step: 4,
+    status: 'FastTrack: Pass Your Technical Interview',
+    description: 'Your FastTrack interview is booked! Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing the JavaScript fundamentals on your own.  Note - You can still elect to follow the standard track and register for the group assessment during this time.  Reach out to your Enrollment Officer if you have any questions.',
+    hidden: true
+  },
+  STEP_FOUR: {
+    step: 5,
+    status: 'Register for the Group Assessment',
+    description: 'Look out for a link from your Enrollment Officer to register for the Group Assessment.  Want to see if you are eligible for our FastTrack program?  Pass this coding challenge to be eligible for a final Technical Interview to get into FastTrack.',
     buttonPath: '/coding-challenge',
     buttonText: 'Try the Coding Challenge',
     override: true
   },
-  STEP_THREE: {
-    step: 3,
-    status: 'Pass the Group Assessment'
+  STEP_FIVE: {
+    step: 5,
+    status: 'Pass the Group Assessment',
+    description: 'You are registered for the Group Assessment! Prepare to pass the assessment by enrolling in a Galvanize Software Engineering Prep course or by practicing the JavaScript fundamentals on your own.'
   },
   COMPLETE: {
-    step: 5,
+    step: 6,
     status: 'Enroll',
+    description: 'Congrats! You have passed.  Within one to two business days, you’ll receive an email containing your Student Enrollment Agreement. Review your Enrollment Agreement within seven days of receipt to confirm your cohort seat.'
   },
   HOLD: {
     step: 0,
@@ -304,6 +329,8 @@ export const APPLICATION_STEPS_SEI_18WK = [
   SEI_STEPS_18_WK.STEP_ONE,
   SEI_STEPS_18_WK.STEP_TWO,
   SEI_STEPS_18_WK.STEP_THREE,
+  SEI_STEPS_18_WK.STEP_FOUR,
+  SEI_STEPS_18_WK.STEP_FIVE,
   SEI_STEPS_18_WK.COMPLETE,
   SEI_STEPS_18_WK.HOLD
 ];
