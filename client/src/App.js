@@ -54,7 +54,7 @@ class App extends Component {
             }
             else if (result.data && result.data.opportunities && result.data.user) {
               let opps = result.data.opportunities.map(opp => {
-                let currentStep = opp.courseProduct === 'Web Development' ? utils.getSEIStage(opp) : utils.getDSIStage(opp);
+                let currentStep = utils.getStage(opp);
                 opp.currentStep = currentStep;
                 return opp;
               })

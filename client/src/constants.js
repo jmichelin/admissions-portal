@@ -188,72 +188,6 @@ it("myInfo.github is defined as a string or null", function() {
 });
 });`;
 
-export const SEI_STEPS = {
-  STEP_ONE: {
-    step: 1,
-    status: 'Complete Your Application',
-    nextStep: 'Pass the Coding Challenge'
-  },
-  STEP_TWO: {
-    step: 2,
-    status: 'Pass the Coding Challenge',
-    nextStep: 'Book the Technical Interview',
-  },
-  STEP_THREE: {
-    step: 3,
-    status: 'Book the Technical Interview',
-    nextStep: 'Prepare for the Technical Interview',
-  },
-  STEP_FOUR: {
-    step: 4,
-    status: 'Pass the Technical Interview',
-    nextStep: 'Final Decision'
-  },
-  COMPLETE: {
-    step: 5,
-    status: 'Enroll',
-    nextStep: 'Finish Enrollment Process'
-  },
-  HOLD: {
-    step: 0,
-    status: 'On Hold',
-    nextStep: 'On Hold'
-  }
-};
-
-export const DSI_STEPS = {
-  STEP_ONE: {
-    step: 1,
-    status: 'Complete Your Application',
-    nextStep: 'Pass the Takehome Assessment'
-  },
-  STEP_TWO: {
-    step: 2,
-    status: 'Pass the Takehome Assessment',
-    nextStep: 'Book Your Technical Interviews',
-  },
-  STEP_THREE: {
-    step: 3,
-    status: 'Book Your Technical Interviews',
-    nextStep: 'Prepare for Your Technical Interviews',
-  },
-  STEP_FOUR: {
-    step: 4,
-    status: 'Pass Your Technical Interviews',
-    nextStep: 'Final Decision'
-  },
-  COMPLETE: {
-    step: 5,
-    status: 'Enroll',
-    nextStep: 'Finish Enrollment Process'
-  },
-  HOLD: {
-    step: 0,
-    status: 'On Hold',
-    nextStep: 'On Hold'
-  }
-};
-
 export const HERO_TEXT = {
   DASHBOARD: {
     heroHeadline: 'Admissions Portal Dashboard',
@@ -269,13 +203,161 @@ export const HERO_TEXT = {
   }
 };
 
-export const APPLICATION_STEPS_SEI = [
-  SEI_STEPS.STEP_ONE,
-  SEI_STEPS.STEP_TWO,
-  SEI_STEPS.STEP_THREE,
-  SEI_STEPS.STEP_FOUR,
-  SEI_STEPS.COMPLETE,
-  SEI_STEPS.HOLD
+export const SEI_STEPS_12_WK = {
+  STEP_ONE: {
+    step: 1,
+    status: 'Complete Your Application'
+  },
+  STEP_TWO: {
+    step: 2,
+    status: 'Pass the Coding Challenge',
+    description: 'Click to review the coding challenge question prior to beginning your assessment. There is no limit to how many times you can attempt this challenge.  After passing the challenge, submit your code to continue the admissions process for this program.',
+    buttonPath: '/coding-challenge',
+    buttonText: 'Begin Coding Challenge'
+  },
+  STEP_THREE: {
+    step: 3,
+    status: 'Book the Technical Interview',
+    description: 'Choose a time to complete your technical interview. Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing JavaScript fundamentals on your own.',
+    buttonPath: '/book-interview',
+    buttonText: 'Schedule Your Interview',
+    blockClass:'-blue'
+  },
+  STEP_FOUR: {
+    step: 4,
+    status: 'Pass the Technical Interview',
+    description: 'Your interview is booked! Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing the JavaScript fundamentals on your own.',
+    alertText: 'Need to cancel your interview?  Refer to your booking confirmation email.'
+  },
+  COMPLETE: {
+    step: 5,
+    status: 'Enroll',
+    description: 'Congrats! You passed your technical interview.  Within one to two business days, you’ll receive an email containing your Student Enrollment Agreement. Review your Enrollment Agreement within seven days of receipt to confirm your cohort seat.',
+    blockClass:'-green'
+  },
+  HOLD: {
+    step: 0,
+    status: 'Talk to Your Enrollment Officer',
+    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
+    buttonText: 'Email Us',
+    buttonUrl: 'mailto:admissions@galvanize.com'
+  }
+};
+
+
+export const SEI_STEPS_18_WK = {
+  STEP_ONE: {
+    step: 1,
+    status: 'Complete Your Application'
+  },
+  STEP_TWO: {
+    step: 1.5,
+    status: 'FastTrack: Book the Technical Interview',
+    description: 'Congrats! You passed the coding challenge!  In order to determine final eligibility for our FastTrack program - choose a time to complete your technical interview. Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing JavaScript fundamentals on your own.',
+    buttonPath: '/book-interview',
+    buttonText: 'Schedule the Technical Interview',
+    override: true,
+    hidden: true,
+    blockClass:'-blue',
+    alertText: 'We still recommend you do the Group Assessment even if you also attempt to FastTrack.'
+
+  },
+  STEP_THREE: {
+    step: 1.75,
+    status: 'FastTrack: Pass Your Technical Interview',
+    description: 'Your FastTrack interview is booked! Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing the JavaScript fundamentals on your own.  Note - You can still elect to follow the standard track and register for the group assessment during this time.  Reach out to your Enrollment Officer if you have any questions.',
+    alertText: 'Need to cancel your interview?  Refer to your booking confirmation email.',
+    hidden: true
+  },
+  STEP_FOUR: {
+    step: 2,
+    status: 'Register for the Group Assessment',
+    description: 'Register for the Group Assessment via a link emailed from your Enrollment Officer.',
+    buttonPath: '/coding-challenge',
+    buttonText: 'FastTrack Coding Challenge',
+    override: true,
+    alertText: 'Want to see if you can do our accelerated FastTrack program?  Pass this coding challenge to be eligible for a final Technical Interview to get into FastTrack.'
+
+  },
+  STEP_FIVE: {
+    step: 3,
+    status: 'Pass the Group Assessment',
+    description: 'You are registered for the Group Assessment! Prepare to pass the assessment by enrolling in a Galvanize Software Engineering Prep course or by practicing the JavaScript fundamentals on your own.'
+  },
+  COMPLETE: {
+    step: 6,
+    status: 'Enroll',
+    description: 'Congrats! You have passed.  Within one to two business days, you’ll receive an email containing your Student Enrollment Agreement. Review your Enrollment Agreement within seven days of receipt to confirm your cohort seat.',
+    blockClass:'-green'
+  },
+  HOLD: {
+    step: 0,
+    status: 'Talk to Your Enrollment Officer',
+    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
+    buttonText: 'Email Us',
+    buttonUrl: 'mailto:admissions@galvanize.com'
+  }
+};
+
+export const DSI_STEPS = {
+  STEP_ONE: {
+    step: 1,
+    status: 'Complete Your Application'
+  },
+  STEP_TWO: {
+    step: 2,
+    status: 'Pass the Takehome Assessment',
+    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
+    buttonText: 'Email Us',
+    buttonUrl: 'mailto:admissions@galvanize.com'
+  },
+  STEP_THREE: {
+    step: 3,
+    status: 'Book Your Technical Interviews',
+    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
+    buttonText: 'Email Us',
+    buttonUrl: 'mailto:admissions@galvanize.com'
+  },
+  STEP_FOUR: {
+    step: 4,
+    status: 'Pass Your Technical Interviews',
+    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
+    buttonText: 'Email Us',
+    buttonUrl: 'mailto:admissions@galvanize.com'
+  },
+  COMPLETE: {
+    step: 5,
+    status: 'Enroll',
+    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
+    buttonText: 'Email Us',
+    buttonUrl: 'mailto:admissions@galvanize.com'
+  },
+  HOLD: {
+    step: 0,
+    status: 'Talk to Your Enrollment Officer',
+    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
+    buttonText: 'Email Us',
+    buttonUrl: 'mailto:admissions@galvanize.com'
+  }
+};
+
+export const APPLICATION_STEPS_SEI_12WK = [
+  SEI_STEPS_12_WK.STEP_ONE,
+  SEI_STEPS_12_WK.STEP_TWO,
+  SEI_STEPS_12_WK.STEP_THREE,
+  SEI_STEPS_12_WK.STEP_FOUR,
+  SEI_STEPS_12_WK.COMPLETE,
+  SEI_STEPS_12_WK.HOLD
+];
+
+export const APPLICATION_STEPS_SEI_18WK = [
+  SEI_STEPS_18_WK.STEP_ONE,
+  SEI_STEPS_18_WK.STEP_TWO,
+  SEI_STEPS_18_WK.STEP_THREE,
+  SEI_STEPS_18_WK.STEP_FOUR,
+  SEI_STEPS_18_WK.STEP_FIVE,
+  SEI_STEPS_18_WK.COMPLETE,
+  SEI_STEPS_18_WK.HOLD
 ];
 
 export const APPLICATION_STEPS_DSI = [
