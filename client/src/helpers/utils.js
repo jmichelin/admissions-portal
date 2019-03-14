@@ -1,4 +1,4 @@
-  import { SEI_STEPS_12_WK, SEI_STEPS_18_WK, DSI_STEPS } from '../constants';
+  import { APPLICATION_STEPS_DSI, APPLICATION_STEPS_SEI_18WK, APPLICATION_STEPS_SEI_12WK, SEI_STEPS_12_WK, SEI_STEPS_18_WK, DSI_STEPS } from '../constants';
 
   function getCourseName(opp) {
     let campus = opp.campus;
@@ -22,25 +22,26 @@
   }
 
   function getStage(opp) {
-    if (!opp.scorecard) {
-      return SEI_STEPS_12_WK.HOLD;
-    } else if (opp.courseProduct === 'Web Development') {
+    if (opp.courseProduct === 'Web Development') {
       if (opp.courseType === '18 Week Full-Time Immersive') {
-        return getSEI18WkStage(opp);
+        return {step: getSEI18WkStage(opp), process: APPLICATION_STEPS_SEI_18WK};
       } else if (opp.courseType === 'Specialty Immersive') {
-        return getSEI12WkStage(opp);
+        return {step: getSEI12WkStage(opp), process: APPLICATION_STEPS_SEI_12WK};
       } else {
-        return getSEI12WkStage(opp);
+        return {step: getSEI12WkStage(opp), process: APPLICATION_STEPS_SEI_12WK};
       }
     } else if (opp.courseProduct === 'Data Science') {
-        return getDSIStage(opp);
+      return {step: getDSIStage(opp), process: APPLICATION_STEPS_DSI};
     } else {
-      return SEI_STEPS_12_WK.HOLD;
+      return {step: getSEI12WkStage(opp), process: APPLICATION_STEPS_SEI_12WK};
     }
   }
 
   function getSEI12WkStage(opp) {
-    if (opp.scorecard.moveForwardCode !== 'Yes') {
+    if (!opp.scorecard) {
+      return SEI_STEPS_12_WK.HOLD;
+    }
+      else if (opp.scorecard.moveForwardCode !== 'Yes') {
       //person needs to do coding challenge
       return SEI_STEPS_12_WK.STEP_TWO;
     } else if (opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview !== 'No' && opp.scorecard.moveForwardInterview !== 'Yes' && opp.stage !== 'Interview 1 Scheduled') {
@@ -62,6 +63,9 @@
   }
 
   function getSEI18WkStage(opp) {
+    if (!opp.scorecard) {
+      return SEI_STEPS_12_WK.HOLD;
+    }
     if (opp.scorecard.moveForwardCode !== 'Yes') {
       //person needs to do coding challenge
       return SEI_STEPS_18_WK.STEP_FOUR;
@@ -84,6 +88,9 @@
   }
 
   function getDSIStage(opp) {
+    if (!opp.scorecard) {
+      return SEI_STEPS_12_WK.HOLD;
+    }
     if (opp.scorecard.moveForwardCode !== 'Yes') {
       //person needs to do coding challenge
       return DSI_STEPS.STEP_TWO;
