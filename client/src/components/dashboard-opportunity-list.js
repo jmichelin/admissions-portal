@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import AdmissionsProcessList from './admissions-process-list';
+import AdmissionsProcessSteps from './admissions-process-steps';
 
 import utils from '../helpers/utils';
 import moment from 'moment';
@@ -19,7 +19,7 @@ class OpportunityList extends Component {
             <li className="hide-mobile">{moment(opp.courseStart).format('MM/DD/YYYY')}</li>
             <li className="hide-tablet">{opp.currentStep ? opp.currentStep.status : 'Talk to Your Enrollment Officer'}</li>
           </ul>
-          <AdmissionsProcessList opp={opp}/>
+          <AdmissionsProcessSteps opp={opp}/>
         </div>
       )
     })

@@ -5,11 +5,13 @@ import { SEI_STEPS_12_WK } from '../constants';
 
 import checkMark from '../assets/images/icon-checkmark-orange.png';
 import NextStepBlock from './next-steps-block';
+import ResourcesSEI from './resources-sei';
+import ResourcesDSI from './resources-dsi';
 
 
 export default (props) => {
-  let activeStep = props.steps.find(el => el.step === props.opp.currentStep.step) || SEI_STEPS_12_WK.HOLD;
-  let list = props.steps.map((step, i) => {
+  let activeStep = props.opp.admissionsProcess.find(el => el.step === props.opp.currentStep.step) || SEI_STEPS_12_WK.HOLD;
+  let list = props.opp.admissionsProcess.map((step, i) => {
     if (!props.opp.currentStep || step.status.includes('Enroll') || step.status.includes('Hold') || step.hidden) return null;
     if (props.opp.currentStep.step > step.step) {
       return (
@@ -37,6 +39,7 @@ export default (props) => {
         </div>
     </div>
     <NextStepBlock opp={props.opp} step={activeStep}/>
+    {props.opp.courseProduct === 'Web Development' ? <ResourcesSEI/> : <ResourcesDSI/>}
   </div>
   )
 }

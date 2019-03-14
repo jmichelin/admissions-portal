@@ -21,7 +21,7 @@ class App extends Component {
       user: {},
       isLoading: true,
       fetchedData: false
-    }
+      }
 
     this.getData = this.getData.bind(this);
     this.clearData = this.clearData.bind(this);
@@ -54,8 +54,11 @@ class App extends Component {
             }
             else if (result.data && result.data.opportunities && result.data.user) {
               let opps = result.data.opportunities.map(opp => {
-                let currentStep = utils.getStage(opp);
+                let stageObj = utils.getStage(opp);
+                let currentStep = stageObj.step;
+                let admissionsProcess = stageObj.process;
                 opp.currentStep = currentStep;
+                opp.admissionsProcess = admissionsProcess;
                 return opp;
               })
               this.setState({
