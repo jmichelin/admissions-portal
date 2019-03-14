@@ -102,6 +102,8 @@ class BookInterview extends Component {
                   { this.state.isLoading ? loadingBlock : null }
                   { this.state.showIframe ?
                     <CalendarIframe
+                      opp={this.state.opp}
+                      user={this.props.user}
                       calendarUrl={this.state.campus.ycbmLink}
                       calendarId={this.state.campus.ycbmId}
                       hideSpinner={this.hideSpinner}
