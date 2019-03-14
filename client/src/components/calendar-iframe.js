@@ -15,7 +15,7 @@ class CalendarIframe extends Component {
   render() {
       return (
         <div className="grouping">
-          <iframe title="ycbm-iframe" ref={(f) => this.iframe = f} src={`${this.props.calendarUrl}/?noframe=true&skipHeaderFooter=true`} onLoad={() => this.props.hideSpinner(this.iframe)} id={this.props.calendarId} frameBorder="0" allowtransparency="true"></iframe>
+          <iframe title="ycbm-iframe" ref={(f) => this.iframe = f} src={`https://test-interviews.youcanbook.me/?noframe=true&skipHeaderFooter=true&OP-ID=${this.props.opp.id}&FNAME=${this.props.user.first_name}&LNAME=${this.props.user.last_name}&EMAIL=${this.props.user.email}`} onLoad={() => this.props.hideSpinner(this.iframe)} id={this.props.calendarId} frameBorder="0" allowtransparency="true"></iframe>
         </div>
         )
   }
