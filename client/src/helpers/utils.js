@@ -11,13 +11,14 @@
             return {course: 'Part-Time Remote Software Engineering Immersive', campus : "Remote"};
         } else {
           return {course: 'Software Engineering Immersive', campus : campus};
-
         }
+      } else {
+        return {course: 'Specialty Immersive', campus: campus};
       }
     } else if (opp.productCode && opp.productCode.includes('-DS-')  && opp.courseType.includes('Immersive')) {
       return {course: 'Data Science Immersive', campus : campus};
     } else {
-      return {};
+      return {course: 'Specialty Immersive', campus: campus};
     }
   }
 
