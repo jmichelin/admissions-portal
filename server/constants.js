@@ -169,3 +169,53 @@ const OPP_STAGES = ['New', 'Sent Takehome', 'Returned Takehome', 'Offer Out'];
 export const IMMERSIVE_COURSE_TYPES = [
   '13 Week Full-Time Immersive', '12 Week Full-Time Immersive', '36 Week Part-Time Immersive', '18 Week Full-Time Immersive', 'Specialty Immersive'
 ];
+
+export const PYTHON_TESTS = `python
+
+import main
+import unittest
+
+
+class TestPython1(unittest.TestCase):
+    def test_01_consonant_first(self):
+        string1 = "I will introduce my Uncle to my oldest friend Peter"
+        answer1 = sorted(["will", "my", "to", "friend", "peter"])
+        string2 = "Peter went to my house and then we went to his house"
+        answer2 = sorted(["peter", "went", "to", "my", "house", "then", "we", "his"])
+        for st, ans in zip([string1, string2], [answer1, answer2]):
+            result = sorted(main.consonant_first(st))
+            self.assertEqual(result, ans)`;
+
+export const PLACEHOLDER = `python
+
+def consonant_first(text):
+    """Finds a list of unique words in text that start with a consonant
+    (letters that are not vowels). Note: all words are returned as
+    lowercase and are returned in no particular order.
+
+    Parameters
+    ----------
+    in_str: string
+        A sentence containing no punctuation.
+        E.g. "A dog is a good pet and a bear is an awful pet"
+
+    Returns
+    -------
+    list of strings
+        The words from the sentence that do not start with vowels
+        ['a', 'e', 'i', 'o', 'u'].
+        All strings are returned as lower case.
+
+    Examples
+    --------
+    >>> consonant_first("A dog is a good pet and a bear is an awful pet")
+    ["dog", "good", "pet", "bear"]
+    """
+    pass`;
+
+export const SNIPPET_1 = {
+  id: 1,
+  tests: PYTHON_TESTS,
+  placeholder: PLACEHOLDER,
+  question: "Complete the function `consonant_first` according to its docstring."
+};

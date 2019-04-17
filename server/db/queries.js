@@ -44,4 +44,16 @@ module.exports = {
         })
         .where('email', user.email);
     },
+
+    addNewAssessment: function(assessment) {
+      return knex('assessment')
+      .insert({
+        snippet_id: assessment.snippet_id,
+        answer: assessment.answer,
+        status: assessment.status,
+        test_results: assessment.test_results,
+        user_id: assessment.user_id
+      })
+      .returning('*')
+    }
 };

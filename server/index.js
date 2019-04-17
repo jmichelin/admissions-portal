@@ -20,6 +20,7 @@ app.use(secure);
 const middlewares = require('./auth/middlewares');
 const auth = require('./auth');
 const users = require('./api/user');
+const assessments = require('./api/assessments');
 
 
 app.use(morgan('dev'));
@@ -32,6 +33,8 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.use('/auth', auth);
 app.use('/api/v1/user', middlewares.isLoggedIn, users);
+app.use('/api/v1/assessments', assessments);
+
 
 
 app.get('*', (req, res) => {
