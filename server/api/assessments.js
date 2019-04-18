@@ -29,7 +29,8 @@ router.post('/', (req, res, next) => {
      assessmentz.post(assessmentsPayload)
       .then(thing => {
         console.log('thing', thing);
-        res.send(200).end();
+       res.send(200).end();
+       return;
       })
     })
 
