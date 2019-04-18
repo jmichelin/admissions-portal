@@ -27,15 +27,21 @@ app.use(morgan('dev'));
 app.use(cors({
   origin: 'http://localhost:3000'
 }));
-app.use(bodyParser.json());
+
 app.use(middlewares.checkTokenSetUser);
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-app.use('/auth', auth);
-app.use('/api/v1/user', middlewares.isLoggedIn, users);
-app.use('/api/v1/assessments', assessments);
+app.use('/auth', express.json(), auth);
+app.use('/api/v1/user', express.json(), middlewares.isLoggedIn, users);
+app.use('/api/v1/assessments', express.json(), middlewares.isLoggedIn, assessments);
 
-
+const hookRouter = express.Router();
+hookRouter.patch('/:id', express.urlencoded(), (req, res, next) => {
+  console.log('****', req.body);
+  res.send({});
+  return;
+});
+app.use('/api/v1/webhooks', hookRouter);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
