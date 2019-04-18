@@ -23,7 +23,7 @@ router.post('/', (req, res, next) => {
         setup_to_run_before_code: '',
         tests_to_assess_against: SNIPPET_1.tests,
         language: 'python3.6',
-        callback_url: `${process.env.BASE_URL}/api/v1/webhooks/${savedAssessment[0].id}`
+        callback_url: `${process.env.BASE_URL}/webhooks/assessments/${savedAssessment[0].id}`
       };
 
      assessmentz.post(payload)
@@ -32,11 +32,19 @@ router.post('/', (req, res, next) => {
        return;
      });
    });
-
-
-
 });
 
+router.get('/:id', (req, res) => {
+  Q.getAssessment(req.params.id)
+    .then((assessment) => {
+      if (assessment.user_id !== req.user.id) {
+        res.send(401);
+      } else {
+        res.json(assessment)
+      }
+      return
+    })
+});
 
 
 module.exports = router;

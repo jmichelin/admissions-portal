@@ -55,5 +55,21 @@ module.exports = {
         user_id: assessment.user_id
       })
       .returning('*')
+    },
+
+    updateAssessment: function(id, test_results, status) {
+      return knex('assessment')
+      .update({
+        status: status,
+        test_results: test_results,
+        updated_at: knex.fn.now()
+      })
+      .where("id", id)
+      .returning('*')
+    },
+
+    getAssessment: function(id) {
+      return knex('assessment').select('*')
+      .where("id", id).first()
     }
 };
