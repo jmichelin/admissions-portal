@@ -10,35 +10,31 @@ const assessmentz = new Assessments();
 
 router.post('/', (req, res, next) => {
  let assessment = {
-   snippet_id: 1,
-   answer: 'test',
+   snippet_id: req.body.snippet_id,
+   answer: req.body.answer,
    status: 'processing',
    test_results: '',
-   user_id: 1
+   user_id: req.user.id
  }
  Q.addNewAssessment(assessment)
-    .then(result => {
-      let assessmentsPayload = {
+    .then(savedAssessment => {
+      let payload = {
         code_to_assess: assessment.answer,
         setup_to_run_before_code: '',
         tests_to_assess_against: SNIPPET_1.tests,
         language: 'python3.6',
-        callback_url: `${process.env.BASE_URL}/api/vi/assessments/webhook/${result[0].id}`
+        callback_url: `${process.env.BASE_URL}/api/v1/webhooks/${savedAssessment[0].id}`
       };
 
-     assessmentz.post(assessmentsPayload)
+     assessmentz.post(payload)
       .then(thing => {
-        console.log('thing', thing);
-        res.send(200).end();
-      })
-    })
+       res.send({id: savedAssessment[0].id});
+       return;
+     });
+   });
 
 
 
-});
-
-router.patch('/webhook/:id', (req, res, next) => {
-  console.log('****', req.body);
 });
 
 
