@@ -45,6 +45,13 @@ module.exports = {
         .where('email', user.email);
     },
 
+    getUserLatestAssessment: function(user_id) {
+      return knex('assessment')
+       .distinct(knex.raw('ON (snippet_id) answer, created_at, status, test_results, snippet_id'))
+       .where('user_id', user_id)
+       .orderByRaw('snippet_id asc, created_at desc')
+    },
+
     addNewAssessment: function(assessment) {
       return knex('assessment')
       .insert({

@@ -262,7 +262,7 @@ export const SNIPPET_1 = {
 };
 
 export const SNIPPET_2 = {
-  id: 1,
+  id: 2,
   tests: PYTHON_TEST_2,
   placeholder: PLACEHOLDER_2,
   question: `You have some numeric data stored in a dictionary. The data could represent any number of things, for example, people's names and their height in inches, or cities and their populations. Complete the function below to return all the keys of the dictionary where their associated values are greater than or equal to some cutoff.`

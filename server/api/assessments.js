@@ -8,6 +8,15 @@ import Assessments from '../lib/assessments';
 
 const assessmentService = new Assessments();
 
+
+router.get('/user', (req, res) => {
+  Q.getUserLatestAssessment(req.user.id)
+  .then((latestAsessments) => {
+    console.log(latestAsessments);
+    return res.json(latestAsessments);
+  });
+});
+
 router.post('/', noRunningTests, (req, res, next) => {
  let assessment = {
    snippet_id: req.body.snippet_id,
