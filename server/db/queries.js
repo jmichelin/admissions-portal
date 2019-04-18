@@ -86,7 +86,7 @@ module.exports = {
         updated_at: knex.fn.now()
       })
       .where({user_id: user_id, status: 'processing'})
-      //.where('created_at', '<=', new Date( Date.now() - 1000 * 60 ))
+      .where('created_at', '<=', new Date( Date.now() - 1000 * 60 ))
       console.log(query.toString())
       return query
     }

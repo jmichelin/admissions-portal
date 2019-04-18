@@ -63,11 +63,12 @@ function noRunningTests(req, res, next) {
   Q.getProcessingAssessments(req.user.id)
     .then((processing) => {
       if (processing.length > 0 && processing[0].count > 0) {
-        // mark all stale assessments as errored
-        Q.errorOutStaleAssessments(req.user.id)
-        return res.status(401).send({error: 'You already are running a test!'})
+        Q.errorOutStaleAssessments(req.user.id).then(() => {
+          return res.status(401).send({error: 'You already are running a test!'})
+        })
+      } else {
+        next()
       }
-      next()
     })
 }
 
