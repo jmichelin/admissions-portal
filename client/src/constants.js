@@ -8,6 +8,7 @@ export const PREP_SEI_URL = 'https://www.galvanize.com/web-development/prep';
 export const PREP_DSI_URL = 'https://www.galvanize.com/data-science/prep';
 
 export const CODE_CHALLENGE_ENDPOINT = '/api/v1/user/code-submit';
+export const PYTHON_CHALLENGE_ENDPOINT = '/api/v1/assessments';
 
 export const PROSPECT_RECORD_ID = '012j00000004QndAAE';
 export const STUDENT_RECORD_ID = '012j0000000kfkDAAQ';
@@ -139,18 +140,19 @@ export const CAMPUSES = [
 
 export const FULL_TIME_PROGRAMS = [
   {
-  name:'Data Science Immersive',
-  sfdcName: 'Data Science'
+    name:'Data Science Immersive',
+    sfdcName: 'Data Science'
+    },{
+    name:'Software Engineering Immersive',
+    sfdcName: 'Software Engineering Immersive'
   },{
-  name:'Software Engineering Immersive',
-  sfdcName: 'Software Engineering Immersive'
-},{
-  name:'Software Engineering Remote Immersive',
-  sfdcName: 'Software Engineering Remote Immersive'
-},{
-  name:'Software Engineering Remote Part Time Immersive',
-  sfdcName: 'Software Engineering Remote Part Time Immersive'
-}];
+    name:'Software Engineering Remote Immersive',
+    sfdcName: 'Software Engineering Remote Immersive'
+  },{
+    name:'Software Engineering Remote Part Time Immersive',
+    sfdcName: 'Software Engineering Remote Part Time Immersive'
+  }
+];
 
 
 export const CODING_CHALLENGE_TESTS = `describe("declaredAnArray", function() {
@@ -196,6 +198,10 @@ export const HERO_TEXT = {
   CODING_CHALLENGE: {
     heroHeadline: 'Pass the Coding Challenge',
     heroDescription: "This quick coding challenge will test your understanding of basic JavaScript syntax and start you on your admissions journey. If you're new to programming or JavaScript, don't be deterred. Try this challenge as many times as you need - your application will not be affected by errors. Submit your code when completed. Best of luck!"
+  },
+  PYTHON_CHALLENGE: {
+    heroHeadline: 'Check your code before submitting.',
+    heroDescription: "This quick coding challenge will test your understanding of basic python and start you on your admissions journey. Submit your code when completed. Best of luck!"
   },
   SEI_BOOK_INTERVIEW: {
     heroHeadline: 'Book the Technical Interview',
@@ -306,10 +312,10 @@ export const DSI_STEPS = {
   },
   STEP_TWO: {
     step: 2,
-    status: 'Pass the Takehome Assessment',
-    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
-    buttonText: 'Email Us',
-    buttonUrl: 'mailto:admissions@galvanize.com'
+    status: 'Pass the Coding Challenge',
+    description: 'Click to review the coding challenge question prior to beginning your assessment. There is no limit to how many times you can attempt this challenge.  After passing the challenge, submit your code to continue the admissions process for this program.',
+    buttonPath: '/python-challenge',
+    buttonText: 'Begin Coding Challenge'
   },
   STEP_THREE: {
     step: 3,
