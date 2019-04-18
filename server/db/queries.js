@@ -52,7 +52,8 @@ module.exports = {
         answer: assessment.answer,
         status: assessment.status,
         test_results: assessment.test_results,
-        user_id: assessment.user_id
+        user_id: assessment.user_id,
+        created_at: knex.fn.now()
       })
       .returning('*')
     },
@@ -71,5 +72,22 @@ module.exports = {
     getAssessment: function(id) {
       return knex('assessment').select('*')
       .where("id", id).first()
+    },
+
+    getProcessingAssessments: function(user_id) {
+      return knex('assessment').count('*')
+      .where({"user_id": user_id, status: "processing"})
+    },
+
+    errorOutStaleAssessments: function(user_id) {
+      var query = knex('assessment')
+      .update({
+        status: "error",
+        updated_at: knex.fn.now()
+      })
+      .where({user_id: user_id, status: 'processing'})
+      //.where('created_at', '<=', new Date( Date.now() - 1000 * 60 ))
+      console.log(query.toString())
+      return query
     }
 };

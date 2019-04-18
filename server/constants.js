@@ -170,7 +170,7 @@ export const IMMERSIVE_COURSE_TYPES = [
   '13 Week Full-Time Immersive', '12 Week Full-Time Immersive', '36 Week Part-Time Immersive', '18 Week Full-Time Immersive', 'Specialty Immersive'
 ];
 
-export const PYTHON_TESTS =
+export const PYTHON_TEST_1 =
 `import main
 import unittest
 
@@ -185,7 +185,23 @@ class TestPython1(unittest.TestCase):
             result = sorted(main.consonant_first(st))
             self.assertEqual(result, ans)`;
 
-export const PLACEHOLDER = `python
+export const PYTHON_TEST_2 =
+`import main
+import unittest
+
+
+class TestPython1(unittest.TestCase):
+      def test_keys_geq_cutoff(self):
+          test_d = {'A': -10, 'B': 0, 'C': 1, 'D': 7}
+          result1 = main.keys_geq_cutoff(test_d, 0)
+          msg1 = "Expected result of type set, got type: {}".format(str(type(result1)))
+          self.assertTrue(type(result1) is set, msg1)
+          self.assertEqual(result1, set(['B', 'C', 'D']))
+
+          result2 = main.keys_geq_cutoff(test_d, 7)
+          self.assertEqual(result2, set(['D']))`;
+
+export const PLACEHOLDER_1 = `python
 
 def consonant_first(text):
     """Finds a list of unique words in text that start with a consonant
@@ -212,9 +228,42 @@ def consonant_first(text):
     """
     pass`;
 
+export const PLACEHOLDER_2 = `
+def keys_geq_cutoff(num_dict, min_cutoff):
+    """Returns all the keys (as a set) from num_dict that have
+    value greater than or equal to min_cutoff.
+
+    Parameters
+    ----------
+    num_dict: dictionary
+    All the values in num_dict are numeric.
+    min_cutoff: float
+        Comparison with the num_dict values. Return all keys, where
+        their values >= min_cutoff.
+
+    Returns
+    -------
+    set
+        All keys from num_dict whose values meet the cutoff criterion.
+
+    Examples
+    --------
+    >>> keys_geq_cutoff({'Alice': 21, 'Brett': 20, 'Carlos': 31}, 21)
+    {'Alice', 'Carlos'}
+    """
+    pass
+`;
+
 export const SNIPPET_1 = {
   id: 1,
-  tests: PYTHON_TESTS,
-  placeholder: PLACEHOLDER,
+  tests: PYTHON_TEST_1,
+  placeholder: PLACEHOLDER_1,
   question: "Complete the function `consonant_first` according to its docstring."
+};
+
+export const SNIPPET_2 = {
+  id: 1,
+  tests: PYTHON_TEST_2,
+  placeholder: PLACEHOLDER_2,
+  question: `You have some numeric data stored in a dictionary. The data could represent any number of things, for example, people's names and their height in inches, or cities and their populations. Complete the function below to return all the keys of the dictionary where their associated values are greater than or equal to some cutoff.`
 };
