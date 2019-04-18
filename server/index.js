@@ -21,7 +21,7 @@ const middlewares = require('./auth/middlewares');
 const auth = require('./auth');
 const users = require('./api/user');
 const assessments = require('./api/assessments');
-
+const testingWebhook = require('./webhooks/assessments/assessments');
 
 app.use(morgan('dev'));
 app.use(cors({
@@ -34,14 +34,7 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 app.use('/auth', express.json(), auth);
 app.use('/api/v1/user', express.json(), middlewares.isLoggedIn, users);
 app.use('/api/v1/assessments', express.json(), middlewares.isLoggedIn, assessments);
-
-const hookRouter = express.Router();
-hookRouter.patch('/:id', express.urlencoded(), (req, res, next) => {
-  console.log('****', req.body);
-  res.send({});
-  return;
-});
-app.use('/api/v1/webhooks', hookRouter);
+app.use('/webhooks/assessments', express.urlencoded(), testingWebhook);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));

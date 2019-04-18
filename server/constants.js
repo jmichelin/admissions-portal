@@ -170,9 +170,8 @@ export const IMMERSIVE_COURSE_TYPES = [
   '13 Week Full-Time Immersive', '12 Week Full-Time Immersive', '36 Week Part-Time Immersive', '18 Week Full-Time Immersive', 'Specialty Immersive'
 ];
 
-export const PYTHON_TESTS = `python
-
-import main
+export const PYTHON_TESTS =
+`import main
 import unittest
 
 
