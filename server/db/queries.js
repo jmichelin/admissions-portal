@@ -96,5 +96,12 @@ module.exports = {
       .where('created_at', '<=', new Date( Date.now() - 1000 * 60 ))
       console.log(query.toString())
       return query
+    },
+
+    cleanupTestUsers: function() {
+      if (process.env.NODE_ENV !== 'test') {
+        return
+      };
+      return knex('user').del()
     }
 };

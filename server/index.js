@@ -14,7 +14,9 @@ if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
 }
 
 const app = express();
-app.use(secure);
+if (process.env.NODE_ENV !== 'test') {
+  app.use(secure);
+}
 
 const middlewares = require('./auth/middlewares');
 const auth = require('./auth');
@@ -24,7 +26,7 @@ const testingWebhook = require('./webhooks/assessments/assessments');
 
 app.use(morgan('dev'));
 app.use(cors({
-  origin: 'http://localhost:3000'
+  origin: process.env.BASE_URL,
 }));
 
 app.use(middlewares.checkTokenSetUser);
@@ -36,6 +38,7 @@ app.use('/api/v1/assessments', express.json(), middlewares.isLoggedIn, assessmen
 app.use('/webhooks/assessments', express.urlencoded(), testingWebhook);
 
 app.get('*', (req, res) => {
+  console.log("HERE OH NO?")
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 

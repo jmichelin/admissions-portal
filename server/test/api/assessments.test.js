@@ -1,6 +1,7 @@
 require('../test.setup')();
-const request = require('supertest');
+require('dotenv').config();
 const Q = require('../../db/queries');
+const request = require('supertest');
 const jwt = require('jsonwebtoken');
 
 describe('api assessments', () => {
@@ -9,7 +10,7 @@ describe('api assessments', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    sandbox.stub(console, 'log');
+    //sandbox.stub(console, 'log');
     app = require('../../index');
   });
 
@@ -26,9 +27,11 @@ describe('api assessments', () => {
           .send({"snippet_id": 1,"answer": "def dogs"})
           .expect(401)
           .end((err, res) => {
-            if (err) return done(err);
-            expect(res.body).to.eq({error: 'You already are running a test!'})
-            done();
+            Q.cleanupTestUsers().then(() => {
+              if (err) return done(err);
+              expect(res.body).to.eq({error: 'You already are running a test!'})
+              done();
+            })
           });
       })
     });
@@ -43,7 +46,7 @@ function userWithProcessingAssessment() {
       answer: "an answer",
       status: 'processing',
       test_results: '',
-      user_id: savedUser.id
+      user_id: savedUser[0].id
     }
     return Q.addNewAssessment(assessment).then(() => {
       const payload = {
@@ -52,9 +55,7 @@ function userWithProcessingAssessment() {
         first_name: savedUser.first_name,
         last_name: savedUser.last_name
       };
-      jwt.sign(payload, process.env.TOKEN_SECRET, {expiresIn: '6h'}, (err, token) => {
-        return token
-      });
+      return jwt.sign(payload, process.env.TOKEN_SECRET, {expiresIn: '6h'});
     })
   })
 }

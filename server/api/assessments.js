@@ -36,7 +36,7 @@ router.post('/', noRunningTests, (req, res, next) => {
 
      assessmentService.post(payload)
       .then(thing => {
-       res.json({id: savedAssessment[0].id});
+       res.status(200).json({id: savedAssessment[0].id});
        return;
      });
    });
@@ -68,6 +68,7 @@ router.patch('/:id/cancel', (req, res) => {
 });
 
 function noRunningTests(req, res, next) {
+  console.log("USER???", req.user)
   Q.getProcessingAssessments(req.user.id)
     .then((processing) => {
       if (processing.length > 0 && processing[0].count > 0) {
