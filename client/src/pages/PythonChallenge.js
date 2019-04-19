@@ -5,6 +5,7 @@ import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
 
 import { PYTHON_CHALLENGE_ENDPOINT, DSI_STEPS, HERO_TEXT } from '../constants';
+import { SNIPPET_1, SNIPPET_2 } from '../constants';
 import CodeEditor from '../components/CodeEditor';
 
 class PythonChallenge extends Component {
@@ -16,13 +17,18 @@ class PythonChallenge extends Component {
       code: '',
       showProcessing: false,
       submittingCode: false,
-      errorMessage: "Test your code for correctness before submitting to admissions.  Click Submit once you feel comfortable continueing.",
+      ch1Status: "",
+      ch2Status: "",
+      errorMessage: "",
       redirectToDashboard: false,
-      attemptSubmitted: false
+      attemptSubmitted: false,
+      runningTestId: null
     };
 
     this.codeSubmit = this.codeSubmit.bind(this);
     this.testCode = this.testCode.bind(this);
+    this.pollForChallenge = this.pollForChallenge.bind(this)
+    this.cancelRunningChallenge = this.cancelRunningChallenge.bind(this)
   }
 
   componentDidMount() {
@@ -38,12 +44,10 @@ class PythonChallenge extends Component {
     }
   }
 
-  testCode(code, e) {
-    e.preventDefault();
-
+  testCode(code, snippetId) {
     let data = {
       answer: code,
-      snippet_id: 1
+      snippet_id: snippetId
     }
     fetch(PYTHON_CHALLENGE_ENDPOINT, {
       method: 'POST',
@@ -54,13 +58,73 @@ class PythonChallenge extends Component {
       },
     }).then(response => {
       if (response.ok) {
-        console.log(response.json())
+        response.json().then((data) => {
+          this.setState({ showProcessing: true, runningTestId: data.id });
+          this.pollForChallenge(data.id)
+        })
+        return
+      } else {
+        this.setState({ errorMessage: "err" });
       }
-      throw new Error();
     }).then(result => {
-      this.setState({ attemptSubmitted: true});
-    }).catch(err => {
-      this.setState({ redirectToDashboard: true});
+      this.setState({ attemptSubmitted: true });
+    })
+  }
+
+  pollForChallenge(id) {
+    fetch(`${PYTHON_CHALLENGE_ENDPOINT}/${id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${localStorage.token}`,
+        'content-type': 'application/json'
+      },
+    }).then(response => {
+      if (response.ok) {
+        response.json().then((data) => {
+          if (data.status === "processing") {
+            setTimeout(()=>{
+              this.pollForChallenge(data.id)
+            }, 1000)
+          } else {
+            if (data.snippet_id === 1) {
+              this.setState({ 
+                showProcessing: false, 
+                runningTestId: null, 
+                ch1Status: data.status.charAt(0).toUpperCase() + data.status.slice(1) 
+              });
+            } else {
+              this.setState({ 
+                showProcessing: false, 
+                runningTestId: null, 
+                ch2Status: data.status.charAt(0).toUpperCase() + data.status.slice(1) 
+              });
+            }
+          }
+        })
+        return
+      } else {
+        this.setState({ errorMessage: "err" });
+      }
+    })
+  }
+
+  cancelRunningChallenge() {
+    let id = this.state.runningTestId
+    fetch(`${PYTHON_CHALLENGE_ENDPOINT}/${id}/cancel`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${localStorage.token}`,
+        'content-type': 'application/json'
+      },
+    }).then(response => {
+      if (response.ok) {
+        response.json().then((data) => {
+          
+        })
+        return
+      } else {
+        this.setState({ errorMessage: "err" });
+      }
     })
   }
 
@@ -82,17 +146,48 @@ class PythonChallenge extends Component {
             <Breadcrumb />
             
             <div className="challenge-editor">
-              {/* <CodingInstructions tests={this.state.localTestResults} allPassed={this.state.allPassed}/> */}
+              <div className="instructions col">
+                <h4 className="column-header">CHALLENGE 1 Instructions</h4>
+                <p>{SNIPPET_1.question}</p>
+              </div>
               <div className="code-editor col">
-                <h4 className="column-header">Code Editor</h4>
+                <h4 className="column-header">Challenge 1</h4>
                 <CodeEditor
+                  snippetId={SNIPPET_1.id}
                   codeTest={this.testCode}
                   codeSubmit={this.codeSubmit}
+                  useCancelButton={true}
+                  cancelEndpoint={this.cancelRunningChallenge}
+                  testCodeText="Test Code"
                   mode="python"
-                  errorMessage={this.state.errorMessage}
+                  errorMessage={this.state.ch1Status}
                   allPassed={this.state.allPassed}
                   showProcessing={this.state.showProcessing}
                   submittingCode={this.state.submittingCode}
+                  placeholder={SNIPPET_1.placeholder}
+                />
+              </div>
+            </div>
+            <div className="challenge-editor">
+              <div className="instructions col">
+                <h4 className="column-header">Challenge 2 Instructions</h4>
+                <p>{SNIPPET_2.question}</p>
+              </div>
+              <div className="code-editor col">
+                <h4 className="column-header">Challenge 2</h4>
+                <CodeEditor
+                  snippetId={SNIPPET_2.id}
+                  codeTest={this.testCode}
+                  codeSubmit={this.codeSubmit}
+                  useCancelButton={true}
+                  cancelEndpoint={this.cancelRunningChallenge}
+                  testCodeText="Test Code"
+                  mode="python"
+                  errorMessage={this.state.ch2Status}
+                  allPassed={this.state.allPassed}
+                  showProcessing={this.state.showProcessing}
+                  submittingCode={this.state.submittingCode}
+                  placeholder={SNIPPET_2.placeholder}
                 />
               </div>
             </div>
