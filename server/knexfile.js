@@ -6,6 +6,11 @@ module.exports = {
     connection: process.env.DEV_DB_URL
   },
 
+  test: {
+    client: 'pg',
+    connection: process.env.TEST_DB_URL
+  },
+
   staging: {
     client: 'pg',
     connection: process.env.STAGING_DB_URL + '?ssl=true'

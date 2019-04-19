@@ -22,6 +22,7 @@ This app uses a proxy server to run locally so your console will show both serve
 # .env file should be in the server directory!
 
 run `createdb admissions_dev`
+run `createdb admissions_test`
 in the server directory run `knex migrate:latest`
 
 ### Adding Styles
