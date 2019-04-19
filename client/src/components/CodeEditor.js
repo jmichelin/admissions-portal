@@ -10,8 +10,17 @@ class CodeEditor extends Component {
   constructor(props){
     super(props);
 
+    let placeholder = "// Enter your code here"
+    if (props.placeholder != undefined) {
+      placeholder = props.placeholder;
+    }
+    let snippetId = null
+    if (props.snippetId !== undefined) {
+      snippetId = props.snippetId
+    }
     this.state = {
-      code: '// Enter your code here',
+      code: placeholder,
+      snippetId: snippetId,
       cursorPos: { line: 0, column: 0 }
     }
   }
@@ -25,6 +34,15 @@ class CodeEditor extends Component {
       styleActiveLine: true
     }
 
+    let submitCodeButton
+    if (this.props.showSubmitButton) {
+      submitCodeButton = (<button className={this.props.submittingCode ? "button-primary -loading" : "button-secondary"} disabled={!this.props.allPassed} onClick={ (e) => this.props.codeSubmit(e) }>Submit Code</button>)
+    }
+
+    let cancelButton
+    if (this.props.useCancelButton && this.props.showProcessing) {
+      cancelButton = (<button className="button-secondary" onClick={ (e) => this.props.cancelEndpoint() }>Cancel</button>)
+    }
     return (
       <div className="editor-wrapper">
         <CodeMirror
@@ -35,8 +53,9 @@ class CodeEditor extends Component {
         onBeforeChange={(editor, data, code) => {this.setState({code})}}/>
         <div className="action">
           <span>{this.props.errorMessage}</span>
-          <button className={this.props.showProcessing ? "button-primary -loading" : "button-primary"} onClick={ (e) => this.props.codeTest(this.state.code, e) }>Test Code</button>
-          <button className={this.props.submittingCode ? "button-primary -loading" : "button-secondary"} disabled={!this.props.allPassed} onClick={ (e) => this.props.codeSubmit(e) }>Submit Code</button>
+          { cancelButton }
+          <button className={this.props.showProcessing ? "button-primary -loading" : "button-primary"} onClick={ (e) => this.props.codeTest(this.state.code, this.state.snippetId) }>Test Code</button>
+          { submitCodeButton }
         </div>
       </div>
     )

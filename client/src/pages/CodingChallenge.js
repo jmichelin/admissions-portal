@@ -200,6 +200,7 @@ class CodingChallenge extends Component {
                     <h4 className="column-header">Code Editor</h4>
                     <CodeEditor codeTest={this.runLocal}
                       codeSubmit={this.codeSubmit}
+                      showSubmitButton={true}
                       mode="javascript"
                       codeAttemptUpdate={this.codeAttemptUpdate}
                       errorMessage={this.state.errorMessage}

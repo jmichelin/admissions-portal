@@ -374,3 +374,65 @@ export const APPLICATION_STEPS_DSI = [
   DSI_STEPS.COMPLETE,
   DSI_STEPS.HOLD
 ];
+
+export const PLACEHOLDER_1 = `def consonant_first(text):
+    """Finds a list of unique words in text that start with a consonant
+    (letters that are not vowels). Note: all words are returned as
+    lowercase and are returned in no particular order.
+
+    Parameters
+    ----------
+    in_str: string
+        A sentence containing no punctuation.
+        E.g. "A dog is a good pet and a bear is an awful pet"
+
+    Returns
+    -------
+    list of strings
+        The words from the sentence that do not start with vowels
+        ['a', 'e', 'i', 'o', 'u'].
+        All strings are returned as lower case.
+
+    Examples
+    --------
+    >>> consonant_first("A dog is a good pet and a bear is an awful pet")
+    ["dog", "good", "pet", "bear"]
+    """
+    pass`;
+
+export const PLACEHOLDER_2 = `def keys_geq_cutoff(num_dict, min_cutoff):
+    """Returns all the keys (as a set) from num_dict that have
+    value greater than or equal to min_cutoff.
+
+    Parameters
+    ----------
+    num_dict: dictionary
+    All the values in num_dict are numeric.
+    min_cutoff: float
+        Comparison with the num_dict values. Return all keys, where
+        their values >= min_cutoff.
+
+    Returns
+    -------
+    set
+        All keys from num_dict whose values meet the cutoff criterion.
+
+    Examples
+    --------
+    >>> keys_geq_cutoff({'Alice': 21, 'Brett': 20, 'Carlos': 31}, 21)
+    {'Alice', 'Carlos'}
+    """
+    pass
+`;
+
+export const SNIPPET_1 = {
+  id: 1,
+  placeholder: PLACEHOLDER_1,
+  question: "Complete the function `consonant_first` according to its docstring."
+};
+
+export const SNIPPET_2 = {
+  id: 2,
+  placeholder: PLACEHOLDER_2,
+  question: `You have some numeric data stored in a dictionary. The data could represent any number of things, for example, people's names and their height in inches, or cities and their populations. Complete the function below to return all the keys of the dictionary where their associated values are greater than or equal to some cutoff.`
+};
