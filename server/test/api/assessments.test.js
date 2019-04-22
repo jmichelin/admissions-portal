@@ -31,7 +31,7 @@ describe('api assessments', () => {
         request(app)
           .patch(`/api/v1/assessments/${result.assessmentId}/cancel`)
           .set('Authorization', `Bearer ${result.token}`) 
-          .send({"snippet_id": 1,"answer": "def dogs"})
+          .send({})
           .expect(200)
           .end((err, res) => {
             Q.getAssessment(result.assessmentId).then((assessment) => {
@@ -42,6 +42,22 @@ describe('api assessments', () => {
 
             })
           });
+      })
+    })
+
+    it("responds with 401 when a user tries to cancel someone else's assessment", (done) => {
+      userWithProcessingAssessment().then((someoneElse) => {
+        testUser().then((token) => {
+          request(app)
+            .patch(`/api/v1/assessments/${someoneElse.assessmentId}/cancel`)
+            .set('Authorization', `Bearer ${token}`)
+            .send({})
+            .expect(401)
+            .end((err, res) => {
+              if (err) return done(err);
+              done()
+            });
+        })
       })
     })
   })
@@ -61,6 +77,8 @@ describe('api assessments', () => {
 
               expect(assessment.id).to.eq(res.body.id);
               expect(assessment.answer).to.eq('def dogs');
+              expect(assessment.test_results).to.eq('');
+              expect(assessment.status).to.eq('processing');
               expect(assessment.snippet_id).to.eq(1);
               done()
 
@@ -87,7 +105,7 @@ describe('api assessments', () => {
 });
 
 function testUser() {
-  let user = {email: "lf@example.com", first_name: "F", last_name: "L"};
+  let user = {email: "tu@example.com", first_name: "F", last_name: "L"};
   return Q.addNewUser(user, "password").then((savedUser) => {
     const payload = {
       id: savedUser[0].id,
