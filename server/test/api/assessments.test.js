@@ -11,7 +11,6 @@ describe('api assessments', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    //sandbox.stub(console, 'log');
     app = require('../../index');
   });
 
@@ -19,10 +18,32 @@ describe('api assessments', () => {
     sandbox.restore();
   });
 
+  describe('PATCH api/v1/assessments/:id/cancel', () => {
+    it('updates the assessment to cancel status', (done) => {
+      userWithProcessingAssessment().then((result) => {
+        request(app)
+          .patch(`/api/v1/assessments/${result.assessmentId}/cancel`)
+          .set('Authorization', `Bearer ${result.token}`) 
+          .send({"snippet_id": 1,"answer": "def dogs"})
+          .expect(200)
+          .end((err, res) => {
+            Q.getAssessment(result.assessmentId).then((assessment) => {
+
+              expect(assessment.status).to.eq('canceled');
+              expect(assessment.test_results).to.eq('Tests canceled');
+
+              Q.cleanupTestUsers().then(() => {
+                done();
+              })
+            })
+          });
+      })
+    })
+  })
+
   describe('POST api/v1/assessments', () => {
     it('responds with id of inserted assessment', (done) => {
       sandbox.stub(Assessments, 'post').resolves('');
-
       testUser().then((token) => {
         request(app)
           .post('/api/v1/assessments')
@@ -46,10 +67,10 @@ describe('api assessments', () => {
     });
 
     it('responds "You already are running a test!" if a test is processing', (done) => {
-      userWithProcessingAssessment().then((token) => {
+      userWithProcessingAssessment().then((result) => {
         request(app)
           .post('/api/v1/assessments')
-          .set('Authorization', `Bearer ${token}`) 
+          .set('Authorization', `Bearer ${result.token}`) 
           .send({"snippet_id": 1,"answer": "def dogs"})
           .expect(401)
           .end((err, res) => {
@@ -87,14 +108,17 @@ function userWithProcessingAssessment() {
       test_results: '',
       user_id: savedUser[0].id
     }
-    return Q.addNewAssessment(assessment).then(() => {
+    return Q.addNewAssessment(assessment).then((savedAssessment) => {
       const payload = {
         id: savedUser[0].id,
         email: savedUser[0].email,
         first_name: savedUser[0].first_name,
         last_name: savedUser[0].last_name
       };
-      return jwt.sign(payload, process.env.TOKEN_SECRET, {expiresIn: '6h'});
+      return {
+        token: jwt.sign(payload, process.env.TOKEN_SECRET, {expiresIn: '6h'}),
+        assessmentId: savedAssessment[0].id
+      }
     })
   })
 }

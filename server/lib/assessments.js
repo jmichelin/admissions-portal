@@ -12,7 +12,6 @@ class Assessments {
      },
    })
  }
-
 }
 
 module.exports = Assessments;
