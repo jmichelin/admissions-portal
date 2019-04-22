@@ -25,6 +25,44 @@ describe('api assessments', () => {
     });
   });
 
+  describe('GET api/v1/assessments/:id', () => {
+    it('yields the given assessment when it belongs to the user', (done) => {
+      userWithProcessingAssessment().then((result) => {
+        request(app)
+          .get(`/api/v1/assessments/${result.assessmentId}`)
+          .set('Authorization', `Bearer ${result.token}`) 
+          .send()
+          .expect(200)
+          .end((err, res) => {
+            if (err) return done(err);
+            expect(res.body.id).to.eq(result.assessmentId);
+            expect(res.body.user_id).to.eq(result.userId);
+            expect(res.body.snippet_id).to.eq(1);
+            expect(res.body.status).to.eq('processing');
+            expect(res.body.test_results).to.eq('');
+            expect(res.body.updated_at).to.eq(null);
+            done()
+          });
+      })
+    })
+
+    it("responds with 401 when a user tries to cancel someone else's assessment", (done) => {
+      userWithProcessingAssessment().then((someoneElse) => {
+        testUser().then((token) => {
+          request(app)
+            .get(`/api/v1/assessments/${someoneElse.assessmentId}`)
+            .set('Authorization', `Bearer ${token}`)
+            .send()
+            .expect(401)
+            .end((err, res) => {
+              if (err) return done(err);
+              done()
+            });
+        })
+      })
+    })
+  })
+
   describe('PATCH api/v1/assessments/:id/cancel', () => {
     it('updates the assessment to cancel status', (done) => {
       userWithProcessingAssessment().then((result) => {
@@ -136,7 +174,8 @@ function userWithProcessingAssessment() {
       };
       return {
         token: jwt.sign(payload, process.env.TOKEN_SECRET, {expiresIn: '6h'}),
-        assessmentId: savedAssessment[0].id
+        assessmentId: savedAssessment[0].id,
+        userId: savedUser[0].id
       }
     })
   })
