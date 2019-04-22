@@ -68,7 +68,6 @@ router.patch('/:id/cancel', (req, res) => {
 });
 
 function noRunningTests(req, res, next) {
-  console.log("USER???", req.user)
   Q.getProcessingAssessments(req.user.id)
     .then((processing) => {
       if (processing.length > 0 && processing[0].count > 0) {

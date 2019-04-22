@@ -29,7 +29,7 @@ describe('api assessments', () => {
           .end((err, res) => {
             Q.cleanupTestUsers().then(() => {
               if (err) return done(err);
-              expect(res.body).to.eq({error: 'You already are running a test!'})
+              expect(res.body.error).to.eq('You already are running a test!')
               done();
             })
           });
@@ -50,10 +50,10 @@ function userWithProcessingAssessment() {
     }
     return Q.addNewAssessment(assessment).then(() => {
       const payload = {
-        id: savedUser.id,
-        email: savedUser.email,
-        first_name: savedUser.first_name,
-        last_name: savedUser.last_name
+        id: savedUser[0].id,
+        email: savedUser[0].email,
+        first_name: savedUser[0].first_name,
+        last_name: savedUser[0].last_name
       };
       return jwt.sign(payload, process.env.TOKEN_SECRET, {expiresIn: '6h'});
     })
