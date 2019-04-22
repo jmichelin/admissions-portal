@@ -2,7 +2,6 @@ const express = require('express');
 var secure = require('express-force-https');
 const path = require('path');
 const morgan = require('morgan');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 
 require('dotenv').config();
@@ -29,6 +28,7 @@ app.use(cors({
   origin: process.env.BASE_URL,
 }));
 
+
 app.use(middlewares.checkTokenSetUser);
 app.use(express.static(path.join(__dirname, '../client/build')));
 
@@ -38,7 +38,6 @@ app.use('/api/v1/assessments', express.json(), middlewares.isLoggedIn, assessmen
 app.use('/webhooks/assessments', express.urlencoded(), testingWebhook);
 
 app.get('*', (req, res) => {
-  console.log("HERE OH NO?")
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 

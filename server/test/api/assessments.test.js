@@ -25,6 +25,23 @@ describe('api assessments', () => {
     });
   });
 
+  describe('GET api/v1/assessments/user', () => {
+    it("yields only the user's latest assessment for a given snippet id", (done) => {
+      userWithThreeAssessments().then((result) => {
+        request(app)
+          .get('/api/v1/assessments/user')
+          .set('Authorization', `Bearer ${result.token}`)
+          .send()
+          .expect(200)
+          .end((err, res) => {
+            if (err) return done(err);
+            expect(res.body.length).to.eq(2);
+            done()
+          });
+      });
+    })
+  })
+
   describe('GET api/v1/assessments/:id', () => {
     it('yields the given assessment when it belongs to the user', (done) => {
       userWithProcessingAssessment().then((result) => {
@@ -176,6 +193,54 @@ function userWithProcessingAssessment() {
         token: jwt.sign(payload, process.env.TOKEN_SECRET, {expiresIn: '6h'}),
         assessmentId: savedAssessment[0].id,
         userId: savedUser[0].id
+      }
+    })
+  })
+}
+
+function userWithThreeAssessments() {
+  let user = {email: "lf@example.com", first_name: "F", last_name: "L"};
+  return Q.addNewUser(user, "password").then((savedUser) => {
+    let assessment1 = knex('assessment')
+      .insert({
+        snippet_id: 1,
+        answer: "old don see",
+        status: "incorrect",
+        test_results: "tests came back",
+        user_id: savedUser[0].id,
+        created_at: new Date("2019-01-02")
+      }).returning('*')
+    let assessment2 = knex('assessment')
+      .insert({
+        snippet_id: 1,
+        answer: "latest n' greatest",
+        status: "correct",
+        test_results: "tests came back positive",
+        user_id: savedUser[0].id,
+        created_at: new Date("2019-01-05")
+      }).returning('*')
+    let assessment3 = knex('assessment')
+      .insert({
+        snippet_id: 2,
+        answer: "Only one for Snippet 2",
+        status: "processing",
+        test_results: "tests aren't back yet",
+        user_id: savedUser[0].id,
+        created_at: new Date("2019-01-05")
+      }).returning('*')
+
+    return Promise.all([assessment1, assessment2, assessment3]).then((values) => {
+      const payload = {
+        id: savedUser[0].id,
+        email: savedUser[0].email,
+        first_name: savedUser[0].first_name,
+        last_name: savedUser[0].last_name
+      };
+      let token = jwt.sign(payload, process.env.TOKEN_SECRET, {expiresIn: '6h'})
+      return {
+        token: token,
+        userId: savedUser[0].id,
+        assessments: [...values]
       }
     })
   })

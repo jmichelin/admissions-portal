@@ -13,6 +13,32 @@ router.get('/user', (req, res) => {
   });
 });
 
+router.get('/:id', (req, res) => {
+  Q.getAssessment(req.params.id)
+    .then((assessment) => {
+      if (assessment === undefined || assessment.user_id !== req.user.id) {
+        res.send(401);
+      } else {
+        res.json(assessment)
+      }
+      return
+    })
+});
+
+router.patch('/:id/cancel', (req, res) => {
+  Q.getAssessment(req.params.id)
+    .then((assessment) => {
+      if (assessment.user_id !== req.user.id) {
+        return res.send(401);
+      } else {
+        Q.updateAssessment(req.params.id, 'Tests canceled', 'canceled').then((canceled) => {
+          return res.json(canceled)
+        })
+      }
+    })
+});
+
+
 router.post('/', noRunningTests, (req, res, next) => {
  let assessment = {
    snippet_id: req.body.snippet_id,
@@ -37,31 +63,6 @@ router.post('/', noRunningTests, (req, res, next) => {
        return;
      });
    });
-});
-
-router.get('/:id', (req, res) => {
-  Q.getAssessment(req.params.id)
-    .then((assessment) => {
-      if (assessment === undefined || assessment.user_id !== req.user.id) {
-        res.send(401);
-      } else {
-        res.json(assessment)
-      }
-      return
-    })
-});
-
-router.patch('/:id/cancel', (req, res) => {
-  Q.getAssessment(req.params.id)
-    .then((assessment) => {
-      if (assessment.user_id !== req.user.id) {
-        return res.send(401);
-      } else {
-        Q.updateAssessment(req.params.id, 'Tests canceled', 'canceled').then((canceled) => {
-          return res.json(canceled)
-        })
-      }
-    })
 });
 
 function noRunningTests(req, res, next) {
