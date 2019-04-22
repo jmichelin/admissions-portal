@@ -1,5 +1,8 @@
 const chai = require('chai');
 const sinon = require('sinon');
+require('babel-register')({
+   presets: [ 'es2015' ]
+});
 
 function testHelpers() {
   global.chai = chai;
