@@ -11,7 +11,7 @@ class CodeEditor extends Component {
     super(props);
 
     let placeholder = "// Enter your code here"
-    if (props.placeholder != undefined) {
+    if (props.placeholder !== undefined) {
       placeholder = props.placeholder;
     }
     let snippetId = null
@@ -21,8 +21,26 @@ class CodeEditor extends Component {
     this.state = {
       code: placeholder,
       snippetId: snippetId,
-      cursorPos: { line: 0, column: 0 }
+      cursorPos: { line: 0, column: 0 },
+      showButtons: true
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let state = {}
+    if (nextProps.placeholder !== this.props.placeholder) {
+      state["code"] = nextProps.placeholder
+    }
+    if (nextProps.errorMessage !== this.props.errorMessage && nextProps.errorMessage === "Correct") {
+      state["showButtons"] = false
+    }
+    if (state !== {}) {
+      this.setState(state)
+    }
+  }
+
+  resetInput() {
+    this.setState({code: this.props.placeholder})
   }
 
   render() {
@@ -43,6 +61,23 @@ class CodeEditor extends Component {
     if (this.props.useCancelButton && this.props.showProcessing) {
       cancelButton = (<button className="button-secondary" onClick={ (e) => this.props.cancelEndpoint() }>Cancel</button>)
     }
+
+    let resetInput
+    if (this.props.useResetInput && !this.props.showProcessing) {
+      resetInput = (<button className="button-secondary" onClick={ (e) => this.resetInput() }>Reset Input</button>)
+    }
+
+    let buttons = (
+      <div>
+        { cancelButton }
+        { resetInput }
+        <button className={this.props.showProcessing ? "button-primary -loading" : "button-primary"} onClick={ (e) => this.props.codeTest(this.state.code, e, this.state.snippetId) }>Run Tests</button>
+        { submitCodeButton }
+      </div>
+    )
+    if (!this.state.showButtons) {
+      buttons = null
+    }
     return (
       <div className="editor-wrapper">
         <CodeMirror
@@ -53,9 +88,7 @@ class CodeEditor extends Component {
         onBeforeChange={(editor, data, code) => {this.setState({code})}}/>
         <div className="action">
           <span>{this.props.errorMessage}</span>
-          { cancelButton }
-          <button className={this.props.showProcessing ? "button-primary -loading" : "button-primary"} onClick={ (e) => this.props.codeTest(this.state.code, this.state.snippetId) }>Test Code</button>
-          { submitCodeButton }
+          { buttons }
         </div>
       </div>
     )

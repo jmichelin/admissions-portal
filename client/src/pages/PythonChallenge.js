@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
 
-import { PYTHON_CHALLENGE_ENDPOINT, DSI_STEPS, HERO_TEXT } from '../constants';
+import { CODE_CHALLENGE_ENDPOINT, PYTHON_CHALLENGE_ENDPOINT, DSI_STEPS, HERO_TEXT } from '../constants';
 import { SNIPPET_1, SNIPPET_2 } from '../constants';
 import CodeEditor from '../components/CodeEditor';
 
@@ -16,13 +16,17 @@ class PythonChallenge extends Component {
       opp: {},
       code: '',
       showProcessing: false,
+      allPassed: false,
       submittingCode: false,
-      ch1Status: "",
-      ch2Status: "",
       errorMessage: "",
       redirectToDashboard: false,
       attemptSubmitted: false,
-      runningTestId: null
+      runningTestId: null,
+      userChallenges: [],
+      ch1Status: "",
+      ch2Status: "",
+      snippet1Placeholder: SNIPPET_1.placeholder,
+      snippet2Placeholder: SNIPPET_2.placeholder
     };
 
     this.codeSubmit = this.codeSubmit.bind(this);
@@ -39,12 +43,52 @@ class PythonChallenge extends Component {
       }
       this.setState({opp: opp})
       if (window && window.analytics) window.analytics.page('Python Challenge')
+
+      fetch(`${PYTHON_CHALLENGE_ENDPOINT}/user`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+          'content-type': 'application/json'
+        },
+      }).then(response => {
+        if (response.ok) {
+          response.json().then((data) => {
+            let snippet1Placeholder = SNIPPET_1.placeholder
+            let snippet2Placeholder = SNIPPET_2.placeholder
+            let ch1Status = ""
+            let ch2Status = ""
+            let allPassed = false
+            for(var i = 0;i < data.length; i++) {
+              if (data[i].snippet_id === 1) {
+                snippet1Placeholder = data[i].answer
+                if (data[i].status === "correct"){
+                  ch1Status = data[i].status.charAt(0).toUpperCase() + data[i].status.slice(1) 
+                }
+              } else if (data[i].snippet_id === 2) {
+                snippet2Placeholder = data[i].answer
+                if (data[i].status === "correct"){
+                  ch2Status = data[i].status.charAt(0).toUpperCase() + data[i].status.slice(1) 
+                }
+              }
+            }
+            if (ch1Status === "Correct" && ch2Status === "Correct") allPassed = true
+            this.setState({
+              userChallenges: data,
+              snippet1Placeholder: snippet1Placeholder,
+              snippet2Placeholder: snippet2Placeholder,
+              ch1Status: ch1Status,
+              ch2Status: ch2Status,
+              allPassed: allPassed
+            })
+          })
+        }
+      })
     } else {
       this.setState({ redirectToDashboard: true })
     }
   }
 
-  testCode(code, snippetId) {
+  testCode(code, e, snippetId) {
     let data = {
       answer: code,
       snippet_id: snippetId
@@ -86,17 +130,28 @@ class PythonChallenge extends Component {
               this.pollForChallenge(data.id)
             }, 1000)
           } else {
+            let status
+            if (data.status === "incorrect") {
+              status = "Err, try again…"
+            } else {
+              status = data.status.charAt(0).toUpperCase() + data.status.slice(1) 
+            }
+            let allPassed = false
             if (data.snippet_id === 1) {
+              if (status === "Correct" && this.state.ch2Status === "Correct") allPassed = true
               this.setState({ 
                 showProcessing: false, 
                 runningTestId: null, 
-                ch1Status: data.status.charAt(0).toUpperCase() + data.status.slice(1) 
+                ch1Status: status,
+                allPassed: allPassed
               });
             } else {
+              if (status === "Correct" && this.state.ch1Status === "Correct") allPassed = true
               this.setState({ 
                 showProcessing: false, 
                 runningTestId: null, 
-                ch2Status: data.status.charAt(0).toUpperCase() + data.status.slice(1) 
+                ch2Status: status,
+                allPassed: allPassed
               });
             }
           }
@@ -130,13 +185,45 @@ class PythonChallenge extends Component {
 
   codeSubmit(e) {
     e.preventDefault();
-    // What to do if the user wants to submit?
+    if (this.state.allPassed) {
+      this.setState({ submittingCode: true })
+      let data = {
+        code: this.state.submittedCode,
+        oppId: this.state.opp.id,
+        moveForward: 'Yes',
+        stage: 'Returned Takehome'
+      }
+      fetch(CODE_CHALLENGE_ENDPOINT, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+          'content-type': 'application/json'
+        },
+      }).then(response => {
+        if (response.ok) {
+          return response.json()
+        }
+        throw new Error();
+      }).then(result => {
+        this.setState({ submittingCode: false, redirectToDashboard:true});
+      }).catch(err => {
+        this.setState({
+          errorMessage: err.message, submittingCode: false
+        })
+      })
+    } else {
+      this.setState({
+        errorMessage: 'There was an error submitting your code. Please try again.'
+      })
+    }
   }
 
   render() {
     if (this.state.redirectToDashboard) {
       return (<Redirect to='/dashboard'/>)
     }
+
     return (
       <div className="coding-challenge">
         <div className="container">
@@ -157,14 +244,14 @@ class PythonChallenge extends Component {
                   codeTest={this.testCode}
                   codeSubmit={this.codeSubmit}
                   useCancelButton={true}
+                  useResetInput={true}
                   cancelEndpoint={this.cancelRunningChallenge}
-                  testCodeText="Test Code"
                   mode="python"
                   errorMessage={this.state.ch1Status}
                   allPassed={this.state.allPassed}
                   showProcessing={this.state.showProcessing}
                   submittingCode={this.state.submittingCode}
-                  placeholder={SNIPPET_1.placeholder}
+                  placeholder={this.state.snippet1Placeholder}
                 />
               </div>
             </div>
@@ -180,16 +267,21 @@ class PythonChallenge extends Component {
                   codeTest={this.testCode}
                   codeSubmit={this.codeSubmit}
                   useCancelButton={true}
+                  useResetInput={true}
                   cancelEndpoint={this.cancelRunningChallenge}
-                  testCodeText="Test Code"
                   mode="python"
                   errorMessage={this.state.ch2Status}
                   allPassed={this.state.allPassed}
                   showProcessing={this.state.showProcessing}
                   submittingCode={this.state.submittingCode}
-                  placeholder={SNIPPET_2.placeholder}
+                  placeholder={this.state.snippet2Placeholder}
                 />
               </div>
+            </div>
+            <div style={{textAlign: "center"}}>
+              <button className={this.props.submittingCode ? "button-primary -loading" : "button-secondary"} disabled={!this.state.allPassed} onClick={ (e) => this.codeSubmit(e) }>Submit Code</button>
+              <br/>
+              <br/>
             </div>
           </div>
         </div>
