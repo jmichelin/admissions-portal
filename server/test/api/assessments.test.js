@@ -4,18 +4,25 @@ const Q = require('../../db/queries');
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
 const Assessments = require('../../lib/assessments')
+const knex = require('../../../server/db/knex');
 
 describe('api assessments', () => {
   let sandbox;
   let app;
 
-  beforeEach(() => {
+  beforeEach((done) => {
     sandbox = sinon.createSandbox();
     app = require('../../index');
+    knex.raw("start transaction").then(function () {
+      done();
+    });
   });
 
-  afterEach(() => {
+  afterEach((done) => {
     sandbox.restore();
+    knex.raw("rollback").then(function () {
+      done();
+    });
   });
 
   describe('PATCH api/v1/assessments/:id/cancel', () => {
@@ -31,10 +38,8 @@ describe('api assessments', () => {
 
               expect(assessment.status).to.eq('canceled');
               expect(assessment.test_results).to.eq('Tests canceled');
+              done()
 
-              Q.cleanupTestUsers().then(() => {
-                done();
-              })
             })
           });
       })
@@ -57,10 +62,8 @@ describe('api assessments', () => {
               expect(assessment.id).to.eq(res.body.id);
               expect(assessment.answer).to.eq('def dogs');
               expect(assessment.snippet_id).to.eq(1);
+              done()
 
-              Q.cleanupTestUsers().then(() => {
-                done();
-              })
             })
           });
       })
@@ -74,11 +77,9 @@ describe('api assessments', () => {
           .send({"snippet_id": 1,"answer": "def dogs"})
           .expect(401)
           .end((err, res) => {
-            Q.cleanupTestUsers().then(() => {
-              if (err) return done(err);
-              expect(res.body.error).to.eq('You already are running a test!')
-              done();
-            })
+            if (err) return done(err);
+            expect(res.body.error).to.eq('You already are running a test!')
+            done()
           });
       })
     });
