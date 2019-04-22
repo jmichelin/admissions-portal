@@ -6,9 +6,6 @@ const Q = require('../db/queries');
 import { SNIPPET_1, SNIPPET_2 } from '../constants';
 import Assessments from '../lib/assessments';
 
-const assessmentService = new Assessments();
-
-
 router.get('/user', (req, res) => {
   Q.getUserLatestAssessment(req.user.id)
   .then((latestAsessments) => {
@@ -34,9 +31,9 @@ router.post('/', noRunningTests, (req, res, next) => {
         callback_url: `${process.env.BASE_URL}/webhooks/assessments/${savedAssessment[0].id}`
       };
 
-     assessmentService.post(payload)
-      .then(thing => {
-       res.json({id: savedAssessment[0].id});
+     Assessments.post(payload)
+      .then(() => {
+       res.status(200).json({id: savedAssessment[0].id});
        return;
      });
    });

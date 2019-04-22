@@ -8,7 +8,8 @@ module.exports = {
 
   test: {
     client: 'pg',
-    connection: process.env.TEST_DB_URL
+    connection: process.env.TEST_DB_URL,
+    pool: { min: 1, max: 1 }
   },
 
   staging: {
