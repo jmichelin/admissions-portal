@@ -2,9 +2,9 @@ require('../test.setup')();
 require('dotenv').config();
 const Q = require('../../db/queries');
 const request = require('supertest');
-const jwt = require('jsonwebtoken');
 const Assessments = require('../../lib/assessments')
 const knex = require('../../../server/db/knex');
+const Testing = require('../test.helpers');
 
 describe('api assessments', () => {
   let sandbox;
@@ -27,7 +27,7 @@ describe('api assessments', () => {
 
   describe('GET api/v1/assessments/user', () => {
     it("yields only the user's latest assessment for a given snippet id", (done) => {
-      userWithThreeAssessments().then((result) => {
+      Testing.userWithThreeAssessments().then((result) => {
         request(app)
           .get('/api/v1/assessments/user')
           .set('Authorization', `Bearer ${result.token}`)
@@ -44,7 +44,7 @@ describe('api assessments', () => {
 
   describe('GET api/v1/assessments/:id', () => {
     it('yields the given assessment when it belongs to the user', (done) => {
-      userWithProcessingAssessment().then((result) => {
+      Testing.userWithProcessingAssessment().then((result) => {
         request(app)
           .get(`/api/v1/assessments/${result.assessmentId}`)
           .set('Authorization', `Bearer ${result.token}`) 
@@ -64,8 +64,8 @@ describe('api assessments', () => {
     })
 
     it("responds with 401 when a user tries to cancel someone else's assessment", (done) => {
-      userWithProcessingAssessment().then((someoneElse) => {
-        testUser().then((token) => {
+      Testing.userWithProcessingAssessment().then((someoneElse) => {
+        Testing.testUser().then((token) => {
           request(app)
             .get(`/api/v1/assessments/${someoneElse.assessmentId}`)
             .set('Authorization', `Bearer ${token}`)
@@ -82,7 +82,7 @@ describe('api assessments', () => {
 
   describe('PATCH api/v1/assessments/:id/cancel', () => {
     it('updates the assessment to cancel status', (done) => {
-      userWithProcessingAssessment().then((result) => {
+      Testing.userWithProcessingAssessment().then((result) => {
         request(app)
           .patch(`/api/v1/assessments/${result.assessmentId}/cancel`)
           .set('Authorization', `Bearer ${result.token}`) 
@@ -101,8 +101,8 @@ describe('api assessments', () => {
     })
 
     it("responds with 401 when a user tries to cancel someone else's assessment", (done) => {
-      userWithProcessingAssessment().then((someoneElse) => {
-        testUser().then((token) => {
+      Testing.userWithProcessingAssessment().then((someoneElse) => {
+        Testing.testUser().then((token) => {
           request(app)
             .patch(`/api/v1/assessments/${someoneElse.assessmentId}/cancel`)
             .set('Authorization', `Bearer ${token}`)
@@ -120,7 +120,7 @@ describe('api assessments', () => {
   describe('POST api/v1/assessments', () => {
     it('responds with id of inserted assessment', (done) => {
       sandbox.stub(Assessments, 'post').resolves('');
-      testUser().then((token) => {
+      Testing.testUser().then((token) => {
         request(app)
           .post('/api/v1/assessments')
           .set('Authorization', `Bearer ${token}`) 
@@ -143,7 +143,7 @@ describe('api assessments', () => {
     });
 
     it('responds "You already are running a test!" if a test is processing', (done) => {
-      userWithProcessingAssessment().then((result) => {
+      Testing.userWithProcessingAssessment().then((result) => {
         request(app)
           .post('/api/v1/assessments')
           .set('Authorization', `Bearer ${result.token}`) 
@@ -159,89 +159,3 @@ describe('api assessments', () => {
   });
 });
 
-function testUser() {
-  let user = {email: "tu@example.com", first_name: "F", last_name: "L"};
-  return Q.addNewUser(user, "password").then((savedUser) => {
-    const payload = {
-      id: savedUser[0].id,
-      email: savedUser[0].email,
-      first_name: savedUser[0].first_name,
-      last_name: savedUser[0].last_name
-    };
-    return jwt.sign(payload, process.env.TOKEN_SECRET, {expiresIn: '6h'});
-  })
-}
-
-function userWithProcessingAssessment() {
-  let user = {email: "lf@example.com", first_name: "F", last_name: "L"};
-  return Q.addNewUser(user, "password").then((savedUser) => {
-    let assessment = {
-      snippet_id: 1,
-      answer: "an answer",
-      status: 'processing',
-      test_results: '',
-      user_id: savedUser[0].id
-    }
-    return Q.addNewAssessment(assessment).then((savedAssessment) => {
-      const payload = {
-        id: savedUser[0].id,
-        email: savedUser[0].email,
-        first_name: savedUser[0].first_name,
-        last_name: savedUser[0].last_name
-      };
-      return {
-        token: jwt.sign(payload, process.env.TOKEN_SECRET, {expiresIn: '6h'}),
-        assessmentId: savedAssessment[0].id,
-        userId: savedUser[0].id
-      }
-    })
-  })
-}
-
-function userWithThreeAssessments() {
-  let user = {email: "lf@example.com", first_name: "F", last_name: "L"};
-  return Q.addNewUser(user, "password").then((savedUser) => {
-    let assessment1 = knex('assessment')
-      .insert({
-        snippet_id: 1,
-        answer: "old don see",
-        status: "incorrect",
-        test_results: "tests came back",
-        user_id: savedUser[0].id,
-        created_at: new Date("2019-01-02")
-      }).returning('*')
-    let assessment2 = knex('assessment')
-      .insert({
-        snippet_id: 1,
-        answer: "latest n' greatest",
-        status: "correct",
-        test_results: "tests came back positive",
-        user_id: savedUser[0].id,
-        created_at: new Date("2019-01-05")
-      }).returning('*')
-    let assessment3 = knex('assessment')
-      .insert({
-        snippet_id: 2,
-        answer: "Only one for Snippet 2",
-        status: "processing",
-        test_results: "tests aren't back yet",
-        user_id: savedUser[0].id,
-        created_at: new Date("2019-01-05")
-      }).returning('*')
-
-    return Promise.all([assessment1, assessment2, assessment3]).then((values) => {
-      const payload = {
-        id: savedUser[0].id,
-        email: savedUser[0].email,
-        first_name: savedUser[0].first_name,
-        last_name: savedUser[0].last_name
-      };
-      let token = jwt.sign(payload, process.env.TOKEN_SECRET, {expiresIn: '6h'})
-      return {
-        token: token,
-        userId: savedUser[0].id,
-        assessments: [...values]
-      }
-    })
-  })
-}
