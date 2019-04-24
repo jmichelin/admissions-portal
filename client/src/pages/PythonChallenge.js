@@ -4,7 +4,11 @@ import { Redirect } from 'react-router-dom';
 import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
 
-import { CODE_CHALLENGE_ENDPOINT, PYTHON_CHALLENGE_ENDPOINT, DSI_STEPS, HERO_TEXT } from '../constants';
+import { PYTHON_CODE_SUBMIT_ENDPOINT,
+         UPDATE_OPP_ENDPOINT, 
+         UPDATE_SCORECARD_ENDPOINT, 
+         PYTHON_CHALLENGE_ENDPOINT, 
+         DSI_STEPS, HERO_TEXT } from '../constants';
 import { SNIPPET_1, SNIPPET_2 } from '../constants';
 import CodeEditor from '../components/CodeEditor';
 
@@ -43,6 +47,27 @@ class PythonChallenge extends Component {
       }
       this.setState({opp: opp})
       if (window && window.analytics) window.analytics.page('Python Challenge')
+      if (opp.stage === "New") {
+        fetch(UPDATE_OPP_ENDPOINT, {
+          method: "POST",
+          body: JSON.stringify({oppId: opp.id, stageName: "Sent Takehome"}),
+          headers: {
+            Authorization: `Bearer ${localStorage.token}`,
+            'content-type': 'application/json'
+          },
+        })
+      }
+
+      if (opp.scorecard.moveForwardCode === null) {
+        fetch(UPDATE_SCORECARD_ENDPOINT, {
+          method: "POST",
+          body: JSON.stringify({scorecardId: opp.scorecardId, moveForward: "No"}),
+          headers: {
+            Authorization: `Bearer ${localStorage.token}`,
+            'content-type': 'application/json'
+          },
+        })
+      }
 
       fetch(`${PYTHON_CHALLENGE_ENDPOINT}/user`, {
         method: 'GET',
@@ -174,7 +199,6 @@ class PythonChallenge extends Component {
     }).then(response => {
       if (response.ok) {
         response.json().then((data) => {
-          
         })
         return
       } else {
@@ -191,9 +215,10 @@ class PythonChallenge extends Component {
         code: this.state.submittedCode,
         oppId: this.state.opp.id,
         moveForward: 'Yes',
-        stage: 'Returned Takehome'
+        stage: 'Returned Takehome',
+        pythonScore: 3
       }
-      fetch(CODE_CHALLENGE_ENDPOINT, {
+      fetch(PYTHON_CODE_SUBMIT_ENDPOINT, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {

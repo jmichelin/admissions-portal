@@ -8,6 +8,9 @@ export const PREP_SEI_URL = 'https://www.galvanize.com/web-development/prep';
 export const PREP_DSI_URL = 'https://www.galvanize.com/data-science/prep';
 
 export const CODE_CHALLENGE_ENDPOINT = '/api/v1/user/code-submit';
+export const PYTHON_CODE_SUBMIT_ENDPOINT = '/api/v1/user/python-submit';
+export const UPDATE_OPP_ENDPOINT = '/api/v1/user/update-opp-stage';
+export const UPDATE_SCORECARD_ENDPOINT = '/api/v1/user/update-scorecard';
 export const PYTHON_CHALLENGE_ENDPOINT = '/api/v1/assessments';
 
 export const PROSPECT_RECORD_ID = '012j00000004QndAAE';

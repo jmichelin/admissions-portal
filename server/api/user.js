@@ -48,11 +48,54 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.post('/update-opp-stage', (req, res, next) => {
+  salesforce.login()
+    .then(() => {
+      console.log(req.body.oppId)
+      console.log(req.body.stageName)
+        return salesforce.updateOppStage(req.body.oppId, req.body.stageName);
+    }).then(response => {
+      res.send(response);
+    })
+    .catch(err => {
+      res.status(501);
+      const error = new Error('Error updating opportunity.');
+      next(error);
+    });
+});
+
+router.post('/update-scorecard', (req, res, next) => {
+  salesforce.login()
+    .then(() => {
+        return salesforce.updateScorecardMoveOn(req.body.scorecardId, req.body.moveForward);
+    }).then(response => {
+      res.send(response);
+    })
+    .catch(err => {
+      res.status(501);
+      const error = new Error('Error updating scorecard.');
+      next(error);
+    });
+});
 
 router.post('/code-submit', (req, res, next) => {
   salesforce.login()
     .then(() => {
         return salesforce.submitCodingChallenge(req.body.oppId, req.body.code, req.body.moveForward, req.body.stage);
+    }).then(response => {
+      res.send(response);
+    })
+    .catch(err => {
+      res.status(501);
+      const error = new Error('Error updating coding challenge.');
+      next(error);
+    });
+});
+
+router.post('/python-submit', (req, res, next) => {
+  salesforce.login()
+    .then(() => {
+        return salesforce.submitPythonChallenge(req.body.oppId, req.body.code, req.body.moveForward, req.body.stage, req.body.pythonScore);
     }).then(response => {
       res.send(response);
     })
