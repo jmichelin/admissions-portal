@@ -76,6 +76,26 @@
     }
   }
 }
+.ch-test-results {
+  border-top: 1px solid #ddd;
+
+  h6 {
+    padding: 0 1rem;
+  }
+  pre {
+    border-top: 1px solid #ddd;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    padding: 1rem;
+    margin-bottom: 0px;
+    border-radius: 0 0 5px 5px;
+    background-color: #f8f8f8;
+    font-size: 13px;
+    overflow: scroll;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: normal;
+  }
+}
 
 @media (max-width: $width-mobile) {
   .coding-challenge {

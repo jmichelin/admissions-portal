@@ -29,6 +29,8 @@ class PythonChallenge extends Component {
       userChallenges: [],
       ch1Status: "",
       ch2Status: "",
+      ch1TestResults: "",
+      ch2TestResults: "",
       snippet1Placeholder: SNIPPET_1.placeholder,
       snippet2Placeholder: SNIPPET_2.placeholder
     };
@@ -168,7 +170,8 @@ class PythonChallenge extends Component {
                 showProcessing: false, 
                 runningTestId: null, 
                 ch1Status: status,
-                allPassed: allPassed
+                allPassed: allPassed,
+                ch1TestResults: data.test_results
               });
             } else {
               if (status === "Correct" && this.state.ch1Status === "Correct") allPassed = true
@@ -176,7 +179,8 @@ class PythonChallenge extends Component {
                 showProcessing: false, 
                 runningTestId: null, 
                 ch2Status: status,
-                allPassed: allPassed
+                allPassed: allPassed,
+                ch2TestResults: data.test_results
               });
             }
           }
@@ -249,6 +253,24 @@ class PythonChallenge extends Component {
       return (<Redirect to='/dashboard'/>)
     }
 
+    let ch1TestResults
+    if (this.state.ch1TestResults !== "") {
+      ch1TestResults = (<div className="ch-test-results">
+        <h6>Test Results</h6>
+        <pre>
+          <span dangerouslySetInnerHTML={{ __html: this.state.ch1TestResults }} />
+        </pre>
+      </div>)
+    }
+    let ch2TestResults
+    if (this.state.ch2TestResults !== "") {
+      ch2TestResults = (<div className="ch-test-results">
+        <h6>Test Results</h6>
+        <pre>
+          <span dangerouslySetInnerHTML={{ __html: this.state.ch2TestResults }} />
+        </pre>
+      </div>)
+    }
     return (
       <div className="coding-challenge">
         <div className="container">
@@ -278,6 +300,7 @@ class PythonChallenge extends Component {
                   submittingCode={this.state.submittingCode}
                   placeholder={this.state.snippet1Placeholder}
                 />
+                { ch1TestResults }
               </div>
             </div>
             <div className="challenge-editor">
@@ -300,7 +323,8 @@ class PythonChallenge extends Component {
                   showProcessing={this.state.showProcessing}
                   submittingCode={this.state.submittingCode}
                   placeholder={this.state.snippet2Placeholder}
-                />
+                  />
+                  { ch2TestResults }
               </div>
             </div>
             <div style={{textAlign: "center"}}>
