@@ -19,6 +19,13 @@ This app uses a proxy server to run locally so your console will show both serve
 - `cd ../client && npm install` installs client packages within the client directory
 - `npm run dev` starts both client and server concurrently
 
+### Database
+
+# .env file should be in the server directory!
+
+run `createdb admissions_dev`
+run `createdb admissions_test`
+in the server directory run `knex migrate:latest`
 
 ### Adding Styles
 This application uses Sass instead of CSS Modules since much of the styling is used from dotcom-node (Galvanize.com) which uses Sass variables.  Instead of importing CSS into each component chose a folder based on what you're styling (Element, Component, Page) within `/src/styles` and create a `.scss` file.  Then import that file into `index.scss` at the base of the client-side code.
