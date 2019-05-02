@@ -258,7 +258,7 @@ export const SNIPPET_1 = {
   id: 1,
   tests: PYTHON_TEST_1,
   placeholder: PLACEHOLDER_1,
-  question: "Complete the function `consonant_first` according to its docstring."
+  question: "Complete the function 'consonant_first' according to its docstring."
 };
 
 export const SNIPPET_2 = {

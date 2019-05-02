@@ -5,9 +5,9 @@ import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
 
 import { PYTHON_CODE_SUBMIT_ENDPOINT,
-         UPDATE_OPP_ENDPOINT, 
-         UPDATE_SCORECARD_ENDPOINT, 
-         PYTHON_CHALLENGE_ENDPOINT, 
+         UPDATE_OPP_ENDPOINT,
+         UPDATE_SCORECARD_ENDPOINT,
+         PYTHON_CHALLENGE_ENDPOINT,
          DSI_STEPS, HERO_TEXT } from '../constants';
 import { SNIPPET_1, SNIPPET_2 } from '../constants';
 import CodeEditor from '../components/CodeEditor';
@@ -89,12 +89,12 @@ class PythonChallenge extends Component {
               if (data[i].snippet_id === 1) {
                 snippet1Placeholder = data[i].answer
                 if (data[i].status === "correct"){
-                  ch1Status = data[i].status.charAt(0).toUpperCase() + data[i].status.slice(1) 
+                  ch1Status = data[i].status.charAt(0).toUpperCase() + data[i].status.slice(1)
                 }
               } else if (data[i].snippet_id === 2) {
                 snippet2Placeholder = data[i].answer
                 if (data[i].status === "correct"){
-                  ch2Status = data[i].status.charAt(0).toUpperCase() + data[i].status.slice(1) 
+                  ch2Status = data[i].status.charAt(0).toUpperCase() + data[i].status.slice(1)
                 }
               }
             }
@@ -161,23 +161,23 @@ class PythonChallenge extends Component {
             if (data.status === "incorrect") {
               status = "Err, try again…"
             } else {
-              status = data.status.charAt(0).toUpperCase() + data.status.slice(1) 
+              status = data.status.charAt(0).toUpperCase() + data.status.slice(1)
             }
             let allPassed = false
             if (data.snippet_id === 1) {
               if (status === "Correct" && this.state.ch2Status === "Correct") allPassed = true
-              this.setState({ 
-                showProcessing: false, 
-                runningTestId: null, 
+              this.setState({
+                showProcessing: false,
+                runningTestId: null,
                 ch1Status: status,
                 allPassed: allPassed,
                 ch1TestResults: data.test_results
               });
             } else {
               if (status === "Correct" && this.state.ch1Status === "Correct") allPassed = true
-              this.setState({ 
-                showProcessing: false, 
-                runningTestId: null, 
+              this.setState({
+                showProcessing: false,
+                runningTestId: null,
                 ch2Status: status,
                 allPassed: allPassed,
                 ch2TestResults: data.test_results
@@ -275,14 +275,15 @@ class PythonChallenge extends Component {
       <div className="coding-challenge">
         <div className="container">
           <div className="portal-inner">
-            
+
             <Hero headline={HERO_TEXT.PYTHON_CHALLENGE.heroHeadline} description={HERO_TEXT.PYTHON_CHALLENGE.heroDescription}/>
             <Breadcrumb />
-            
+
             <div className="challenge-editor">
               <div className="instructions col">
                 <h4 className="column-header">CHALLENGE 1 Instructions</h4>
-                <p>{SNIPPET_1.question}</p>
+                  <p>Complete the function <code>consonant_first</code> according to its docstring.<br></br><br></br>
+                  You can test your code as many times as you need. Your code will also save if you need to come back later.  <br></br><br></br>Need help? Our <a href="https://www.galvanize.com/data-science/prep">Prep Programs</a> are a great option to get up to speed!</p>
               </div>
               <div className="code-editor col">
                 <h4 className="column-header">Challenge 1</h4>

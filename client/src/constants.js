@@ -1,7 +1,8 @@
 export const GALVANIZE_BASE_URL = 'https://www.galvanize.com';
-export const INFO_SESSION_SEI_URL = 'https://www.galvanize.com/events/info-sessions/web-development';
+export const INFO_SESSION_SEI_URL = 'https://www.hackreactor.com/campus-tours-and-info-sessions';
 export const INFO_SESSION_DSI_URL = 'https://www.galvanize.com/events/info-sessions/data-science';
-export const CAMPUS_TOUR_URL = 'https://www.hackreactor.com/campus-tours-and-info-sessions';
+export const CAMPUS_TOUR_SEI_URL = 'https://www.hackreactor.com/campus-tours-and-info-sessions';
+export const CAMPUS_TOUR_DSI_URL = 'https://www.galvanize.com/events/info-sessions/data-science';
 export const TECH_INTERVIEW_SEI_URL = 'https://www.galvanize.com/web-development/interview';
 export const TECH_INTERVIEW_DSI_URL = 'https://www.galvanize.com/data-science/interview';
 export const PREP_SEI_URL = 'https://www.galvanize.com/web-development/prep';
@@ -203,8 +204,8 @@ export const HERO_TEXT = {
     heroDescription: "This quick coding challenge will test your understanding of basic JavaScript syntax and start you on your admissions journey. If you're new to programming or JavaScript, don't be deterred. Try this challenge as many times as you need - your application will not be affected by errors. Submit your code when completed. Best of luck!"
   },
   PYTHON_CHALLENGE: {
-    heroHeadline: 'Check your code before submitting.',
-    heroDescription: "This quick coding challenge will test your understanding of basic python and start you on your admissions journey. Submit your code when completed. Best of luck!"
+    heroHeadline: 'Pass the Coding Challenge',
+    heroDescription: "This coding challenge is made up of two questions that will test your understanding of basic Python and start you on your admissions journey. Test your code as many times as you need.  Submit your code at the bottom when both challenges are completed. Best of luck!"
   },
   SEI_BOOK_INTERVIEW: {
     heroHeadline: 'Book the Technical Interview',
@@ -220,7 +221,7 @@ export const SEI_STEPS_12_WK = {
   STEP_TWO: {
     step: 2,
     status: 'Pass the Coding Challenge',
-    description: 'Click to review the coding challenge question prior to beginning your assessment. There is no limit to how many times you can attempt this challenge.  After passing the challenge, submit your code to continue the admissions process for this program.',
+    description: 'Click to review the JavaScript coding challenge question prior to beginning your assessment. There is no limit to how many times you can attempt this challenge.  After passing the challenge, submit your code to continue the admissions process for this program.',
     buttonPath: '/coding-challenge',
     buttonText: 'Begin Coding Challenge'
   },
@@ -316,7 +317,7 @@ export const DSI_STEPS = {
   STEP_TWO: {
     step: 2,
     status: 'Pass the Coding Challenge',
-    description: 'Click to review the coding challenge question prior to beginning your assessment. There is no limit to how many times you can attempt this challenge.  After passing the challenge, submit your code to continue the admissions process for this program.',
+    description: 'Click to review the Python coding challenge questions prior to beginning. There is no limit to how many times you can attempt this challenge.  After passing both, submit your code to continue the admissions process for this program.',
     buttonPath: '/python-challenge',
     buttonText: 'Begin Coding Challenge'
   },
@@ -431,7 +432,7 @@ export const PLACEHOLDER_2 = `def keys_geq_cutoff(num_dict, min_cutoff):
 export const SNIPPET_1 = {
   id: 1,
   placeholder: PLACEHOLDER_1,
-  question: "Complete the function `consonant_first` according to its docstring."
+  question: "Complete the function 'consonant_first' according to its docstring."
 };
 
 export const SNIPPET_2 = {
