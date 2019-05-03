@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import {Controlled as CodeMirror} from 'react-codemirror2';
 
+import checkMark from '../assets/images/icon-checkmark-orange.png';
+import xMark from '../assets/images/icon-checkmark-orange.png';
+
 import 'codemirror/lib/codemirror.css';
 require('codemirror/mode/javascript/javascript');
 require('codemirror/mode/python/python');
@@ -67,6 +70,17 @@ class CodeEditor extends Component {
       resetInput = (<button className="button-secondary" onClick={ (e) => this.resetInput() }>Reset Input</button>)
     }
 
+    let correctMark = (<img alt=""src={checkMark} style={{top: "3px", position:"relative", height: "1.2rem"}}></img>)
+
+    let incorrectMark = (<img alt=""src={xMark} style={{top: "3px", position:"relative", height: "1.2rem"}}></img>)
+
+    let statusIcon
+    if (this.props.errorMessage === "Correct") {
+      statusIcon = correctMark
+    } else if (this.props.errorMessage === "Err, try again…") {
+      statusIcon = incorrectMark
+    }
+
     let buttons = (
       <div>
         { cancelButton }
@@ -87,7 +101,7 @@ class CodeEditor extends Component {
         cursor={this.state.cursorPos}
         onBeforeChange={(editor, data, code) => {this.setState({code})}}/>
         <div className="action">
-          <span>{this.props.errorMessage}</span>
+          <span>{statusIcon}{this.props.errorMessage}</span>
           { buttons }
         </div>
       </div>
