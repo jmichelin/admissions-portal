@@ -8,6 +8,9 @@ export const TECH_INTERVIEW_DSI_URL = 'https://www.galvanize.com/data-science/in
 export const PREP_SEI_URL = 'https://www.galvanize.com/web-development/prep';
 export const PREP_DSI_URL = 'https://www.galvanize.com/data-science/prep';
 
+export const DSI_YCBM_CALENDAR_URL ='https://dsi-interviews.youcanbook.me';
+export const DSI_YCBM_CALENDAR_ID = 'ycbmiframedsi-interviews';
+
 export const CODE_CHALLENGE_ENDPOINT = '/api/v1/user/code-submit';
 export const PYTHON_CODE_SUBMIT_ENDPOINT = '/api/v1/user/python-submit';
 export const UPDATE_OPP_ENDPOINT = '/api/v1/user/update-opp-stage';
@@ -136,7 +139,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Remote',
-    ycbmLink: 'https://remote-interviews.youcanbook.me/',
+    ycbmLink: 'https://remote-interviews.youcanbook.me',
     ycbmId:'ycbmiframeremote-interviews',
     location: 'Remote'
   }
@@ -210,6 +213,10 @@ export const HERO_TEXT = {
   SEI_BOOK_INTERVIEW: {
     heroHeadline: 'Book the Technical Interview',
     heroDescription: "All campuses share the same interview format and assessment rubric so you can interview at the location that's most convenient for you, regardless of your preferred campus."
+  },
+  DSI_BOOK_INTERVIEW: {
+    heroHeadline: 'Book the Technical Interview',
+    heroDescription: ""
   }
 };
 
@@ -325,16 +332,15 @@ export const DSI_STEPS = {
     step: 3,
     status: 'Book the Technical Interview',
     description: 'Choose a time to complete your technical interview. Prepare to pass your Technical Interview by enrolling in a Galvanize Data Science Prep course or by practicing Python fundamentals on your own.',
-    buttonPath: '/book-interview',
+    buttonPath: 'book-interview-dsi',
     buttonText: 'Schedule Your Interview',
     blockClass:'-blue'
   },
   STEP_FOUR: {
     step: 4,
-    status: 'Pass Your Technical Interviews',
-    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
-    buttonText: 'Email Us',
-    buttonUrl: 'mailto:admissions@galvanize.com'
+    status: 'Pass the Technical Interview',
+    description: 'Your interview is booked! Prepare to pass your Technical Interview by enrolling in a Galvanize Data Science Prep course or by practicing the Python fundamentals on your own.',
+    alertText: 'Need to cancel your interview?  Refer to your booking confirmation email.'
   },
   COMPLETE: {
     step: 5,
