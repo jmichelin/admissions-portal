@@ -49,7 +49,7 @@ class PythonChallenge extends Component {
       }
       this.setState({opp: opp})
       if (window && window.analytics) window.analytics.page('Python Challenge')
-      if (opp.stage === "New") {
+      if (["New", "New - Pending AA", "Appointment", "Studying"].indexOf(opp.stage) > -1) {
         fetch(UPDATE_OPP_ENDPOINT, {
           method: "POST",
           body: JSON.stringify({oppId: opp.id, stageName: "Sent Takehome"}),

@@ -54,7 +54,7 @@ router.post('/', noRunningTests, (req, res, next) => {
         setup_to_run_before_code: '',
         tests_to_assess_against: snippet_tests(assessment.snippet_id),
         language: 'python3.6',
-        callback_url: `${process.env.BASE_URL}/webhooks/assessments/${savedAssessment[0].id}`
+        callback_url: `${process.env.BASE_URL}/webhooks/assessments/${savedAssessment[0].id}?token=${process.env.ASSESSMENTS_CALLBACK_TOKEN}`
       };
 
      Assessments.post(payload)
