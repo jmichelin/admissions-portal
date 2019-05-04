@@ -323,10 +323,11 @@ export const DSI_STEPS = {
   },
   STEP_THREE: {
     step: 3,
-    status: 'Book Your Technical Interviews',
-    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
-    buttonText: 'Email Us',
-    buttonUrl: 'mailto:admissions@galvanize.com'
+    status: 'Book the Technical Interview',
+    description: 'Choose a time to complete your technical interview. Prepare to pass your Technical Interview by enrolling in a Galvanize Data Science Prep course or by practicing Python fundamentals on your own.',
+    buttonPath: '/book-interview',
+    buttonText: 'Schedule Your Interview',
+    blockClass:'-blue'
   },
   STEP_FOUR: {
     step: 4,

@@ -235,6 +235,8 @@ class PythonChallenge extends Component {
         }
         throw new Error();
       }).then(result => {
+        let stageUpdate = DSI_STEPS.STEP_THREE;
+        this.props.statusUpdate(this.state.opp.id, stageUpdate)
         this.setState({ submittingCode: false, redirectToDashboard:true});
       }).catch(err => {
         this.setState({
@@ -329,7 +331,7 @@ class PythonChallenge extends Component {
               </div>
             </div>
             <div style={{textAlign: "center"}}>
-              <button className={this.props.submittingCode ? "button-primary -loading" : "button-secondary"} disabled={!this.state.allPassed} onClick={ (e) => this.codeSubmit(e) }>Submit Code</button>
+              <button className={this.state.submittingCode ? "button-primary -loading" : "button-secondary"} disabled={!this.state.allPassed} onClick={ (e) => this.codeSubmit(e) }>Submit Code</button>
               <br/>
               <br/>
             </div>
