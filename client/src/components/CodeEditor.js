@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Controlled as CodeMirror} from 'react-codemirror2';
 
 import checkMark from '../assets/images/icon-checkmark-orange.png';
-import xMark from '../assets/images/icon-checkmark-orange.png';
+import xMark from '../assets/images/icon-xmark-orange.png';
 
 import 'codemirror/lib/codemirror.css';
 require('codemirror/mode/javascript/javascript');
