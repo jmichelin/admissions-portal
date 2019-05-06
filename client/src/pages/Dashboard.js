@@ -77,12 +77,11 @@ handleSubmit(event) {
   const formData = { program, campus };
 
   if (this.formIsValid(formData)) {
-    let query = `?campus=${formData.campus}`
-    if (formData.program === 'Data Science') {
-      window.location.href = `${GALVANIZE_BASE_URL}/data-science/application${query}`;
+    if (formData.program.includes("Data Science")) {
+      window.location.href = `${GALVANIZE_BASE_URL}/data-science/application`;
       return;
     } else if (formData.program.includes("Software Engineering")) {
-      window.location.href = `${GALVANIZE_BASE_URL}/web-development/application${query}`;
+      window.location.href = `${GALVANIZE_BASE_URL}/web-development/application`;
       return;
     }
   } else {

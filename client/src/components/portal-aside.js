@@ -13,7 +13,7 @@ export default (props) => {
       </div>
       <div className="program-block">
         <img className="program-logo -dsi" alt="" src={DSILogo}></img>
-        <p>Manage your application, complete your technical exercise and book your technical interviews to complete the Data Science admissions process.</p>
+        <p>Manage your application, complete your coding challenge and book your technical interview to complete the Data Science admissions process.</p>
       </div>
 
       <div className="program-block -campuses">
