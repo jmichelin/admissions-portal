@@ -54,7 +54,7 @@ class ProgramSelect extends Component {
         </form>
         <span className="form-note form-error">{ this.props.errorMessage }</span>
         <p className="citation">Once you submit an application you can log back into this portal to complete the rest of the admissions process.</p>
-        <p className="citation -thin">Already applied through the Hack Reactor Admissions Portal but not seeing your application here? Reach out to <a href="mailto:admissions@galvanize.com">admissions@galvanize.com</a> and we can resolve this quickly.</p>
+        <p className="citation -thin">Questions? Reach out to <a href="mailto:admissions@galvanize.com">admissions@galvanize.com</a> and we'd be happy to help.</p>
     </div>
 
   return (

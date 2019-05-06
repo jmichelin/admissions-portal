@@ -8,7 +8,9 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Dashboard';
 import CodingChallenge from './pages/CodingChallenge';
+import PythonChallenge from './pages/PythonChallenge'
 import BookInterview from './pages/BookInterview';
+import BookInterviewDSI from './pages/BookInterviewDSI';
 
 import utils from './helpers/utils';
 
@@ -93,7 +95,7 @@ class App extends Component {
      })
   }
 
-render() {
+  render() {
       return (
       <div>
         <Header clearData={this.clearData}/>
@@ -104,7 +106,9 @@ render() {
             <PublicRoute path="/reset:token" component={ResetPassword}/>
             <PrivateRoute exact path='/dashboard'{...this.state}  getData={this.getData} statusUpdate={this.statusUpdate} component={Dashboard}/>
             <PrivateRoute exact path='/coding-challenge' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={CodingChallenge}/>
+            <PrivateRoute exact path='/python-challenge' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={PythonChallenge}/>
             <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterview}/>
+            <PrivateRoute exact path='/book-interview-dsi' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterviewDSI}/>
             <NoMatch/>
           </Switch>
           </main>

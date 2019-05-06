@@ -1,13 +1,21 @@
 export const GALVANIZE_BASE_URL = 'https://www.galvanize.com';
-export const INFO_SESSION_SEI_URL = 'https://www.galvanize.com/events/info-sessions/web-development';
+export const INFO_SESSION_SEI_URL = 'https://www.hackreactor.com/campus-tours-and-info-sessions';
 export const INFO_SESSION_DSI_URL = 'https://www.galvanize.com/events/info-sessions/data-science';
-export const CAMPUS_TOUR_URL = 'https://www.hackreactor.com/campus-tours-and-info-sessions';
+export const CAMPUS_TOUR_SEI_URL = 'https://www.hackreactor.com/campus-tours-and-info-sessions';
+export const CAMPUS_TOUR_DSI_URL = 'https://www.galvanize.com/events/info-sessions/data-science';
 export const TECH_INTERVIEW_SEI_URL = 'https://www.galvanize.com/web-development/interview';
 export const TECH_INTERVIEW_DSI_URL = 'https://www.galvanize.com/data-science/interview';
 export const PREP_SEI_URL = 'https://www.galvanize.com/web-development/prep';
 export const PREP_DSI_URL = 'https://www.galvanize.com/data-science/prep';
 
+export const DSI_YCBM_CALENDAR_URL ='https://dsi-interviews.youcanbook.me';
+export const DSI_YCBM_CALENDAR_ID = 'ycbmiframedsi-interviews';
+
 export const CODE_CHALLENGE_ENDPOINT = '/api/v1/user/code-submit';
+export const PYTHON_CODE_SUBMIT_ENDPOINT = '/api/v1/user/python-submit';
+export const UPDATE_OPP_ENDPOINT = '/api/v1/user/update-opp-stage';
+export const UPDATE_SCORECARD_ENDPOINT = '/api/v1/user/update-scorecard';
+export const PYTHON_CHALLENGE_ENDPOINT = '/api/v1/assessments';
 
 export const PROSPECT_RECORD_ID = '012j00000004QndAAE';
 export const STUDENT_RECORD_ID = '012j0000000kfkDAAQ';
@@ -131,7 +139,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Remote',
-    ycbmLink: 'https://remote-interviews.youcanbook.me/',
+    ycbmLink: 'https://remote-interviews.youcanbook.me',
     ycbmId:'ycbmiframeremote-interviews',
     location: 'Remote'
   }
@@ -139,18 +147,22 @@ export const CAMPUSES = [
 
 export const FULL_TIME_PROGRAMS = [
   {
-  name:'Data Science Immersive',
-  sfdcName: 'Data Science'
+    name:'Data Science Immersive',
+    sfdcName: 'Data Science'
   },{
-  name:'Software Engineering Immersive',
-  sfdcName: 'Software Engineering Immersive'
-},{
-  name:'Software Engineering Remote Immersive',
-  sfdcName: 'Software Engineering Remote Immersive'
-},{
-  name:'Software Engineering Remote Part Time Immersive',
-  sfdcName: 'Software Engineering Remote Part Time Immersive'
-}];
+      name:'Data Science Remote Immersive',
+      sfdcName: 'Data Science Remote Immersive'
+  },{
+    name:'Software Engineering Immersive',
+    sfdcName: 'Software Engineering Immersive'
+  },{
+    name:'Software Engineering Remote Immersive',
+    sfdcName: 'Software Engineering Remote Immersive'
+  },{
+    name:'Software Engineering Remote Part Time Immersive',
+    sfdcName: 'Software Engineering Remote Part Time Immersive'
+  }
+];
 
 
 export const CODING_CHALLENGE_TESTS = `describe("declaredAnArray", function() {
@@ -197,9 +209,17 @@ export const HERO_TEXT = {
     heroHeadline: 'Pass the Coding Challenge',
     heroDescription: "This quick coding challenge will test your understanding of basic JavaScript syntax and start you on your admissions journey. If you're new to programming or JavaScript, don't be deterred. Try this challenge as many times as you need - your application will not be affected by errors. Submit your code when completed. Best of luck!"
   },
+  PYTHON_CHALLENGE: {
+    heroHeadline: 'Pass the Coding Challenge',
+    heroDescription: "This coding challenge is made up of two questions that will test your understanding of basic Python and start you on your admissions journey. Test your code as many times as you need.  Submit your code at the bottom when both challenges are completed. Best of luck!"
+  },
   SEI_BOOK_INTERVIEW: {
     heroHeadline: 'Book the Technical Interview',
     heroDescription: "All campuses share the same interview format and assessment rubric so you can interview at the location that's most convenient for you, regardless of your preferred campus."
+  },
+  DSI_BOOK_INTERVIEW: {
+    heroHeadline: 'Book the Technical Interview',
+    heroDescription: ""
   }
 };
 
@@ -211,7 +231,7 @@ export const SEI_STEPS_12_WK = {
   STEP_TWO: {
     step: 2,
     status: 'Pass the Coding Challenge',
-    description: 'Click to review the coding challenge question prior to beginning your assessment. There is no limit to how many times you can attempt this challenge.  After passing the challenge, submit your code to continue the admissions process for this program.',
+    description: 'Click to review the JavaScript coding challenge question prior to beginning your assessment. There is no limit to how many times you can attempt this challenge.  After passing the challenge, submit your code to continue the admissions process for this program.',
     buttonPath: '/coding-challenge',
     buttonText: 'Begin Coding Challenge'
   },
@@ -306,24 +326,24 @@ export const DSI_STEPS = {
   },
   STEP_TWO: {
     step: 2,
-    status: 'Pass the Takehome Assessment',
-    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
-    buttonText: 'Email Us',
-    buttonUrl: 'mailto:admissions@galvanize.com'
+    status: 'Pass the Coding Challenge',
+    description: 'Click to review the Python coding challenge questions prior to beginning. There is no limit to how many times you can attempt this challenge.  After passing both, submit your code to continue the admissions process for this program.',
+    buttonPath: '/python-challenge',
+    buttonText: 'Begin Coding Challenge'
   },
   STEP_THREE: {
     step: 3,
-    status: 'Book Your Technical Interviews',
-    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
-    buttonText: 'Email Us',
-    buttonUrl: 'mailto:admissions@galvanize.com'
+    status: 'Book the Technical Interview',
+    description: 'Choose a time to complete your technical interview. Prepare to pass your Technical Interview by enrolling in a Galvanize Data Science Prep course or by practicing Python fundamentals on your own.',
+    buttonPath: 'book-interview-dsi',
+    buttonText: 'Schedule Your Interview',
+    blockClass:'-blue'
   },
   STEP_FOUR: {
     step: 4,
-    status: 'Pass Your Technical Interviews',
-    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
-    buttonText: 'Email Us',
-    buttonUrl: 'mailto:admissions@galvanize.com'
+    status: 'Pass the Technical Interview',
+    description: 'Your interview is booked! Prepare to pass your Technical Interview by enrolling in a Galvanize Data Science Prep course or by practicing the Python fundamentals on your own.',
+    alertText: 'Need to cancel your interview?  Refer to your booking confirmation email.'
   },
   COMPLETE: {
     step: 5,
@@ -368,3 +388,65 @@ export const APPLICATION_STEPS_DSI = [
   DSI_STEPS.COMPLETE,
   DSI_STEPS.HOLD
 ];
+
+export const PLACEHOLDER_1 = `def consonant_first(text):
+    """Finds a list of unique words in text that start with a consonant
+    (letters that are not vowels). Note: all words are returned as
+    lowercase and are returned in no particular order.
+
+    Parameters
+    ----------
+    in_str: string
+        A sentence containing no punctuation.
+        E.g. "A dog is a good pet and a bear is an awful pet"
+
+    Returns
+    -------
+    list of strings
+        The words from the sentence that do not start with vowels
+        ['a', 'e', 'i', 'o', 'u'].
+        All strings are returned as lower case.
+
+    Examples
+    --------
+    >>> consonant_first("A dog is a good pet and a bear is an awful pet")
+    ["dog", "good", "pet", "bear"]
+    """
+    pass`;
+
+export const PLACEHOLDER_2 = `def keys_geq_cutoff(num_dict, min_cutoff):
+    """Returns all the keys (as a set) from num_dict that have
+    value greater than or equal to min_cutoff.
+
+    Parameters
+    ----------
+    num_dict: dictionary
+    All the values in num_dict are numeric.
+    min_cutoff: float
+        Comparison with the num_dict values. Return all keys, where
+        their values >= min_cutoff.
+
+    Returns
+    -------
+    set
+        All keys from num_dict whose values meet the cutoff criterion.
+
+    Examples
+    --------
+    >>> keys_geq_cutoff({'Alice': 21, 'Brett': 20, 'Carlos': 31}, 21)
+    {'Alice', 'Carlos'}
+    """
+    pass
+`;
+
+export const SNIPPET_1 = {
+  id: 1,
+  placeholder: PLACEHOLDER_1,
+  question: "Complete the function 'consonant_first' according to its docstring."
+};
+
+export const SNIPPET_2 = {
+  id: 2,
+  placeholder: PLACEHOLDER_2,
+  question: `You have some numeric data stored in a dictionary. The data could represent any number of things, for example, people's names and their height in inches, or cities and their populations. Complete the function below to return all the keys of the dictionary where their associated values are greater than or equal to some cutoff.`
+};
