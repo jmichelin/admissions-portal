@@ -17,7 +17,6 @@ router.patch('/:id', (req, res, next) => {
       const error = new Error('Error updating assessment.');
       next(error);
     });
-    ;
 });
 
 
