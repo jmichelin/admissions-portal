@@ -1,8 +1,7 @@
-
 const express = require('express');
+var secure = require('express-force-https');
 const path = require('path');
 const morgan = require('morgan');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 
 require('dotenv').config();
@@ -14,21 +13,29 @@ if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
 }
 
 const app = express();
+if (process.env.NODE_ENV !== 'test') {
+  app.use(secure);
+}
 
 const middlewares = require('./auth/middlewares');
 const auth = require('./auth');
 const users = require('./api/user');
+const assessments = require('./api/assessments');
+const testingWebhook = require('./webhooks/assessments/assessments');
 
 app.use(morgan('dev'));
 app.use(cors({
-  origin: 'http://localhost:3000'
+  origin: process.env.BASE_URL,
 }));
-app.use(bodyParser.json());
+
+
 app.use(middlewares.checkTokenSetUser);
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-app.use('/auth', auth);
-app.use('/api/v1/user', middlewares.isLoggedIn, users);
+app.use('/auth', express.json(), auth);
+app.use('/api/v1/user', express.json(), middlewares.isLoggedIn, users);
+app.use('/api/v1/assessments', express.json(), middlewares.isLoggedIn, assessments);
+app.use('/webhooks/assessments', express.urlencoded({extended: true}), testingWebhook);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
@@ -54,3 +61,5 @@ const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log('Listening on port', port);
 });
+
+module.exports = app;

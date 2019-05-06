@@ -9,7 +9,7 @@ import LoadingWheel from '../components/base/loader-orange';
 import CampusList from '../components/book-interview-campuses';
 import InterviewSidebar from '../components/book-interview-sidebar';
 
-import { HERO_TEXT, SEI_STEPS } from '../constants';
+import { HERO_TEXT, SEI_STEPS_12_WK } from '../constants';
 
 
 class BookInterview extends Component {
@@ -21,7 +21,7 @@ class BookInterview extends Component {
       showIframe: false,
       hideSpinner: false,
       campus: {},
-      redirectToDashboard: false
+      redirectToDashboard: false,
     };
 
     this.hideSpinner = this.hideSpinner.bind(this);
@@ -32,13 +32,12 @@ class BookInterview extends Component {
   componentDidMount() {
     if (this.props.location.state && this.props.location.state.opp) {
       const {opp} = this.props.location.state;
-      if (opp.currentStep !== SEI_STEPS.STEP_THREE) {
+
+      if (opp.currentStep !== SEI_STEPS_12_WK.STEP_THREE && !this.props.location.override) {
         this.setState({ redirectToDashboard: true })
       }
       this.setState({opp: opp})
-      window.analytics.ready(function() {
-       window.analytics.page('Book Interview')
-         });
+      if (window && window.analytics) window.analytics.page('Book Interview')
      } else {
       this.setState({ redirectToDashboard: true })
     }
@@ -103,6 +102,8 @@ class BookInterview extends Component {
                   { this.state.isLoading ? loadingBlock : null }
                   { this.state.showIframe ?
                     <CalendarIframe
+                      opp={this.state.opp}
+                      user={this.props.user}
                       calendarUrl={this.state.campus.ycbmLink}
                       calendarId={this.state.campus.ycbmId}
                       hideSpinner={this.hideSpinner}

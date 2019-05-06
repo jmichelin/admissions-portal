@@ -1,51 +1,22 @@
 import React from 'react';
-
-import NextStepsCodingChallenge from './next-steps-coding-challenge';
-import NextStepsBookInterview from './next-steps-book-interview';
-import NextStepsInterviewScheduled from './next-steps-interview-scheduled';
-import NextStepsPassedInterview from './next-steps-passed-interview';
-import NextStepsHold from './next-steps-hold';
-
-import { SEI_STEPS } from '../constants';
-
+import { Link } from 'react-router-dom';
 
 export default (props) => {
 
-function getSEINextSteps() {
-  switch(props.currentStep.status) {
-    case SEI_STEPS.STEP_TWO.status:
-    return <NextStepsCodingChallenge {...props}/>
-    case SEI_STEPS.STEP_THREE.status:
-    return <NextStepsBookInterview {...props}/>
-    case SEI_STEPS.STEP_FOUR.status:
-    return <NextStepsInterviewScheduled {...props}/>
-    case SEI_STEPS.COMPLETE.status:
-    return <NextStepsPassedInterview {...props}/>
-    case SEI_STEPS.HOLD.status:
-    return <NextStepsHold {...props}/>
-    default:
-    return <NextStepsHold {...props}/>
-    }
-  }
-
-  function getDSINextSteps() {
-    switch(props.currentStep.status) {
-      case 'Awaiting Coding Challenge':
-      return <NextStepsCodingChallenge {...props}/>
-      case 'Schedule Your Interview':
-      return <NextStepsBookInterview {...props}/>
-      case 'Interview Passed':
-      return <NextStepsCodingChallenge {...props}/>
-      case 'On Hold':
-      return <NextStepsHold {...props}/>
-      case 'Contact Your EO':
-      return <NextStepsHold {...props}/>
-      default:
-      return <NextStepsHold {...props}/>
-      }
-    }
-
   return (
-    props.opp.courseProduct === 'Web Development' ? getSEINextSteps() : getDSINextSteps()
+    <div className={props.step.blockClass ? `next-steps ${props.step.blockClass}` : "next-steps"}>
+      <div className="left-text">
+        <h4>Next Steps</h4>
+        <p className="-inverse">{props.step.description}</p>
+        {props.step.alertText ? <p className="-alert -inverse">{props.step.alertText}</p> : null}
+      </div>
+      { props.step.buttonPath ? <Link to={{
+            pathname: `${props.step.buttonPath}`,
+            state: { opp: props.opp},
+            override: props.step.override }}>
+            <button className="button-primary">{props.step.buttonText}</button></Link> : null}
+      { props.step.buttonUrl ?
+          <a href={props.step.buttonUrl} target="_blank"><button className="button-primary">{props.step.buttonText}</button></a> : null}
+      </div>
   )
 }

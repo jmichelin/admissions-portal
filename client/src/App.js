@@ -4,9 +4,13 @@ import { PrivateRoute, PublicRoute, NoMatch } from './helpers/Routes';
 
 import Header from './components/header';
 import Home from './pages/Home';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Dashboard';
 import CodingChallenge from './pages/CodingChallenge';
+import PythonChallenge from './pages/PythonChallenge'
 import BookInterview from './pages/BookInterview';
+import BookInterviewDSI from './pages/BookInterviewDSI';
 
 import utils from './helpers/utils';
 
@@ -19,7 +23,7 @@ class App extends Component {
       user: {},
       isLoading: true,
       fetchedData: false
-    }
+      }
 
     this.getData = this.getData.bind(this);
     this.clearData = this.clearData.bind(this);
@@ -47,13 +51,16 @@ class App extends Component {
           },
         }).then(res => res.json())
           .then(result => {
-            if (result.message === 'jwt expired') {
+            if (result.message === 'jwt expired' || result.message === 'jwt malformed' || result.message === 'Your session has expired. Please log back in.') {
               this.clearData()
             }
             else if (result.data && result.data.opportunities && result.data.user) {
               let opps = result.data.opportunities.map(opp => {
-                let currentStep = opp.courseProduct === 'Web Development' ? utils.getSEIStage(opp) : utils.getDSIStage(opp);
+                let stageObj = utils.getStage(opp);
+                let currentStep = stageObj.step;
+                let admissionsProcess = stageObj.process;
                 opp.currentStep = currentStep;
+                opp.admissionsProcess = admissionsProcess;
                 return opp;
               })
               this.setState({
@@ -74,9 +81,7 @@ class App extends Component {
           })
         })
       } else {
-      this.setState({
-        isLoading: false
-      })
+      this.clearData()
     }
   }
 
@@ -90,16 +95,20 @@ class App extends Component {
      })
   }
 
-render() {
+  render() {
       return (
       <div>
         <Header clearData={this.clearData}/>
           <main>
           <Switch>
             <PublicRoute exact path='/' clearData={this.clearData} component={Home}/>
+            <PublicRoute exact path='/forgot-password' component={ForgotPassword}/>
+            <PublicRoute path="/reset:token" component={ResetPassword}/>
             <PrivateRoute exact path='/dashboard'{...this.state}  getData={this.getData} statusUpdate={this.statusUpdate} component={Dashboard}/>
             <PrivateRoute exact path='/coding-challenge' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={CodingChallenge}/>
+            <PrivateRoute exact path='/python-challenge' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={PythonChallenge}/>
             <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterview}/>
+            <PrivateRoute exact path='/book-interview-dsi' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterviewDSI}/>
             <NoMatch/>
           </Switch>
           </main>

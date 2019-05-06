@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Admissions portal application for Galvanize students to be able to apply.",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Galvanize-IT/admissions-portal.git"
+  },
   "engines": {
     "node": "10.13.0"
   },
@@ -10,6 +14,7 @@
     "client": "cd client && npm start",
     "server": "cd server && nodemon index.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "test": "PORT=2999 NODE_ENV=test mocha -R nyan $(find server/test -name '*.test.js') --exit",
     "clean": "rm -rf dist && mkdir dist",
     "build-babel": "./node_modules/.bin/babel -d ./dist ./server -s",
     "build": "npm run clean && npm run build-babel",
@@ -29,16 +34,25 @@
     "cors": "^2.8.5",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
+    "express-force-https": "^1.0.0",
+    "if-env": "^1.0.4",
     "joi": "^14.0.3",
     "jsforce": "^1.9.1",
     "jsonwebtoken": "^8.3.0",
     "knex": "^0.15.2",
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
+    "node-fetch": "^2.3.0",
+    "nodemailer": "^5.1.1",
     "pg": "^7.6.0"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
-    "nodemon": "^1.18.5"
+    "knex-cleaner": "^1.1.4",
+    "mocha": "^5.2.0",
+    "nock": "^10.0.6",
+    "nodemon": "^1.18.5",
+    "sinon": "^7.3.1",
+    "supertest": "^4.0.2"
   }
 }

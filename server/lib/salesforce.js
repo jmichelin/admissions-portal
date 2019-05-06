@@ -395,47 +395,58 @@ class Salesforce {
     });
   }
 
-  updateCodingChallenge(oppId, code, stage) {
-  return new Promise( (resolve, reject) => {
-      this.connection.sobject('Interview_Evaluation__c')
-      .find({Opportunity_Name__c: `${oppId}`})
-      .update({
-        Final_Code__c: code,
-        Move_Forward__c: stage
-      }, (err, res) => {
-        if(err) { reject(err); }
-        resolve(res);
-      });
-  });
-}
+  submitCodingChallenge(oppId, code, moveForward, stage) {
+    return new Promise( (resolve, reject) => {
+      return Promise.all([
+        this.connection.sobject('Interview_Evaluation__c')
+        .find({Opportunity_Name__c: `${oppId}`})
+        .update({
+          Final_Code__c: code,
+          Move_Forward__c: moveForward
+        }, (err, res) => {
+          if(err) { reject(err); }
+        }),
+        this.connection.sobject('Opportunity')
+        .find({Id: `${oppId}`})
+        .update({
+          StageName: stage,
+        }, (err, res) => {
+          if(err) { reject(err); }
+        })])
+        .then(rows => {
+          if (!rows) return [];
+          return rows;
+        }).then(resolve)
+        .catch(reject)
+    });
+  }
 
-
-submitCodingChallenge(oppId, code, stage) {
-return new Promise( (resolve, reject) => {
-  return Promise.all([
-    this.connection.sobject('Interview_Evaluation__c')
-    .find({Opportunity_Name__c: `${oppId}`})
-    .update({
-      Final_Code__c: code,
-      Move_Forward__c: stage
-    }, (err, res) => {
-      if(err) { reject(err); }
-    }),
-    this.connection.sobject('Opportunity')
-    .find({Id: `${oppId}`})
-    .update({
-      StageName: 'Returned Takehome',
-    }, (err, res) => {
-      if(err) { reject(err); }
-    })])
-    .then(rows => {
-      if (!rows) return [];
-      return rows;
-    }).then(resolve)
-    .catch(reject)
-});
-}
-
+  submitPythonChallenge(oppId, code, moveForward, stage, score) {
+    return new Promise( (resolve, reject) => {
+      return Promise.all([
+        this.connection.sobject('Interview_Evaluation__c')
+        .find({Opportunity_Name__c: `${oppId}`})
+        .update({
+          Final_Code__c: code,
+          Move_Forward__c: moveForward,
+          DS_Take_Home_Python_Score__c: score
+        }, (err, res) => {
+          if(err) { reject(err); }
+        }),
+        this.connection.sobject('Opportunity')
+        .find({Id: `${oppId}`})
+        .update({
+          StageName: stage,
+        }, (err, res) => {
+          if(err) { reject(err); }
+        })])
+        .then(rows => {
+          if (!rows) return [];
+          return rows;
+        }).then(resolve)
+        .catch(reject)
+    });
+  }
 
   // query salesforce for campaign id
   leadCampaignQuery(leadId, campaignType, product) {
@@ -465,6 +476,29 @@ return new Promise( (resolve, reject) => {
     });
   }
 
+  updateOppStage(oppId, stage) {
+    return new Promise( (resolve, reject) => {
+      this.connection.sobject('Opportunity').update({
+        Id: oppId,
+        StageName: stage
+      }, (err, res) => {
+        if(err) { reject(err); }
+        resolve(res);
+      });
+    });
+  }
+
+  updateScorecardMoveOn(scoreCardId, moveForward) {
+    return new Promise( (resolve, reject) => {
+      this.connection.sobject('Interview_Evaluation__c').update({
+        Id: scoreCardId,
+        Move_Forward__c: moveForward
+      }, (err, res) => {
+        if(err) { reject(err); }
+        resolve(res);
+      });
+    });
+  }
 }
 
 export default Salesforce;

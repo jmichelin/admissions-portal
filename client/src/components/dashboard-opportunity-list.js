@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 
-import AdmissionsProcessList from './admissions-process-list';
-import NextStepBlock from './next-steps-block';
-import ResourcesSEI from './resources-sei';
-import ResourcesDSI from './resources-dsi';
+import AdmissionsProcessSteps from './admissions-process-steps';
 
 import utils from '../helpers/utils';
 import moment from 'moment';
@@ -20,13 +17,9 @@ class OpportunityList extends Component {
             <li>{course}</li>
             <li className="hide-mobile">{campus}</li>
             <li className="hide-mobile">{moment(opp.courseStart).format('MM/DD/YYYY')}</li>
-            <li className="hide-tablet">{opp.currentStep.status}</li>
+            <li className="hide-tablet">{opp.currentStep ? opp.currentStep.status : 'Talk to Your Enrollment Officer'}</li>
           </ul>
-          <div className="table-row -steps">
-            <AdmissionsProcessList program={opp.courseProduct} currentStep={opp.currentStep} opp={opp}/>
-          </div>
-          <NextStepBlock opp={opp} currentStep={opp.currentStep}/>
-          {opp.courseProduct === 'Web Development' ? <ResourcesSEI/> : <ResourcesDSI/>}
+          <AdmissionsProcessSteps opp={opp}/>
         </div>
       )
     })

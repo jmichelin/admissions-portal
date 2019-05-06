@@ -33,9 +33,7 @@ class Dashboard extends Component {
       const {calendarRefresh} = this.props.location.state;
       if (calendarRefresh) this.props.getData(true);
     }
-    window.analytics.ready(function() {
-      window.analytics.page('Dashboard')
-       });    
+    if (window && window.analytics) window.analytics.page('Dashboard')
    }
 
 onProgramChange(e, field) {
@@ -79,12 +77,11 @@ handleSubmit(event) {
   const formData = { program, campus };
 
   if (this.formIsValid(formData)) {
-    let query = `?campus=${formData.campus}&first_name=${this.props.user.first_name}&last_name=${this.props.user.last_name}&email=${this.props.user.email}`
-    if (formData.program === 'Data Science') {
-      window.location.href = `${GALVANIZE_BASE_URL}/data-science/application${query}`;
+    if (formData.program.includes("Data Science")) {
+      window.location.href = `${GALVANIZE_BASE_URL}/data-science/application`;
       return;
     } else if (formData.program.includes("Software Engineering")) {
-      window.location.href = `${GALVANIZE_BASE_URL}/web-development/application${query}`;
+      window.location.href = `${GALVANIZE_BASE_URL}/web-development/application`;
       return;
     }
   } else {

@@ -24,6 +24,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
 }
 
 .program-block {
@@ -39,12 +40,33 @@
     width: auto;
 
     &.-dsi {
-      height: 45px;
+      height: 48px;
     }
   }
   p  {
     color: $color-white;
   }
+  &.-campuses {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: none;
+    color: $color-gray-2;
+    text-transform: uppercase;
+    padding-top: $pad-quad;
+    font-size: 13px;
+    .campus-line {
+      display: block;
+      text-align: center;
+      width: 100%;
+      line-height: 24px;
+      span {
+        padding: 0 6px;
+      }
+    }
+  }
+
 }
 
 .form-content {
@@ -53,10 +75,30 @@
   align-items: center;
   flex: 5 0 50%;
   padding: $pad-double;
+  min-height: 625px;
 }
 
-.logo {
-  width: 200px;
+.citation {
+  padding: $pad 12px;
+  font-size: 13px;
+  margin: 0;
+}
+
+.logo-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  margin-top: 8px;
+
+  .logo {
+    height: 22px;
+  }
+  .logo.-hr {
+    height: 19px;
+    padding-left: 26px;
+  }
 }
 
 form, .form-group, .input-group {
@@ -65,10 +107,10 @@ form, .form-group, .input-group {
 
 form {
   & {
-    margin-top: $space;
+    margin-top: $space-and-half;
   }
   .input-group {
-    margin: 0 $space;
+    margin: 0 10px 12px 10px;
   }
 
   .checkbox-field {
@@ -76,7 +118,7 @@ form {
   }
 
   .form-footer {
-      margin: $space;
+      margin: 0 $space $space $space;
       text-align: center;
     }
 
@@ -89,15 +131,30 @@ form {
     margin-top: $space-double;
   }
 }
-  .logo-subtext {
-    font-size: 18px;
+  .title {
+    font-size: 36px;
     margin: 0;
+    margin-top: 12px;
+    position: relative;
+     span {
+       font-size: 12px;
+       top: 0;
+       right: -35px;
+       position: absolute;
+       font-weight: 500;
+       color: $color-brand-primary;
+     }
   }
 
   .portal-title {
-    margin: 32px 0 16px 0;
+    margin: 45px 0 0 0;
     font-weight: 500;
     text-align: center;
+    font-size: 25px;
+
+    &.-forgot-pass {
+      margin-top: 90px;
+    }
   }
 
   .title-subtext {
@@ -112,7 +169,7 @@ form {
     padding: 0;
   }
   .home .form-content {
-    padding: $pad;
+    padding: $pad-double $pad;
   }
 }
 
@@ -120,5 +177,16 @@ form {
 @media (max-width: $width-mobile) {
   .home .signup {
     padding: $pad;
+  }
+
+  .home .portal-aside .-campuses {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .home .title {
+    font-size: 30px;
+    white-space: nowrap;
   }
 }

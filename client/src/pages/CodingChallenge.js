@@ -6,7 +6,7 @@ import Breadcrumb from '../components/breadcrumb';
 
 import * as buble from 'buble'
 
- import { CODE_CHALLENGE_ENDPOINT, CODING_CHALLENGE_TESTS, SEI_STEPS, HERO_TEXT } from '../constants';
+ import { CODE_CHALLENGE_ENDPOINT, CODING_CHALLENGE_TESTS, SEI_STEPS_12_WK, SEI_STEPS_18_WK, HERO_TEXT } from '../constants';
 import CodingInstructions from '../components/CodingInstructions';
 import CodeEditor from '../components/CodeEditor';
 
@@ -21,7 +21,7 @@ class CodingChallenge extends Component {
       showProcessing: false,
       submittingCode: false,
       allPassed: false,
-      errorMessage: '',
+      errorMessage: "Test your code to see if you pass each step.  Click Submit once you've passed all steps.",
       redirectToDashboard: false,
       internalStatusUpdate: '',
       attemptSubmitted: false
@@ -35,13 +35,12 @@ class CodingChallenge extends Component {
   componentDidMount() {
     if (this.props.location.state && this.props.location.state.opp) {
       const {opp} = this.props.location.state;
-      if (opp.currentStep !== SEI_STEPS.STEP_TWO) {
+      if (opp.currentStep !== SEI_STEPS_12_WK.STEP_TWO && !this.props.location.override) {
         this.setState({ redirectToDashboard: true })
       }
       this.setState({opp: opp})
-      window.analytics.ready(function() {
-       window.analytics.page('Coding Challenge')
-         });
+      if (window && window.analytics) window.analytics.page('Coding Challenge')
+
          } else {
       this.setState({ redirectToDashboard: true })
     }
@@ -90,7 +89,7 @@ class CodingChallenge extends Component {
           this.setState({
             showProcessing: false,
             localTestResults: results,
-            errorMessage: allCorrect ? "You have passed all the tests! Submit your code to move to the next step in the admissions process." : `Keep working on Step ${firstFailingTest.index + 1}`,
+            errorMessage: allCorrect ? "You have passed all the tests! Submit your code to move to the next step in the admissions process." : `Keep working on Step ${firstFailingTest.index < 5 ? firstFailingTest.index + 1: 6}`,
             allPassed: allCorrect ? true : false,
             submittedCode: submittedCode
           })
@@ -121,7 +120,8 @@ class CodingChallenge extends Component {
         let data = {
           code: this.state.submittedCode,
           oppId: this.state.opp.id,
-          stage: 'No'
+          moveForward: 'No',
+          stage: 'Sent Takehome'
         }
         fetch(CODE_CHALLENGE_ENDPOINT, {
           method: 'POST',
@@ -134,13 +134,12 @@ class CodingChallenge extends Component {
           if (response.ok) {
             return response.json()
           }
-          return response.json().then(error => {
-            throw new Error(error.message)
-          })
+          throw new Error();
+          this.setState({ redirectToDashboard: true});
         }).then(result => {
           this.setState({ attemptSubmitted: true});
         }).catch(err => {
-            throw new Error(err.message)
+          this.setState({ redirectToDashboard: true});
         })
   }
 }
@@ -154,7 +153,8 @@ class CodingChallenge extends Component {
         let data = {
           code: this.state.submittedCode,
           oppId: this.state.opp.id,
-          stage: 'Yes'
+          moveForward: 'Yes',
+          stage: 'Returned Takehome'
         }
         fetch(CODE_CHALLENGE_ENDPOINT, {
           method: 'POST',
@@ -167,11 +167,10 @@ class CodingChallenge extends Component {
           if (response.ok) {
             return response.json()
           }
-          return response.json().then(error => {
-            throw new Error(error.message)
-          })
+          throw new Error();
         }).then(result => {
-          this.props.statusUpdate(this.state.opp.id, SEI_STEPS.STEP_THREE)
+          let stageUpdate = this.state.opp.courseType === '18 Week Full-Time Immersive' ? SEI_STEPS_18_WK.STEP_TWO : SEI_STEPS_12_WK.STEP_THREE;
+          this.props.statusUpdate(this.state.opp.id, stageUpdate)
           this.setState({ submittingCode: false, redirectToDashboard:true});
         }).catch(err => {
             this.setState({
@@ -196,11 +195,13 @@ class CodingChallenge extends Component {
                 <Hero headline={HERO_TEXT.CODING_CHALLENGE.heroHeadline} description={HERO_TEXT.CODING_CHALLENGE.heroDescription}/>
                 <Breadcrumb />
                 <div className="challenge-editor">
-                  <CodingInstructions tests={this.state.localTestResults}/>
+                  <CodingInstructions tests={this.state.localTestResults} allPassed={this.state.allPassed}/>
                   <div className="code-editor col">
                     <h4 className="column-header">Code Editor</h4>
                     <CodeEditor codeTest={this.runLocal}
                       codeSubmit={this.codeSubmit}
+                      showSubmitButton={true}
+                      mode="javascript"
                       codeAttemptUpdate={this.codeAttemptUpdate}
                       errorMessage={this.state.errorMessage}
                       allPassed={this.state.allPassed}

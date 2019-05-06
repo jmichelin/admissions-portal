@@ -4,6 +4,8 @@ import inputs from './forms/inputs/inputs';
 import InputGroup from './forms/input-group';
 import Checkbox from './forms/checkbox';
 
+import HRLogo from '../assets/images/hack-reactor-horizontal-logo.png';
+
 import Joi from 'joi';
 
 const SIGNUP_URL = '/auth/signup';
@@ -24,7 +26,8 @@ class Signup extends Component {
       terms: false,
       isFormValid: false,
       submitAttempted: false,
-      errorMessage: ''
+      errorMessage: '',
+      isLoading: false
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
@@ -98,7 +101,8 @@ class Signup extends Component {
           })
         }).catch(err => {
             this.setState({
-              errorMessage: err.message
+              errorMessage: err.message,
+              isLoading: false
             })
         })
       } else {
@@ -150,11 +154,14 @@ class Signup extends Component {
     }
     return (
         <div className="signup">
-          <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
-          <h1 className="logo-subtext">Admissions Portal</h1>
+          <h1 className="title">Admissions Portal<span>New!</span></h1>
+          <div className="logo-wrapper">
+            <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
+            <img className="logo -hr" src={HRLogo} alt="Hack Reactor Logo"></img>
+          </div>
           <h3 className="portal-title">Create Your Account</h3>
-          <p className="title-subtext">Already have an account? <button className="-inline" onClick={this.props.toggleSignin}> Sign In</button></p>
-          <p className="citation -thin -center">Already have an account through Hack Reactor? Create a new account to continue the admissions process.</p>
+          <p className="title-subtext">Already have an account? <button className="-inline" onClick={this.props.toggleSignin}>Sign In</button></p>
+            <p className="citation -thin -center -note">Have an account through Hack Reactor? Create a new account here to pick up where you left off in the admissions process.</p>
           <form onSubmit={this.handleSubmit}>
             <div className="form-group">
               {this.createInputs().slice(0,2)}
@@ -167,9 +174,9 @@ class Signup extends Component {
             </div>
             <div className="form-footer">
               {this.createInputs().slice(5,6)}
-              <input type="submit" value="Create Account" className="button-primary"/>
+              <input type="submit" value="Create Account" className={this.state.isLoading ? "button-primary -loading" : "button-primary"}/>
             </div>
-            <span className="form note form-error">{ this.state.errorMessage }</span>
+            <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
           </form>
         </div>
     );

@@ -73,6 +73,7 @@ class Header extends Component {
                 <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/remote-software-engineering">Remote Software Engineering</a></li>
                 <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/part-time-remote-software-engineering">Part-Time Remote Software Engineering</a></li>
                 <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/data-science">Data Science</a></li>
+                <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/remote-data-science">Remote Data Science</a></li>
             </ul>
             </li>
             <li className="nav-item-subheader">Online Prep Courses

@@ -5,7 +5,9 @@ exports.seed = function(knex, Promise) {
         email:'test@test.com',
         password: 'Testing123!',
         first_name: 'Tom',
-        last_name: 'Jones'
+        last_name: 'Jones',
+        resetPasswordToken: '',
+        resetPasswordExpires: ''
       }];
       return knex('user').insert(user);
     });
