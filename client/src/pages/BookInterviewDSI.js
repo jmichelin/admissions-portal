@@ -92,11 +92,6 @@ class BookInterviewDSI extends Component {
               <Hero headline={HERO_TEXT.DSI_BOOK_INTERVIEW.heroHeadline} description={HERO_TEXT.DSI_BOOK_INTERVIEW.heroDescription}/>
               <div className="two-col">
                 <div className="campus-group">
-                  <Breadcrumb
-                    previousComponent={this.hideIframe}
-                    refreshCalendar={!this.state.isLoading && this.state.showIframe}
-                    text={(!this.state.isLoading && this.state.showIframe) || this.state.isLoading ? 'Select a Different Calendar' : 'Back to Dashboard'}
-                    linkUrl={(!this.state.isLoading && this.state.showIframe) || this.state.isLoading ? null : '/dashboard'}/>
                   { this.state.isLoading ? loadingBlock : null }
                   { this.state.showIframe ?
                     <CalendarIframe

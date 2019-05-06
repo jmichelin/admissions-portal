@@ -149,7 +149,10 @@ export const FULL_TIME_PROGRAMS = [
   {
     name:'Data Science Immersive',
     sfdcName: 'Data Science'
-    },{
+  },{
+      name:'Data Science Remote Immersive',
+      sfdcName: 'Data Science Remote Immersive'
+  },{
     name:'Software Engineering Immersive',
     sfdcName: 'Software Engineering Immersive'
   },{
