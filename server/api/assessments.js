@@ -10,6 +10,11 @@ router.get('/user', (req, res) => {
   Q.getUserLatestAssessment(req.user.id)
   .then((latestAsessments) => {
     return res.json(latestAsessments);
+  })
+  .catch(err => {
+    res.status(501);
+    const error = new Error('Error getting latest assessements.');
+    next(error);
   });
 });
 
@@ -23,6 +28,11 @@ router.get('/:id', (req, res) => {
       }
       return
     })
+    .catch(err => {
+      res.status(501);
+      const error = new Error('Error getting assessment.');
+      next(error);
+    });
 });
 
 router.patch('/:id/cancel', (req, res) => {
@@ -36,6 +46,11 @@ router.patch('/:id/cancel', (req, res) => {
         })
       }
     })
+    .catch(err => {
+      res.status(501);
+      const error = new Error('Error cancelling tests.');
+      next(error);
+    });
 });
 
 
@@ -61,7 +76,17 @@ router.post('/', noRunningTests, (req, res, next) => {
       .then(() => {
        res.status(200).json({id: savedAssessment[0].id});
        return;
+     })
+     .catch(err => {
+       res.status(501);
+       const error = new Error('Error calling Asessment Service.');
+       next(error);
      });
+   })
+   .catch(err => {
+     res.status(501);
+     const error = new Error('Error saving assessment.');
+     next(error);
    });
 });
 
@@ -76,6 +101,11 @@ function noRunningTests(req, res, next) {
         next()
       }
     })
+    .catch(err => {
+      res.status(501);
+      const error = new Error('Error clearing out stale running tests.');
+      next(error);
+    });
 }
 
 function snippet_tests(snippet_id) {

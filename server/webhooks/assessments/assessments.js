@@ -11,7 +11,13 @@ router.patch('/:id', (req, res, next) => {
     .then((updatedAssessment) => {
       res.send(updatedAssessment);
       return
+    })
+    .catch(err => {
+      res.status(501);
+      const error = new Error('Error updating assessment.');
+      next(error);
     });
+    ;
 });
 
 
