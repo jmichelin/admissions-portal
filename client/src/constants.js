@@ -1,11 +1,15 @@
 export const GALVANIZE_BASE_URL = 'https://www.galvanize.com';
-export const INFO_SESSION_SEI_URL = 'https://www.galvanize.com/events/info-sessions/web-development';
+export const INFO_SESSION_SEI_URL = 'https://www.hackreactor.com/campus-tours-and-info-sessions';
 export const INFO_SESSION_DSI_URL = 'https://www.galvanize.com/events/info-sessions/data-science';
-export const CAMPUS_TOUR_URL = 'https://www.hackreactor.com/campus-tours-and-info-sessions';
+export const CAMPUS_TOUR_SEI_URL = 'https://www.hackreactor.com/campus-tours-and-info-sessions';
+export const CAMPUS_TOUR_DSI_URL = 'https://www.galvanize.com/events/info-sessions/data-science';
 export const TECH_INTERVIEW_SEI_URL = 'https://www.galvanize.com/web-development/interview';
 export const TECH_INTERVIEW_DSI_URL = 'https://www.galvanize.com/data-science/interview';
 export const PREP_SEI_URL = 'https://www.galvanize.com/web-development/prep';
 export const PREP_DSI_URL = 'https://www.galvanize.com/data-science/prep';
+
+export const DSI_YCBM_CALENDAR_URL ='https://dsi-interviews.youcanbook.me';
+export const DSI_YCBM_CALENDAR_ID = 'ycbmiframedsi-interviews';
 
 export const CODE_CHALLENGE_ENDPOINT = '/api/v1/user/code-submit';
 export const PYTHON_CODE_SUBMIT_ENDPOINT = '/api/v1/user/python-submit';
@@ -135,7 +139,7 @@ export const CAMPUSES = [
     dsi: true,
     wdi: true,
     sfdcName: 'Remote',
-    ycbmLink: 'https://remote-interviews.youcanbook.me/',
+    ycbmLink: 'https://remote-interviews.youcanbook.me',
     ycbmId:'ycbmiframeremote-interviews',
     location: 'Remote'
   }
@@ -203,12 +207,16 @@ export const HERO_TEXT = {
     heroDescription: "This quick coding challenge will test your understanding of basic JavaScript syntax and start you on your admissions journey. If you're new to programming or JavaScript, don't be deterred. Try this challenge as many times as you need - your application will not be affected by errors. Submit your code when completed. Best of luck!"
   },
   PYTHON_CHALLENGE: {
-    heroHeadline: 'Check your code before submitting.',
-    heroDescription: "This quick coding challenge will test your understanding of basic python and start you on your admissions journey. Submit your code when completed. Best of luck!"
+    heroHeadline: 'Pass the Coding Challenge',
+    heroDescription: "This coding challenge is made up of two questions that will test your understanding of basic Python and start you on your admissions journey. Test your code as many times as you need.  Submit your code at the bottom when both challenges are completed. Best of luck!"
   },
   SEI_BOOK_INTERVIEW: {
     heroHeadline: 'Book the Technical Interview',
     heroDescription: "All campuses share the same interview format and assessment rubric so you can interview at the location that's most convenient for you, regardless of your preferred campus."
+  },
+  DSI_BOOK_INTERVIEW: {
+    heroHeadline: 'Book the Technical Interview',
+    heroDescription: ""
   }
 };
 
@@ -220,7 +228,7 @@ export const SEI_STEPS_12_WK = {
   STEP_TWO: {
     step: 2,
     status: 'Pass the Coding Challenge',
-    description: 'Click to review the coding challenge question prior to beginning your assessment. There is no limit to how many times you can attempt this challenge.  After passing the challenge, submit your code to continue the admissions process for this program.',
+    description: 'Click to review the JavaScript coding challenge question prior to beginning your assessment. There is no limit to how many times you can attempt this challenge.  After passing the challenge, submit your code to continue the admissions process for this program.',
     buttonPath: '/coding-challenge',
     buttonText: 'Begin Coding Challenge'
   },
@@ -316,23 +324,23 @@ export const DSI_STEPS = {
   STEP_TWO: {
     step: 2,
     status: 'Pass the Coding Challenge',
-    description: 'Click to review the coding challenge question prior to beginning your assessment. There is no limit to how many times you can attempt this challenge.  After passing the challenge, submit your code to continue the admissions process for this program.',
+    description: 'Click to review the Python coding challenge questions prior to beginning. There is no limit to how many times you can attempt this challenge.  After passing both, submit your code to continue the admissions process for this program.',
     buttonPath: '/python-challenge',
     buttonText: 'Begin Coding Challenge'
   },
   STEP_THREE: {
     step: 3,
-    status: 'Book Your Technical Interviews',
-    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
-    buttonText: 'Email Us',
-    buttonUrl: 'mailto:admissions@galvanize.com'
+    status: 'Book the Technical Interview',
+    description: 'Choose a time to complete your technical interview. Prepare to pass your Technical Interview by enrolling in a Galvanize Data Science Prep course or by practicing Python fundamentals on your own.',
+    buttonPath: 'book-interview-dsi',
+    buttonText: 'Schedule Your Interview',
+    blockClass:'-blue'
   },
   STEP_FOUR: {
     step: 4,
-    status: 'Pass Your Technical Interviews',
-    description: 'Reach out to your Enrollment Officer or admissions@galvanize.com for next steps in your admissions process.',
-    buttonText: 'Email Us',
-    buttonUrl: 'mailto:admissions@galvanize.com'
+    status: 'Pass the Technical Interview',
+    description: 'Your interview is booked! Prepare to pass your Technical Interview by enrolling in a Galvanize Data Science Prep course or by practicing the Python fundamentals on your own.',
+    alertText: 'Need to cancel your interview?  Refer to your booking confirmation email.'
   },
   COMPLETE: {
     step: 5,
@@ -431,7 +439,7 @@ export const PLACEHOLDER_2 = `def keys_geq_cutoff(num_dict, min_cutoff):
 export const SNIPPET_1 = {
   id: 1,
   placeholder: PLACEHOLDER_1,
-  question: "Complete the function `consonant_first` according to its docstring."
+  question: "Complete the function 'consonant_first' according to its docstring."
 };
 
 export const SNIPPET_2 = {

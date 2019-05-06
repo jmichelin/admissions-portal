@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { INFO_SESSION_SEI_URL, CAMPUS_TOUR_URL, TECH_INTERVIEW_SEI_URL, PREP_SEI_URL} from '../constants';
+import { INFO_SESSION_SEI_URL, CAMPUS_TOUR_SEI_URL, TECH_INTERVIEW_SEI_URL, PREP_SEI_URL} from '../constants';
 
 
 export default (props) => {
@@ -16,7 +16,7 @@ export default (props) => {
         <h4>Learn More</h4>
         <div>
         <ul>
-          <li><a target="_blank" rel="noopener noreferrer" href={CAMPUS_TOUR_URL}>Tour a Campus</a></li>
+          <li><a target="_blank" rel="noopener noreferrer" href={CAMPUS_TOUR_SEI_URL}>Tour a Campus</a></li>
           <li><a target="_blank" rel="noopener noreferrer" href={INFO_SESSION_SEI_URL}>Attend an Info Session</a></li>
           <li><a target="_blank" rel="noopener noreferrer" href={TECH_INTERVIEW_SEI_URL}>Technical Interview Details</a></li>
         </ul>

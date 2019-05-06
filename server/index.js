@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 app.use('/auth', express.json(), auth);
 app.use('/api/v1/user', express.json(), middlewares.isLoggedIn, users);
 app.use('/api/v1/assessments', express.json(), middlewares.isLoggedIn, assessments);
-app.use('/webhooks/assessments', express.urlencoded(), testingWebhook);
+app.use('/webhooks/assessments', express.urlencoded({extended: true}), testingWebhook);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));

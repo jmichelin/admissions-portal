@@ -51,8 +51,6 @@ router.get('/', (req, res, next) => {
 router.post('/update-opp-stage', (req, res, next) => {
   salesforce.login()
     .then(() => {
-      console.log(req.body.oppId)
-      console.log(req.body.stageName)
         return salesforce.updateOppStage(req.body.oppId, req.body.stageName);
     }).then(response => {
       res.send(response);
