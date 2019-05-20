@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 import Checkbox from '../components/forms/checkbox';
 import InputGroup from '../components/forms/input-group';
+import Label from '../components/forms/label';
 import TextField from '../components/forms/text-field';
 import Select from '../components/forms/select';
 
@@ -48,7 +49,7 @@ let pretendSteps = [{
   cleave: true
 }, {
   id: 'of-age',
-  label: `I am at least 18 years old and I have at least a HS diploma or equivalent. I understand I will be asked to provide proof of my prior educational history if I enroll. For more information, see <a href="https://support.galvanize.com/hc/en-us/articles/115001559388-Collection-of-Diplomas-and-Transcripts" target="_blank">Collection of Diplomas and Transcripts FAQ</a>`,
+  label: `I am at least 18 years old and I have at least a HS diploma or equivalent. I understand I will be asked to provide proof of my prior educational history if I enroll.`,
   fieldName: 'Is_Eighteen',
   type: 'checkbox',
   value: '',
@@ -109,11 +110,12 @@ class Application extends Component {
   renderText(input, i) {
     return (
       <div key={`input-${i}`}>
+        <Label text={input.label}/>
         <InputGroup
           key={i}
           type={input.type}
           name={input.id}
-          label={input.label}
+          label={input.placeholder ? input.placeholder : input.label}
           required={input.required}
           value={this.state.values[i]}
           onInputChange={()=>{}}
@@ -127,6 +129,7 @@ class Application extends Component {
   renderTextarea(input, i) {
     return (
       <div key={`input-${i}`}>
+        <Label text={input.label}/>
         <TextField
           key={i}
           type={input.type}
@@ -184,10 +187,15 @@ class Application extends Component {
 
   render() {
     return (
-      <div>
-        {this.renderSteps()}
-      </div>
-
+      <div className="application-steps">
+        <div className="container">
+          <div className="portal-inner">
+            <div className="application">
+              {this.renderSteps()}
+            </div>
+          </div>
+        </div>
+    </div>
   )
   }
 

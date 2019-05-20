@@ -1,0 +1,15 @@
+.application-steps {
+  & {
+    background: $color-gray-1;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 1000px;
+  }
+
+  .application {
+    padding: 2em;
+  }
+
+}
