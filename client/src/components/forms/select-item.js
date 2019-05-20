@@ -28,8 +28,8 @@ export default (props) => {
 
 
   return (
-    <option value={ props.option.value }>
-      { props.option.name }
+    <option value={ props.option.value || props.option.optionValue || props.option.sfdcName } >
+      { props.option.optionName || props.option.name }
     </option>
   )
 }

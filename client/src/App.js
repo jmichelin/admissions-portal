@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Switch } from 'react-router-dom';
 import { PrivateRoute, PublicRoute, NoMatch } from './helpers/Routes';
 
+import Application from './pages/Application';
 import Header from './components/header';
 import Home from './pages/Home';
 import ForgotPassword from './pages/ForgotPassword';
@@ -109,6 +110,9 @@ class App extends Component {
             <PrivateRoute exact path='/python-challenge' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={PythonChallenge}/>
             <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterview}/>
             <PrivateRoute exact path='/book-interview-dsi' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterviewDSI}/>
+
+            <PublicRoute path="/application" component={Application}/>
+
             <NoMatch/>
           </Switch>
           </main>
