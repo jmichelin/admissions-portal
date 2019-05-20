@@ -166,14 +166,14 @@ class Application extends Component {
   renderSteps() {
     return this.state.steps.map((input,i) => {
       switch (input.type) {
+        case "text":
+          return this.renderText(input, i)
+          break;
         case "select":
           return this.renderSelect(input, i)
           break;
         case "textarea":
           return this.renderTextarea(input, i)
-          break;
-        case "text":
-          return this.renderText(input, i)
           break;
         case "checkbox":
           return this.renderCheckbox(input, i)
