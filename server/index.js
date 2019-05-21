@@ -22,12 +22,12 @@ const auth = require('./auth');
 const users = require('./api/user');
 const assessments = require('./api/assessments');
 const testingWebhook = require('./webhooks/assessments/assessments');
+const salesforceWebhook = require('./webhooks/salesforce/salesforce.webhooks.controller');
 
 app.use(morgan('dev'));
 app.use(cors({
   origin: process.env.BASE_URL,
 }));
-
 
 app.use(middlewares.checkTokenSetUser);
 app.use(express.static(path.join(__dirname, '../client/build')));
@@ -36,6 +36,8 @@ app.use('/auth', express.json(), auth);
 app.use('/api/v1/user', express.json(), middlewares.isLoggedIn, users);
 app.use('/api/v1/assessments', express.json(), middlewares.isLoggedIn, assessments);
 app.use('/webhooks/assessments', express.urlencoded({extended: true}), testingWebhook);
+
+app.use('/webhooks/salesforce/courses', express.json(), middlewares.verifyBasicAuth, salesforceWebhook);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
