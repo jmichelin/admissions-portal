@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
+import Hero from '../components/hero';
 import Checkbox from '../components/forms/checkbox';
 import InputGroup from '../components/forms/input-group';
 import Label from '../components/forms/label';
@@ -24,7 +25,7 @@ let pretendSteps = [{
   type: 'select',
   options: [{
       optionName: "Aug 19, 2019",
-      value: "DATA SCIENCE - NYC-SOHO - AUGUST 2019"
+      value: "DATA SCIENCE - NYC-SOHO - AUGUST 2019"  // need to reference getStepOneInputs() from dotcom to dynamically get these
     },
     {
       optionName: "Dec 25, 2019",
@@ -48,13 +49,6 @@ let pretendSteps = [{
   value: '',
   cleave: true
 }, {
-  id: 'of-age',
-  label: `I am at least 18 years old and I have at least a HS diploma or equivalent. I understand I will be asked to provide proof of my prior educational history if I enroll.`,
-  fieldName: 'Is_Eighteen',
-  type: 'checkbox',
-  value: '',
-  errorMessage: 'You must agree to being 18 or older'
-}, {
   id: 'is-international',
   label: 'Are you a U.S. Citizen or permanent resident?',
   type: 'select',
@@ -74,18 +68,38 @@ let pretendSteps = [{
       value: 'true'
     }
   ]
-}]
+},{
+  id: 'of-age',
+  label: `I am at least 18 years old and I have at least a HS diploma or equivalent. I understand I will be asked to provide proof of my prior educational history if I enroll.`,
+  fieldName: 'Is_Eighteen',
+  type: 'checkbox',
+  value: '',
+  errorMessage: 'You must agree to being 18 or older'
+},]
 
 class Application extends Component {
   constructor(props){
     super(props);
 
+    const inputs = pretendSteps.map((input) => {
+      return  { name: input.name, value: input.value }
+    })
     this.state = {
         steps: pretendSteps, // same lengt of pretendSteps, where each value represeents the value at i
-        values: pretendSteps.map((input) => input.value ),
+        values: inputs.map((input) => input.value ),
         submitAttempted: false
-    };
+      };
+    this.onInputChange = this.onInputChange.bind(this);
+  }
 
+  onInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
   }
 
   renderSelect = (input, i) => {
@@ -99,7 +113,7 @@ class Application extends Component {
           required={input.required}
           value={this.state.values[i]}
           options={input.options}
-          onInputChange={()=>{}}
+          onOptionClick={this.onInputChange}
           errorMessage={input.errorMessage}
           showError={this.state.submitAttempted}
           />
@@ -118,7 +132,7 @@ class Application extends Component {
           label={input.placeholder ? input.placeholder : input.label}
           required={input.required}
           value={this.state.values[i]}
-          onInputChange={()=>{}}
+          onInputChange={this.onInputChange}
           errorMessage={input.errorMessage}
           showError={this.state.submitAttempted}
           />
@@ -137,7 +151,7 @@ class Application extends Component {
           label={input.label}
           required={input.required}
           value={this.state.values[i]}
-          onInputChange={()=>{}}
+          onInputChange={this.onInputChange}
           errorMessage={input.errorMessage}
           showError={this.state.submitAttempted}
           />
@@ -155,7 +169,7 @@ class Application extends Component {
           label={input.label}
           required={input.required}
           value={this.state.values[i]}
-          onInputChange={()=>{}}
+          onInputChange={this.onInputChange}
           errorMessage={input.errorMessage}
           showError={this.state.submitAttempted}
           />
@@ -190,6 +204,7 @@ class Application extends Component {
       <div className="application-steps">
         <div className="container">
           <div className="portal-inner">
+            <Hero headline={'Complete Your Application'} description={'Get er done and change your life!'}/>
             <div className="application">
               {this.renderSteps()}
             </div>
