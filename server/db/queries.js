@@ -96,4 +96,25 @@ module.exports = {
       .where('created_at', '<=', new Date( Date.now() - 1000 * 60 ))
     },
 
+    createCourse: function(course) {
+      return knex('course')
+      .insert({
+        offerrings: JSON.stringify(course.courses),
+        campus: course.campus
+      })
+    },
+
+    updateCourse: function(course) {
+      return knex('assessment')
+      .update({
+        offerrings: JSON.stringify(course.courses)
+      })
+      .where({campus: course.campus})
+    },
+
+    getCoursesByCampus: function(campus) {
+      return knex('course').select('*')
+      .where("campus", campus).first()
+    },
+
 };

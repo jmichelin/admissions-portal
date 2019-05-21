@@ -1,28 +1,22 @@
-'use strict';
+const express = require('express');
 
-import Honeybadger from '../../../lib/honeybadger';
-import status from '../../../lib/status';
-import Salesforce from '../lib/salesforce';
+const router = express.Router();
+const Q = require('../../db/queries');
 
-const honeybadger = new Honeybadger();
+router.post("/", (req, _res, _next) => {
+  let sfCourses = req.body;
+ 
+  sfCourses.forEach( course => {
+    if (course.campus != null) {
+      return Q.getCoursesByCampus(course.campus).then((foundCourse)=>{
+        if (foundCourse !== undefined) {
+          Q.updateCourse(course) 
+        } else {
+          Q.createCourse(course)
+        }
+      }).catch(error => {});
+    }
+  })
+})
 
-export default {
-  sfCoursesHandler: sfCoursesHandler
-}
-
-function sfCoursesHandler(req, res) {
-  let salesforce = new Salesforce();
-  let sfCampuses = req.body;
-
-  salesforce.updateDBCourses(sfCampuses)
-    .then( () => {
-      salesforce.updateApplicationCourses(sfCampuses)
-    })
-    .then(() => {
-      res.status(200).send(status.ok('Successfully updated courses from Salesforce.'));
-    })
-    .catch(err => {
-      honeybadger.notify(err);
-      res.status(400).send(err.toString());
-    })
-}
+module.exports = router;
