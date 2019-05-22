@@ -56,10 +56,6 @@ let pretendSteps = [{
   value: '',
   options: [
     {
-      name: 'Select one',
-      value: 'notselected'
-    },
-    {
       name: 'Yes',
       value: 'false'
     },
@@ -81,25 +77,28 @@ class Application extends Component {
   constructor(props){
     super(props);
 
-    const inputs = pretendSteps.map((input) => {
-      return  { name: input.name, value: input.value }
-    })
+    let values = pretendSteps.reduce((result, currentVal) => {
+      result[currentVal["fieldName"]] = '';
+      return result
+    }, {});
     this.state = {
-        steps: pretendSteps, // same lengt of pretendSteps, where each value represeents the value at i
-        values: inputs.map((input) => input.value ),
+        steps: pretendSteps,
+        values: values,
         submitAttempted: false
       };
-    this.onInputChange = this.onInputChange.bind(this);
   }
 
-  onInputChange(event) {
+  onInputChange = (fieldName, event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
 
-    this.setState({
-      [name]: value
-    });
+    this.setState(prevState => ({
+      ...prevState,
+      values: {
+        ...prevState.values,
+        [fieldName]: value
+      }
+    }));
   }
 
   renderSelect = (input, i) => {
@@ -111,9 +110,9 @@ class Application extends Component {
           name={input.id}
           label={input.label}
           required={input.required}
-          value={this.state.values[i]}
+          value={this.state.values[input.fieldName]}
           options={input.options}
-          onOptionClick={this.onInputChange}
+          onOptionClick={this.onInputChange.bind(this, input.fieldName)}
           errorMessage={input.errorMessage}
           showError={this.state.submitAttempted}
           />
@@ -132,7 +131,7 @@ class Application extends Component {
           label={input.placeholder ? input.placeholder : input.label}
           required={input.required}
           value={this.state.values[i]}
-          onInputChange={this.onInputChange}
+          onInputChange={this.onInputChange.bind(this, input.fieldName)}
           errorMessage={input.errorMessage}
           showError={this.state.submitAttempted}
           />
@@ -151,7 +150,7 @@ class Application extends Component {
           label={input.label}
           required={input.required}
           value={this.state.values[i]}
-          onInputChange={this.onInputChange}
+          onInputChange={this.onInputChange.bind(this, input.fieldName)}
           errorMessage={input.errorMessage}
           showError={this.state.submitAttempted}
           />
@@ -169,7 +168,7 @@ class Application extends Component {
           label={input.label}
           required={input.required}
           value={this.state.values[i]}
-          onInputChange={this.onInputChange}
+          onInputChange={this.onInputChange.bind(this, input.fieldName)}
           errorMessage={input.errorMessage}
           showError={this.state.submitAttempted}
           />

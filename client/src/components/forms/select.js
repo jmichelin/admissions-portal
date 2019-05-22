@@ -21,7 +21,7 @@ export default (props) => {
     )
   });
 
-  if(!props.currentSelection) {
+  if(!props.value) {
     options.unshift(<SelectItem key="disabled" disabled="true" />)
   }
 
@@ -31,7 +31,7 @@ export default (props) => {
       <select name={ props.name }
               id={ props.id }
               className={ selectClasses }
-              value={ props.currentSelection }
+              value={ props.value ? props.value : "" }
               disabled={ props.disabled }
               onChange={ (e) => { props.onOptionClick(e, props.fieldName) } }>
         { options }
