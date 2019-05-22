@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import Joi from 'joi';
 
 import Hero from '../components/hero';
 import Checkbox from '../components/forms/checkbox';
@@ -7,6 +8,9 @@ import InputGroup from '../components/forms/input-group';
 import Label from '../components/forms/label';
 import TextField from '../components/forms/text-field';
 import Select from '../components/forms/select';
+
+import Schema from '../helpers/validations';
+
 
 import {CAMPUSES} from '../constants';
 
@@ -17,6 +21,7 @@ let pretendSteps = [{
   type: 'select',
   fieldName: 'Campus__c',
   value: '',
+  validate: ["string", "birthday"],
   options: CAMPUSES
 }, {
   id: 'course-dates',
@@ -32,12 +37,14 @@ let pretendSteps = [{
       value: "DATA SCIENCE - NYC-SOHO - DECEMBER 2019"
     }],
   dynamic: true,
-  value: ''
+  value: '',
+  validate: []
 },{
   id: 'why-applying',
   label: 'Why are you applying to this Galvanize Program?',
   fieldName: 'Reason_applying_to_this_gSchool_Program__c',
   type: 'textarea',
+  validate: [],
   value: ''
 }, {
   placeholder: 'MM/DD/YYYY',
@@ -47,6 +54,7 @@ let pretendSteps = [{
   errorMessage: 'Invalid birthday. Must be formatted as MM/DD/YYYY.',
   type: 'text',
   value: '',
+  validate: [],
   cleave: true
 }, {
   id: 'is-international',
@@ -54,6 +62,7 @@ let pretendSteps = [{
   type: 'select',
   fieldName: 'International__c',
   value: '',
+  validate: [],
   options: [
     {
       name: 'Yes',
@@ -70,6 +79,8 @@ let pretendSteps = [{
   fieldName: 'Is_Eighteen',
   type: 'checkbox',
   value: '',
+  validate: [],
+  sfIgnore: true,
   errorMessage: 'You must agree to being 18 or older'
 },]
 
@@ -81,6 +92,9 @@ class Application extends Component {
       result[currentVal["fieldName"]] = '';
       return result
     }, {});
+
+    // set validation schema
+
     this.state = {
         steps: pretendSteps,
         values: values,
@@ -99,6 +113,24 @@ class Application extends Component {
         [fieldName]: value
       }
     }));
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+
+    if(this.invalidValues()) return;
+  }
+
+  invalidValues = () => {
+    pretendSteps.forEach((step) => {
+      let validationSet = step.validate.reduce((result, currentVal) => {
+        result[currentVal] = this.state.values[step.fieldName]
+        return result
+      }, {})
+
+      console.log(validationSet)
+    })
+    return false
   }
 
   renderSelect = (input, i) => {
@@ -207,6 +239,7 @@ class Application extends Component {
             <div className="application">
               {this.renderSteps()}
             </div>
+            <button className="button-primary" type="submit" onClick={this.onSubmit}>Fancy Button</button>
           </div>
         </div>
     </div>
