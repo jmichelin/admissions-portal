@@ -117,4 +117,8 @@ module.exports = {
       .where("campus", campus).first()
     },
 
+    getCourses: function() {
+      return knex('course').select('*')
+    },
+
 };
