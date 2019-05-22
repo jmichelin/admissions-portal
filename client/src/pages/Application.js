@@ -84,7 +84,7 @@ let pretendSteps = [{
   fieldName: 'Is_Eighteen',
   type: 'checkbox',
   value: '',
-  validate: [],
+  validate: ['checked'],
   errorMsg: 'You must agree to being 18 or older',
   sfIgnore: true
 },]
@@ -97,8 +97,6 @@ class Application extends Component {
       result[currentVal["fieldName"]] = '';
       return result
     }, {});
-
-    // set validation schema
 
     this.state = {
         steps: pretendSteps,
@@ -137,12 +135,13 @@ class Application extends Component {
       }, {})
 
       let validation = Joi.validate(validationSet, Schema)
+      console.log(validation);
       if (validation.error !== null) {
         errors[step.id] = step.errorMsg
       }
 
     })
-    console.log(errors)
+    console.log('errors', errors)
     this.setState({errors: errors});
     return errors.length > 0
   }
