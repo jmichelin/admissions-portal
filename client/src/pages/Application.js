@@ -21,7 +21,8 @@ let pretendSteps = [{
   type: 'select',
   fieldName: 'Campus__c',
   value: '',
-  validate: ["string", "birthday"],
+  validate: ["string"],
+  errorMsg: "Please select a valid campus",
   options: CAMPUSES
 }, {
   id: 'course-dates',
@@ -37,14 +38,16 @@ let pretendSteps = [{
       value: "DATA SCIENCE - NYC-SOHO - DECEMBER 2019"
     }],
   dynamic: true,
-  value: '',
-  validate: []
+  validate: ["string"],
+  errorMsg: "Please select a preferred date",
+  value: ''
 },{
   id: 'why-applying',
   label: 'Why are you applying to this Galvanize Program?',
   fieldName: 'Reason_applying_to_this_gSchool_Program__c',
   type: 'textarea',
-  validate: [],
+  validate: ["250-1500-chars"],
+  errorMsg: "Must have between 250 to 1500 characters",
   value: ''
 }, {
   placeholder: 'MM/DD/YYYY',
@@ -54,7 +57,8 @@ let pretendSteps = [{
   errorMessage: 'Invalid birthday. Must be formatted as MM/DD/YYYY.',
   type: 'text',
   value: '',
-  validate: [],
+  validate: ["birthday"],
+  errorMsg: "Please input your date of birth in the proper format MM/DD/YYYY",
   cleave: true
 }, {
   id: 'is-international',
@@ -62,7 +66,8 @@ let pretendSteps = [{
   type: 'select',
   fieldName: 'International__c',
   value: '',
-  validate: [],
+  validate: ["string"],
+  errorMsg: "Please select an option",
   options: [
     {
       name: 'Yes',
@@ -80,8 +85,8 @@ let pretendSteps = [{
   type: 'checkbox',
   value: '',
   validate: [],
-  sfIgnore: true,
-  errorMessage: 'You must agree to being 18 or older'
+  errorMsg: 'You must agree to being 18 or older',
+  sfIgnore: true
 },]
 
 class Application extends Component {
@@ -98,6 +103,7 @@ class Application extends Component {
     this.state = {
         steps: pretendSteps,
         values: values,
+        errors: {},
         submitAttempted: false
       };
   }
@@ -118,19 +124,27 @@ class Application extends Component {
   onSubmit = (event) => {
     event.preventDefault();
 
+    this.setState({submitAttempted: true})
     if(this.invalidValues()) return;
   }
 
   invalidValues = () => {
+    let errors = {};
     pretendSteps.forEach((step) => {
       let validationSet = step.validate.reduce((result, currentVal) => {
         result[currentVal] = this.state.values[step.fieldName]
         return result
       }, {})
 
-      console.log(validationSet)
+      let validation = Joi.validate(validationSet, Schema)
+      if (validation.error !== null) {
+        errors[step.id] = step.errorMsg
+      }
+
     })
-    return false
+    console.log(errors)
+    this.setState({errors: errors});
+    return errors.length > 0
   }
 
   renderSelect = (input, i) => {
@@ -145,8 +159,8 @@ class Application extends Component {
           value={this.state.values[input.fieldName]}
           options={input.options}
           onOptionClick={this.onInputChange.bind(this, input.fieldName)}
-          errorMessage={input.errorMessage}
-          showError={this.state.submitAttempted}
+          errorMessage={this.state.errors[input.id]}
+          showError={this.state.errors[input.id]}
           />
       </div>
     )
@@ -164,8 +178,8 @@ class Application extends Component {
           required={input.required}
           value={this.state.values[i]}
           onInputChange={this.onInputChange.bind(this, input.fieldName)}
-          errorMessage={input.errorMessage}
-          showError={this.state.submitAttempted}
+          errorMessage={this.state.errors[input.id]}
+          showError={this.state.errors[input.id]}
           />
       </div>
     )
@@ -175,7 +189,7 @@ class Application extends Component {
     return (
       <div key={`input-${i}`}>
         <Label text={input.label}/>
-        <TextField
+        <InputGroup
           key={i}
           type={input.type}
           name={input.id}
@@ -183,8 +197,8 @@ class Application extends Component {
           required={input.required}
           value={this.state.values[i]}
           onInputChange={this.onInputChange.bind(this, input.fieldName)}
-          errorMessage={input.errorMessage}
-          showError={this.state.submitAttempted}
+          errorMessage={this.state.errors[input.id]}
+          showError={this.state.errors[input.id]}
           />
       </div>
     )
@@ -201,8 +215,8 @@ class Application extends Component {
           required={input.required}
           value={this.state.values[i]}
           onInputChange={this.onInputChange.bind(this, input.fieldName)}
-          errorMessage={input.errorMessage}
-          showError={this.state.submitAttempted}
+          errorMessage={this.state.errors[input.id]}
+          showError={this.state.errors[input.id]}
           />
       </div>
     )
