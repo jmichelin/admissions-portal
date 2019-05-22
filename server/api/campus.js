@@ -4,7 +4,7 @@ const router = express.Router();
 const Q = require('../db/queries');
 
 router.get('/', (_req, res) => {
-  Q.getCourses()
+  Q.getCampuses()
     .then((courses) => {
       if (courses === undefined) {
         res.send(401);
@@ -21,7 +21,7 @@ router.get('/', (_req, res) => {
 });
 
 router.get('/:campus', (req, res) => {
-  Q.getCoursesByCampus(req.params.campus)
+  Q.getCampus(req.params.campus)
     .then((course) => {
       if (course === undefined) {
         res.send(401);
