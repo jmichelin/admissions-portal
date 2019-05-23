@@ -78,6 +78,11 @@ class Application extends Component {
   }
 
   renderSelect = (input, i) => {
+    let options = input.options;
+    if (input.dependentProcess) {
+        options = await input.dependentProcess(this.state.values[input.dependentField])
+    }
+
     return (
       <div key={`input-${i}`} className={`input ${input.type}`}>
         <Select
@@ -87,7 +92,7 @@ class Application extends Component {
           label={input.label}
           required={input.required}
           value={this.state.values[input.fieldName]}
-          options={input.options}
+          options={options}
           onOptionClick={this.onInputChange.bind(this, input.fieldName)}
           errorMessage={this.state.errors[input.id]}
           showError={this.state.errors[input.id]}

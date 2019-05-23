@@ -21,7 +21,7 @@ router.get('/', (_req, res) => {
 });
 
 router.get('/:campus', (req, res) => {
-  Q.getCampus(req.params.campus)
+  Q.getCampus(decodeURI(req.params.campus))
     .then((course) => {
       if (course === undefined) {
         res.send(401);

@@ -111,7 +111,7 @@ class App extends Component {
             <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterview}/>
             <PrivateRoute exact path='/book-interview-dsi' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterviewDSI}/>
 
-            <PublicRoute path="/application" component={Application}/>
+            <PrivateRoute path="/application" component={Application}/>
 
             <NoMatch/>
           </Switch>

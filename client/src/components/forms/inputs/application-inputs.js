@@ -1,5 +1,8 @@
 import { CAMPUSES } from '../../../constants';
 
+const CAMPUS_FETCH_URL = '/api/v1/campuses';
+
+
 export const APPLICATION_INPUTS = [
   {
   appName: 'Software Engineering Immersive',
@@ -23,7 +26,8 @@ export const APPLICATION_INPUTS = [
   validate: ["string"],
   errorMsg: "Please select a preferred date",
   value: '',
-  dependentField: "Campus__c"
+  dependentField: "Campus__c",
+  dependentProcess: getOfferings
 },{
   placeholder: 'MM/DD/YYYY',
   id: 'date-of-birth',
@@ -72,7 +76,18 @@ export const APPLICATION_INPUTS = [
   sfIgnore: true
 }]
 }
-
-
-
 ]
+
+async function getOfferings(field){
+  if (!field) return [];
+  let offerings = await fetch(`${CAMPUS_FETCH_URL}/${encodeURI(field)}`, {
+    headers: { Authorization: `Bearer ${localStorage.token}`}
+  })
+  .then(res => res.json())
+  .then(result => {
+    console.log('result!!', result.offerrings);
+    return result.offerings;
+  });
+  debugger;
+  return offerings;
+}
