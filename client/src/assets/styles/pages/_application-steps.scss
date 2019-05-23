@@ -8,8 +8,41 @@
     max-width: 1000px;
   }
 
-  .application {
-    padding: 2em;
+  .admissions-steps {
+    padding-top: $pad-double;
+  }
+
+  .application-form {
+    padding: $pad-double;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .application-form .input {
+    padding: $pad $pad 0 $pad;
+  }
+
+  .application-form >.select,
+  .application-form >.text  {
+      width: 50%;
+  }
+
+  .application-form >.textarea,
+  .application-form >.checkbox  {
+      width: 100%;
+  }
+
+  .application-form >.checkbox .checkbox-field span {
+    margin-left: 6px;
+  }
+
+  .application-form .action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: $pad-double;
   }
 
 }

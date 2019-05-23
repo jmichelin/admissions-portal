@@ -4,21 +4,25 @@ import { SEI_STEPS_12_WK } from '../constants';
 
 
 import checkMark from '../assets/images/icon-checkmark-orange.png';
-import NextStepBlock from './next-steps-block';
-import ResourcesSEI from './resources-sei';
-import ResourcesDSI from './resources-dsi';
+
 
 
 export default (props) => {
-  let activeStep = props.opp.admissionsProcess.find(el => el.step === props.opp.currentStep.step) || SEI_STEPS_12_WK.HOLD;
   let list = props.opp.admissionsProcess.map((step, i) => {
-    if (!props.opp.currentStep || step.status.includes('Enroll') || step.status.includes('Hold') || step.hidden) return null;
-    if (props.opp.currentStep.step > step.step) {
+    if (step.status.includes('Enroll') || step.status.includes('Hold') || step.hidden) return null;
+    if (props.opp.currentStep &&  props.opp.currentStep.step > step.step) {
       return (
         <div className="step" key={i}>
           <span className="number -complete"><img alt=""src={checkMark}></img></span>
           <span className="label">{step.status}</span>
         </div>
+      )
+    } else if (props.opp.currentStep === step.step) {
+      return (
+      <div className="step" key={i}>
+        <span className="number -active">{step.step}</span>
+        <span className="label">{step.status}</span>
+      </div>
       )
     }
     return (
@@ -30,7 +34,7 @@ export default (props) => {
   })
 
   return (
-    <div>
+    <div className="admissions-steps">
       <div className="table-row -steps">
         <div className="steps-list">
           <div className="steps">
@@ -38,8 +42,6 @@ export default (props) => {
             </div>
         </div>
     </div>
-    <NextStepBlock opp={props.opp} step={activeStep}/>
-    {props.opp.courseProduct === 'Web Development' ? <ResourcesSEI/> : <ResourcesDSI/>}
   </div>
   )
 }
