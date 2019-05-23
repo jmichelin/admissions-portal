@@ -20,13 +20,13 @@ class Application extends Component {
   constructor(props){
     super(props);
 
-    let values = APPLICATION_INPUTS[0].steps.reduce((result, currentVal) => {
+    let values = APPLICATION_INPUTS[0].formFields.reduce((result, currentVal) => {
       result[currentVal["fieldName"]] = '';
       return result
     }, {});
 
     this.state = {
-        steps: APPLICATION_INPUTS[0].steps,
+        steps: APPLICATION_INPUTS[0].formFields,
         values: values,
         errors: {},
         submitAttempted: false
@@ -91,6 +91,7 @@ class Application extends Component {
           onOptionClick={this.onInputChange.bind(this, input.fieldName)}
           errorMessage={this.state.errors[input.id]}
           showError={this.state.errors[input.id]}
+          disabled={input.dependentField ? !this.state.values[input.dependentField] : false}
           />
       </div>
     )

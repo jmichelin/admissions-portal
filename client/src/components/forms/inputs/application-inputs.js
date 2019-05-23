@@ -5,7 +5,7 @@ export const APPLICATION_INPUTS = [
   appName: 'Software Engineering Immersive',
   courseProduct: 'Full Stack',
   courseTypes: ['12 Week Full-Time Immersive', '18 Week Full-Time Immersive'],
-  steps : [{
+  formFields : [{
   id: 'campus',
   label: 'Where are you planning to take this course?',
   type: 'select',
@@ -19,18 +19,11 @@ export const APPLICATION_INPUTS = [
   label: 'When would you like to take this course?',
   fieldName: 'Which_dates_you_prefer_to_take_course__c',
   type: 'select',
-  options: [{
-      optionName: "Aug 19, 2019",
-      value: "DATA SCIENCE - NYC-SOHO - AUGUST 2019"  // need to reference getStepOneInputs() from dotcom to dynamically get these
-    },
-    {
-      optionName: "Dec 25, 2019",
-      value: "DATA SCIENCE - NYC-SOHO - DECEMBER 2019"
-    }],
-  dynamic: true,
+  options: [],
   validate: ["string"],
   errorMsg: "Please select a preferred date",
-  value: ''
+  value: '',
+  dependentField: "Campus__c"
 },{
   placeholder: 'MM/DD/YYYY',
   id: 'date-of-birth',
@@ -40,7 +33,7 @@ export const APPLICATION_INPUTS = [
   type: 'text',
   value: '',
   validate: ["birthday"],
-  errorMsg: "Please input your date of birth in the proper format MM/DD/YYYY",
+  errorMsg: "Please use a proper MM/DD/YYYY format.",
   cleave: true
 }, {
   id: 'is-international',
