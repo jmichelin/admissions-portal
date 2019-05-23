@@ -37,6 +37,18 @@ class Application extends Component {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
 
+    // check dependencies
+    this.state.steps.forEach((step) => {
+      if (step.dependentField === fieldName) {
+        step.dependentProcess(value).then((options) => {
+          // only using for select, so update options
+          this.setState({
+            steps: this.state.steps.map((s) => { return s.id === step.id ? Object.assign({}, s, {options}): s })
+          })
+        })
+      }
+    })
+
     this.setState(prevState => ({
       ...prevState,
       values: {
@@ -78,11 +90,6 @@ class Application extends Component {
   }
 
   renderSelect = (input, i) => {
-    let options = input.options;
-    if (input.dependentProcess) {
-        options = await input.dependentProcess(this.state.values[input.dependentField])
-    }
-
     return (
       <div key={`input-${i}`} className={`input ${input.type}`}>
         <Select
@@ -92,7 +99,7 @@ class Application extends Component {
           label={input.label}
           required={input.required}
           value={this.state.values[input.fieldName]}
-          options={options}
+          options={input.options}
           onOptionClick={this.onInputChange.bind(this, input.fieldName)}
           errorMessage={this.state.errors[input.id]}
           showError={this.state.errors[input.id]}

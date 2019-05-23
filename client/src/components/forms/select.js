@@ -12,7 +12,6 @@ export default (props) => {
     let errorMessage = props.errorMessage || 'Please select one';
     error = <FormError errorMessage={ errorMessage } />
   }
-  debugger;
   let options = props.options.map((option, i) => {
     return (
       <SelectItem  key={ i } option={ option } program={props.program}/>

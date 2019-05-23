@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const Q = require('../db/queries');
 
-router.get('/', (_req, res) => {
+router.get('/', (_req, res, next) => {
   Q.getCampuses()
     .then((courses) => {
       if (courses === undefined) {
@@ -20,13 +20,13 @@ router.get('/', (_req, res) => {
     });
 });
 
-router.get('/:campus', (req, res) => {
+router.get('/:campus', (req, res, next) => {
   Q.getCampus(decodeURI(req.params.campus))
-    .then((course) => {
-      if (course === undefined) {
-        res.send(401);
+    .then((campus) => {
+      if (campus === undefined) {
+        res.send(404);
       } else {
-        res.json(course)
+        res.json(campus.offerrings)
       }
       return
     })

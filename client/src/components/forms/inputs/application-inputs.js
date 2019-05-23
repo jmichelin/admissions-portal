@@ -2,6 +2,19 @@ import { CAMPUSES } from '../../../constants';
 
 const CAMPUS_FETCH_URL = '/api/v1/campuses';
 
+const getOfferings = async (field) => {
+  if (!field) return [];
+  let offerings = await fetch(`${CAMPUS_FETCH_URL}/${encodeURI(field)}`, {
+    headers: { Authorization: `Bearer ${localStorage.token}`}
+  })
+    .then(res => res.json())
+    .then(result => {
+      return result.map((offering) => {
+        return { value: offering.courseName, name: offering.startDate }
+      });
+    });
+  return offerings
+}
 
 export const APPLICATION_INPUTS = [
   {
@@ -78,16 +91,3 @@ export const APPLICATION_INPUTS = [
 }
 ]
 
-async function getOfferings(field){
-  if (!field) return [];
-  let offerings = await fetch(`${CAMPUS_FETCH_URL}/${encodeURI(field)}`, {
-    headers: { Authorization: `Bearer ${localStorage.token}`}
-  })
-  .then(res => res.json())
-  .then(result => {
-    console.log('result!!', result.offerrings);
-    return result.offerings;
-  });
-  debugger;
-  return offerings;
-}
