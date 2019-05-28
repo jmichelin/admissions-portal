@@ -20,17 +20,32 @@ class Application extends Component {
   constructor(props){
     super(props);
 
-    let values = APPLICATION_INPUTS[0].formFields.reduce((result, currentVal) => {
+    let inputs = APPLICATION_INPUTS[0]
+
+    let program;
+    if (window.location.search.split("=")[1] !== undefined) {
+      program = window.location.search.split("=")[1].split("%20").join(" ")
+    }
+
+    let values = inputs.formFields.reduce((result, currentVal) => {
       result[currentVal["fieldName"]] = '';
       return result
     }, {});
 
     this.state = {
-        steps: APPLICATION_INPUTS[0].formFields,
+        program: program,
+        steps: inputs.formFields,
         values: values,
         errors: {},
         submitAttempted: false
       };
+  }
+
+  componentDidMount() {
+    if (this.props.location.state && this.props.location.state.lead) {
+      const {lead} = this.props.location.state;
+      this.setState({lead: lead})
+    }
   }
 
   onInputChange = (fieldName, event) => {
@@ -194,7 +209,7 @@ class Application extends Component {
       <div className="application-steps">
         <div className="container">
           <div className="portal-inner">
-            <Hero headline={'Complete Your Application'} description={this.props.product || 'Software Engineering Immersive'}/>
+            <Hero headline={'Complete Your Application'} description={this.state.program || 'Software Engineering Immersive'}/>
             <Breadcrumb />
               <AdmissionsProcessSteps opp={fakeOpp}/>
             <div className="application-form">

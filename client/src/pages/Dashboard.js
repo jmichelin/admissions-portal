@@ -64,7 +64,7 @@ isValid(fieldName) {
 }
 
 formIsValid(data) {
-  return !!data.program && data.campus;
+  return !!data.program;
 }
 
 handleSubmit(event) {
@@ -73,20 +73,15 @@ handleSubmit(event) {
     submitAttempted: true,
   })
 
-  const { program, campus } = this.state;
-  const formData = { program, campus };
+  const { program } = this.state;
+  const formData = { program };
 
   if (this.formIsValid(formData)) {
-    if (formData.program.includes("Data Science")) {
-      window.location.href = `${GALVANIZE_BASE_URL}/data-science/application`;
-      return;
-    } else if (formData.program.includes("Software Engineering")) {
-      window.location.href = `${GALVANIZE_BASE_URL}/web-development/application`;
-      return;
-    }
+    window.location.href = `/application?program=${formData.program}`;
+    return;
   } else {
     this.setState({
-      errorMessage: 'Please select a program and campus.'
+      errorMessage: 'Please select a program.'
      });
   }
 }

@@ -21,6 +21,7 @@ class App extends Component {
 
     this.state = {
       opportunities: [],
+      leads: [],
       user: {},
       isLoading: true,
       fetchedData: false
@@ -35,21 +36,19 @@ class App extends Component {
     localStorage.removeItem('token');
     this.setState({
       opportunities: [],
+      leads: [],
       user:{},
       fetchedData: false,
       isLoading: true
     })
   }
 
-
   getData(refresh) {
-    const API_URL = '/api/v1/user';
     if ((!this.state.fetchedData && localStorage.token) || (refresh && localStorage.token)) {
       this.setState({isLoading: true}, () => {
+        const API_URL = '/api/v1/user';
         fetch(API_URL, {
-          headers: {
-            Authorization: `Bearer ${localStorage.token}`
-          },
+          headers: { Authorization: `Bearer ${localStorage.token}` },
         }).then(res => res.json())
           .then(result => {
             if (result.message === 'jwt expired' || result.message === 'jwt malformed' || result.message === 'Your session has expired. Please log back in.') {
@@ -70,6 +69,9 @@ class App extends Component {
                 isLoading: false,
                 fetchedData: true,
               })
+            } 
+            else if (result.data && result.data.opportunities && result.data.user) {
+
             } else {
               // no opportunities and already fetched
               this.setState({
@@ -111,7 +113,7 @@ class App extends Component {
             <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterview}/>
             <PrivateRoute exact path='/book-interview-dsi' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterviewDSI}/>
 
-            <PrivateRoute path="/application" component={Application}/>
+            <PrivateRoute path="/application" {...this.state} statusUpdate={this.statusUpdate} component={Application}/>
 
             <NoMatch/>
           </Switch>

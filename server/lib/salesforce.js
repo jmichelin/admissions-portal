@@ -385,6 +385,19 @@ class Salesforce {
     });
   }
 
+  leadQuery(email) {
+    return new Promise( (resolve, reject) => {
+      this.connection.sobject("Lead")
+    .select('Id, Email')
+    .where({Email: email})
+    .orderby("CreatedDate", "DESC")
+      .execute((err, res) => {
+        if (err) { reject(err); }
+        resolve(res);
+      });
+    });
+  }
+
   scorecardQueries(ids) {
     return new Promise( (resolve, reject) => {
       this.connection.sobject("Interview_Evaluation__c").retrieve(

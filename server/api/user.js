@@ -7,6 +7,24 @@ import Salesforce from '../lib/salesforce';
 const salesforce = new Salesforce();
 
 router.get('/', (req, res, next) => {
+  // Look for contact, if contact update
+  // If no contact, look for lead and update
+  // If no contact or lead, create a lead with the following fields
+  
+  // salesforce.login().then(() => { 
+  //   return salesforce.contactQuery(req.user.email);
+  // }).then(contactResponse => {
+  //   if (contactResponse.records.length > 0) {
+  //   } else {
+  //     return salesforce.leadQuery(req.user.email);
+  //   }
+  // }).then(leadResponse => {
+  //   if (leadResponse.records.length > 0) {
+  //   } else {
+  //     return salesforce.createlead(req.user.email);
+  //   }
+  // });
+
   salesforce.login()
     .then(() => {
       return salesforce.contactQuery(req.user.email);
