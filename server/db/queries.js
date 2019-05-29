@@ -126,15 +126,36 @@ module.exports = {
       .where("id", id).first()
     },
 
-    addApplication: function(application) {
-      return knex('application')
+    updateApplication: async function(application) {
+      let foundApp = await knex('application').select('*')
+        .where({program: application.program, user_id: application.user_id})
+        .first()
+      if (foundApp !== undefined) {
+        return knex('application').update({
+          values: application.values,
+          updated_at: knex.fn.now(),
+          completed: application.completed,
+        })
+        .where({program: application.program, user_id: application.user_id})
+        .returning('*')
+      } else {
+        return undefined
+      }
+    },
+
+    upsertApplication: async function(program, userId) {
+      let foundApp = await knex('application').select('*')
+        .where({program: program, user_id: userId})
+        .orderByRaw('created_at DESC').first()
+      if (foundApp !== undefined) return foundApp;
+
+      let [newApp] = await knex('application')
       .insert({
-        program: application.program,
-        values: application.values,
-        complete: application.complete,
-        user_id: application.user_id,
+        program: program,
+        user_id: userId,
         created_at: knex.fn.now()
       })
       .returning('*')
+      return newApp
     }
 };

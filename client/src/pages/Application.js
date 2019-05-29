@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import Joi from 'joi';
 
 import AdmissionsProcessSteps from '../components/admissions-process-steps';
@@ -14,7 +14,11 @@ import Select from '../components/forms/select';
 import Schema from '../helpers/validations';
 import { APPLICATION_INPUTS } from '../components/forms/inputs/application-inputs';
 
-import { APPLICATIONS_ENDPOINT, APPLICATION_STEPS_SEI_12WK } from '../constants';
+import {
+  APPLICATIONS_ENDPOINT,
+  APPLICATION_STEPS_SEI_12WK,
+  APPLICATION_INITIALIZE_ENDPOINT
+} from '../constants';
 
 class Application extends Component {
   constructor(props){
@@ -42,6 +46,24 @@ class Application extends Component {
   }
 
   componentDidMount() {
+    let program = getUrlVars(this.props.location.search).program;
+
+    // TODO if program doesn't exist I have redirect to /dashboard
+    fetch(`${APPLICATION_INITIALIZE_ENDPOINT}/${program}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.token}`,
+        'Accept': 'application/json',
+      },
+    })
+    .then(resp => resp.json())
+    .then((resp) => {
+      if (resp.values) {
+        // TODO if resp.values contains dependency fields, we need to perform dependent process callbacks before setting value states
+        this.setState((prevState) => ({values: {...prevState.values, ...resp.values} }) )
+      }
+    })
+
     if (this.props.location.state && this.props.location.state.lead) {
       const {lead} = this.props.location.state;
       this.setState({lead: lead})
@@ -87,7 +109,7 @@ class Application extends Component {
     }
 
     fetch(APPLICATIONS_ENDPOINT, {
-      method: 'POST',
+      method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${localStorage.token}`,
         'Content-Type': 'application/json',
@@ -99,7 +121,7 @@ class Application extends Component {
         complete: new Date,
       })
     })
-    .then(resp => resp.json)
+    .then(resp => resp.json())
     .then((resp) => {
       console.log(resp)
     })
@@ -258,4 +280,4 @@ function getUrlVars() {
   return vars;
 }
 
-export default Application;
+export default withRouter(Application);

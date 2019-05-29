@@ -17,6 +17,7 @@ export const UPDATE_OPP_ENDPOINT = '/api/v1/user/update-opp-stage';
 export const UPDATE_SCORECARD_ENDPOINT = '/api/v1/user/update-scorecard';
 export const PYTHON_CHALLENGE_ENDPOINT = '/api/v1/assessments';
 export const APPLICATIONS_ENDPOINT = '/api/v1/applications';
+export const APPLICATION_INITIALIZE_ENDPOINT  = '/api/v1/applications/initialize';
 
 export const PROSPECT_RECORD_ID = '012j00000004QndAAE';
 export const STUDENT_RECORD_ID = '012j0000000kfkDAAQ';
