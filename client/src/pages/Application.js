@@ -14,7 +14,7 @@ import Select from '../components/forms/select';
 import Schema from '../helpers/validations';
 import { APPLICATION_INPUTS } from '../components/forms/inputs/application-inputs';
 
-import { APPLICATION_STEPS_SEI_12WK } from '../constants';
+import { APPLICATIONS_ENDPOINT, APPLICATION_STEPS_SEI_12WK } from '../constants';
 
 class Application extends Component {
   constructor(props){
@@ -77,7 +77,32 @@ class Application extends Component {
     event.preventDefault();
 
     this.setState({submitAttempted: true})
-    if(this.invalidValues()) return;
+    if (this.invalidValues()) return;
+
+    let program = getUrlVars()['program']
+    if (typeof(program) === 'string') {
+      program = decodeURIComponent(program)
+    } else {
+      return // TODO Some kind error? means the param is missing
+    }
+
+    fetch(APPLICATIONS_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        values: this.state.values,
+        program: program,
+        complete: new Date,
+      })
+    })
+    .then(resp => resp.json)
+    .then((resp) => {
+      console.log(resp)
+    })
   }
 
   invalidValues = () => {
@@ -95,13 +120,11 @@ class Application extends Component {
 
     })
     this.setState({errors: errors});
-    return errors.length > 0
+    return Object.keys(errors).length > 0
   }
 
   onSave = (event) => {
     event.preventDefault();
-
-    console.log('saving form data');
   }
 
   renderSelect = (input, i) => {
@@ -225,6 +248,14 @@ class Application extends Component {
   )
   }
 
+}
+
+function getUrlVars() {
+  var vars = {};
+  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+      vars[key] = value;
+  });
+  return vars;
 }
 
 export default Application;
