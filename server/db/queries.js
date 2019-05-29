@@ -121,4 +121,20 @@ module.exports = {
       return knex('campus').select('*')
     },
 
+    getApplication: function(id) {
+      return knex('application').select('*')
+      .where("id", id).first()
+    },
+
+    addApplication: function(application) {
+      return knex('application')
+      .insert({
+        program: application.program,
+        values: application.values,
+        complete: application.complete,
+        user_id: application.user_id,
+        created_at: knex.fn.now()
+      })
+      .returning('*')
+    }
 };
