@@ -12,7 +12,6 @@ import Select from '../components/forms/select';
 
 import Schema from '../helpers/validations';
 import { APPLICATION_INPUTS } from '../components/forms/inputs/application-inputs';
-
 import {
   APPLICATIONS_ENDPOINT,
   APPLICATION_STEPS_SEI_12WK,
@@ -25,9 +24,11 @@ class Application extends Component {
 
     const inputs = APPLICATION_INPUTS[0]
 
-    let program;
-    if (window.location.search.split("=")[1] !== undefined) {
-      program = window.location.search.split("=")[1].split("%20").join(" ")
+    let program = getUrlVars(props.location.search).program;
+    if (program) {
+      program = decodeURIComponent(program);
+    } else {
+      props.history.push('/dashboard');
     }
 
     const values = inputs.formFields.reduce((result, currentVal) => {
@@ -40,15 +41,14 @@ class Application extends Component {
       steps: inputs.formFields,
       values: values,
       errors: {},
-      submitAttempted: false
+      submitAttempted: false,
+      saveButtonText: 'Save',
+      errorText: null,
     };
   }
 
   componentDidMount() {
-    const program = getUrlVars(this.props.location.search).program;
-
-    // TODO if program doesn't exist I have redirect to /dashboard
-    fetch(`${APPLICATION_INITIALIZE_ENDPOINT}/${program}`, {
+    fetch(`${APPLICATION_INITIALIZE_ENDPOINT}/${encodeURIComponent(this.state.program)}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.token}`,
@@ -117,13 +117,6 @@ class Application extends Component {
   }
 
   persistApp(complete) {
-    let program = getUrlVars()['program']
-    if (program) {
-      program = decodeURIComponent(program)
-    } else {
-      return // TODO Some kind error? means the param is missing
-    }
-
     return fetch(APPLICATIONS_ENDPOINT, {
       method: 'PATCH',
       headers: {
@@ -133,28 +126,37 @@ class Application extends Component {
       },
       body: JSON.stringify({
         values: this.state.values,
-        program,
+        program: this.state.program,
         complete,
       })
     })
   }
 
   onSave = () => {
+    this.setState({ errorText: null });
     this.persistApp(null)
       .then(resp => resp.json())
-      .then((resp) => {
-        console.log(resp)
+      .then(() => {
+        this.setState({ saveButtonText: 'Saved!' });
+        setTimeout(() => {
+          this.setState({ saveButtonText: 'Save' });
+        }, 2000)
+      })
+      .catch((err) => {
+        this.setState({ errorText: 'Something has gone wrong, please contact support@galvanize.com' });
       })
   }
 
   onSubmit = () => {
+    this.setState({ errorText: null });
     this.setState({ submitAttempted: true });
     if (this.invalidValues()) return;
 
     this.persistApp(new Date())
       .then(resp => resp.json())
-      .then((resp) => {
-        console.log(resp)
+      .then(() => this.props.history.push('/dashboard'))
+      .catch((err) => {
+        this.setState({ errorText: 'Something has gone wrong, please contact support@galvanize.com' });
       })
   }
 
@@ -266,10 +268,11 @@ class Application extends Component {
             <div className="application-form">
               {this.renderSteps()}
               <div className="action">
-                <button className="button-secondary" type="submit" onClick={this.onSave}>Save</button>
+                <button className="button-secondary" type="submit" onClick={this.onSave}>{this.state.saveButtonText}</button>
                 <button className="button-primary" type="submit" onClick={this.onSubmit}>Submit</button>
               </div>
             </div>
+            {this.state.errorText && <p className="error-msg">{this.state.errorText}</p>}
           </div>
         </div>
       </div>
@@ -279,7 +282,7 @@ class Application extends Component {
 
 function getUrlVars() {
   var vars = {};
-  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+  window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
       vars[key] = value;
   });
   return vars;
