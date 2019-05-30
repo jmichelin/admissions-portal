@@ -1,6 +1,6 @@
 import { SEI_STEPS_12_WK, SEI_STEPS_18_WK, DSI_STEPS } from '../constants';
 
-export function getCourseName(opp) {
+ function getCourseName(opp) {
   let campus = opp.campus;
   if (opp.courseProduct === 'Web Development' && opp.courseType.includes('Immersive')) {
     if (opp.productCode && opp.productCode.includes('-WD-')) {
@@ -22,7 +22,7 @@ export function getCourseName(opp) {
   }
 }
 
-export function getSEI12WkStage(opp) {
+ function getSEI12WkStage(opp) {
   if (!opp.scorecard) {
     return SEI_STEPS_12_WK.HOLD;
   }
@@ -47,7 +47,7 @@ export function getSEI12WkStage(opp) {
   }
 }
 
-export function getSEI18WkStage(opp) {
+ function getSEI18WkStage(opp) {
   if (!opp.scorecard) {
     return SEI_STEPS_12_WK.HOLD;
   }
@@ -72,7 +72,7 @@ export function getSEI18WkStage(opp) {
   }
 }
 
-export function getDSIStage(opp) {
+ function getDSIStage(opp) {
   if (!opp.scorecard) {
     return SEI_STEPS_12_WK.HOLD;
   }
@@ -96,3 +96,64 @@ export function getDSIStage(opp) {
     return DSI_STEPS.HOLD;
   }
 }
+
+const PROGRAMS = {
+  'Web Development' : {
+    '18 Week Full-Time Immersive' : {
+      name: 'Extended Software Engineering Immersive',
+      step: getSEI18WkStage,
+      process: SEI_STEPS_18_WK,
+    },
+    '36 Week Full-Time Immersive' : {
+      name: 'Part-Time Software Engineering Immersive',
+      step: getSEI12WkStage,
+      process: SEI_STEPS_12_WK
+    },
+    'Specialty Immerisve' : {
+      name: 'Specialty Immersive',
+      step: getSEI12WkStage,
+      process: SEI_STEPS_12_WK
+    },
+    'Default': {
+      name: 'Software Engineering Immersive',
+      step: getSEI12WkStage,
+      process: SEI_STEPS_12_WK
+    }
+  },
+  'Data Science' : {
+    'Default' : {
+      name: 'Data Science Immersive',
+      step: getDSIStage,
+      process: DSI_STEPS
+    }
+  },
+  'Default' : {
+      name: 'Software Engineering Immersive',
+      step: getSEI12WkStage,
+      process: SEI_STEPS_12_WK
+  }
+};
+
+function getStage(opp) {
+  let courseProducts = PROGRAMS[opp.courseProduct];
+
+  if (!courseProducts) {
+    let stage = PROGRAMS['Default'];
+    return { step: stage.step(opp), process: stage.process, name: stage.name };
+  }
+
+  let courseType = PROGRAMS[opp.courseProduct][opp.courseType];
+  if (!courseType) {
+    courseType = PROGRAMS[opp.courseProduct]['Default'];
+    return { step: courseType.step(opp), process: courseType.process, name: courseType.name }
+  };
+  return { step: courseType.step(opp), process: courseType.process, name: courseType.name }
+};
+
+export default {
+  getSEI12WkStage,
+  getSEI18WkStage,
+  getDSIStage,
+  getStage,
+  getCourseName
+};

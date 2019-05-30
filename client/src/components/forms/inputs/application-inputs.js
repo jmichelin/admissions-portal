@@ -20,7 +20,7 @@ export const APPLICATION_INPUTS = [
   {
   appName: 'Software Engineering Immersive',
   courseProduct: 'Full Stack',
-  courseTypes: ['12 Week Full-Time Immersive', '18 Week Full-Time Immersive'],
+  courseType: '12 Week Full-Time Immersive',
   formFields : [{
   id: 'campus',
   label: 'Where are you planning to take this course?',
@@ -91,4 +91,3 @@ export const APPLICATION_INPUTS = [
 }]
 }
 ]
-

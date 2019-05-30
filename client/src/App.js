@@ -14,7 +14,6 @@ import BookInterview from './pages/BookInterview';
 import BookInterviewDSI from './pages/BookInterviewDSI';
 
 import utils from './helpers/utils';
-import { getStage } from './helpers/programs';
 
 
 class App extends Component {
@@ -58,11 +57,11 @@ class App extends Component {
             }
             else if (result.data && result.data.opportunities && result.data.user) {
               let opps = result.data.opportunities.map(opp => {
-                debugger;
-                let stageObj = getStage(opp);
-
+                let stageObj = utils.getStage(opp);
+                let name = stageObj.name;
                 let currentStep = stageObj.step;
                 let admissionsProcess = stageObj.process;
+                opp.formalName = name;
                 opp.currentStep = currentStep;
                 opp.admissionsProcess = admissionsProcess;
                 return opp;
