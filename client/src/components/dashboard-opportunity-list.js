@@ -5,7 +5,7 @@ import NextStepBlock from './next-steps-block';
 import ResourcesSEI from './resources-sei';
 import ResourcesDSI from './resources-dsi';
 
-import utils from '../helpers/utils';
+import { getCourseName } from '../helpers/utils';
 import moment from 'moment';
 
 import { SEI_STEPS_12_WK } from '../constants';
@@ -15,8 +15,8 @@ class OpportunityList extends Component {
 
   render() {
     let opptyList = this.props.opps.map((opp, i) => {
-    let course = utils.getCourseName(opp).course;
-    let campus = utils.getCourseName(opp).campus;
+    let course = getCourseName(opp).course;
+    let campus = getCourseName(opp).campus;
     let activeStep = opp.currentStep && opp.admissionsProcess ? opp.admissionsProcess.find(el => el.step === opp.currentStep.step) : SEI_STEPS_12_WK.HOLD;
       return (
         <div className="application-row" key={i}>

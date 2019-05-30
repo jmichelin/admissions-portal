@@ -14,6 +14,8 @@ import BookInterview from './pages/BookInterview';
 import BookInterviewDSI from './pages/BookInterviewDSI';
 
 import utils from './helpers/utils';
+import { getStage } from './helpers/programs';
+
 
 class App extends Component {
   constructor(props){
@@ -56,7 +58,9 @@ class App extends Component {
             }
             else if (result.data && result.data.opportunities && result.data.user) {
               let opps = result.data.opportunities.map(opp => {
-                let stageObj = utils.getStage(opp);
+                debugger;
+                let stageObj = getStage(opp);
+
                 let currentStep = stageObj.step;
                 let admissionsProcess = stageObj.process;
                 opp.currentStep = currentStep;
@@ -69,7 +73,7 @@ class App extends Component {
                 isLoading: false,
                 fetchedData: true,
               })
-            } 
+            }
             else if (result.data && result.data.opportunities && result.data.user) {
 
             } else {
