@@ -146,23 +146,24 @@ export const CAMPUSES = [
     location: 'Remote'
   }
 ];
-
+// TODO: process from application inputs instead
 export const FULL_TIME_PROGRAMS = [
   {
     name:'Data Science Immersive',
-    sfdcName: 'Data Science'
+    courseProduct: 'Data Science',
+    courseType: '13 Week Full-Time Immersive'
   },{
       name:'Data Science Remote Immersive',
-      sfdcName: 'Data Science Remote Immersive'
+      courseProduct: 'Data Science',
+      courseType: '13 Week Full-Time Immersive'
   },{
     name:'Software Engineering Immersive',
-    sfdcName: 'Software Engineering Immersive'
-  },{
-    name:'Software Engineering Remote Immersive',
-    sfdcName: 'Software Engineering Remote Immersive'
-  },{
-    name:'Software Engineering Remote Part Time Immersive',
-    sfdcName: 'Software Engineering Remote Part Time Immersive'
+    courseProduct: 'Web Development',
+    courseType: '12 Week Full-Time Immersive'
+    },{
+    name:'Part Time Software Engineering Immersive',
+    courseProduct: 'Web Development',
+    courseType: '36 Week Full-Time Immersive'
   }
 ];
 

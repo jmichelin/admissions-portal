@@ -8,7 +8,8 @@ import checkMark from '../assets/images/icon-checkmark-orange.png';
 
 
 export default (props) => {
-  let list = props.opp.admissionsProcess.map((step, i) => {
+  let list = Object.keys(props.opp.admissionsProcess).map((steppy, i) => {
+    let step = props.opp.admissionsProcess[steppy];
     if (step.status.includes('Enroll') || step.status.includes('Hold') || step.hidden) return null;
     if (props.opp.currentStep &&  props.opp.currentStep.step > step.step) {
       return (

@@ -24,7 +24,6 @@ class Dashboard extends Component {
 
     this.onProgramChange = this.onProgramChange.bind(this);
     this.onCampusChange = this.onCampusChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -67,25 +66,6 @@ formIsValid(data) {
   return !!data.program;
 }
 
-handleSubmit(event) {
-  event.preventDefault();
-  this.setState({
-    submitAttempted: true,
-  })
-
-  const { program } = this.state;
-  const formData = { program };
-
-  if (this.formIsValid(formData)) {
-    window.location.href = `/application?program=${formData.program}`;
-    return;
-  } else {
-    this.setState({
-      errorMessage: 'Please select a program.'
-     });
-  }
-}
-
 
   render() {
       return (
@@ -102,7 +82,7 @@ handleSubmit(event) {
                 :
                 <ProgramSelect
                   isLoading={this.props.isLoading}
-                  handleSubmit={this.handleSubmit}
+                  handleSubmit={(e) => {e.preventDefault(); this.props.handleSubmit(this.state.program)}}
                   programInputs={this.state.programInputs}
                   program={this.state.program}
                   isValid={this.isValid}

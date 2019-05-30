@@ -109,7 +109,7 @@ const PROGRAMS = {
       step: getSEI12WkStage,
       process: SEI_STEPS_12_WK
     },
-    'Specialty Immerisve' : {
+    'Specialty Immersive' : {
       name: 'Specialty Immersive',
       step: getSEI12WkStage,
       process: SEI_STEPS_12_WK
@@ -150,10 +150,15 @@ function getStage(opp) {
   return { step: courseType.step(opp), process: courseType.process, name: courseType.name }
 };
 
+function programSelect(programs) {
+  
+}
+
 export default {
   getSEI12WkStage,
   getSEI18WkStage,
   getDSIStage,
   getStage,
-  getCourseName
+  getCourseName,
+  programSelect
 };
