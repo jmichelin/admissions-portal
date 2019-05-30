@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { Prompt, withRouter } from 'react-router-dom';
 import Joi from 'joi';
 
 import AdmissionsProcessSteps from '../components/admissions-process-steps';
@@ -44,6 +44,7 @@ class Application extends Component {
       submitAttempted: false,
       saveButtonText: 'Save',
       errorText: null,
+      unsavedChanges: false
     };
   }
 
@@ -67,6 +68,14 @@ class Application extends Component {
     if (this.props.location.state && this.props.location.state.lead) {
       const { lead } = this.props.location.state;
       this.setState({lead: lead})
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.state.unsavedChanges) {
+      window.onbeforeunload = () => true
+    } else {
+      window.onbeforeunload = undefined
     }
   }
 
@@ -94,7 +103,8 @@ class Application extends Component {
       values: {
         ...prevState.values,
         [fieldName]: value
-      }
+      },
+      unsavedChanges: true
     }), () => {
       const saveOnChange = this.state.steps.reduce((ret, curr) => ret = ret || (curr.saveOnChange && curr.fieldName === fieldName), false);
       if (saveOnChange) this.persistApp(null);
@@ -121,6 +131,7 @@ class Application extends Component {
   }
 
   persistApp(complete) {
+    this.setState({unsavedChanges: false})
     return fetch(APPLICATIONS_ENDPOINT, {
       method: 'PATCH',
       headers: {
@@ -263,23 +274,26 @@ class Application extends Component {
     const fakeOpp = { admissionsProcess: APPLICATION_STEPS_SEI_12WK, currentStep: 1 };
 
     return (
-      <div className="application-steps">
-        <div className="container">
-          <div className="portal-inner">
-            <Hero headline={'Complete Your Application'} description={this.state.program || 'Software Engineering Immersive'}/>
-            <Breadcrumb />
-            <AdmissionsProcessSteps opp={fakeOpp} />
-            <div className="application-form">
-              {this.renderSteps()}
-              <div className="action">
-                <button className="button-secondary" type="submit" onClick={this.onSave}>{this.state.saveButtonText}</button>
-                <button className="button-primary" type="submit" onClick={this.onSubmit}>Submit</button>
+      <>
+        <Prompt message="You have unsaved changes, are you sure you want to leave?" when={this.state.unsavedChanges} />
+        <div className="application-steps">
+          <div className="container">
+            <div className="portal-inner">
+              <Hero headline={'Complete Your Application'} description={this.state.program || 'Software Engineering Immersive'}/>
+              <Breadcrumb />
+              <AdmissionsProcessSteps opp={fakeOpp} />
+              <div className="application-form">
+                {this.renderSteps()}
+                <div className="action">
+                  <button className="button-secondary" type="submit" onClick={this.onSave}>{this.state.saveButtonText}</button>
+                  <button className="button-primary" type="submit" onClick={this.onSubmit}>Submit</button>
+                </div>
               </div>
+              {this.state.errorText && <p className="error-msg">{this.state.errorText}</p>}
             </div>
-            {this.state.errorText && <p className="error-msg">{this.state.errorText}</p>}
           </div>
         </div>
-      </div>
+      </>
     )
   }
 }

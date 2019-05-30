@@ -143,7 +143,7 @@ module.exports = {
       }
     },
 
-    upsertApplication: async function(program, userId) {
+    findOrCreateApplication: async function(program, userId) {
       let foundApp = await knex('application').select('*')
         .where({program: program, user_id: userId})
         .orderByRaw('created_at DESC').first()

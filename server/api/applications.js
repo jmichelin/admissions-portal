@@ -18,7 +18,7 @@ router.patch('/', (req, res) => {
 });
 
 router.post('/initialize/:program', (req, res) => {
-  Q.upsertApplication(decodeURI(req.params.program), req.user.id)
+  Q.findOrCreateApplication(decodeURI(req.params.program), req.user.id)
     .then((application) => res.status(200).send(application))
     .catch((err) => {
       console.log("Error initializing program:", err)
