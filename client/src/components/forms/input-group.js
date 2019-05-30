@@ -1,7 +1,5 @@
 import React from 'react';
-
 import FormError from './form-error';
-import Label from './label';
 import TextField from './text-field';
 
 export default (props) => {

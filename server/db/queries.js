@@ -127,16 +127,16 @@ module.exports = {
     },
 
     updateApplication: async function(application) {
-      let foundApp = await knex('application').select('*')
-        .where({program: application.program, user_id: application.user_id})
+      const foundApp = await knex('application').select('*')
+        .where({ program: application.program, user_id: application.user_id })
         .first()
       if (foundApp !== undefined) {
         return knex('application').update({
           values: application.values,
           updated_at: knex.fn.now(),
-          completed: application.completed,
+          complete: application.complete,
         })
-        .where({program: application.program, user_id: application.user_id})
+        .where({ program: application.program, user_id: application.user_id })
         .returning('*')
       } else {
         return undefined
