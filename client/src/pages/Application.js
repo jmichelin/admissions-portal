@@ -57,6 +57,7 @@ class Application extends Component {
     })
       .then(resp => resp.json())
       .then((resp) => {
+        if (resp.complete) return this.props.history.push('/coding-challenge');
         if (resp.values) {
           Object.keys(resp.values).forEach(key => this.checkDependencies(key, resp.values[key]));
           this.setState((prevState) => ({ values: {...prevState.values, ...resp.values } }) )
@@ -94,7 +95,10 @@ class Application extends Component {
         ...prevState.values,
         [fieldName]: value
       }
-    }));
+    }), () => {
+      const saveOnChange = this.state.steps.reduce((ret, curr) => ret = ret || (curr.saveOnChange && curr.fieldName === fieldName), false);
+      if (saveOnChange) this.persistApp(null);
+    });
   }
 
   invalidValues = () => {

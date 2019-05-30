@@ -40,7 +40,8 @@ export const APPLICATION_INPUTS = [
   errorMsg: "Please select a preferred date",
   value: '',
   dependentField: "Campus__c",
-  dependentProcess: getOfferings
+  dependentProcess: getOfferings,
+  saveOnChange: true
 },{
   placeholder: 'MM/DD/YYYY',
   id: 'date-of-birth',
