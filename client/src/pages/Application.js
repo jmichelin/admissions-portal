@@ -24,12 +24,13 @@ class Application extends Component {
 
     const inputs = APPLICATION_INPUTS[0]
 
-    let program = getUrlVars(props.location.search).program;
-    if (program) {
-      program = decodeURIComponent(program);
-    } else {
-      props.history.push('/dashboard');
-    }
+    // let program = getUrlVars(props.location.search).program;
+    // if (program) {
+    //   program = decodeURIComponent(program);
+    // } else {
+    //   props.history.push('/dashboard');
+    // }
+
 
     const values = inputs.formFields.reduce((result, currentVal) => {
       result[currentVal["fieldName"]] = '';
@@ -37,7 +38,8 @@ class Application extends Component {
     }, {});
 
     this.state = {
-      program: program,
+      courseType: props.location.state.courseType,
+      courseProduct: props.location.state.courseProduct,
       steps: inputs.formFields,
       values: values,
       errors: {},
@@ -49,9 +51,8 @@ class Application extends Component {
   }
 
   componentDidMount() {
-    //use this.props.location.state
-    debugger;
-    fetch(`${APPLICATION_INITIALIZE_ENDPOINT}/${encodeURIComponent(this.state.program)}`, {
+    let endpoint = `${APPLICATION_INITIALIZE_ENDPOINT}/type/${encodeURIComponent(this.state.courseType)}/product/${encodeURIComponent(this.state.courseProduct)}`
+    fetch(endpoint, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.token}`,
@@ -143,7 +144,8 @@ class Application extends Component {
       },
       body: JSON.stringify({
         values: this.state.values,
-        program: this.state.program,
+        course_type: this.state.courseType,
+        course_product: this.state.courseProduct,
         complete,
       })
     })

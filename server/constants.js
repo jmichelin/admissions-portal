@@ -115,16 +115,16 @@ export const CAMPUSES = [
 export const FULL_TIME_PROGRAMS = [
   {
   name:'Data Science Immersive',
-  sfdcName: 'Data Science'
+  value: 'Data Science'
   },{
   name:'Software Engineering Immersive',
-  sfdcName: 'Software Engineering Immersive'
+  value: 'Software Engineering Immersive'
 },{
   name:'Software Engineering Remote Immersive',
-  sfdcName: 'Software Engineering Remote Immersive'
+  value: 'Software Engineering Remote Immersive'
 },{
   name:'Software Engineering Remote Part Time Immersive',
-  sfdcName: 'Software Engineering Remote Part Time Immersive'
+  value: 'Software Engineering Remote Part Time Immersive'
 }];
 
 
