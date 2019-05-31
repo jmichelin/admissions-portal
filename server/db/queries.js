@@ -145,7 +145,7 @@ module.exports = {
 
     findOrCreateApplication: async function(courseType, courseProduct, userId) {
       let foundApp = await knex('application').select('*')
-        .where({ course_type: application.course_type, course_product: application.course_product, user_id: application.user_id })
+        .where({ course_type: courseType, course_product: courseProduct, user_id: userId })
         .orderByRaw('created_at DESC').first()
       if (foundApp !== undefined) return foundApp;
 

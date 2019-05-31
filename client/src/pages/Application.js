@@ -24,22 +24,15 @@ class Application extends Component {
 
     const inputs = APPLICATION_INPUTS[0]
 
-    // let program = getUrlVars(props.location.search).program;
-    // if (program) {
-    //   program = decodeURIComponent(program);
-    // } else {
-    //   props.history.push('/dashboard');
-    // }
-
-
     const values = inputs.formFields.reduce((result, currentVal) => {
       result[currentVal["fieldName"]] = '';
       return result
     }, {});
 
+    let program = JSON.parse(props.location.state.program)
     this.state = {
-      courseType: props.location.state.courseType,
-      courseProduct: props.location.state.courseProduct,
+      courseType: program.courseType,
+      courseProduct: program.courseProduct,
       steps: inputs.formFields,
       values: values,
       errors: {},
@@ -283,7 +276,7 @@ class Application extends Component {
         <div className="application-steps">
           <div className="container">
             <div className="portal-inner">
-              <Hero headline={'Complete Your Application'} description={this.state.program || 'Software Engineering Immersive'}/>
+              <Hero headline={'Complete Your Application'} description={(this.state.courseType ? `${this.state.courseProduct} - ${this.state.courseType}` : 'Software Engineering Immersive')}/>
               <Breadcrumb />
               <AdmissionsProcessSteps opp={fakeOpp} />
               <div className="application-form">

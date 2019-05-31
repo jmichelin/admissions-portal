@@ -45,6 +45,39 @@ class App extends Component {
     })
   }
 
+  setOpportunities = (result) => {
+    if (result.message === 'jwt expired' || result.message === 'jwt malformed' || result.message === 'Your session has expired. Please log back in.') {
+      this.clearData()
+    }
+    else if (result.data && result.data.opportunities && result.data.user) {
+      let opps = result.data.opportunities.map(opp => {
+        let stageObj = utils.getStage(opp);
+        let name = stageObj.name;
+        let currentStep = stageObj.step;
+        let admissionsProcess = stageObj.process;
+        opp.formalName = name;
+        opp.currentStep = currentStep;
+        opp.admissionsProcess = admissionsProcess;
+        return opp;
+      })
+      this.setState({
+        opportunities: opps,
+        user:result.data.user,
+        isLoading: false,
+        fetchedData: true,
+      })
+    }
+    else if (result.data && result.data.opportunities && result.data.user) {
+
+    } else {
+      // no opportunities and already fetched
+      this.setState({
+        isLoading: false,
+        fetchedData: true
+      })
+    }
+  }
+
   getData(refresh) {
     if ((!this.state.fetchedData && localStorage.token) || (refresh && localStorage.token)) {
       this.setState({isLoading: true}, () => {
@@ -53,36 +86,7 @@ class App extends Component {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }).then(res => res.json())
           .then(result => {
-            if (result.message === 'jwt expired' || result.message === 'jwt malformed' || result.message === 'Your session has expired. Please log back in.') {
-              this.clearData()
-            }
-            else if (result.data && result.data.opportunities && result.data.user) {
-              let opps = result.data.opportunities.map(opp => {
-                let stageObj = utils.getStage(opp);
-                let name = stageObj.name;
-                let currentStep = stageObj.step;
-                let admissionsProcess = stageObj.process;
-                opp.formalName = name;
-                opp.currentStep = currentStep;
-                opp.admissionsProcess = admissionsProcess;
-                return opp;
-              })
-              this.setState({
-                opportunities: opps,
-                user:result.data.user,
-                isLoading: false,
-                fetchedData: true,
-              })
-            }
-            else if (result.data && result.data.opportunities && result.data.user) {
-
-            } else {
-              // no opportunities and already fetched
-              this.setState({
-                isLoading: false,
-                fetchedData: true
-              })
-            }
+            this.setOpportunities(result);
           }).catch(err => {
             this.clearData()
           })

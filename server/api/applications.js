@@ -4,7 +4,7 @@ const Q = require('../db/queries');
 
 router.patch('/', (req, res) => {
   const application = {
-    course_type: req.body.course_product,
+    course_type: req.body.course_type,
     course_product: req.body.course_product,
     values: req.body.values,
     complete: req.body.complete,

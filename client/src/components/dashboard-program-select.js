@@ -39,8 +39,6 @@ class ProgramSelect extends Component {
                     pathname: '/application',
                     state: {
                       program: this.props.program,
-                      courseType: 'peter',
-                      courseProduct: 'grunde'
                     }
                     }}>
                     <button className="button-primary">Start Your Application</button></Link>

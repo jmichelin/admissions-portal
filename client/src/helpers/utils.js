@@ -150,10 +150,6 @@ function getStage(opp) {
   return { step: courseType.step(opp), process: courseType.process, name: courseType.name }
 };
 
-function programSelect(programs) {
-  
-}
-
 export default {
   getSEI12WkStage,
   getSEI18WkStage,

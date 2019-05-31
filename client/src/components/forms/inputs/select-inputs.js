@@ -7,7 +7,7 @@ function getProgramInputs(programs) {
     options: programs.map(program => {
       return {
         name: program.name,
-        value: program.name
+        value: JSON.stringify(program)
       };
     })
   };
