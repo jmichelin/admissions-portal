@@ -66,9 +66,6 @@ class App extends Component {
         isLoading: false,
         fetchedData: true,
       })
-    }
-    else if (result.data && result.data.opportunities && result.data.user) {
-
     } else {
       // no opportunities and already fetched
       this.setState({
