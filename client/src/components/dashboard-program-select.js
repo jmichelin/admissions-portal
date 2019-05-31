@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import Select from '../components/forms/select';
 import LoadingWheel from '../components/base/loader-orange';
@@ -6,9 +7,6 @@ import LoadingWheel from '../components/base/loader-orange';
 class ProgramSelect extends Component {
   constructor(props){
     super(props);
-
-    this.state = {
-    }
   }
 
 
@@ -23,7 +21,7 @@ class ProgramSelect extends Component {
     let programSelectForm =
     <div className="program-select">
       <p className="section-row">Looks like you don't have any active applications. Select a program and campus below to start your application:</p>
-        <form onSubmit={this.props.handleSubmit}>
+        <div className="form">
           <div className="form-group">
                 <Select name="select-normal"
                 label='Select a Program'
@@ -37,9 +35,17 @@ class ProgramSelect extends Component {
                 />
             </div>
             <div className="action">
-            <button className="button-primary" type="submit">Start Your Application</button>
+            <Link to={{
+                    pathname: '/application',
+                    state: {
+                      program: this.props.program,
+                      courseType: 'peter',
+                      courseProduct: 'grunde'
+                    }
+                    }}>
+                    <button className="button-primary">Start Your Application</button></Link>
             </div>
-        </form>
+        </div>
         <span className="form-note form-error">{ this.props.errorMessage }</span>
         <p className="citation">Once you submit an application you can log back into this portal to complete the rest of the admissions process.</p>
         <p className="citation -thin">Questions? Reach out to <a href="mailto:admissions@galvanize.com">admissions@galvanize.com</a> and we'd be happy to help.</p>

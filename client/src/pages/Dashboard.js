@@ -19,11 +19,12 @@ class Dashboard extends Component {
       campusInputs: campusInputs,
       program: '',
       campus: '',
-      errorMessage: '',
+      errorMessage: ''
     };
 
     this.onProgramChange = this.onProgramChange.bind(this);
     this.onCampusChange = this.onCampusChange.bind(this);
+
   }
 
   componentDidMount() {
@@ -66,7 +67,6 @@ formIsValid(data) {
   return !!data.program;
 }
 
-
   render() {
       return (
       <div className="dashboard">
@@ -82,7 +82,6 @@ formIsValid(data) {
                 :
                 <ProgramSelect
                   isLoading={this.props.isLoading}
-                  handleSubmit={(e) => {e.preventDefault(); this.props.handleSubmit(this.state.program)}}
                   programInputs={this.state.programInputs}
                   program={this.state.program}
                   isValid={this.isValid}

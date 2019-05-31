@@ -49,6 +49,8 @@ class Application extends Component {
   }
 
   componentDidMount() {
+    //use this.props.location.state
+    debugger;
     fetch(`${APPLICATION_INITIALIZE_ENDPOINT}/${encodeURIComponent(this.state.program)}`, {
       method: 'POST',
       headers: {

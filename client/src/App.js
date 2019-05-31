@@ -26,13 +26,12 @@ class App extends Component {
       user: {},
       isLoading: true,
       fetchedData: false,
-      activeProgram: ''
+      programSelect: ''
       }
 
     this.getData = this.getData.bind(this);
     this.clearData = this.clearData.bind(this);
     this.statusUpdate = this.statusUpdate.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   clearData() {
@@ -93,17 +92,6 @@ class App extends Component {
     }
   }
 
-  handleSubmit(program) {
-    console.log('program!!!', program);
-    //based on program name attach to state and pass to application view
-
-    // i dont think this works because you could have multiple programs from different active apps in the child dashboard component
-    // thus you can't have just one active program on state here.
-    this.setState({
-      activeProgram: program
-    })
-  }
-
   statusUpdate(id, status) {
    let newOpps = this.state.opportunities.map(opp => {
      if (opp.id === id) opp.currentStep = status
@@ -123,7 +111,7 @@ class App extends Component {
             <PublicRoute exact path='/' clearData={this.clearData} component={Home}/>
             <PublicRoute exact path='/forgot-password' component={ForgotPassword}/>
             <PublicRoute path="/reset:token" component={ResetPassword}/>
-            <PrivateRoute exact path='/dashboard'{...this.state}  getData={this.getData} statusUpdate={this.statusUpdate} handleSubmit={this.handleSubmit} component={Dashboard}/>
+            <PrivateRoute exact path='/dashboard'{...this.state}  getData={this.getData} statusUpdate={this.statusUpdate} component={Dashboard}/>
             <PrivateRoute exact path='/coding-challenge' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={CodingChallenge}/>
             <PrivateRoute exact path='/python-challenge' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={PythonChallenge}/>
             <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterview}/>
