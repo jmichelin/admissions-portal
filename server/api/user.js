@@ -6,7 +6,7 @@ import Salesforce from '../lib/salesforce';
 
 const salesforce = new Salesforce();
 
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
   // Look for contact, if contact update
   // If no contact, look for lead and update
   // If no contact or lead, create a lead with the following fields
@@ -24,46 +24,40 @@ router.get('/', (req, res, next) => {
   //     return salesforce.createlead(req.user.email);
   //   }
   // });
-
-  salesforce.login()
-    .then(() => {
-      return salesforce.contactQuery(req.user.email);
-    }).then(response => {
-      if (response.records.length) {
-        return salesforce.oppQuery(response.records[0].Account.Id)
-        .then(opps => {
-          let data = {};
-          if (opps.length) {
-            data.opportunities = opps;
-            data.user = req.user;
-            let scorecardIds = [];
-            opps.forEach(opp => {
-              if(opp.scorecardId) scorecardIds.push(opp.scorecardId);
-            });
-            return salesforce.scorecardQueries(scorecardIds)
-              .then(scorecards => {
-                data.opportunities.forEach(opp => {
-                  scorecards.forEach(card => {
-                    if (card.oppId === opp.id)  opp.scorecard = card;
-                  });
-                });
-                res.json({
-                  data: data
-                });
-              });
-          } else {
-            res.json({message: 'No Applications Exist for this User'});
-          }
+  try {
+    await salesforce.login();
+    let response = await salesforce.contactQuery(req.user.email);
+    if (response.records.length) {
+      let opps = await salesforce.oppQuery(response.records[0].Account.Id)
+      let data = {};
+      if (opps.length) {
+        data.opportunities = opps;
+        data.user = req.user;
+        let scorecardIds = [];
+        opps.forEach(opp => {
+          if(opp.scorecardId) scorecardIds.push(opp.scorecardId);
         });
+
+        let scorecards = await salesforce.scorecardQueries(scorecardIds);
+
+        data.opportunities.forEach(opp => {
+          scorecards.forEach(card => {
+            if (card.oppId === opp.id)  opp.scorecard = card;
+          });
+        });
+        res.json({ data });
       } else {
         res.json({message: 'No Applications Exist for this User'});
       }
-    })
-    .catch(err => {
-      res.status(501);
-      const error = new Error('Error retreiving applications.');
-      next(error);
-    });
+    } else {
+      res.json({message: 'No Applications Exist for this User'});
+    }
+  } catch(err) {
+    console.log(err);
+    res.status(501);
+    const error = new Error('Error retreiving applications.');
+    next(error);
+  }
 });
 
 router.post('/update-opp-stage', (req, res, next) => {
