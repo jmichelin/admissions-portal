@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import inputs from './forms/inputs/inputs';
 import InputGroup from './forms/input-group';
 import Checkbox from './forms/checkbox';
+import Select from './forms/select';
 
 import HRLogo from '../assets/images/hack-reactor-horizontal-logo.png';
 
@@ -31,18 +32,24 @@ class Signup extends Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
+    this.onSelectChange = this.onSelectChange.bind(this);
     this.validField = this.validField.bind(this);
     this.validUser = this.validUser.bind(this);
   }
 
   onInputChange(event) {
     const target = event.target;
+
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
     this.setState({
       [name]: value
     });
+  }
+
+  onSelectChange(field, i) {
+    console.log(field);
   }
 
   validUser(data) {
@@ -118,7 +125,7 @@ class Signup extends Component {
             key={i}
             type={input.type}
             name={input.id}
-            label={input.label}
+            placeholder={input.label}
             required={input.required}
             value={this.state[input.id]}
             onInputChange={this.onInputChange}
@@ -138,8 +145,20 @@ class Signup extends Component {
             terms={true}
             onInputChange={this.onInputChange}
             showError={this.state.submitAttempted && !this.validField(input)}
-            errorMessage={input.errorMessage}/>)
-        } else {
+            errorMessage={input.errorMessage}/>
+        )} else if (input.type === 'select') {
+            return (<Select
+              key={i}
+              type={input.type}
+              name={input.id}
+              label={input.label}
+              required={input.required}
+              value={''}
+              options={input.options}
+              onOptionClick={(e) => this.onSelectChange(input.fieldName, e)}
+              disabled={input.dependentField ? !this.state.values[input.dependentField] : false}
+            />
+        )} else {
           return null;
         }
     })
@@ -161,7 +180,6 @@ class Signup extends Component {
           </div>
           <h3 className="portal-title">Create Your Account</h3>
           <p className="title-subtext">Already have an account? <button className="-inline" onClick={this.props.toggleSignin}>Sign In</button></p>
-            <p className="citation -thin -center -note">Have an account through Hack Reactor? Create a new account here to pick up where you left off in the admissions process.</p>
           <form onSubmit={this.handleSubmit}>
             <div className="form-group">
               {this.createInputs().slice(0,2)}
@@ -172,8 +190,11 @@ class Signup extends Component {
             <div className="form-group">
               {this.createInputs().slice(3,5)}
             </div>
+            <div className="form-group">
+              {this.createInputs().slice(5,7)}
+            </div>
             <div className="form-footer">
-              {this.createInputs().slice(5,6)}
+              {this.createInputs().slice(7,8)}
               <input type="submit" value="Create Account" className={this.state.isLoading ? "button-primary -loading" : "button-primary"}/>
             </div>
             <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>

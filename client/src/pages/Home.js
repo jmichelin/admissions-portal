@@ -10,7 +10,7 @@ class Home extends Component {
 
     this.state = {
       userIsSignedIn: false,
-      showSignin: true
+      showSignin: false
     };
     this.toggleSignin = this.toggleSignin.bind(this);
   }

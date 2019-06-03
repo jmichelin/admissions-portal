@@ -1,3 +1,6 @@
+import { CAMPUSES, FULL_TIME_PROGRAMS } from '../../../constants';
+
+
 function getCreateAccountInputs() {
   return [{
     id: 'first_name',
@@ -22,8 +25,23 @@ function getCreateAccountInputs() {
     value: '',
     required: true,
     errorMessage: 'Enter a valid email.'
-  },
-  {
+  },{
+    id: 'program',
+    fieldName: 'Product__c',
+    label: 'Preferred Program',
+    type: 'select',
+    value: '',
+    options: FULL_TIME_PROGRAMS
+  },{
+  id: 'campus',
+  label: 'Select Your Preferred Campus?',
+  type: 'select',
+  fieldName: 'Campus__c',
+  value: '',
+  validate: ["string"],
+  errorMsg: "Please select a valid campus",
+  options: CAMPUSES
+  },{
     id: 'password',
     label: 'Password',
     type: 'password',
