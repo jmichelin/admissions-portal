@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import inputs from './forms/inputs/inputs';
 import InputGroup from './forms/input-group';
 import Checkbox from './forms/checkbox';
+import Select from './forms/select';
 
 import HRLogo from '../assets/images/hack-reactor-horizontal-logo.png';
 
@@ -138,8 +139,20 @@ class Signup extends Component {
             terms={true}
             onInputChange={this.onInputChange}
             showError={this.state.submitAttempted && !this.validField(input)}
-            errorMessage={input.errorMessage}/>)
-        } else {
+            errorMessage={input.errorMessage}/>
+        )} else if (input.type === 'select') {
+            return (<Select
+              key={i}
+              type={input.type}
+              name={input.id}
+              label={input.label}
+              required={input.required}
+              value={''}
+              options={input.options}
+              onOptionClick={(e) => this.onInputChange(input.fieldName, e)}
+              disabled={input.dependentField ? !this.state.values[input.dependentField] : false}
+            />
+        )} else {
           return null;
         }
     })
@@ -171,8 +184,11 @@ class Signup extends Component {
             <div className="form-group">
               {this.createInputs().slice(3,5)}
             </div>
+            <div className="form-group">
+              {this.createInputs().slice(5,7)}
+            </div>
             <div className="form-footer">
-              {this.createInputs().slice(5,6)}
+              {this.createInputs().slice(7,8)}
               <input type="submit" value="Create Account" className={this.state.isLoading ? "button-primary -loading" : "button-primary"}/>
             </div>
             <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
