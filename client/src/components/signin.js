@@ -101,7 +101,7 @@ class Signin extends Component {
             key={i}
             type={input.type}
             name={input.id}
-            label={input.label}
+            placeholder={input.label}
             required={input.required}
             value={this.state[input.id]}
             onInputChange={this.onInputChange}

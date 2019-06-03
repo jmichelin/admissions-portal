@@ -155,6 +155,5 @@ export default {
   getSEI18WkStage,
   getDSIStage,
   getStage,
-  getCourseName,
-  programSelect
+  getCourseName
 };
