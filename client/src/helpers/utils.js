@@ -156,5 +156,4 @@ export default {
   getDSIStage,
   getStage,
   getCourseName,
-  programSelect
 };

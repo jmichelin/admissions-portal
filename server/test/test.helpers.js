@@ -17,6 +17,23 @@ class Testing {
     })
   }
 
+  static async userWithApplication(courseType, courseProduct) {
+    let user = {email: "lf@example.com", first_name: "F", last_name: "L"};
+    let savedUser = await Q.addNewUser(user, "password");
+    let app = await Q.findOrCreateApplication(courseType, courseProduct, savedUser[0].id)
+
+    const payload = {
+      id: savedUser[0].id,
+      email: savedUser[0].email,
+      first_name: savedUser[0].first_name,
+      last_name: savedUser[0].last_name
+    };
+    return {
+      application: app,
+      token: jwt.sign(payload, process.env.TOKEN_SECRET, {expiresIn: '6h'}),
+    }
+  }
+
   static userWithProcessingAssessment() {
     let user = {email: "lf@example.com", first_name: "F", last_name: "L"};
     return Q.addNewUser(user, "password").then((savedUser) => {

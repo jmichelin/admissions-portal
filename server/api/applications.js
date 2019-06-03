@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Q = require('../db/queries');
 
-router.patch('/', (req, res) => {
+router.patch('/', async (req, res) => {
   const application = {
     course_type: req.body.course_type,
     course_product: req.body.course_product,
@@ -11,11 +11,15 @@ router.patch('/', (req, res) => {
     user_id: req.user.id,
   };
 
-  Q.updateApplication(application).then((savedApp) => {
+  try {
+    let savedApp = await Q.updateApplication(application)
     if (savedApp) return res.status(200).send(savedApp)
-
     return res.status(404).send({error: "application not found"})
-  })
+
+  } catch(err) {
+    console.log(err)
+    return res.status(500)
+  }
 });
 
 router.post('/initialize/type/:courseType/product/:courseProduct', (req, res) => {
