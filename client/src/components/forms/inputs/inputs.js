@@ -27,6 +27,7 @@ function getCreateAccountInputs() {
     errorMessage: 'Enter a valid email.'
   },{
     id: 'program',
+    fieldName: 'Product__c',
     label: 'Preferred Program',
     type: 'select',
     value: '',

@@ -32,18 +32,24 @@ class Signup extends Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
+    this.onSelectChange = this.onSelectChange.bind(this);
     this.validField = this.validField.bind(this);
     this.validUser = this.validUser.bind(this);
   }
 
   onInputChange(event) {
     const target = event.target;
+
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
     this.setState({
       [name]: value
     });
+  }
+
+  onSelectChange(field, i) {
+    console.log(field);
   }
 
   validUser(data) {
@@ -149,7 +155,7 @@ class Signup extends Component {
               required={input.required}
               value={''}
               options={input.options}
-              onOptionClick={(e) => this.onInputChange(input.fieldName, e)}
+              onOptionClick={(e) => this.onSelectChange(input.fieldName, e)}
               disabled={input.dependentField ? !this.state.values[input.dependentField] : false}
             />
         )} else {
