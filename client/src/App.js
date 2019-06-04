@@ -27,7 +27,7 @@ class App extends Component {
       isLoading: true,
       fetchedData: false,
       programSelect: ''
-      }
+    }
 
     this.getData = this.getData.bind(this);
     this.clearData = this.clearData.bind(this);
