@@ -13,7 +13,7 @@ export default (props) => {
     <div className="breadcrumb">
       <Link to={{
             pathname: "/dashboard",
-            state: { calendarRefresh: props.refreshCalendar} }}><button className="-inline">&#8592; Back to Dashboard</button></Link>
+            state: { dataRefresh: props.refreshData} }}><button className="-inline">&#8592; Back to Dashboard</button></Link>
       {rightLink}
 </div>
   )

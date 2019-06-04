@@ -279,7 +279,7 @@ class Application extends Component {
           <div className="container">
             <div className="portal-inner">
               <Hero headline={'Complete Your Application'} description={(this.state.courseType ? `${this.state.courseProduct} - ${this.state.courseType}` : 'Software Engineering Immersive')}/>
-              <Breadcrumb />
+              <Breadcrumb refreshData={true} />
               <AdmissionsProcessSteps opp={fakeOpp} />
               <div className="application-form">
                 {this.renderSteps()}

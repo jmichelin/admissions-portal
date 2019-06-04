@@ -95,7 +95,7 @@ class BookInterview extends Component {
                 <div className="campus-group">
                   <Breadcrumb
                     previousComponent={this.hideIframe}
-                    refreshCalendar={!this.state.isLoading && this.state.showIframe}
+                    refreshData={!this.state.isLoading && this.state.showIframe}
                     text={(!this.state.isLoading && this.state.showIframe) || this.state.isLoading ? 'Select a Different Calendar' : 'Back to Dashboard'}
                     linkUrl={(!this.state.isLoading && this.state.showIframe) || this.state.isLoading ? null : '/dashboard'}/>
                   { !this.state.showIframe ? <CampusList loadBookingTool={this.loadBookingTool}/> : null }

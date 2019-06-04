@@ -28,9 +28,9 @@ class Dashboard extends Component {
 
   componentDidMount() {
     if (!this.props.fetchedData) this.props.getData(true);
-    if (this.props.location.state && this.props.location.state.calendarRefresh) {
-      const {calendarRefresh} = this.props.location.state;
-      if (calendarRefresh) this.props.getData(true);
+    if (this.props.location.state && this.props.location.state.dataRefresh) {
+      const {dataRefresh} = this.props.location.state;
+      if (dataRefresh) this.props.getData(true);
     }
     if (window && window.analytics) window.analytics.page('Dashboard')
   }
