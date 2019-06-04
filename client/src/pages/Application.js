@@ -150,9 +150,7 @@ class Application extends Component {
 
   onSave = () => {
     this.setState({
-      errorText: null,
-      refreshData: true
-    });
+      errorText: null, refreshData: true });
     this.persistApp(null)
       .then(resp => resp.json())
       .then(() => {
@@ -167,12 +165,15 @@ class Application extends Component {
   }
 
   onSubmit = () => {
-    this.setState({ errorText: null, submitAttempted: true });
+    this.setState({ errorText: null, submitAttempted: true, refreshData: true });
     if (this.invalidValues()) return;
 
     this.persistApp(new Date())
       .then(resp => resp.json())
-      .then(() => this.props.history.push('/dashboard'))
+      .then(() => this.props.history.push({
+        pathname: '/dashboard',
+        state: { dataRefresh: this.state.refreshData }
+      }))
       .catch((err) => {
         this.setState({ errorText: 'Something has gone wrong, please contact support@galvanize.com' });
       })
