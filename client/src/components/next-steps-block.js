@@ -10,13 +10,24 @@ export default (props) => {
         <p className="-inverse">{props.step.description}</p>
         {props.step.alertText ? <p className="-alert -inverse">{props.step.alertText}</p> : null}
       </div>
-      { props.step.buttonPath ? <Link to={{
-            pathname: `${props.step.buttonPath}`,
-            state: { opp: props.opp },
-            override: props.step.override }}>
-            <button className="button-primary">{props.step.buttonText}</button></Link> : null}
-      { props.step.buttonUrl ?
-          <a href={props.step.buttonUrl} target="_blank"><button className="button-primary">{props.step.buttonText}</button></a> : null}
-      </div>
+      {props.step.buttonPath && (
+        <Link to={{
+          pathname: `${props.step.buttonPath}`,
+          state: { opp: props.opp },
+          override: props.step.override
+        }}>
+          <button className="button-primary">
+            {props.step.buttonText}
+          </button>
+        </Link>
+      )}
+      {props.step.buttonUrl && (
+        <a href={props.step.buttonUrl} target="_blank">
+          <button className="button-primary">
+            {props.step.buttonText}
+          </button>
+        </a>
+      )}
+    </div>
   )
 }

@@ -33,7 +33,7 @@ class Dashboard extends Component {
       if (calendarRefresh) this.props.getData(true);
     }
     if (window && window.analytics) window.analytics.page('Dashboard')
-   }
+  }
 
   onProgramChange(e) {
     if (e.target.value.includes('Remote')) {

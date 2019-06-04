@@ -56,7 +56,8 @@ class Application extends Component {
     })
       .then(resp => resp.json())
       .then((resp) => {
-        if (resp.complete) return this.props.history.push('/coding-challenge');
+        console.log(resp)
+        if (resp.complete) return this.props.history.push('/dashboard');
         if (resp.values) {
           Object.keys(resp.values).forEach(key => this.checkDependencies(key, resp.values[key]));
           this.setState((prevState) => ({ values: {...prevState.values, ...resp.values } }) )

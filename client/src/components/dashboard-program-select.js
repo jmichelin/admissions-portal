@@ -36,12 +36,12 @@ class ProgramSelect extends Component {
             </div>
             <div className="action">
             <Link to={{
-                    pathname: '/application',
-                    state: {
-                      program: this.props.program,
-                    }
-                    }}>
-                    <button className="button-primary">Start Your Application</button></Link>
+              pathname: '/application',
+              state: {
+                program: this.props.program,
+              }
+              }}>
+              <button className="button-primary">Start Your Application</button></Link>
             </div>
         </div>
         <span className="form-note form-error">{ this.props.errorMessage }</span>
