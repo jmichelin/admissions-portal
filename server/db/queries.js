@@ -126,6 +126,13 @@ module.exports = {
       .where("id", id).first()
     },
 
+    getUserApplications: function(userId) {
+      return knex('application')
+        .select('*')
+        .where('user_id', userId)
+        .orderByRaw('created_at DESC')
+    },
+
     updateApplication: async function(application) {
       const foundApp = await knex('application').select('*')
         .where({ course_type: application.course_type, course_product: application.course_product, user_id: application.user_id })
@@ -158,5 +165,5 @@ module.exports = {
       })
       .returning('*')
       return newApp
-    }
+    },
 };

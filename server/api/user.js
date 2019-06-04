@@ -1,10 +1,8 @@
 const express = require('express');
-
 const router = express.Router();
-
 import Salesforce from '../lib/salesforce';
-
 const salesforce = new Salesforce();
+const Q = require('../db/queries');
 
 router.get('/', async (req, res, next) => {
   // Look for contact, if contact update
@@ -24,15 +22,23 @@ router.get('/', async (req, res, next) => {
   //     return salesforce.createlead(req.user.email);
   //   }
   // });
+
   try {
+    const userApplications = await Q.getUserApplications(req.user.id);
+    const data = {
+      user: req.user,
+      applications: userApplications,
+      opportunities: [],
+    };
+
     await salesforce.login();
     let response = await salesforce.contactQuery(req.user.email);
-    if (!response.records.length) return res.json({message: 'No Applications Exist for this User'});
+
+    if (!response.records.length) return res.json({ data });
 
     let opps = await salesforce.oppQuery(response.records[0].Account.Id)
-    if (!opps.length) return res.json({message: 'No Applications Exist for this User'});
+    if (!opps.length) return res.json({ data });
 
-    let data = {};
     let scorecardIds = opps.filter(opp => opp.scorecardId).map(opp => opp.scorecardId)
     let scorecards = await salesforce.scorecardQueries(scorecardIds);
 
@@ -41,7 +47,6 @@ router.get('/', async (req, res, next) => {
       if (card) opp.scorecard = card
       return opp
     }).filter(val => val);
-    data.user = req.user;
 
     res.json({ data });
   } catch(err) {

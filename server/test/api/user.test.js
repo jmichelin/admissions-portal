@@ -6,6 +6,7 @@ const Testing = require('../test.helpers');
 import Salesforce from '../../lib/salesforce';
 
 const contactQuery = { records: [{ Account: { Id: 1 } }] };
+const emptyContactQuery = { records: [] };
 const oppQueryResult = [{
   id: '006n0000008k9kBAAQ',
   name: 'Elegant Doilies 19-09-WD-AUS Application',
@@ -32,20 +33,20 @@ describe('api users', () => {
   beforeEach((done) => {
     sandbox = sinon.createSandbox();
     app = require('../../index');
-    knex.raw("start transaction").then(function () {
+    knex.raw('start transaction').then(function () {
       done();
     });
   });
 
   afterEach((done) => {
     sandbox.restore();
-    knex.raw("rollback").then(function () {
+    knex.raw('rollback').then(function () {
       done();
     });
   });
 
   describe('GET api/v1/user', () => {
-    it("yields only the user's latest assessment for a given snippet id", async () => {
+    it('gives user details, sf opportunities, and applications', async () => {
       const user = await Testing.userWithApplication('neat course type', 'neat course product');
 
       sandbox.stub(Salesforce.prototype, 'login').resolves(true);
@@ -60,7 +61,8 @@ describe('api users', () => {
         .expect(200)
       const opp = res.body.data.opportunities[0];
       const userRes = res.body.data.user;
-
+      const application = res.body.data.applications[0];
+      
       expect(opp.id).to.eq('006n0000008k9kBAAQ');
       expect(opp.courseProduct).to.eq('Web Development');
       expect(opp.courseType).to.eq('12 Week Full-Time Immersive');
@@ -71,7 +73,28 @@ describe('api users', () => {
       expect(userRes.first_name).to.eq('F');
       expect(userRes.last_name).to.eq('L');
       expect(userRes.email).to.eq('lf@example.com');
+      expect(application.id).to.eq(user.application.id);
+      expect(application.courseType).to.eq(user.application.courseType);
+      expect(application.courseProduct).to.eq(user.application.courseProduct);
     });
   });
 
+  it('returns applications even when salesforce returns no opportunities', async () => {
+    const user = await Testing.userWithApplication('neat course type', 'neat course product');
+
+    sandbox.stub(Salesforce.prototype, 'login').resolves(true);
+    sandbox.stub(Salesforce.prototype, 'contactQuery').resolves(emptyContactQuery);
+
+    const res = await request(app)
+      .get('/api/v1/user')
+      .set('Authorization', `Bearer ${user.token}`)
+      .send()
+      .expect(200)
+    const application = res.body.data.applications[0];
+    
+    expect(res.body.data.opportunities.length).to.eq(0);
+    expect(application.id).to.eq(user.application.id);
+    expect(application.courseType).to.eq(user.application.courseType);
+    expect(application.courseProduct).to.eq(user.application.courseProduct);
+  });
 });
