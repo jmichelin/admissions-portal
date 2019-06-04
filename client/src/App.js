@@ -15,26 +15,17 @@ import BookInterviewDSI from './pages/BookInterviewDSI';
 
 import utils from './helpers/utils';
 
-
 class App extends Component {
-  constructor(props){
-    super(props);
-
-    this.state = {
-      opportunities: [],
-      leads: [],
-      user: {},
-      isLoading: true,
-      fetchedData: false,
-      programSelect: ''
-    }
-
-    this.getData = this.getData.bind(this);
-    this.clearData = this.clearData.bind(this);
-    this.statusUpdate = this.statusUpdate.bind(this);
+  state = {
+    opportunities: [],
+    leads: [],
+    user: {},
+    isLoading: true,
+    fetchedData: false,
+    programSelect: ''
   }
 
-  clearData() {
+  clearData = () => {
     localStorage.removeItem('token');
     this.setState({
       opportunities: [],
@@ -48,18 +39,15 @@ class App extends Component {
   setOpportunities = (result) => {
     if (result.message === 'jwt expired' || result.message === 'jwt malformed' || result.message === 'Your session has expired. Please log back in.') {
       this.clearData()
-    }
-    else if (result.data && result.data.opportunities && result.data.user) {
+    } else if (result.data && result.data.opportunities && result.data.user) {
       let opps = result.data.opportunities.map(opp => {
         let stageObj = utils.getStage(opp);
-        let name = stageObj.name;
-        let currentStep = stageObj.step;
-        let admissionsProcess = stageObj.process;
-        opp.formalName = name;
-        opp.currentStep = currentStep;
-        opp.admissionsProcess = admissionsProcess;
+        opp.formalName = stageObj.name;
+        opp.currentStep = stageObj.step;
+        opp.admissionsProcess = stageObj.process;
         return opp;
       })
+
       this.setState({
         opportunities: opps,
         user:result.data.user,
@@ -68,43 +56,35 @@ class App extends Component {
       })
     } else {
       // no opportunities and already fetched
-      this.setState({
-        isLoading: false,
-        fetchedData: true
-      })
+      this.setState({ isLoading: false, fetchedData: true })
     }
   }
 
-  getData(refresh) {
+  getData = (refresh) => {
     if ((!this.state.fetchedData && localStorage.token) || (refresh && localStorage.token)) {
-      this.setState({isLoading: true}, () => {
-        const API_URL = '/api/v1/user';
-        fetch(API_URL, {
+      this.setState({ isLoading: true }, () => {
+        fetch('/api/v1/user', {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }).then(res => res.json())
-          .then(result => {
-            this.setOpportunities(result);
-          }).catch(err => {
-            this.clearData()
-          })
         })
-      } else {
+          .then(res => res.json())
+          .then(result => { this.setOpportunities(result); })
+          .catch(() => { this.clearData() })
+      })
+    } else {
       this.clearData()
     }
   }
 
-  statusUpdate(id, status) {
-   let newOpps = this.state.opportunities.map(opp => {
-     if (opp.id === id) opp.currentStep = status
+  statusUpdate = (id, status) => {
+    let newOpps = this.state.opportunities.map(opp => {
+      if (opp.id === id) opp.currentStep = status
       return opp;
-   })
-     this.setState({
-       opportunities: newOpps
-     })
+    })
+    this.setState({ opportunities: newOpps })
   }
 
   render() {
-      return (
+    return (
       <div>
         <Header clearData={this.clearData}/>
           <main>
@@ -117,9 +97,7 @@ class App extends Component {
             <PrivateRoute exact path='/python-challenge' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={PythonChallenge}/>
             <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterview}/>
             <PrivateRoute exact path='/book-interview-dsi' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterviewDSI}/>
-
             <PrivateRoute path="/application" {...this.state} statusUpdate={this.statusUpdate} component={Application}/>
-
             <NoMatch/>
           </Switch>
           </main>
