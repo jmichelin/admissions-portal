@@ -27,31 +27,23 @@ router.get('/', async (req, res, next) => {
   try {
     await salesforce.login();
     let response = await salesforce.contactQuery(req.user.email);
-    if (response.records.length) {
-      let opps = await salesforce.oppQuery(response.records[0].Account.Id)
-      let data = {};
-      if (opps.length) {
-        data.opportunities = opps;
-        data.user = req.user;
-        let scorecardIds = [];
-        opps.forEach(opp => {
-          if(opp.scorecardId) scorecardIds.push(opp.scorecardId);
-        });
+    if (!response.records.length) return res.json({message: 'No Applications Exist for this User'});
 
-        let scorecards = await salesforce.scorecardQueries(scorecardIds);
+    let opps = await salesforce.oppQuery(response.records[0].Account.Id)
+    if (!opps.length) return res.json({message: 'No Applications Exist for this User'});
 
-        data.opportunities.forEach(opp => {
-          scorecards.forEach(card => {
-            if (card.oppId === opp.id)  opp.scorecard = card;
-          });
-        });
-        res.json({ data });
-      } else {
-        res.json({message: 'No Applications Exist for this User'});
-      }
-    } else {
-      res.json({message: 'No Applications Exist for this User'});
-    }
+    let data = {};
+    let scorecardIds = opps.filter(opp => opp.scorecardId).map(opp => opp.scorecardId)
+    let scorecards = await salesforce.scorecardQueries(scorecardIds);
+
+    data.opportunities = opps.map(opp => {
+      let card = scorecards.find(card => card.oppId === opp.id);
+      if (card) opp.scorecard = card
+      return opp
+    }).filter(val => val);
+    data.user = req.user;
+
+    res.json({ data });
   } catch(err) {
     console.log(err);
     res.status(501);
