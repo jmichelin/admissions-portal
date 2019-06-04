@@ -6,7 +6,7 @@ import Breadcrumb from '../components/breadcrumb';
 
 import * as buble from 'buble'
 
- import { CODE_CHALLENGE_ENDPOINT, CODING_CHALLENGE_TESTS, SEI_STEPS_12_WK, SEI_STEPS_18_WK, HERO_TEXT } from '../constants';
+import { CODE_CHALLENGE_ENDPOINT, CODING_CHALLENGE_TESTS, SEI_STEPS_12_WK, SEI_STEPS_18_WK, HERO_TEXT } from '../constants';
 import CodingInstructions from '../components/CodingInstructions';
 import CodeEditor from '../components/CodeEditor';
 

@@ -25,15 +25,13 @@ router.get('/', async (req, res, next) => {
 
   try {
     const userApplications = await Q.getUserApplications(req.user.id);
-    const data = {
-      user: req.user,
-      applications: userApplications,
-      opportunities: [],
-    };
+    userApplications.forEach(app => app.type = 'application');
+
+    const data = { user: req.user, applications: userApplications };
 
     await salesforce.login();
-    let response = await salesforce.contactQuery(req.user.email);
 
+    let response = await salesforce.contactQuery(req.user.email);
     if (!response.records.length) return res.json({ data });
 
     let opps = await salesforce.oppQuery(response.records[0].Account.Id)
@@ -42,11 +40,13 @@ router.get('/', async (req, res, next) => {
     let scorecardIds = opps.filter(opp => opp.scorecardId).map(opp => opp.scorecardId)
     let scorecards = await salesforce.scorecardQueries(scorecardIds);
 
-    data.opportunities = opps.map(opp => {
+    const opportunities = opps.map(opp => {
       let card = scorecards.find(card => card.oppId === opp.id);
       if (card) opp.scorecard = card
       return opp
-    }).filter(val => val);
+    }).filter(val => val)
+
+    data.applications = data.applications.concat(opportunities).sort((a, b) => b.created_at.getTime() - a.created_at.getTime());
 
     res.json({ data });
   } catch(err) {

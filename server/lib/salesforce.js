@@ -554,7 +554,6 @@ function _reformatData(ogData) {
     newCourse.infoSessionURL = course['Info_Session_URL__c'];
     newCourse.regulatoryCourseProductName = course['Regulatory_Course_Product_Name__c'];
 
-
     courses.push(newCourse);
   })
 
@@ -563,37 +562,28 @@ function _reformatData(ogData) {
 
 function _reformatOppty(ogData) {
   let opptys = [];
-  let opptyTemplate = {
-    id: '',
-    name: '',
-    campus: '',
-    courseProduct: '',
-    courseStart: '',
-    createdDate: '',
-    courseType: '',
-    productCode: '',
-    scorecardId: '',
-    stage: ''
-  };
 
-  ogData.forEach( oppty => {
-    let newOppty = Object.assign({}, opptyTemplate);
+  ogData.forEach(oppty => {
+    let opptyTemplate = {};
 
-    newOppty.id = oppty['Id'];
-    newOppty.name = oppty['Name'];
-    newOppty.campus = oppty['Campus__c'];
-    newOppty.courseProduct = oppty['Course_Product__c'];
-    newOppty.courseStart = oppty['Course_Start_Date_Actual__c'];
-    newOppty.createdDate = oppty['CreatedDate'];
-    newOppty.courseType = oppty['Course_Type__c'];
-    newOppty.productCode = oppty['Product_Code__c'];
-    newOppty.scorecardId = oppty['Scorecard__c'];
-    newOppty.stage = oppty['StageName'];
+    opptyTemplate.id = oppty['Id'];
+    opptyTemplate.name = oppty['Name'];
+    opptyTemplate.campus = oppty['Campus__c'];
+    opptyTemplate.courseProduct = oppty['Course_Product__c'];
+    opptyTemplate.courseStart = oppty['Course_Start_Date_Actual__c'];
+    opptyTemplate.created_at = new Date(oppty['CreatedDate'])
+    opptyTemplate.courseType = oppty['Course_Type__c'];
+    opptyTemplate.productCode = oppty['Product_Code__c'];
+    opptyTemplate.scorecardId = oppty['Scorecard__c'];
+    opptyTemplate.stage = oppty['StageName'];
+    opptyTemplate.type = 'opportunity';
 
-    if (IMMERSIVE_COURSE_TYPES.includes(newOppty.courseType)
-    && newOppty.stage !== 'Closed'
-    && newOppty.courseStart > moment().format('YYYY-MM-DD')) {
-      opptys.push(newOppty);
+    if (
+      IMMERSIVE_COURSE_TYPES.includes(opptyTemplate.courseType)
+      && opptyTemplate.stage !== 'Closed'
+      && opptyTemplate.courseStart > moment().format('YYYY-MM-DD')
+    ) {
+      opptys.push(opptyTemplate);
     }
   })
 

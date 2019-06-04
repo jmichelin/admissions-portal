@@ -1,6 +1,6 @@
 import { SEI_STEPS_12_WK, SEI_STEPS_18_WK, DSI_STEPS } from '../constants';
 
- function getCourseName(opp) {
+function getCourseName(opp) {
   let campus = opp.campus;
   if (opp.courseProduct === 'Web Development' && opp.courseType.includes('Immersive')) {
     if (opp.productCode && opp.productCode.includes('-WD-')) {
@@ -22,23 +22,24 @@ import { SEI_STEPS_12_WK, SEI_STEPS_18_WK, DSI_STEPS } from '../constants';
   }
 }
 
- function getSEI12WkStage(opp) {
-  if (!opp.scorecard) {
+function getSEI12WkStage(program) {
+  if (program.type === 'application') {
+    return SEI_STEPS_12_WK.STEP_ONE
+  } else if (!program.scorecard) {
     return SEI_STEPS_12_WK.HOLD;
-  }
-    else if (opp.scorecard.moveForwardCode !== 'Yes') {
+  } else if (program.scorecard.moveForwardCode !== 'Yes') {
     //person needs to do coding challenge
     return SEI_STEPS_12_WK.STEP_TWO;
-  } else if (opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview !== 'No' && opp.scorecard.moveForwardInterview !== 'Yes' && opp.stage !== 'Interview 1 Scheduled') {
+  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview !== 'No' && program.scorecard.moveForwardInterview !== 'Yes' && program.stage !== 'Interview 1 Scheduled') {
     //passed coding challenge but person needs to book the interview
     return SEI_STEPS_12_WK.STEP_THREE;
-  } else if (opp.scorecard.moveForwardCode === 'Yes' && opp.stage === 'Interview 1 Scheduled') {
+  } else if (program.scorecard.moveForwardCode === 'Yes' && program.stage === 'Interview 1 Scheduled') {
     //passed coding challenge and booked interview
     return SEI_STEPS_12_WK.STEP_FOUR;
-  } else if (opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview === 'No') {
+  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview === 'No') {
     //passed coding challenge and booked interview but failed
     return SEI_STEPS_12_WK.HOLD;
-  } else if (opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview === 'Yes') {
+  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview === 'Yes') {
     //passed coding challenge and booked interview and passed
     return SEI_STEPS_12_WK.COMPLETE;
   } else {
@@ -47,23 +48,24 @@ import { SEI_STEPS_12_WK, SEI_STEPS_18_WK, DSI_STEPS } from '../constants';
   }
 }
 
- function getSEI18WkStage(opp) {
-  if (!opp.scorecard) {
+function getSEI18WkStage(program) {
+  if (program.type === 'application') {
+    return SEI_STEPS_12_WK.STEP_ONE
+  } else if (!program.scorecard) {
     return SEI_STEPS_12_WK.HOLD;
-  }
-  if (opp.scorecard.moveForwardCode !== 'Yes') {
+  } else if (program.scorecard.moveForwardCode !== 'Yes') {
     //person needs to do coding challenge
     return SEI_STEPS_18_WK.STEP_FOUR;
-  } else if (opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview !== 'No' && opp.scorecard.moveForwardInterview !== 'Yes' && opp.stage !== 'Interview 1 Scheduled') {
+  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview !== 'No' && program.scorecard.moveForwardInterview !== 'Yes' && program.stage !== 'Interview 1 Scheduled') {
     //passed coding challenge but person needs to book the interview
     return SEI_STEPS_18_WK.STEP_TWO;
-  } else if (opp.scorecard.moveForwardCode === 'Yes' && opp.stage === 'Interview 1 Scheduled') {
+  } else if (program.scorecard.moveForwardCode === 'Yes' && program.stage === 'Interview 1 Scheduled') {
     //passed coding challenge and booked interview
     return SEI_STEPS_18_WK.STEP_THREE;
-  } else if (opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview === 'No') {
+  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview === 'No') {
     //passed coding challenge and booked interview but failed
     return SEI_STEPS_18_WK.HOLD;
-  } else if (opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview === 'Yes') {
+  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview === 'Yes') {
     //passed coding challenge and booked interview and passed
     return SEI_STEPS_18_WK.COMPLETE;
   } else {
@@ -72,23 +74,24 @@ import { SEI_STEPS_12_WK, SEI_STEPS_18_WK, DSI_STEPS } from '../constants';
   }
 }
 
- function getDSIStage(opp) {
-  if (!opp.scorecard) {
+function getDSIStage(program) {
+  if (program.type === 'application') {
+    return SEI_STEPS_12_WK.STEP_ONE
+  } else if (!program.scorecard) {
     return SEI_STEPS_12_WK.HOLD;
-  }
-  if (opp.scorecard.moveForwardCode !== 'Yes') {
+  } else if (program.scorecard.moveForwardCode !== 'Yes') {
     //person needs to do coding challenge
     return DSI_STEPS.STEP_TWO;
-  } else if (opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview !== 'No' && opp.scorecard.moveForwardInterview !== 'Yes' && opp.stage !== 'Interview 1 Scheduled') {
+  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview !== 'No' && program.scorecard.moveForwardInterview !== 'Yes' && program.stage !== 'Interview 1 Scheduled') {
     //passed coding challenge but person needs to book the interview
     return DSI_STEPS.STEP_THREE;
-  } else if (opp.scorecard.moveForwardCode === 'Yes' && opp.stage === 'Interview 1 Scheduled') {
+  } else if (program.scorecard.moveForwardCode === 'Yes' && program.stage === 'Interview 1 Scheduled') {
     //passed coding challenge and booked interview
     return DSI_STEPS.STEP_FOUR;
-  } else if (opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview === 'No') {
+  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview === 'No') {
     //passed coding challenge and booked interview but failed
     return DSI_STEPS.HOLD;
-  } else if (opp.scorecard.moveForwardCode === 'Yes' && opp.scorecard.moveForwardInterview === 'Yes') {
+  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview === 'Yes') {
     //passed coding challenge and booked interview and passed
     return DSI_STEPS.COMPLETE;
   } else {
@@ -134,20 +137,20 @@ const PROGRAMS = {
   }
 };
 
-function getStage(opp) {
-  let courseProducts = PROGRAMS[opp.courseProduct];
+function getStage(program) {
+  let courseProducts = PROGRAMS[program.courseProduct];
 
   if (!courseProducts) {
     let stage = PROGRAMS['Default'];
-    return { step: stage.step(opp), process: stage.process, name: stage.name };
+    return { step: stage.step(program), process: stage.process, name: stage.name };
   }
 
-  let courseType = PROGRAMS[opp.courseProduct][opp.courseType];
+  let courseType = PROGRAMS[program.courseProduct][program.courseType];
   if (!courseType) {
-    courseType = PROGRAMS[opp.courseProduct]['Default'];
-    return { step: courseType.step(opp), process: courseType.process, name: courseType.name }
+    courseType = PROGRAMS[program.courseProduct]['Default'];
+    return { step: courseType.step(program), process: courseType.process, name: courseType.name }
   };
-  return { step: courseType.step(opp), process: courseType.process, name: courseType.name }
+  return { step: courseType.step(program), process: courseType.process, name: courseType.name }
 };
 
 export default {

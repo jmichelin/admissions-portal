@@ -130,6 +130,7 @@ module.exports = {
       return knex('application')
         .select('*')
         .where('user_id', userId)
+        .where('complete', null)
         .orderByRaw('created_at DESC')
     },
 

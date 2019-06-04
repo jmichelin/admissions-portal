@@ -29,10 +29,11 @@ class Application extends Component {
       return result
     }, {});
 
-    let program = JSON.parse(props.location.state.program)
+    const program = props.location.state.program ? JSON.parse(props.location.state.program) : props.location.state.opp
+
     this.state = {
-      courseType: program.courseType,
-      courseProduct: program.courseProduct,
+      courseType: program.courseType || program.course_type,
+      courseProduct: program.courseProduct|| program.course_product,
       steps: inputs.formFields,
       values: values,
       errors: {},
@@ -44,6 +45,7 @@ class Application extends Component {
   }
 
   componentDidMount() {
+    if (!this.state.courseType || !this.state.courseProduct) return this.props.history.push('/dashboard')
     let endpoint = `${APPLICATION_INITIALIZE_ENDPOINT}/type/${encodeURIComponent(this.state.courseType)}/product/${encodeURIComponent(this.state.courseProduct)}`
     fetch(endpoint, {
       method: 'POST',
@@ -160,8 +162,7 @@ class Application extends Component {
   }
 
   onSubmit = () => {
-    this.setState({ errorText: null });
-    this.setState({ submitAttempted: true });
+    this.setState({ errorText: null, submitAttempted: true });
     if (this.invalidValues()) return;
 
     this.persistApp(new Date())
@@ -293,14 +294,6 @@ class Application extends Component {
       </>
     )
   }
-}
-
-function getUrlVars() {
-  var vars = {};
-  window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
-      vars[key] = value;
-  });
-  return vars;
 }
 
 export default withRouter(Application);

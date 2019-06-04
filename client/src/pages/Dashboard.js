@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 import Hero from '../components/hero';
 import ProgramSelect from '../components/dashboard-program-select';
-import OpportunityList from '../components/dashboard-opportunity-list';
+import ProgramList from '../components/dashboard-program-list';
 
-import { CAMPUSES, FULL_TIME_PROGRAMS, GALVANIZE_BASE_URL, HERO_TEXT } from '../constants';
+import { CAMPUSES, FULL_TIME_PROGRAMS, HERO_TEXT } from '../constants';
 import inputs from '../components/forms/inputs/select-inputs';
 
 
@@ -24,7 +24,6 @@ class Dashboard extends Component {
 
     this.onProgramChange = this.onProgramChange.bind(this);
     this.onCampusChange = this.onCampusChange.bind(this);
-
   }
 
   componentDidMount() {
@@ -36,50 +35,52 @@ class Dashboard extends Component {
     if (window && window.analytics) window.analytics.page('Dashboard')
    }
 
-onProgramChange(e, field) {
-  if (e.target.value.includes('Remote')) {
+  onProgramChange(e) {
+    if (e.target.value.includes('Remote')) {
+      this.setState({
+        program: e.target.value,
+        campus: 'Remote',
+        errorMessage: ''
+      });
+    } else {
+      this.setState({
+        program: e.target.value,
+        campus: '',
+        errorMessage: ''
+      });
+    }
+  }
+
+  onCampusChange(e) {
     this.setState({
-      program: e.target.value,
-      campus: 'Remote',
-      errorMessage: ''
-    });
-  } else {
-    this.setState({
-      program: e.target.value,
-      campus: '',
+      campus: e.target.value,
       errorMessage: ''
     });
   }
-}
 
-onCampusChange(e, field) {
-this.setState({
-  campus: e.target.value,
-  errorMessage: ''
-});
-}
+  isValid(fieldName) {
+    return !!this.state[fieldName];
+  }
 
-isValid(fieldName) {
-  return !!this.state[fieldName];
-}
-
-formIsValid(data) {
-  return !!data.program;
-}
+  formIsValid(data) {
+    return !!data.program;
+  }
 
   render() {
-      return (
+    return (
       <div className="dashboard">
         <div className="container">
           <div>
             <div className="portal-inner">
               <Hero headline={HERO_TEXT.DASHBOARD.heroHeadline} description={HERO_TEXT.DASHBOARD.heroDescription}/>
-              {this.props.opportunities && this.props.opportunities.length && !this.props.isLoading?
-                <OpportunityList
+              {(this.props.applications.length || this.props.applications.length) && !this.props.isLoading ? (
+                <ProgramList
+                  applications={this.props.applications}
                   internalStatusUpdate={this.state.internalStatusUpdate}
-                  opps={this.props.opportunities}
-                  user={this.props.user}/>
-                :
+                  opps={this.props.applications}
+                  user={this.props.user}
+                />
+              ) : (
                 <ProgramSelect
                   isLoading={this.props.isLoading}
                   programInputs={this.state.programInputs}
@@ -89,8 +90,9 @@ formIsValid(data) {
                   campusInputs={this.state.campusInputs}
                   campus={this.state.campus}
                   errorMessage={this.state.errorMessage}
-                  onCampusChange={this.onCampusChange}/>
-              }
+                  onCampusChange={this.onCampusChange}
+                />
+              )}
             </div>
           </div>
         </div>

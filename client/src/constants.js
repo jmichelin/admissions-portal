@@ -229,7 +229,10 @@ export const HERO_TEXT = {
 export const SEI_STEPS_12_WK = {
   STEP_ONE: {
     step: 1,
-    status: 'Complete Your Application'
+    status: 'Complete Your Application',
+    description: 'Complete your APP NOW',
+    buttonPath: '/application',
+    buttonText: 'Complete your app NOW I SAID NOW',
   },
   STEP_TWO: {
     step: 2,
@@ -271,7 +274,10 @@ export const SEI_STEPS_12_WK = {
 export const SEI_STEPS_18_WK = {
   STEP_ONE: {
     step: 1,
-    status: 'Complete Your Application'
+    status: 'Complete Your Application',
+    description: 'Complete your APP NOW',
+    buttonPath: '/application',
+    buttonText: 'Complete your app NOW I SAID NOW',
   },
   STEP_TWO: {
     step: 1.5,

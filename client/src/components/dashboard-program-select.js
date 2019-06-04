@@ -23,7 +23,7 @@ class ProgramSelect extends Component {
       <p className="section-row">Looks like you don't have any active applications. Select a program and campus below to start your application:</p>
         <div className="form">
           <div className="form-group">
-                <Select name="select-normal"
+              <Select name="select-normal"
                 label='Select a Program'
                 fieldName=""
                 options={this.props.programInputs.options}
@@ -32,7 +32,7 @@ class ProgramSelect extends Component {
                 currentSelection={this.props.program}
                 value={this.props.program}
                 onOptionClick={this.props.onProgramChange}
-                />
+              />
             </div>
             <div className="action">
             <Link to={{

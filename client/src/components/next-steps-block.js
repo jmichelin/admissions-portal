@@ -12,7 +12,7 @@ export default (props) => {
       </div>
       { props.step.buttonPath ? <Link to={{
             pathname: `${props.step.buttonPath}`,
-            state: { opp: props.opp},
+            state: { opp: props.opp },
             override: props.step.override }}>
             <button className="button-primary">{props.step.buttonText}</button></Link> : null}
       { props.step.buttonUrl ?
