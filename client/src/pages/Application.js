@@ -40,7 +40,8 @@ class Application extends Component {
       submitAttempted: false,
       saveButtonText: 'Save',
       errorText: null,
-      unsavedChanges: false
+      unsavedChanges: false,
+      refreshData: false
     };
   }
 
@@ -148,7 +149,10 @@ class Application extends Component {
   }
 
   onSave = () => {
-    this.setState({ errorText: null });
+    this.setState({
+      errorText: null,
+      refreshData: true
+    });
     this.persistApp(null)
       .then(resp => resp.json())
       .then(() => {
@@ -279,7 +283,7 @@ class Application extends Component {
           <div className="container">
             <div className="portal-inner">
               <Hero headline={'Complete Your Application'} description={(this.state.courseType ? `${this.state.courseProduct} - ${this.state.courseType}` : 'Software Engineering Immersive')}/>
-              <Breadcrumb refreshData={true} />
+              <Breadcrumb refreshData={this.state.refreshData} />
               <AdmissionsProcessSteps opp={fakeOpp} />
               <div className="application-form">
                 {this.renderSteps()}
