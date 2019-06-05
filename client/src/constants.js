@@ -206,7 +206,7 @@ it("myInfo.github is defined as a string or null", function() {
 export const HERO_TEXT = {
   DASHBOARD: {
     heroHeadline: 'Admissions Portal Dashboard',
-    heroDescription: 'Manage your application, see next steps and complete the admissions process from here.'
+    heroDescription: 'Start applications and complete the admissions process for each program from here.'
   },
   CODING_CHALLENGE: {
     heroHeadline: 'Pass the Coding Challenge',
