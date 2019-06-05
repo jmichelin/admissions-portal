@@ -32,6 +32,7 @@ class Application extends Component {
     const program = props.location.state.program ? JSON.parse(props.location.state.program) : props.location.state.opp
 
     this.state = {
+      campus: '',
       courseType: program.courseType || program.course_type,
       courseProduct: program.courseProduct|| program.course_product,
       steps: inputs.formFields,
@@ -62,6 +63,17 @@ class Application extends Component {
         if (resp.values) {
           Object.keys(resp.values).forEach(key => this.checkDependencies(key, resp.values[key]));
           this.setState((prevState) => ({ values: {...prevState.values, ...resp.values } }) )
+
+          // TODO: This prepopulates campus from program select. It could be much cleaner.
+          if (this.props.location.state && this.props.location.state.campus) {
+            this.setState(prevState => ({
+              ...prevState,
+              values: {
+                ...prevState.values,
+                'Campus__c': this.props.location.state.campus
+              }
+            }))
+          }
         }
       })
 
