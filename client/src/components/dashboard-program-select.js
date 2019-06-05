@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import { PROGRAM_SELECT_TEXT } from '../constants';
+
 import Select from '../components/forms/select';
-import LoadingWheel from '../components/base/loader-orange';
 
 class ProgramSelect extends Component {
   constructor(props){
@@ -11,16 +12,10 @@ class ProgramSelect extends Component {
 
 
   render() {
-    let loadingWheel =
-    <div className="program-select column-headline">
-      <h4 className="column-headline">Looking for active applications...</h4>
-      <LoadingWheel/>
-        </div>
-
-
-    let programSelectForm =
-    <div className="program-select">
-      <p className="section-row">Looks like you don't have any active applications for a course starting in the future. Select a program and campus below to start your application:</p>
+    return (
+    <div className="program-select application-row">
+      <h4>{PROGRAM_SELECT_TEXT.headlineText}</h4>
+      <p className="section-row">{!this.props.hasExistingApps ? PROGRAM_SELECT_TEXT.noApplicationsText : PROGRAM_SELECT_TEXT.existingApplicationsText}</p>
         <div className="form">
           <div className="form-group">
               <Select name="select-normal"
@@ -60,13 +55,8 @@ class ProgramSelect extends Component {
             </div>
         </div>
         <span className="form-note form-error">{ this.props.errorMessage }</span>
-        <p className="citation">Once you submit an application you can proceed within this portal to complete the next step in your program's admissions process.</p>
-        <p className="citation -thin">Questions? Reach out to <a href="mailto:admissions@galvanize.com">admissions@galvanize.com</a> and we'd be happy to help.</p>
-    </div>
-
-  return (
-    <div>
-      { this.props.isLoading ? loadingWheel : programSelectForm }
+        { !this.props.hasExistingApps ? <p className="citation">{PROGRAM_SELECT_TEXT.citationText1}</p>  : null }
+        <p className="citation">Questions? Reach out to <a href="mailto:admissions@galvanize.com">admissions@galvanize.com</a> and we'd be happy to help.</p>
     </div>
     )
   }

@@ -1,5 +1,5 @@
-.dashboard .table {
-  & {
+.dashboard {
+  .table {
     width: 100%;
     padding: $pad-double;
   }
@@ -36,20 +36,20 @@
       padding: $pad-and-half $pad;
     }
 
-    .application-row {
-      background: $color-white;
-      margin-top: $space;
-      margin-bottom: $space;
-      border: 1px solid $color-brand-primary;
-
-      .-listing {
-        background: $color-gray-1;
-      }
-    }
-
     & :first-child.application-row  {
       margin-top: 0;
       border-top: 0;
+    }
+  }
+
+  .application-row {
+    background: $color-white;
+    margin-top: $space;
+    margin-bottom: $space;
+    border: 1px solid $color-brand-primary;
+
+    .-listing {
+      background: $color-gray-1;
     }
   }
 }

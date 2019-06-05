@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Hero from '../components/hero';
 import ProgramSelect from '../components/dashboard-program-select';
 import ProgramList from '../components/dashboard-program-list';
+import LoadingWheel from '../components/base/loader-orange';
 
 import { CAMPUSES, HERO_TEXT } from '../constants';
 import { APPLICATION_INPUTS} from '../components/forms/inputs/application-inputs';
@@ -61,20 +62,26 @@ class Dashboard extends Component {
   }
 
   render() {
+    let loadingWheel =
+    <div className="program-select column-headline">
+      <h4 className="column-headline">Looking for active applications...</h4>
+      <LoadingWheel/>
+        </div>
+
     return (
       <div className="dashboard">
         <div className="container">
           <div>
             <div className="portal-inner">
               <Hero headline={HERO_TEXT.DASHBOARD.heroHeadline} description={HERO_TEXT.DASHBOARD.heroDescription}/>
-              {(this.props.applications.length) && !this.props.isLoading ? (
-                <ProgramList
+              {!this.props.isLoading ? (
+                <>
+              {this.props.applications.length ? <ProgramList
                   applications={this.props.applications}
                   internalStatusUpdate={this.state.internalStatusUpdate}
                   opps={this.props.applications}
                   user={this.props.user}
-                />
-              ) : (
+                />  : null }
                 <ProgramSelect
                   isLoading={this.props.isLoading}
                   programInputs={this.state.programInputs}
@@ -86,8 +93,10 @@ class Dashboard extends Component {
                   errorMessage={this.state.errorMessage}
                   onCampusChange={this.onCampusChange}
                   programSelected={!!this.state.program}
+                  hasExistingApps={this.props.applications.length}
                 />
-              )}
+              </>
+          ) : loadingWheel }
             </div>
           </div>
         </div>

@@ -36,7 +36,7 @@ class App extends Component {
     })
   }
 
-  setOpportunities = (result) => {
+  setApplications = (result) => {
     if (result.message === 'jwt expired' || result.message === 'jwt malformed' || result.message === 'Your session has expired. Please log back in.') {
       this.clearData()
     } else if (result.data && result.data.applications && result.data.user) {
@@ -55,7 +55,7 @@ class App extends Component {
         fetchedData: true,
       })
     } else {
-      // no opportunities and already fetched
+      // no applications and already fetched
       this.setState({ isLoading: false, fetchedData: true })
     }
   }
@@ -67,7 +67,7 @@ class App extends Component {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         })
           .then(res => res.json())
-          .then(result => { this.setOpportunities(result); })
+          .then(result => { this.setApplications(result); })
           .catch(() => { this.clearData() })
       })
     } else {
