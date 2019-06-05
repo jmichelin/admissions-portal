@@ -74,7 +74,7 @@
   flex-direction: column;
   align-items: center;
   flex: 5 0 50%;
-  padding: $pad-double;
+  padding: $pad-and-half;
   min-height: 625px;
 }
 
@@ -111,6 +111,10 @@ form {
   }
   .input-group {
     margin: 0 10px 12px 10px;
+  }
+
+  select {
+    color: $color-gray-4;
   }
 
   .checkbox-field {

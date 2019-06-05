@@ -34,7 +34,7 @@ function getCreateAccountInputs() {
     options: FULL_TIME_PROGRAMS
   },{
   id: 'campus',
-  label: 'Preferred Campus?',
+  label: 'Preferred Campus',
   type: 'select',
   fieldName: 'Campus__c',
   value: '',

@@ -5,7 +5,7 @@ export default (props) => {
   if (props.disabled) {
     return (
       <option value="" disabled>
-        Select one
+        {props.placeholder ? props.placeholder : 'Select one' }
       </option>
     )
   }
