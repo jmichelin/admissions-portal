@@ -31,16 +31,16 @@ function getCreateAccountInputs() {
     label: 'Preferred Program',
     type: 'select',
     value: '',
-    options: FULL_TIME_PROGRAMS
+    options: FULL_TIME_PROGRAMS,
+    errorMessage: 'Select a program.'
   },{
   id: 'campus',
   label: 'Preferred Campus',
   type: 'select',
   fieldName: 'Campus__c',
   value: '',
-  validate: ["string"],
-  errorMsg: "Please select a valid campus",
-  options: CAMPUSES
+  options: CAMPUSES,
+  errorMessage: "Select a campus."
   },{
     id: 'password',
     label: 'Password',

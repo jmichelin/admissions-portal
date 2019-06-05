@@ -81,8 +81,8 @@ class Signup extends Component {
       submitAttempted: true,
       isLoading: true
     })
-    const { first_name, last_name, email, password } = this.state;
-    const formData = { first_name, last_name, email, password }
+    const { first_name, last_name, email, password, product, campus } = this.state;
+    const formData = { first_name, last_name, email, password, product, campus }
 
     if (this.validUser(formData)) {
       fetch(SIGNUP_URL, {
@@ -154,6 +154,8 @@ class Signup extends Component {
               options={input.options}
               onOptionClick={(e) => this.onInputChange(e)}
               disabled={input.dependentField ? !this.state.values[input.dependentField] : false}
+              errorMessage={input.errorMessage}
+              showError={this.state.submitAttempted && !this.validField(input)}
             />
         )} else {
           return null;
@@ -205,7 +207,9 @@ const schema = {
   first_name: Joi.string(),
   last_name: Joi.string(),
   email: Joi.string().email(),
-  password: Joi.string().min(5).max(15)
+  password: Joi.string().min(5).max(15),
+  program: Joi.string(),
+  campus: Joi.string()
 }
 
 export default Signup;
