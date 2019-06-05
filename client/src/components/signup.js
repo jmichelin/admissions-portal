@@ -51,6 +51,7 @@ class Signup extends Component {
 
   validUser(data) {
     const result = Joi.validate(data, schema);
+    console.log(result);
     if (this.state.confirmed_password !== this.state.password) return false;
     if (this.state.terms === false) return false;
     if (result.error === null) {
@@ -81,8 +82,8 @@ class Signup extends Component {
       submitAttempted: true,
       isLoading: true
     })
-    const { first_name, last_name, email, password, product, campus } = this.state;
-    const formData = { first_name, last_name, email, password, product, campus }
+    const { first_name, last_name, email, password, program, campus } = this.state;
+    const formData = { first_name, last_name, email, password, program, campus }
 
     if (this.validUser(formData)) {
       fetch(SIGNUP_URL, {

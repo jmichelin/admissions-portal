@@ -13,7 +13,9 @@ const signupSchema = Joi.object().keys({
   email: Joi.string().email().required(),
   password: Joi.string().min(5).max(15).required(),
   first_name: Joi.string().required(),
-  last_name: Joi.string().required()
+  last_name: Joi.string().required(),
+  program: Joi.string().required(),
+  campus: Joi.string().required()
 });
 
 const signinSchema = Joi.object().keys({
@@ -27,7 +29,9 @@ function createTokenSendResponse(user, res, next) {
     id: user.id,
     email: user.email,
     first_name: user.first_name,
-    last_name:user.last_name
+    last_name:user.last_name,
+    program: user.program,
+    campus: user.campus
   };
   jwt.sign(payload, process.env.TOKEN_SECRET, {
     expiresIn: '6h'
