@@ -20,8 +20,8 @@ class Dashboard extends Component {
     this.state = {
       programInputs: programInputs,
       campusInputs: campusInputs,
-      program: '',
-      campus: '',
+      program: props.user.program || '',
+      campus: props.user.campus || '',
       errorMessage: '',
     };
 
@@ -30,6 +30,7 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.user);
     if (!this.props.fetchedData) this.props.getData(true);
     if (this.props.location.state && this.props.location.state.dataRefresh) {
       const {dataRefresh} = this.props.location.state;
