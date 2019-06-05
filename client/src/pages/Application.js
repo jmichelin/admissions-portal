@@ -70,6 +70,7 @@ class Application extends Component {
                 'Campus__c': this.props.location.state.campus
               }
             }))
+            this.checkDependencies('Campus__c', this.props.location.state.campus)
           }
         }
       })
