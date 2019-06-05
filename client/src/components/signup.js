@@ -24,6 +24,8 @@ class Signup extends Component {
       email:'',
       password:'',
       confirmed_password: '',
+      program: '',
+      campus: '',
       terms: false,
       isFormValid: false,
       submitAttempted: false,
@@ -32,7 +34,6 @@ class Signup extends Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
-    this.onSelectChange = this.onSelectChange.bind(this);
     this.validField = this.validField.bind(this);
     this.validUser = this.validUser.bind(this);
   }
@@ -46,10 +47,6 @@ class Signup extends Component {
     this.setState({
       [name]: value
     });
-  }
-
-  onSelectChange(field, i) {
-    console.log(field);
   }
 
   validUser(data) {
@@ -153,9 +150,9 @@ class Signup extends Component {
               name={input.id}
               placeholder={input.label}
               required={input.required}
-              value={''}
+              value={this.state[input.id]}
               options={input.options}
-              onOptionClick={(e) => this.onSelectChange(input.fieldName, e)}
+              onOptionClick={(e) => this.onInputChange(e)}
               disabled={input.dependentField ? !this.state.values[input.dependentField] : false}
             />
         )} else {
