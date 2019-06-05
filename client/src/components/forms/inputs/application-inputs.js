@@ -1,4 +1,5 @@
 import { CAMPUSES } from '../../../constants';
+import moment from 'moment';
 
 const CAMPUS_FETCH_URL = '/api/v1/campuses';
 
@@ -10,7 +11,7 @@ const getOfferings = async (field) => {
     .then(res => res.json())
     .then(result => {
       return result.map((offering) => {
-        return { value: offering.courseName, name: offering.startDate }
+        return { value: offering.courseName, name: moment(offering.startDate).format('MMM DD, YYYY') }
       });
     });
   return offerings
