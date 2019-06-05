@@ -1,5 +1,5 @@
 import { CAMPUSES, FULL_TIME_PROGRAMS } from '../../../constants';
-
+import { APPLICATION_INPUTS } from './application-inputs';
 
 function getCreateAccountInputs() {
   return [{
@@ -31,7 +31,7 @@ function getCreateAccountInputs() {
     label: 'Preferred Program',
     type: 'select',
     value: '',
-    options: FULL_TIME_PROGRAMS,
+    options: APPLICATION_INPUTS,
     errorMessage: 'Select a program.'
   },{
   id: 'campus',

@@ -6,8 +6,9 @@ function getProgramInputs(programs) {
     value: '',
     options: programs.map(program => {
       return {
-        name: program.appName,
-        value: JSON.stringify(program)
+        name: program.name,
+        value: program.name,
+        courseProduct: program.courseProduct
       };
     })
   };

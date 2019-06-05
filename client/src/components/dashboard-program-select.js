@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import { PROGRAM_SELECT_TEXT } from '../constants';
+import { APPLICATION_INPUTS } from './forms/inputs/application-inputs';
 
 import Select from '../components/forms/select';
 
@@ -10,6 +11,11 @@ class ProgramSelect extends Component {
     super(props);
   }
 
+// TODO: This is a weird way to make this work - should we put course prod and course type on user too? Will we always be able to search by course name?
+  retrieveApp(program) {
+    let foundApp = APPLICATION_INPUTS.find(e => e.name === program)
+    if (foundApp) return ({courseProduct: foundApp.courseProduct, courseType: foundApp.courseType})
+  }
 
   render() {
     return (
@@ -47,7 +53,7 @@ class ProgramSelect extends Component {
             <Link to={{
               pathname: '/application',
               state: {
-                program: this.props.program,
+                program: this.retrieveApp(this.props.program),
                 campus: this.props.campus
               }
               }}>
@@ -61,5 +67,6 @@ class ProgramSelect extends Component {
     )
   }
 }
+
 
 export default ProgramSelect;

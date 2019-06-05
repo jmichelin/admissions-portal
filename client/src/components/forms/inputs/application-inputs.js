@@ -18,7 +18,7 @@ const getOfferings = async (field) => {
 
 export const APPLICATION_INPUTS = [
   {
-  appName: 'Software Engineering Immersive',
+  name: 'Software Engineering Immersive',
   courseProduct: 'Full Stack',
   courseType: '12 Week Full-Time Immersive',
   formFields : [{

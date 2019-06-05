@@ -20,8 +20,8 @@ class Dashboard extends Component {
     this.state = {
       programInputs: programInputs,
       campusInputs: campusInputs,
-      program: '',
-      campus: '',
+      program: props.user.program || '',
+      campus: props.user.campus || '',
       errorMessage: '',
     };
 
