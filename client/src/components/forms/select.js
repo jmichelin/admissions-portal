@@ -14,7 +14,7 @@ export default (props) => {
   }
   let options = props.options.map((option, i) => {
     return (
-      <SelectItem  key={ i } option={ option } program={props.program}/>
+      <SelectItem  key={ i } option={ option }/>
     )
   });
 

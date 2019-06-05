@@ -20,7 +20,7 @@ class ProgramSelect extends Component {
 
     let programSelectForm =
     <div className="program-select">
-      <p className="section-row">Looks like you don't have any active applications. Select a program and campus below to start your application:</p>
+      <p className="section-row">Looks like you don't have any active applications for a course starting in the future. Select a program and campus below to start your application:</p>
         <div className="form">
           <div className="form-group">
               <Select name="select-normal"
@@ -33,19 +33,34 @@ class ProgramSelect extends Component {
                 value={this.props.program}
                 onOptionClick={this.props.onProgramChange}
               />
-            </div>
+          </div>
+          <div className="form-group">
+              <Select name="select-normal"
+              label='Select a Campus'
+              id="campus"
+              fieldName=""
+              options={this.props.campusInputs.options}
+              className="select"
+              showError={this.props.submitAttempted && !this.props.isValid('campus')}
+              currentSelection={this.props.campus}
+              value={this.props.campus}
+              onOptionClick={this.props.onCampusChange}
+              disabled={!this.props.programSelected}
+              />
+          </div>
             <div className="action">
             <Link to={{
               pathname: '/application',
               state: {
                 program: this.props.program,
+                campus: this.props.campus
               }
               }}>
-              <button className="button-primary">Start Your Application</button></Link>
+              <button className="button-primary" disabled={!this.props.program || !this.props.campus}>Start Your Application</button></Link>
             </div>
         </div>
         <span className="form-note form-error">{ this.props.errorMessage }</span>
-        <p className="citation">Once you submit an application you can log back into this portal to complete the rest of the admissions process.</p>
+        <p className="citation">Once you submit an application you can proceed within this portal to complete the next step in your program's admissions process.</p>
         <p className="citation -thin">Questions? Reach out to <a href="mailto:admissions@galvanize.com">admissions@galvanize.com</a> and we'd be happy to help.</p>
     </div>
 

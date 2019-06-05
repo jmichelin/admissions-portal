@@ -4,14 +4,16 @@ import Hero from '../components/hero';
 import ProgramSelect from '../components/dashboard-program-select';
 import ProgramList from '../components/dashboard-program-list';
 
-import { CAMPUSES, FULL_TIME_PROGRAMS, HERO_TEXT } from '../constants';
+import { CAMPUSES, HERO_TEXT } from '../constants';
+import { APPLICATION_INPUTS} from '../components/forms/inputs/application-inputs';
+
 import inputs from '../components/forms/inputs/select-inputs';
 
 
 class Dashboard extends Component {
   constructor(props){
     super(props);
-    const programInputs = inputs.getProgramInputs(FULL_TIME_PROGRAMS);
+    const programInputs = inputs.getProgramInputs(APPLICATION_INPUTS);
     const campusInputs = inputs.getCampusInputs(CAMPUSES);
 
     this.state = {
@@ -19,7 +21,7 @@ class Dashboard extends Component {
       campusInputs: campusInputs,
       program: '',
       campus: '',
-      errorMessage: ''
+      errorMessage: '',
     };
 
     this.onProgramChange = this.onProgramChange.bind(this);
@@ -36,19 +38,11 @@ class Dashboard extends Component {
   }
 
   onProgramChange(e) {
-    if (e.target.value.includes('Remote')) {
-      this.setState({
-        program: e.target.value,
-        campus: 'Remote',
-        errorMessage: ''
-      });
-    } else {
       this.setState({
         program: e.target.value,
         campus: '',
         errorMessage: ''
       });
-    }
   }
 
   onCampusChange(e) {
@@ -91,6 +85,7 @@ class Dashboard extends Component {
                   campus={this.state.campus}
                   errorMessage={this.state.errorMessage}
                   onCampusChange={this.onCampusChange}
+                  programSelected={!!this.state.program}
                 />
               )}
             </div>
