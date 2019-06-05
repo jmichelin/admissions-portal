@@ -22,13 +22,13 @@ const ProgramList = ({ opps }) => (
         <div className="application-row" key={i}>
           <ul className="table-row -listing">
             <li>{opp.formalName}</li>
-            <li className="hide-mobile">{opp.campus}</li>
+            <li className="hide-mobile">{opp.values ? opp.values.Campus__c : opp.campus}</li>
             <li className="hide-mobile">{moment(opp.courseStart).format('MM/DD/YYYY')}</li>
             <li className="hide-tablet">{opp.currentStep ? opp.currentStep.status : 'Talk to Your Enrollment Officer'}</li>
           </ul>
-          <AdmissionsProcessSteps opp={opp} activeStep={opp.currentStep} />
+          {i < 1 ? <AdmissionsProcessSteps opp={opp} activeStep={opp.currentStep} /> : null }
           <NextStepBlock opp={opp} step={opp.currentStep} />
-          {opp.courseProduct === 'Web Development' ? <ResourcesSEI /> : <ResourcesDSI />}
+          {i < 1 ? (opp.courseProduct === 'Data Science' ? <ResourcesDSI /> : <ResourcesSEI />) : null }
         </div>
       ))}
     </div>

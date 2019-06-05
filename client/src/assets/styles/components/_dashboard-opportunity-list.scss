@@ -19,7 +19,6 @@
   .table-row {
     display: flex;
     list-style: none;
-    justify-content: space-between;
     margin: 0;
 
      li {
@@ -40,11 +39,10 @@
     .application-row {
       background: $color-white;
       margin-top: $space;
-      margin-bottom: $space-triple;
+      margin-bottom: $space;
       border: 1px solid $color-brand-primary;
 
       .-listing {
-        border-bottom: 1px solid $color-brand-primary;
         background: $color-gray-1;
       }
     }

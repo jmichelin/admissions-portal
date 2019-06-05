@@ -230,9 +230,9 @@ export const SEI_STEPS_12_WK = {
   STEP_ONE: {
     step: 1,
     status: 'Complete Your Application',
-    description: 'Complete your APP NOW',
+    description: 'The first step in the admissions process for this program is to submit your application. Please continue to fill out the rest of the form. Reach out to admissions@galvanize.com if you have any questions.',
     buttonPath: '/application',
-    buttonText: 'Complete your app NOW I SAID NOW',
+    buttonText: 'Complete Your Application',
   },
   STEP_TWO: {
     step: 2,

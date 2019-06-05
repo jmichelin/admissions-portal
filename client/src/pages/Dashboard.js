@@ -67,7 +67,7 @@ class Dashboard extends Component {
           <div>
             <div className="portal-inner">
               <Hero headline={HERO_TEXT.DASHBOARD.heroHeadline} description={HERO_TEXT.DASHBOARD.heroDescription}/>
-              {(this.props.applications.length || this.props.applications.length) && !this.props.isLoading ? (
+              {(this.props.applications.length) && !this.props.isLoading ? (
                 <ProgramList
                   applications={this.props.applications}
                   internalStatusUpdate={this.state.internalStatusUpdate}
