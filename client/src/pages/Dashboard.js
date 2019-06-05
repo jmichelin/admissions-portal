@@ -20,8 +20,8 @@ class Dashboard extends Component {
     this.state = {
       programInputs: programInputs,
       campusInputs: campusInputs,
-      program: props.user.program || '',
-      campus: props.user.campus || '',
+      program: '',
+      campus: '',
       errorMessage: '',
     };
 
@@ -30,7 +30,6 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.user);
     if (!this.props.fetchedData) this.props.getData(true);
     if (this.props.location.state && this.props.location.state.dataRefresh) {
       const {dataRefresh} = this.props.location.state;
@@ -86,14 +85,14 @@ class Dashboard extends Component {
                 <ProgramSelect
                   isLoading={this.props.isLoading}
                   programInputs={this.state.programInputs}
-                  program={this.state.program}
+                  program={!this.props.applications.length ? this.state.program || this.props.user.program : this.state.program}
                   isValid={this.isValid}
                   onProgramChange={this.onProgramChange}
                   campusInputs={this.state.campusInputs}
-                  campus={this.state.campus}
+                  campus={!this.props.applications.length ? this.state.campus || this.props.user.campus : this.state.campus}
                   errorMessage={this.state.errorMessage}
                   onCampusChange={this.onCampusChange}
-                  programSelected={!!this.state.program}
+                  programSelected={!!this.state.program || this.props.user.program}
                   hasExistingApps={this.props.applications.length}
                 />
               </>

@@ -28,9 +28,8 @@ class Application extends Component {
       result[currentVal["fieldName"]] = '';
       return result
     }, {});
-
+    console.log('yayayay', props.location.state.program);
     const program = props.location.state.program ? JSON.parse(props.location.state.program) : props.location.state.opp
-
     this.state = {
       campus: '',
       courseType: program.courseType || program.course_type,
@@ -58,7 +57,6 @@ class Application extends Component {
     })
       .then(resp => resp.json())
       .then((resp) => {
-        console.log(resp)
         if (resp.complete) return this.props.history.push('/dashboard');
         if (resp.values) {
           Object.keys(resp.values).forEach(key => this.checkDependencies(key, resp.values[key]));
