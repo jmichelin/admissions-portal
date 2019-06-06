@@ -23,7 +23,7 @@ export default (props) => {
 
   return (
     <div className="input-group">
-      {props.label ? <Label optional={ props.optional } text={ props.label } /> : null }
+      {props.label && <Label optional={ props.optional } text={ props.label } />}
       <select
         name={props.name}
         id={props.id}

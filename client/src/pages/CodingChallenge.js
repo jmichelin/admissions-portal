@@ -185,32 +185,38 @@ class CodingChallenge extends Component {
   }
 
   render() {
-    if (this.state.redirectToDashboard) {
-      return (<Redirect to='/dashboard'/>)
-    }
+    if (this.state.redirectToDashboard) return <Redirect to='/dashboard'/>
+
     return (
       <div className="coding-challenge">
-          <div className="container">
-              <div className="portal-inner">
-                <Hero headline={HERO_TEXT.CODING_CHALLENGE.heroHeadline} description={HERO_TEXT.CODING_CHALLENGE.heroDescription}/>
-                <Breadcrumb />
-                <div className="challenge-editor">
-                  <CodingInstructions tests={this.state.localTestResults} allPassed={this.state.allPassed}/>
-                  <div className="code-editor col">
-                    <h4 className="column-header">Code Editor</h4>
-                    <CodeEditor codeTest={this.runLocal}
-                      codeSubmit={this.codeSubmit}
-                      showSubmitButton={true}
-                      mode="javascript"
-                      codeAttemptUpdate={this.codeAttemptUpdate}
-                      errorMessage={this.state.errorMessage}
-                      allPassed={this.state.allPassed}
-                      showProcessing={this.state.showProcessing}
-                      submittingCode={this.state.submittingCode}/>
-                  </div>
-                </div>
+        <div className="container">
+          <div className="portal-inner">
+            <Hero
+              headline={HERO_TEXT.CODING_CHALLENGE.heroHeadline}
+              description={HERO_TEXT.CODING_CHALLENGE.heroDescription}
+            />
+            <Breadcrumb />
+            <div className="challenge-editor">
+              <CodingInstructions tests={this.state.localTestResults} allPassed={this.state.allPassed} />
+              <div className="code-editor col">
+                <h4 className="column-header">
+                  Code Editor
+                </h4>
+                <CodeEditor
+                  codeTest={this.runLocal}
+                  codeSubmit={this.codeSubmit}
+                  showSubmitButton={true}
+                  mode="javascript"
+                  codeAttemptUpdate={this.codeAttemptUpdate}
+                  errorMessage={this.state.errorMessage}
+                  allPassed={this.state.allPassed}
+                  showProcessing={this.state.showProcessing}
+                  submittingCode={this.state.submittingCode}
+                />
+              </div>
             </div>
           </div>
+        </div>
       </div>
     )
   }

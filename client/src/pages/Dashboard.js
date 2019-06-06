@@ -64,7 +64,10 @@ class Dashboard extends Component {
         <div className="container">
           <div>
             <div className="portal-inner">
-              <Hero headline={HERO_TEXT.DASHBOARD.heroHeadline} description={HERO_TEXT.DASHBOARD.heroDescription}/>
+              <Hero
+                headline={HERO_TEXT.DASHBOARD.heroHeadline}
+                description={HERO_TEXT.DASHBOARD.heroDescription}
+              />
               {!this.props.isLoading ? (
                 <>
                   {this.props.applications.length && (

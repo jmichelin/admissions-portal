@@ -4,11 +4,14 @@ import { Redirect } from 'react-router-dom';
 import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
 
-import { PYTHON_CODE_SUBMIT_ENDPOINT,
-         UPDATE_OPP_ENDPOINT,
-         UPDATE_SCORECARD_ENDPOINT,
-         PYTHON_CHALLENGE_ENDPOINT,
-         DSI_STEPS, HERO_TEXT } from '../constants';
+import {
+  PYTHON_CODE_SUBMIT_ENDPOINT,
+  UPDATE_OPP_ENDPOINT,
+  UPDATE_SCORECARD_ENDPOINT,
+  PYTHON_CHALLENGE_ENDPOINT,
+  DSI_STEPS,
+  HERO_TEXT,
+} from '../constants';
 import { SNIPPET_1, SNIPPET_2 } from '../constants';
 import CodeEditor from '../components/CodeEditor';
 
@@ -277,15 +280,18 @@ class PythonChallenge extends Component {
       <div className="coding-challenge">
         <div className="container">
           <div className="portal-inner">
-
-            <Hero headline={HERO_TEXT.PYTHON_CHALLENGE.heroHeadline} description={HERO_TEXT.PYTHON_CHALLENGE.heroDescription}/>
+            <Hero
+              headline={HERO_TEXT.PYTHON_CHALLENGE.heroHeadline}
+              description={HERO_TEXT.PYTHON_CHALLENGE.heroDescription}
+            />
             <Breadcrumb />
-
             <div className="challenge-editor">
               <div className="instructions col">
                 <h4 className="column-header">CHALLENGE 1 Instructions</h4>
-                  <p>Complete the function <code>consonant_first</code> according to its docstring.<br></br><br></br>
-                  You can test your code as many times as you need. Your code will also save if you need to come back later.  <br></br><br></br>Need help? Our <a href="https://www.galvanize.com/data-science/prep">Prep Programs</a> are a great option to get up to speed!</p>
+                  <p>
+                    Complete the function <code>consonant_first</code> according to its docstring.<br></br><br></br>
+                    You can test your code as many times as you need. Your code will also save if you need to come back later.  <br></br><br></br>Need help? Our <a href="https://www.galvanize.com/data-science/prep">Prep Programs</a> are a great option to get up to speed!
+                  </p>
               </div>
               <div className="code-editor col">
                 <h4 className="column-header">Challenge 1</h4>
@@ -331,7 +337,12 @@ class PythonChallenge extends Component {
               </div>
             </div>
             <div style={{textAlign: "center"}}>
-              <button className={this.state.submittingCode ? "button-primary -loading" : "button-secondary"} disabled={!this.state.allPassed} onClick={ (e) => this.codeSubmit(e) }>Submit Code</button>
+              <button
+                className={this.state.submittingCode ? "button-primary -loading" : "button-secondary"}
+                disabled={!this.state.allPassed}
+                onClick={(e) => this.codeSubmit(e)}>
+                  Submit Code
+              </button>
               <br/>
               <br/>
             </div>
