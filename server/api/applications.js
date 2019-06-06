@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Q = require('../db/queries');
 
-router.patch('/', async (req, res) => {
+router.patch('/:id', async (req, res) => {
   const application = {
-    course_type: req.body.course_type,
-    course_product: req.body.course_product,
+    id: req.params.id,
     values: req.body.values,
     complete: req.body.complete,
     user_id: req.user.id,
@@ -23,9 +22,10 @@ router.patch('/', async (req, res) => {
 });
 
 router.post('/initialize/type/:courseType/product/:courseProduct', (req, res) => {
+  console.log("BODY MOVIN", req.body)
   let courseType = decodeURI(req.params.courseType);
   let courseProduct = decodeURI(req.params.courseProduct);
-  Q.findOrCreateApplication(courseType, courseProduct, req.user.id)
+  Q.findOrCreateApplication(courseType, courseProduct, req.user.id, req.body)
     .then((application) => res.status(200).send(application))
     .catch((err) => {
       console.log("Error initializing program:", err)

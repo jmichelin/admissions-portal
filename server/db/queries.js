@@ -138,22 +138,22 @@ module.exports = {
 
     updateApplication: async function(application) {
       const foundApp = await knex('application').select('*')
-        .where({ course_type: application.course_type, course_product: application.course_product, user_id: application.user_id })
+        .where({id: application.id})
         .first()
-      if (foundApp !== undefined) {
+      if (foundApp !== undefined && application.user_id == foundApp.user_id) {
         return knex('application').update({
           values: application.values,
           updated_at: knex.fn.now(),
           complete: application.complete,
         })
-        .where({ course_type: application.course_type, course_product: application.course_product, user_id: application.user_id })
+        .where({id: application.id})
         .returning('*')
       } else {
         return undefined
       }
     },
 
-    findOrCreateApplication: async function(courseType, courseProduct, userId) {
+    findOrCreateApplication: async function(courseType, courseProduct, userId, values) {
       let foundApp = await knex('application')
         .select('*')
         .where({
@@ -171,6 +171,7 @@ module.exports = {
           course_type: courseType,
           course_product: courseProduct,
           user_id: userId,
+          values: values,
           created_at: knex.fn.now()
         })
         .returning('*')

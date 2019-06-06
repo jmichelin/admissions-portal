@@ -19,7 +19,7 @@ const ProgramList = ({ opps }) => (
     </div>
     <div className="table-body">
       {opps.map((opp, i) => (
-        <div className="application-row" key={i}>
+        <div className="application-row" key={`application-${opp.id}`}>
           <ul className="table-row -listing">
             <li>{opp.formalName}</li>
             <li className="hide-mobile">{opp.values ? opp.values.Campus__c : opp.campus}</li>

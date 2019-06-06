@@ -471,7 +471,7 @@ export const SNIPPET_2 = {
 export const PROGRAM_SELECT_TEXT = {
   headlineText: 'Start a New Application',
   noApplicationsText: "Looks like you don't have any active applications for a course starting in the future. Select a program and campus below to start your application:",
-  existingApplicationsText: "Want to apply for a different program? Start a new application here to get starated.  If you have an existing application for the same program please continue your application above.",
+  existingApplicationsText: "Want to apply for a different program? Start a new application here to get started.  If you have an existing application for the same program please continue your application above.",
   heroDescription: 'Manage your application, see next steps and complete the admissions process from here.',
   citationText1: "Once you submit an application you can proceed within this portal to complete the next step in your program's admissions process.",
 };

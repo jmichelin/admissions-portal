@@ -53,14 +53,18 @@ class Application extends Component {
       headers: {
         'Authorization': `Bearer ${localStorage.token}`,
         'Accept': 'application/json',
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        Campus__c: this.props.location.state.campus,
+      })
     })
       .then(resp => resp.json())
       .then((resp) => {
         if (resp.complete) return this.props.history.push('/dashboard');
         if (resp.values) {
           Object.keys(resp.values).forEach(key => this.checkDependencies(key, resp.values[key]));
-          this.setState((prevState) => ({ values: {...prevState.values, ...resp.values } }) )
+          this.setState((prevState) => ({ values: {...prevState.values, ...resp.values }, applicationId: resp.id }) )
 
           // TODO: This prepopulates campus from program select. It could be much cleaner.
           if (this.props.location.state && this.props.location.state.campus) {
@@ -69,7 +73,7 @@ class Application extends Component {
               values: {
                 ...prevState.values,
                 'Campus__c': this.props.location.state.campus
-              }
+              },
             }))
             this.checkDependencies('Campus__c', this.props.location.state.campus)
           }
@@ -144,7 +148,7 @@ class Application extends Component {
   persistApp(complete) {
     this.setState({unsavedChanges: false})
 
-    return fetch(APPLICATIONS_ENDPOINT, {
+    return fetch(`${APPLICATIONS_ENDPOINT}/${this.state.applicationId}`, {
       method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${localStorage.token}`,
@@ -153,8 +157,6 @@ class Application extends Component {
       },
       body: JSON.stringify({
         values: this.state.values,
-        course_type: this.state.courseType,
-        course_product: this.state.courseProduct,
         complete,
       })
     })
