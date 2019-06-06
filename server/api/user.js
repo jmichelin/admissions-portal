@@ -9,10 +9,7 @@ const salesforce = new Salesforce();
 router.get('/', (req, res, next) => {
   salesforce.login()
     .then(() => {
-      return salesforce.contactQuery(req.user.email);
-    }).then(response => {
-      if (response.records.length) {
-        return salesforce.oppQuery(response.records[0].Account.Id)
+        return salesforce.oppQuery(req.user.email)
         .then(opps => {
           let data = {};
           if (opps.length) {
@@ -37,9 +34,6 @@ router.get('/', (req, res, next) => {
             res.json({message: 'No Applications Exist for this User'});
           }
         });
-      } else {
-        res.json({message: 'No Applications Exist for this User'});
-      }
     })
     .catch(err => {
       res.status(501);
