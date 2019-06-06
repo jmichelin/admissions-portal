@@ -26,14 +26,12 @@ const signinSchema = Joi.object().keys({
 });
 
 
-function createTokenSendResponse(user, res, next) {
+function createTokenSendResponse(user, opportunities, res, next) {
   const payload = {
     id: user.id,
     email: user.email,
     first_name: user.first_name,
-    last_name:user.last_name,
-    program: user.program,
-    campus: user.campus
+    last_name:user.last_name
   };
   jwt.sign(payload, process.env.TOKEN_SECRET, {
     expiresIn: '6h'
@@ -42,7 +40,11 @@ function createTokenSendResponse(user, res, next) {
       respondError(res, next);
     } else {
       res.json({
-        token
+        token,
+        data: {
+          user: payload,
+          applications: opportunities
+        },
       });
     }
   });
@@ -66,7 +68,7 @@ router.post('/signup', async (req, res, next) => {
       if (opportunities.length === 0) {
         await Q.findOrCreateApplication(req.body.courseType, req.body.courseProduct, newUser[0].id, values);
       }
-      createTokenSendResponse(newUser[0], res, next);
+      createTokenSendResponse(newUser[0], opportunities, res, next);
     }
   } catch(err) {
     next(err)
@@ -82,7 +84,7 @@ router.post('/signin', (req, res, next) => {
           bcrypt.compare(req.body.password, user.password)
             .then(result => {
               if (result) {
-                createTokenSendResponse(user, res, next);
+                createTokenSendResponse(user, [], res, next);
               } else {
                 respondError(res, next);
               }

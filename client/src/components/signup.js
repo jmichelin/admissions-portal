@@ -103,8 +103,9 @@ class Signup extends Component {
           })
         }).then(result => {
           localStorage.token = result.token;
-          this.setState({
-            redirectToDashboard: true
+          return this.props.history.push({
+            pathname: '/dashboard',
+            state: { user: result.data.user, applications: result.data.applications }
           })
         }).catch(err => {
             this.setState({
@@ -168,11 +169,11 @@ class Signup extends Component {
 
 
   render() {
-    if (this.state.redirectToDashboard) {
-      return (
-      <Redirect to="/dashboard"/>
-      )
-    }
+    // if (this.state.redirectToDashboard) {
+    //   return (
+    //   <Redirect to="/dashboard"/>
+    //   )
+    // }
     return (
         <div className="signup">
           <h1 className="title">Admissions Portal<span>New!</span></h1>
