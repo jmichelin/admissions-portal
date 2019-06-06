@@ -48,20 +48,11 @@ function createTokenSendResponse(user, res, next) {
   });
 }
 
-
-router.get('/', (req, res) => {
-  res.json({
-    user: req.user,
-    message: 'Hello!'
-  });
-});
-
 router.post('/signup', async (req, res, next) => {
   const result = Joi.validate(req.body, signupSchema);
   if (result.error !== null) return next(result.error)
   try {
     let user = await Q.getUserbyEmail(req.body.email);
-    // right here
     if (user) {
       const error = new Error('A user with this email already exists.');
       res.status(409);
@@ -69,6 +60,10 @@ router.post('/signup', async (req, res, next) => {
     } else {
       let hashedPassword = await bcrypt.hash(req.body.password, 12);
       let newUser = await Q.addNewUser(req.body, hashedPassword);
+      let values = JSON.stringify({Campus__c: req.body.campus});
+
+      // TODO Only do this if no Salesforce Oppty for the email
+      await Q.findOrCreateApplication(req.body.courseType, req.body.courseProduct, newUser[0].id, values);
       createTokenSendResponse(newUser[0], res, next);
     }
   } catch(err) {
