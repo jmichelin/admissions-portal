@@ -43,6 +43,27 @@ class Salesforce {
     });
   }
 
+  async getOpportunities(email) {
+    await this.login();
+
+    const response = await this.contactQuery(email);
+    if (!response.records.length) return []
+
+    let opps = await this.oppQuery(response.records[0].Account.Id)
+    if (!opps.length) return []
+
+    let scorecardIds = opps.filter(opp => opp.scorecardId).map(opp => opp.scorecardId)
+    let scorecards = await this.scorecardQueries(scorecardIds);
+
+    const opportunities = opps.map(opp => {
+      let card = scorecards.find(card => card.oppId === opp.id);
+      if (card) opp.scorecard = card
+      return opp
+    }).filter(val => val);
+
+    return opportunities
+  }
+
   login() {
     return new Promise( (resolve, reject) => {
       this.connection.login(this.username, this.password, (err, userInfo) => {

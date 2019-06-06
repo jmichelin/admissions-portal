@@ -62,8 +62,10 @@ router.post('/signup', async (req, res, next) => {
       let newUser = await Q.addNewUser(req.body, hashedPassword);
       let values = JSON.stringify({Campus__c: req.body.campus});
 
-      // TODO Only do this if no Salesforce Oppty for the email
-      await Q.findOrCreateApplication(req.body.courseType, req.body.courseProduct, newUser[0].id, values);
+      let opportunities = await salesforce.getOpportunities(req.user.email);
+      if (opportunities.length === 0) {
+        await Q.findOrCreateApplication(req.body.courseType, req.body.courseProduct, newUser[0].id, values);
+      }
       createTokenSendResponse(newUser[0], res, next);
     }
   } catch(err) {
