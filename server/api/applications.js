@@ -22,7 +22,6 @@ router.patch('/:id', async (req, res) => {
 });
 
 router.post('/initialize/type/:courseType/product/:courseProduct', (req, res) => {
-  console.log("BODY MOVIN", req.body)
   let courseType = decodeURI(req.params.courseType);
   let courseProduct = decodeURI(req.params.courseProduct);
   Q.findOrCreateApplication(courseType, courseProduct, req.user.id, req.body)

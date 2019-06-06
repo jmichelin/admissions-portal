@@ -6,6 +6,7 @@ import Checkbox from './forms/checkbox';
 import Select from './forms/select';
 
 import HRLogo from '../assets/images/hack-reactor-horizontal-logo.png';
+import { APPLICATION_INPUTS } from './forms/inputs/application-inputs';
 
 import Joi from 'joi';
 
@@ -83,8 +84,10 @@ class Signup extends Component {
       isLoading: true
     })
     const { first_name, last_name, email, password, program, campus } = this.state;
-    const formData = { first_name, last_name, email, password, program, campus }
+    const { courseType, courseProduct } = APPLICATION_INPUTS.find(e => e.name === program)
+    const formData = { first_name, last_name, email, password, program, campus, courseType, courseProduct }
 
+    // set courseType and courseProduct from Application Inputs to send to server
     if (this.validUser(formData)) {
       fetch(SIGNUP_URL, {
         method: 'POST',

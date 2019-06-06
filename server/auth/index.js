@@ -54,9 +54,6 @@ router.get('/', (req, res) => {
   });
 });
 
-
-
-
 router.post('/signup', (req, res, next) => {
   const result = Joi.validate(req.body, signupSchema);
   if (result.error === null) {
