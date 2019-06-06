@@ -15,7 +15,9 @@ const signupSchema = Joi.object().keys({
   first_name: Joi.string().required(),
   last_name: Joi.string().required(),
   program: Joi.string().required(),
-  campus: Joi.string().required()
+  campus: Joi.string().required(),
+  courseType: Joi.string().required(),
+  courseProduct: Joi.string().required(),
 });
 
 const signinSchema = Joi.object().keys({
@@ -54,28 +56,23 @@ router.get('/', (req, res) => {
   });
 });
 
-router.post('/signup', (req, res, next) => {
+router.post('/signup', async (req, res, next) => {
   const result = Joi.validate(req.body, signupSchema);
-  if (result.error === null) {
-    Q.getUserbyEmail(req.body.email)
-      .then(user => {
-        if (user) {
-          const error = new Error('A user with this email already exists.');
-          res.status(409);
-          next(error);
-        } else {
-          bcrypt.hash(req.body.password, 12)
-            .then(hashedPassword => {
-              Q.addNewUser(req.body, hashedPassword)
-                .then((newUser) => {
-                  createTokenSendResponse(newUser[0], res, next);
-                });
-            })
-            .catch(err => next(err));
-        }
-      });
-  } else {
-    next(result.error);
+  if (result.error !== null) return next(result.error)
+  try {
+    let user = await Q.getUserbyEmail(req.body.email);
+    // right here
+    if (user) {
+      const error = new Error('A user with this email already exists.');
+      res.status(409);
+      next(error);
+    } else {
+      let hashedPassword = await bcrypt.hash(req.body.password, 12);
+      let newUser = await Q.addNewUser(req.body, hashedPassword);
+      createTokenSendResponse(newUser[0], res, next);
+    }
+  } catch(err) {
+    next(err)
   }
 });
 

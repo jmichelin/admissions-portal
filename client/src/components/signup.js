@@ -213,7 +213,9 @@ const schema = {
   email: Joi.string().email(),
   password: Joi.string().min(5).max(15),
   program: Joi.string(),
-  campus: Joi.string()
+  campus: Joi.string(),
+  courseType: Joi.string().required(),
+  courseProduct: Joi.string().required(),
 }
 
 export default Signup;
