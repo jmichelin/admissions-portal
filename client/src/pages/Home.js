@@ -37,7 +37,7 @@ class Home extends Component {
                 <div className="form-content">
                   { this.state.showSignin
                     ? <Signin toggleSignin={this.toggleSignin}/>
-                    : <Signup toggleSignin={this.toggleSignin}/>
+                  : <Signup toggleSignin={this.toggleSignin} updateState={this.props.updateState}/>
                   }
             </div>
           </div>

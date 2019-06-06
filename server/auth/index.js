@@ -4,9 +4,11 @@ const Q = require('../db/queries');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 import crypto from 'crypto';
+
+import Salesforce from '../lib/salesforce';
+const salesforce = new Salesforce();
+
 const nodemailer = require('nodemailer');
-
-
 const router = express.Router();
 
 const signupSchema = Joi.object().keys({
@@ -63,10 +65,10 @@ router.post('/signup', async (req, res, next) => {
       let hashedPassword = await bcrypt.hash(req.body.password, 12);
       let newUser = await Q.addNewUser(req.body, hashedPassword);
       let values = JSON.stringify({Campus__c: req.body.campus});
-
-      let opportunities = await salesforce.getOpportunities(req.user.email);
+      let opportunities = await salesforce.getOpportunities(newUser[0].email);
       if (opportunities.length === 0) {
-        await Q.findOrCreateApplication(req.body.courseType, req.body.courseProduct, newUser[0].id, values);
+        let application = await Q.findOrCreateApplication(req.body.courseType, req.body.courseProduct, newUser[0].id, values);
+        opportunities.push(application)
       }
       createTokenSendResponse(newUser[0], opportunities, res, next);
     }

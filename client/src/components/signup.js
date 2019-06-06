@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import inputs from './forms/inputs/inputs';
 import InputGroup from './forms/input-group';
 import Checkbox from './forms/checkbox';
@@ -7,6 +7,8 @@ import Select from './forms/select';
 
 import HRLogo from '../assets/images/hack-reactor-horizontal-logo.png';
 import { APPLICATION_INPUTS } from './forms/inputs/application-inputs';
+
+import utils from '../helpers/utils';
 
 import Joi from 'joi';
 
@@ -103,10 +105,19 @@ class Signup extends Component {
           })
         }).then(result => {
           localStorage.token = result.token;
-          return this.props.history.push({
-            pathname: '/dashboard',
-            state: { user: result.data.user, applications: result.data.applications }
-          })
+          const applications = result.data.applications.map(app => {
+          const stageObj = utils.getStage(app);
+          app.formalName = stageObj.name;
+          app.currentStep = stageObj.step;
+          app.admissionsProcess = stageObj.process;
+          return app;
+        })
+          let updatedState = {
+            user: result.data.user,
+            applications: applications,
+            fetchedData: true
+          }
+          this.props.updateState(updatedState, '/dashboard')
         }).catch(err => {
             this.setState({
               errorMessage: err.message,
@@ -169,11 +180,6 @@ class Signup extends Component {
 
 
   render() {
-    // if (this.state.redirectToDashboard) {
-    //   return (
-    //   <Redirect to="/dashboard"/>
-    //   )
-    // }
     return (
         <div className="signup">
           <h1 className="title">Admissions Portal<span>New!</span></h1>
@@ -218,4 +224,4 @@ const schema = {
   courseProduct: Joi.string().required(),
 }
 
-export default Signup;
+export default withRouter(Signup);

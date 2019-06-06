@@ -69,15 +69,15 @@ class Dashboard extends Component {
                 description={HERO_TEXT.DASHBOARD.heroDescription}
               />
               {!this.props.isLoading ? (
-                <>
-                  {this.props.applications.length && (
+                <div>
+                  {this.props.applications.length ? (
                     <ProgramList
                       applications={this.props.applications}
                       internalStatusUpdate={this.state.internalStatusUpdate}
                       opps={this.props.applications}
                       user={this.props.user}
-                    /> 
-                  )}
+                    />
+                ) : null}
                   <ProgramSelect
                     isLoading={this.props.isLoading}
                     programInputs={this.state.programInputs}
@@ -91,7 +91,7 @@ class Dashboard extends Component {
                     programSelected={!!this.state.program || this.props.user.program}
                     hasExistingApps={this.props.applications.length}
                   />
-                </>
+              </div>
               ) : (
                 <div className="program-select column-headline">
                   <h4 className="column-headline">Looking for active applications...</h4>

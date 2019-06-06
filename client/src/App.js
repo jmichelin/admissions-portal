@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, withRouter } from 'react-router-dom';
 import { PrivateRoute, PublicRoute, NoMatch } from './helpers/Routes';
 
 import Application from './pages/Application';
@@ -32,7 +32,7 @@ class App extends Component {
       leads: [],
       user:{},
       fetchedData: false,
-      isLoading: true
+      isLoading: false
     })
   }
 
@@ -61,6 +61,7 @@ class App extends Component {
   }
 
   getData = (refresh) => {
+    console.log('runing this data fetch huurrrr');
     if ((!this.state.fetchedData && localStorage.token) || (refresh && localStorage.token)) {
       this.setState({ isLoading: true }, () => {
         fetch('/api/v1/user', {
@@ -73,6 +74,12 @@ class App extends Component {
     } else {
       this.clearData()
     }
+  }
+
+  updateState = (updatedState, redirect) => {
+    this.setState({...updatedState}, () =>
+      this.props.history.push('/dashboard')
+   )
   }
 
   statusUpdate = (id, status) => {
@@ -89,7 +96,7 @@ class App extends Component {
         <Header clearData={this.clearData}/>
           <main>
           <Switch>
-            <PublicRoute exact path='/' clearData={this.clearData} component={Home}/>
+            <PublicRoute exact path='/' clearData={this.clearData} updateState={this.updateState} component={Home}/>
             <PublicRoute exact path='/forgot-password' component={ForgotPassword}/>
             <PublicRoute path="/reset:token" component={ResetPassword}/>
             <PrivateRoute exact path='/dashboard'{...this.state}  getData={this.getData} statusUpdate={this.statusUpdate} component={Dashboard}/>
@@ -106,4 +113,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
