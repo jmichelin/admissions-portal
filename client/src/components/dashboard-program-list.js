@@ -26,9 +26,9 @@ const ProgramList = ({ opps }) => (
             <li className="hide-mobile">{moment(opp.courseStart).format('MM/DD/YYYY')}</li>
             <li className="hide-tablet">{opp.currentStep ? opp.currentStep.status : 'Talk to Your Enrollment Officer'}</li>
           </ul>
-          {i < 1 ? <AdmissionsProcessSteps opp={opp} activeStep={opp.currentStep} /> : null }
+          {i < 1 && <AdmissionsProcessSteps opp={opp} activeStep={opp.currentStep} />}
           <NextStepBlock opp={opp} step={opp.currentStep} />
-          {i < 1 ? (opp.courseProduct === 'Data Science' ? <ResourcesDSI /> : <ResourcesSEI />) : null }
+          {i < 1 && (opp.courseProduct === 'Data Science' ? <ResourcesDSI /> : <ResourcesSEI />)}
         </div>
       ))}
     </div>

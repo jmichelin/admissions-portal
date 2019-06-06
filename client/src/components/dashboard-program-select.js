@@ -7,36 +7,34 @@ import { APPLICATION_INPUTS } from './forms/inputs/application-inputs';
 import Select from '../components/forms/select';
 
 class ProgramSelect extends Component {
-  constructor(props){
-    super(props);
-  }
-
-// TODO: This is a weird way to make this work - should we put course prod and course type on user too? Will we always be able to search by course name?
+  // TODO: This is a weird way to make this work - should we put course prod and course type on user too? Will we always be able to search by course name?
   retrieveApp(program) {
-    let foundApp = APPLICATION_INPUTS.find(e => e.name === program)
-    if (foundApp) return ({courseProduct: foundApp.courseProduct, courseType: foundApp.courseType})
+    const foundApp = APPLICATION_INPUTS.find(e => e.name === program)
+    if (foundApp) return ({ courseProduct: foundApp.courseProduct, courseType: foundApp.courseType })
   }
 
   render() {
     return (
-    <div className="program-select application-row">
-      <h4>{PROGRAM_SELECT_TEXT.headlineText}</h4>
-      <p className="section-row">{!this.props.hasExistingApps ? PROGRAM_SELECT_TEXT.noApplicationsText : PROGRAM_SELECT_TEXT.existingApplicationsText}</p>
+      <div className="program-select application-row">
+        <h4>{PROGRAM_SELECT_TEXT.headlineText}</h4>
+        <p className="section-row">
+          {!this.props.hasExistingApps ? PROGRAM_SELECT_TEXT.noApplicationsText : PROGRAM_SELECT_TEXT.existingApplicationsText}
+        </p>
         <div className="form">
           <div className="form-group">
-              <Select name="select-normal"
-                label='Select a Program'
-                fieldName=""
-                options={this.props.programInputs.options}
-                className="select"
-                showError={this.props.submitAttempted && !this.props.isValid('program')}
-                currentSelection={this.props.program}
-                value={this.props.program}
-                onOptionClick={this.props.onProgramChange}
-              />
+            <Select name="select-normal"
+              label='Select a Program'
+              fieldName=""
+              options={this.props.programInputs.options}
+              className="select"
+              showError={this.props.submitAttempted && !this.props.isValid('program')}
+              currentSelection={this.props.program}
+              value={this.props.program}
+              onOptionClick={this.props.onProgramChange}
+            />
           </div>
           <div className="form-group">
-              <Select name="select-normal"
+            <Select name="select-normal"
               label='Select a Campus'
               id="campus"
               fieldName=""
@@ -47,26 +45,32 @@ class ProgramSelect extends Component {
               value={this.props.campus}
               onOptionClick={this.props.onCampusChange}
               disabled={!this.props.programSelected}
-              />
+            />
           </div>
             <div className="action">
-            <Link to={{
-              pathname: '/application',
-              state: {
-                program: this.retrieveApp(this.props.program),
-                campus: this.props.campus
-              }
-              }}>
-              <button className="button-primary" disabled={!this.props.program || !this.props.campus}>Start Your Application</button></Link>
-            </div>
+            <Link
+              to={{
+                pathname: '/application',
+                state: {
+                  program: this.retrieveApp(this.props.program),
+                  campus: this.props.campus
+                }
+              }}
+            >
+              <button className="button-primary" disabled={!this.props.program || !this.props.campus}>
+                Start Your Application
+              </button>
+            </Link>
+          </div>
         </div>
-        <span className="form-note form-error">{ this.props.errorMessage }</span>
-        { !this.props.hasExistingApps ? <p className="citation">{PROGRAM_SELECT_TEXT.citationText1}</p>  : null }
-        <p className="citation">Questions? Reach out to <a href="mailto:admissions@galvanize.com">admissions@galvanize.com</a> and we'd be happy to help.</p>
-    </div>
+        <span className="form-note form-error">{this.props.errorMessage}</span>
+        {!this.props.hasExistingApps && <p className="citation">{PROGRAM_SELECT_TEXT.citationText1}</p>}
+        <p className="citation">
+          Questions? Reach out to <a href="mailto:admissions@galvanize.com">admissions@galvanize.com</a> and we'd be happy to help.
+        </p>
+      </div>
     )
   }
 }
-
 
 export default ProgramSelect;

@@ -12,29 +12,30 @@ export default (props) => {
     let errorMessage = props.errorMessage || 'Please select one';
     error = <FormError errorMessage={ errorMessage } />
   }
-  let options = props.options.map((option, i) => {
-    return (
-      <SelectItem  key={ i } option={ option }/>
-    )
+
+  const options = props.options.map((option, i) => {
+    return <SelectItem  key={i} option={option} />
   });
 
-  if(!props.value) {
+  if (!props.value) {
     options.unshift(<SelectItem key="disabled" disabled="true" placeholder={props.placeholder} />)
   }
 
   return (
     <div className="input-group">
       {props.label ? <Label optional={ props.optional } text={ props.label } /> : null }
-      <select name={ props.name }
-              id={ props.id }
-              className={ selectClasses }
-              placeholder={props.placeholder}
-              value={ props.value ? props.value : "" }
-              disabled={ props.disabled }
-              onChange={ (e) => { props.onOptionClick(e, props.fieldName) } }>
-        { options }
+      <select
+        name={props.name}
+        id={props.id}
+        className={selectClasses}
+        placeholder={props.placeholder}
+        value={props.value ? props.value : ""}
+        disabled={ props.disabled }
+        onChange={(e) => { props.onOptionClick(e, props.fieldName) }}
+      >
+        {options}
       </select>
-      { error }
+      {error}
     </div>
   )
 }

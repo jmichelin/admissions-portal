@@ -1,7 +1,8 @@
 import { SEI_STEPS_12_WK, SEI_STEPS_18_WK, DSI_STEPS } from '../constants';
 
 function getCourseName(opp) {
-  let campus = opp.campus;
+  const campus = opp.campus;
+
   if (opp.courseProduct === 'Web Development' && opp.courseType.includes('Immersive')) {
     if (opp.productCode && opp.productCode.includes('-WD-')) {
       if (opp.productCode && opp.productCode.includes('-WD-REM')) {

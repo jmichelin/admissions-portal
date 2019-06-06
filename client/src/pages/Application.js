@@ -23,7 +23,6 @@ class Application extends Component {
     super(props);
 
     const inputs = APPLICATION_INPUTS[0]
-
     const values = inputs.formFields.reduce((result, currentVal) => {
       result[currentVal["fieldName"]] = '';
       return result
@@ -46,7 +45,9 @@ class Application extends Component {
 
   componentDidMount() {
     if (!this.state.courseType || !this.state.courseProduct) return this.props.history.push('/dashboard')
-    let endpoint = `${APPLICATION_INITIALIZE_ENDPOINT}/type/${encodeURIComponent(this.state.courseType)}/product/${encodeURIComponent(this.state.courseProduct)}`
+
+    const endpoint = `${APPLICATION_INITIALIZE_ENDPOINT}/type/${encodeURIComponent(this.state.courseType)}/product/${encodeURIComponent(this.state.courseProduct)}`
+
     fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -142,6 +143,7 @@ class Application extends Component {
 
   persistApp(complete) {
     this.setState({unsavedChanges: false})
+
     return fetch(APPLICATIONS_ENDPOINT, {
       method: 'PATCH',
       headers: {
@@ -159,8 +161,7 @@ class Application extends Component {
   }
 
   onSave = () => {
-    this.setState({
-      errorText: null, refreshData: true });
+    this.setState({ errorText: null, refreshData: true });
     this.persistApp(null)
       .then(resp => resp.json())
       .then(() => {

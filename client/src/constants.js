@@ -7,10 +7,8 @@ export const TECH_INTERVIEW_SEI_URL = 'https://www.galvanize.com/web-development
 export const TECH_INTERVIEW_DSI_URL = 'https://www.galvanize.com/data-science/interview';
 export const PREP_SEI_URL = 'https://www.galvanize.com/web-development/prep';
 export const PREP_DSI_URL = 'https://www.galvanize.com/data-science/prep';
-
 export const DSI_YCBM_CALENDAR_URL ='https://dsi-interviews.youcanbook.me';
 export const DSI_YCBM_CALENDAR_ID = 'ycbmiframedsi-interviews';
-
 export const CODE_CHALLENGE_ENDPOINT = '/api/v1/user/code-submit';
 export const PYTHON_CODE_SUBMIT_ENDPOINT = '/api/v1/user/python-submit';
 export const UPDATE_OPP_ENDPOINT = '/api/v1/user/update-opp-stage';
@@ -18,7 +16,6 @@ export const UPDATE_SCORECARD_ENDPOINT = '/api/v1/user/update-scorecard';
 export const PYTHON_CHALLENGE_ENDPOINT = '/api/v1/assessments';
 export const APPLICATIONS_ENDPOINT = '/api/v1/applications';
 export const APPLICATION_INITIALIZE_ENDPOINT  = '/api/v1/applications/initialize';
-
 export const PROSPECT_RECORD_ID = '012j00000004QndAAE';
 export const STUDENT_RECORD_ID = '012j0000000kfkDAAQ';
 export const SF_WDI_SYLLABUS_CAMPAIGN_ID = process.env.SF_WDI_SYLLABUS_CAMPAIGN_ID;
@@ -28,7 +25,8 @@ export const SF_DSI_APPLICATION_CAMPAIGN_ID = process.env.SF_DSI_APPLICATION_CAM
 export const SF_NEWSLETTER_CAMPAIGN_ID = process.env.SF_NEWSLETTER_CAMPAIGN_ID;
 
 export const CAMPUSES = [
-  { name: 'austin',
+  {
+    name: 'austin',
     optionName: 'Austin, TX', // used in select dropdowns
     lat: '30.26532630000001',
     lon: '-97.74954989999998',
@@ -41,7 +39,8 @@ export const CAMPUSES = [
     ycbmId:'ycbmiframeatx-interviews',
     location: '2nd Street District'
   },
-  { name: 'boulder',
+  {
+    name: 'boulder',
     optionName: 'Boulder, CO',
     lat: '40.0165447',
     lon: '-105.28168599999998',
@@ -54,7 +53,8 @@ export const CAMPUSES = [
     ycbmId:'ycbmiframeagn-interviews',
     location: 'Walnut'
   },
-  { name: 'denver-platte',
+  {
+    name: 'denver-platte',
     optionName: 'Denver, CO',
     lat: '39.75766149999999',
     lon: '-105.00695439999998',
@@ -67,7 +67,8 @@ export const CAMPUSES = [
     ycbmId:'ycbmiframeagn-interviews',
     location: 'Platte'
   },
-  { name: 'new-york',
+  {
+    name: 'new-york',
     optionName: 'New York, NY',
     lat: '40.7263875',
     lon: '-74.00779190000003',
@@ -80,7 +81,8 @@ export const CAMPUSES = [
     ycbmId:'ycbmiframenyc-interviews',
     location: 'West SoHo'
   },
-  { name: 'phoenix',
+  {
+    name: 'phoenix',
     optionName: 'Phoenix, AZ',
     lat: '33.439984',
     lon: '-112.066826',
@@ -93,7 +95,8 @@ export const CAMPUSES = [
     ycbmId:'ycbmiframeagn-interviews',
     location: 'Warehouse District'
   },
-  { name: 'los-angeles',
+  {
+    name: 'los-angeles',
     optionName: 'Los Angeles, CA',
     lat: '33.976037',
     lon: '-118.390798',
@@ -106,7 +109,8 @@ export const CAMPUSES = [
     ycbmId:'ycbmiframela-interviews',
     location: 'Los Angeles'
   },
-  { name: 'san-francisco',
+  {
+    name: 'san-francisco',
     optionName: 'San Francisco, CA',
     lat: '37.7875728',
     lon: '-122.39658180000004',
@@ -119,7 +123,8 @@ export const CAMPUSES = [
     ycbmId:'ycbmiframesf-interviews',
     location: 'SoMa'
   },
-  { name: 'seattle',
+  {
+    name: 'seattle',
     optionName: 'Seattle, WA',
     lat: '47.5990943',
     lon: '-122.33370980000001',
@@ -132,7 +137,8 @@ export const CAMPUSES = [
     ycbmId:'ycbmiframeagn-interviews',
     location: 'Pioneer Square'
   },
-  { name: 'remote',
+  {
+    name: 'remote',
     optionName: 'Remote',
     lat: '47.5990943',
     lon: '-122.33370980000001',
@@ -146,21 +152,25 @@ export const CAMPUSES = [
     location: 'Remote'
   }
 ];
+
 // TODO: process from application inputs instead
 export const FULL_TIME_PROGRAMS = [
   {
     name:'Data Science Immersive',
     courseProduct: 'Data Science',
     courseType: '13 Week Full-Time Immersive'
-  },{
-      name:'Data Science Remote Immersive',
-      courseProduct: 'Data Science',
-      courseType: '13 Week Full-Time Immersive'
-  },{
+  },
+  {
+    name:'Data Science Remote Immersive',
+    courseProduct: 'Data Science',
+    courseType: '13 Week Full-Time Immersive'
+  },
+  {
     name:'Software Engineering Immersive',
     courseProduct: 'Web Development',
     courseType: '12 Week Full-Time Immersive'
-    },{
+  },
+  {
     name:'Part Time Software Engineering Immersive',
     courseProduct: 'Web Development',
     courseType: '36 Week Full-Time Immersive'
@@ -289,7 +299,6 @@ export const SEI_STEPS_18_WK = {
     hidden: true,
     blockClass:'-blue',
     alertText: 'We still recommend you do the Group Assessment even if you also attempt to FastTrack.'
-
   },
   STEP_THREE: {
     step: 1.75,
@@ -306,7 +315,6 @@ export const SEI_STEPS_18_WK = {
     buttonText: 'FastTrack Coding Challenge',
     override: true,
     alertText: 'Want to see if you can do our accelerated FastTrack program?  Pass this coding challenge to be eligible for a final Technical Interview to get into FastTrack.'
-
   },
   STEP_FIVE: {
     step: 3,
@@ -376,7 +384,7 @@ export const APPLICATION_STEPS_SEI_12WK = [
   SEI_STEPS_12_WK.STEP_THREE,
   SEI_STEPS_12_WK.STEP_FOUR,
   SEI_STEPS_12_WK.COMPLETE,
-  SEI_STEPS_12_WK.HOLD
+  SEI_STEPS_12_WK.HOLD,
 ];
 
 export const APPLICATION_STEPS_SEI_18WK = [
@@ -386,7 +394,7 @@ export const APPLICATION_STEPS_SEI_18WK = [
   SEI_STEPS_18_WK.STEP_FOUR,
   SEI_STEPS_18_WK.STEP_FIVE,
   SEI_STEPS_18_WK.COMPLETE,
-  SEI_STEPS_18_WK.HOLD
+  SEI_STEPS_18_WK.HOLD,
 ];
 
 export const APPLICATION_STEPS_DSI = [
@@ -395,7 +403,7 @@ export const APPLICATION_STEPS_DSI = [
   DSI_STEPS.STEP_THREE,
   DSI_STEPS.STEP_FOUR,
   DSI_STEPS.COMPLETE,
-  DSI_STEPS.HOLD
+  DSI_STEPS.HOLD,
 ];
 
 export const PLACEHOLDER_1 = `def consonant_first(text):
@@ -461,9 +469,9 @@ export const SNIPPET_2 = {
 };
 
 export const PROGRAM_SELECT_TEXT = {
-    headlineText: 'Start a New Application',
-    noApplicationsText: "Looks like you don't have any active applications for a course starting in the future. Select a program and campus below to start your application:",
-    existingApplicationsText: "Want to apply for a different program? Start a new application here to get starated.  If you have an existing application for the same program please continue your application above.",
-    heroDescription: 'Manage your application, see next steps and complete the admissions process from here.',
-    citationText1: "Once you submit an application you can proceed within this portal to complete the next step in your program's admissions process.",
+  headlineText: 'Start a New Application',
+  noApplicationsText: "Looks like you don't have any active applications for a course starting in the future. Select a program and campus below to start your application:",
+  existingApplicationsText: "Want to apply for a different program? Start a new application here to get starated.  If you have an existing application for the same program please continue your application above.",
+  heroDescription: 'Manage your application, see next steps and complete the admissions process from here.',
+  citationText1: "Once you submit an application you can proceed within this portal to complete the next step in your program's admissions process.",
 };

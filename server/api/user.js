@@ -31,7 +31,7 @@ router.get('/', async (req, res, next) => {
 
     await salesforce.login();
 
-    let response = await salesforce.contactQuery(req.user.email);
+    const response = await salesforce.contactQuery(req.user.email);
     if (!response.records.length) return res.json({ data });
 
     let opps = await salesforce.oppQuery(response.records[0].Account.Id)
