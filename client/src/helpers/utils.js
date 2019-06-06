@@ -139,14 +139,14 @@ const PROGRAMS = {
 };
 
 function getStage(program) {
-  let courseProducts = PROGRAMS[program.courseProduct];
+  let courseProducts = program.courseProduct ? PROGRAMS[program.courseProduct] : PROGRAMS[program.course_product];
 
   if (!courseProducts) {
     let stage = PROGRAMS['Default'];
     return { step: stage.step(program), process: stage.process, name: stage.name };
   }
 
-  let courseType = PROGRAMS[program.courseProduct][program.courseType];
+  let courseType = program.courseType ? PROGRAMS[program.courseProduct][program.courseType] : PROGRAMS[program.course_product][program.course_type];
   if (!courseType) {
     courseType = PROGRAMS[program.courseProduct]['Default'];
     return { step: courseType.step(program), process: courseType.process, name: courseType.name }
