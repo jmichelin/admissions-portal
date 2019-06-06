@@ -360,23 +360,11 @@ class Salesforce {
     });
   }
 
-  contactQuery(email) {
-    let queryString = _makeQueryForExistingContact(email);
-    return new Promise( (resolve, reject) => {
-      this.connection.query(
-        queryString,
-      (err, res) => {
-        if (err) { reject(err); }
-        resolve(res);
-      });
-    });
-  }
-
-  oppQuery(id) {
+  oppQuery(email) {
     return new Promise( (resolve, reject) => {
       this.connection.sobject("Opportunity")
     .select('Id, StageName, Name, Course_Product__c, Course_Type__c, CreatedDate, Campus__c, Course_Start_Date_Actual__c, Product_Code__c, Scorecard__c')
-    .where({AccountId: id})
+    .where({'Student_Email__c': email})
     .orderby("CreatedDate", "DESC")
       .execute((err, res) => {
         if (err) { reject(err); }
