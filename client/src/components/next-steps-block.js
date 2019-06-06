@@ -20,7 +20,7 @@ export default (props) => (
       </Link>
     )}
     {props.step.buttonUrl && (
-      <a href={props.step.buttonUrl} target="_blank">
+      <a href={props.step.buttonUrl} target="_blank" rel="noopener noreferrer">
         <button className="button-primary">
           {props.step.buttonText}
         </button>
