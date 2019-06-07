@@ -65,7 +65,9 @@ router.post('/signup', async (req, res, next) => {
     }
     if (!salesforceUser) {
       //create lead
-
+      let newLead = await salesforce.createLead(req.body);
+      salesforceUser = { Id: newLead.Id, attributes: {type: 'Lead'}}
+      console.log('our new lead', newLead);
     }
 
 

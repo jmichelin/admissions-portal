@@ -56,6 +56,36 @@ class Salesforce {
     });
   }
 
+  async createLead(formData) {
+    return new Promise( (resolve, reject) => {
+      let salesforceData = {};
+      salesforceData.FirstName = formData.first_name;
+      salesforceData.LastName = formData.last_name;
+      salesforceData.Phone = '222-222-2222';
+      salesforceData.Email = formData.email;
+      salesforceData.Campus__c = formData.campus === 'Austin-2nd St District' ? 'Austin-2nd Street District' : formData.campus;
+      salesforceData.Product__c = formData.courseProduct;
+      salesforceData.Company = 'Unknown';
+      salesforceData.Source__c = 'Admissions Portal';
+      salesforceData.LeadSource = 'Galvanize.com';
+      salesforceData.LeadSourceDetail__c = 'Direct';
+      salesforceData.Has_Portal_Account__c = 'true';
+      salesforceData.Last_Portal_Login__c = new Date();
+      salesforceData.Privacy_Policy_Date__c = new Date();
+      salesforceData.Terms_of_Service_Date__c = new Date();
+      salesforceData.Code_of_Conduct_Date__c = new Date();
+      salesforceData.Data_Use_Policy_Date__c = new Date();
+
+      console.log('data to salesforce', salesforceData);
+
+      this.connection.sobject('Lead').create(salesforceData, (err, res) => {
+        if (err) { reject(err); }
+        if (!res || !res.success) { reject(res); }
+        resolve(res);
+      });
+    });
+  }
+
   async getOpportunities(email) {
     await this.login();
 
@@ -240,28 +270,6 @@ class Salesforce {
     }
   }
 
-  createLead(formParams, formType) {
-    return new Promise( (resolve, reject) => {
-      if (formType === 'application') {
-        formParams.LeadSource = 'Galvanize.com';
-        formParams.Status = 'Started Application';
-        formParams.LeadSourceDetail__c = 'Direct';
-      }
-      if (formType === 'newsletter') {
-        formParams.LeadSource = 'Galvanize.com';
-        formParams.LeadSourceDetail__c = 'Direct';
-      }
-
-      formParams = this.prepFormParamsForSFDC(formParams);
-
-      this.connection.sobject('Lead').create(formParams, (err, res) => {
-        if (err) { reject(err); }
-        if (!res || !res.success) { reject(res); }
-        resolve(res);
-      });
-    });
-  }
-
   updateLead(formParams, leadId) {
     return new Promise( (resolve, reject) => {
       this.connection.sobject('Lead').update({
@@ -291,17 +299,10 @@ class Salesforce {
 
     if (formParams.Product__c === 'Web Development') {
       formParams.Product__c = 'Full Stack';
-      formParams.Course_to_which_you_are_applying__c = 'Full Stack Immersive';
-    } else if (formParams.Product__c === 'Data Science') {
-      formParams.Course_to_which_you_are_applying__c = 'Data Science Immersive';
-    }
-
-    formParams = _.omit(formParams, 'Is_Eighteen');
-    formParams = _.omit(formParams, 'Terms');
-    formParams = _.omit(formParams, 'Valid_Information');
 
     return formParams;
   }
+}
 
   // updateApplicationStepOne(formParams, leadId) {
   //   return new Promise( (resolve, reject) => {
