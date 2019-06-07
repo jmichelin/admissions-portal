@@ -4,6 +4,7 @@ import TextField from './text-field';
 
 export default (props) => {
   let error, errorClass;
+
   if (props.showError) {
     let errorMessage = props.errorMessage || 'This field is required';
     errorClass = '-error';
