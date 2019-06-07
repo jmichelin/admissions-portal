@@ -13,12 +13,14 @@ module.exports = {
 
     addNewUser: function(user, password) {
       return knex('user')
-        .returning(['id','email', "first_name", "last_name"])
+        .returning(['id','email', "first_name", "last_name", "salesforce_id", "salesforce_type"])
         .insert({
           email: user.email,
           password: password,
           first_name: user.first_name,
           last_name: user.last_name,
+          salesforce_id: user.salesforceUser.Id,
+          salesforce_type: user.salesforceUser.attributes.type
         });
     },
 

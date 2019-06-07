@@ -54,27 +54,58 @@ function createTokenSendResponse(user, opportunities, res, next) {
 
 router.post('/signup', async (req, res, next) => {
   const result = Joi.validate(req.body, signupSchema);
-  if (result.error !== null) return next(result.error)
-  try {
-    let user = await Q.getUserbyEmail(req.body.email);
-    if (user) {
-      const error = new Error('A user with this email already exists.');
-      res.status(409);
-      next(error);
-    } else {
-      let hashedPassword = await bcrypt.hash(req.body.password, 12);
-      let newUser = await Q.addNewUser(req.body, hashedPassword);
-      let values = JSON.stringify({Campus__c: req.body.campus});
-      let opportunities = await salesforce.getOpportunities(newUser[0].email);
-      if (opportunities.length === 0) {
-        let application = await Q.findOrCreateApplication(req.body.courseType, req.body.courseProduct, newUser[0].id, values);
-        opportunities.push(application)
-      }
-      createTokenSendResponse(newUser[0], opportunities, res, next);
+  if (result.error !== null) return next(result.error);
+
+  // look for existing user in DB first
+  let user = await Q.getUserbyEmail(req.body.email);
+  if (user) {
+    const error = new Error('A user with this email already exists.');
+    res.status(409);
+    next(error);
+  } else {
+      try {
+        // look for user in salesforce first
+        let salesforceUser = null;
+        // TODO: need to escape special characters in email before searching salesforce or will break
+        let searchResponse = await salesforce.findSalesforceUser(encodeURIComponent(req.body.email));
+
+        // if contact - update contact to reflect portal account creation
+        salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
+        if (salesforceUser) {
+          await salesforce.updateContact(salesforceUser.Id, req.body);
+        }
+
+        // if no contact look for lead and update lead
+        if (!salesforceUser) {
+          salesforceUser =  await searchResponse.searchRecords.find(record => record.attributes.type === 'Lead');
+          if (salesforceUser) await salesforce.updateLead(salesforceUser.Id, req.body);
+        }
+
+        //if no contact or lead create a lead
+        if (!salesforceUser) {
+          let newLead = await salesforce.createLead(req.body);
+          salesforceUser = { Id: newLead.Id, attributes: {type: 'Lead'}};
+        }
+
+        // Post new user info with salesforce in fo to DB
+        let newBody = req.body;
+        newBody.salesforceUser = salesforceUser;
+        let hashedPassword = await bcrypt.hash(req.body.password, 12);
+        let newUser = await Q.addNewUser(newBody, hashedPassword);
+        let values = JSON.stringify({Campus__c: req.body.campus});
+        let opportunities = await salesforce.getOpportunities(newUser[0].email);
+        if (!opportunities.length) {
+          let application = await Q.findOrCreateApplication(req.body.courseType, req.body.courseProduct, newUser[0].id, values);
+          opportunities.push(application);
+        }
+        createTokenSendResponse(newUser[0], opportunities, res, next);
+      } catch(err) {
+        console.log(err);
+        res.status(501);
+        const error = new Error('Hmm... There was an error creating your account. Please contact admissions@galvanize.com');
+        next(error);
+        }
     }
-  } catch(err) {
-    next(err)
-  }
 });
 
 router.post('/signin', (req, res, next) => {
