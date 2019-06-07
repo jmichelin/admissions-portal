@@ -56,6 +56,33 @@ router.post('/signup', async (req, res, next) => {
   const result = Joi.validate(req.body, signupSchema);
   if (result.error !== null) return next(result.error)
   try {
+    let salesforceUser = await salesforce.findSalesforceUser(req.body.email)
+    console.log(salesforceUser);
+    let userContact = await salesforceUser.searchRecords.find(record => record.attributes.type === 'Contact')
+    console.log('found contact!', userContact);
+
+    let userLead = await salesforceUser.searchRecords.find(record => record.attributes.type === 'Lead')
+
+
+
+    // let sfdcUser = salesforceUser.searchRecords.map(record => {
+    //   if (record.attributes.type === 'Contact') {
+    //     return;
+    //     //if contact set user id on user table
+    //     // set salesforce id and set salesforce type
+    //     return record;
+    //   } else if (record.attributes.type === 'Lead') {
+    //     return record;
+    //
+    //   } else {
+    //     // create lead
+    //     return record;
+    //   }
+    // })
+
+    //if lead
+
+    // if no lead
     let user = await Q.getUserbyEmail(req.body.email);
     if (user) {
       const error = new Error('A user with this email already exists.');
@@ -73,6 +100,7 @@ router.post('/signup', async (req, res, next) => {
       createTokenSendResponse(newUser[0], opportunities, res, next);
     }
   } catch(err) {
+    console.log(err);
     next(err)
   }
 });

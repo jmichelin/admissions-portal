@@ -43,6 +43,19 @@ class Salesforce {
     });
   }
 
+  async findSalesforceUser(email) {
+    await this.login();
+    let queryString = _makeSalesforceUserQuery(email);
+    return new Promise( (resolve, reject) => {
+      this.connection.search(
+        queryString,
+      (err, res) => {
+        if (err) { reject(err); }
+        resolve(res);
+      });
+    });
+  }
+
   async getOpportunities(email) {
     await this.login();
 
@@ -393,6 +406,8 @@ class Salesforce {
     });
   }
 
+
+
   oppQuery(id) {
     return new Promise( (resolve, reject) => {
       this.connection.sobject("Opportunity")
@@ -661,4 +676,8 @@ function _makeQueryForExistingOpportunity(id) {
     FROM   Opportunity
     WHERE  AccountId = '${id}'
     ORDER BY CreatedDate`;
+}
+
+function _makeSalesforceUserQuery(email) {
+  return `FIND {${email}} RETURNING Contact(Id, Email ORDER BY CreatedDate DESC), Opportunity(Id, Student__r.Email ORDER BY CreatedDate DESC), Lead(Id, Email ORDER BY CreatedDate DESC)`;
 }
