@@ -35,10 +35,8 @@ class Signup extends Component {
       errorMessage: '',
       isLoading: false
     }
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.validField = this.validField.bind(this);
-    this.validUser = this.validUser.bind(this);
   }
 
   onInputChange(event) {
@@ -52,8 +50,10 @@ class Signup extends Component {
     });
   }
 
-  validUser(data) {
+  validUser = (data) => {
     const result = Joi.validate(data, schema);
+    // TODO validation bug
+    console.log("RESULT", result);
     if (this.state.confirmed_password !== this.state.password) return false;
     if (this.state.terms === false) return false;
     if (result.error === null) {
@@ -76,56 +76,52 @@ class Signup extends Component {
       return true;
     }
     return false;
-}
+  }
 
-  handleSubmit(event) {
+  handleSubmit = async (event) => {
     event.preventDefault();
     this.setState({
       submitAttempted: true,
       isLoading: true
     })
     const { first_name, last_name, email, password, program, campus } = this.state;
-    const { courseType, courseProduct } = APPLICATION_INPUTS.find(e => e.name === program)
+    const { courseType, courseProduct } = APPLICATION_INPUTS.find(e => e.name === program) || { courseType: undefined, courseProduct: undefined }
     const formData = { first_name, last_name, email, password, program, campus, courseType, courseProduct }
 
     // set courseType and courseProduct from Application Inputs to send to server
     if (this.validUser(formData)) {
-      fetch(SIGNUP_URL, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-          'content-type': 'application/json'
-        }
-        }).then(response => {
-          if (response.ok) {
-            return response.json()
-          }
-          return response.json().then(error => {
-            throw new Error(error.message)
-          })
-        }).then(result => {
-          localStorage.token = result.token;
-          const applications = result.data.applications.map(app => {
-            const stageObj = utils.getStage(app);
-            app.formalName = stageObj.name;
-            app.currentStep = stageObj.step;
-            app.admissionsProcess = stageObj.process;
-            return app;
-          })
-          let updatedState = {
-            user: result.data.user,
-            applications: applications,
-            fetchedData: true
-          }
-          this.props.updateState(updatedState, '/dashboard')
-        }).catch(err => {
-          console.log(err);
-            this.setState({
-              errorMessage: err.message,
-              isLoading: false
-            })
-        })
-      } else {
+
+      // try {
+      //   let response = await fetch(SIGNUP_URL, {
+      //     method: 'POST',
+      //     body: JSON.stringify(formData),
+      //     headers: {
+      //       'content-type': 'application/json'
+      //     }
+      //   })
+      //   let result = await response.json();
+      //   localStorage.token = result.token;
+      //   const applications = result.data.applications.map(app => {
+      //     const stageObj = utils.getStage(app);
+      //     app.formalName = stageObj.name;
+      //     app.currentStep = stageObj.step;
+      //     app.admissionsProcess = stageObj.process;
+      //     return app;
+      //   })
+      //   let updatedState = {
+      //     user: result.data.user,
+      //     applications: applications,
+      //     fetchedData: true
+      //   }
+      //   this.props.updateState(updatedState, '/dashboard')
+      // } catch(err) {
+      //   this.setState({
+      //     errorMessage: err.message,
+      //     isLoading: false
+      //   })
+      // }
+
+    } else {
       this.setState({ isLoading: false });
     }
   }
