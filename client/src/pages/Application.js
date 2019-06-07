@@ -302,6 +302,9 @@ class Application extends Component {
               />
               <Breadcrumb refreshData={this.state.refreshData} />
               <AdmissionsProcessSteps opp={fakeOpp} />
+              <p className="come-back-message">
+                You can always click &quot;Save&quot; and come back to finish at a later time...
+              </p>
               <div className="application-form">
                 {this.renderSteps()}
                 <div className="action">

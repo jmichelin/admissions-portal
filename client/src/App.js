@@ -61,7 +61,6 @@ class App extends Component {
   }
 
   getData = (refresh) => {
-    console.log('runing this data fetch huurrrr');
     if ((!this.state.fetchedData && localStorage.token) || (refresh && localStorage.token)) {
       this.setState({ isLoading: true }, () => {
         fetch('/api/v1/user', {
