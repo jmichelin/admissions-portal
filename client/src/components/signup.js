@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import inputs from './forms/inputs/inputs';
 import InputGroup from './forms/input-group';
 import Checkbox from './forms/checkbox';
@@ -52,8 +52,7 @@ class Signup extends Component {
 
   validUser = (data) => {
     const result = Joi.validate(data, schema);
-    // TODO validation bug
-    console.log("RESULT", result);
+
     if (this.state.confirmed_password !== this.state.password) return false;
     if (this.state.terms === false) return false;
     if (result.error === null) {
@@ -64,8 +63,9 @@ class Signup extends Component {
   }
 
   validField(input) {
-    const field = {[input.id]:this.state[input.id]}
+    const field = { [input.id]: this.state[input.id] }
     const result = Joi.validate(field, schema);
+
     if (input.id === 'confirmed_password') {
       return this.state[input.id] === this.state.password;
     }
@@ -80,6 +80,7 @@ class Signup extends Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
+
     this.setState({
       submitAttempted: true,
       isLoading: true
@@ -91,35 +92,35 @@ class Signup extends Component {
     // set courseType and courseProduct from Application Inputs to send to server
     if (this.validUser(formData)) {
 
-      // try {
-      //   let response = await fetch(SIGNUP_URL, {
-      //     method: 'POST',
-      //     body: JSON.stringify(formData),
-      //     headers: {
-      //       'content-type': 'application/json'
-      //     }
-      //   })
-      //   let result = await response.json();
-      //   localStorage.token = result.token;
-      //   const applications = result.data.applications.map(app => {
-      //     const stageObj = utils.getStage(app);
-      //     app.formalName = stageObj.name;
-      //     app.currentStep = stageObj.step;
-      //     app.admissionsProcess = stageObj.process;
-      //     return app;
-      //   })
-      //   let updatedState = {
-      //     user: result.data.user,
-      //     applications: applications,
-      //     fetchedData: true
-      //   }
-      //   this.props.updateState(updatedState, '/dashboard')
-      // } catch(err) {
-      //   this.setState({
-      //     errorMessage: err.message,
-      //     isLoading: false
-      //   })
-      // }
+      try {
+        let response = await fetch(SIGNUP_URL, {
+          method: 'POST',
+          body: JSON.stringify(formData),
+          headers: {
+            'content-type': 'application/json'
+          }
+        })
+        let result = await response.json();
+        localStorage.token = result.token;
+        const applications = result.data.applications.map(app => {
+          const stageObj = utils.getStage(app);
+          app.formalName = stageObj.name;
+          app.currentStep = stageObj.step;
+          app.admissionsProcess = stageObj.process;
+          return app;
+        })
+        let updatedState = {
+          user: result.data.user,
+          applications: applications,
+          fetchedData: true
+        }
+        this.props.updateState(updatedState, '/dashboard')
+      } catch(err) {
+        this.setState({
+          errorMessage: err.message,
+          isLoading: false
+        })
+      }
 
     } else {
       this.setState({ isLoading: false });
@@ -140,7 +141,7 @@ class Signup extends Component {
             onInputChange={this.onInputChange}
             errorMessage={input.errorMessage}
             showError={this.state.submitAttempted && !this.validField(input)}
-            />
+          />
           )
       } else if (input.type === 'checkbox') {
         return (
@@ -175,37 +176,36 @@ class Signup extends Component {
     })
   }
 
-
   render() {
     return (
-        <div className="signup">
-          <h1 className="title">Admissions Portal<span>New!</span></h1>
-          <div className="logo-wrapper">
-            <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
-            <img className="logo -hr" src={HRLogo} alt="Hack Reactor Logo"></img>
-          </div>
-          <h3 className="portal-title">Create Your Account</h3>
-          <p className="title-subtext">Already have an account? <button className="-inline" onClick={this.props.toggleSignin}>Sign In</button></p>
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              {this.createInputs().slice(0,2)}
-            </div>
-            <div className="form-group">
-              {this.createInputs().slice(2,3)}
-            </div>
-            <div className="form-group">
-              {this.createInputs().slice(3,5)}
-            </div>
-            <div className="form-group">
-              {this.createInputs().slice(5,7)}
-            </div>
-            <div className="form-footer">
-              {this.createInputs().slice(7,8)}
-              <input type="submit" value="Create Account" className={this.state.isLoading ? "button-primary -loading" : "button-primary"}/>
-            </div>
-            <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
-          </form>
+      <div className="signup">
+        <h1 className="title">Admissions Portal<span>New!</span></h1>
+        <div className="logo-wrapper">
+          <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
+          <img className="logo -hr" src={HRLogo} alt="Hack Reactor Logo"></img>
         </div>
+        <h3 className="portal-title">Create Your Account</h3>
+        <p className="title-subtext">Already have an account? <button className="-inline" onClick={this.props.toggleSignin}>Sign In</button></p>
+        <form onSubmit={this.handleSubmit}>
+          <div className="form-group">
+            {this.createInputs().slice(0,2)}
+          </div>
+          <div className="form-group">
+            {this.createInputs().slice(2,3)}
+          </div>
+          <div className="form-group">
+            {this.createInputs().slice(3,5)}
+          </div>
+          <div className="form-group">
+            {this.createInputs().slice(5,7)}
+          </div>
+          <div className="form-footer">
+            {this.createInputs().slice(7,8)}
+            <input type="submit" value="Create Account" className={this.state.isLoading ? "button-primary -loading" : "button-primary"}/>
+          </div>
+          <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
+        </form>
+      </div>
     );
   }
 }
@@ -217,8 +217,8 @@ const schema = {
   password: Joi.string().min(5).max(15),
   program: Joi.string(),
   campus: Joi.string(),
-  courseType: Joi.string().required(),
-  courseProduct: Joi.string().required(),
+  courseType: Joi.string(),
+  courseProduct: Joi.string(),
 }
 
 export default withRouter(Signup);
