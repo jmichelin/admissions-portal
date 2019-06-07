@@ -14,7 +14,7 @@ class Dashboard extends Component {
   constructor(props){
     super(props);
 
-    const programInputs = inputs.getProgramInputs(APPLICATION_INPUTS);
+    const programInputs = inputs.getProgramInputs(APPLICATION_INPUTS, props.applications);
     const campusInputs = inputs.getCampusInputs(CAMPUSES);
 
     this.state = {
@@ -33,6 +33,14 @@ class Dashboard extends Component {
       if (dataRefresh) this.props.getData(true);
     }
     if (window && window.analytics) window.analytics.page('Dashboard')
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.applications.length === 0 && this.props.applications.length > 0) {
+      this.setState({
+        programInputs: inputs.getProgramInputs(APPLICATION_INPUTS, this.props.applications),
+      });
+    }
   }
 
   onProgramChange = (e) => {
@@ -70,28 +78,30 @@ class Dashboard extends Component {
               />
               {!this.props.isLoading ? (
                 <div>
-                  {this.props.applications.length ? (
+                  {this.props.applications.length > 0 && (
                     <ProgramList
                       applications={this.props.applications}
                       internalStatusUpdate={this.state.internalStatusUpdate}
                       opps={this.props.applications}
                       user={this.props.user}
                     />
-                ) : null}
-                  <ProgramSelect
-                    isLoading={this.props.isLoading}
-                    programInputs={this.state.programInputs}
-                    program={!this.props.applications.length ? this.state.program || this.props.user.program : this.state.program}
-                    isValid={this.isValid}
-                    onProgramChange={this.onProgramChange}
-                    campusInputs={this.state.campusInputs}
-                    campus={!this.props.applications.length ? this.state.campus || this.props.user.campus : this.state.campus}
-                    errorMessage={this.state.errorMessage}
-                    onCampusChange={this.onCampusChange}
-                    programSelected={!!this.state.program || this.props.user.program}
-                    hasExistingApps={this.props.applications.length}
-                  />
-              </div>
+                  )}
+                  {this.state.programInputs.options.length > 0 && (
+                    <ProgramSelect
+                      isLoading={this.props.isLoading}
+                      programInputs={this.state.programInputs}
+                      program={!this.props.applications.length ? this.state.program || this.props.user.program : this.state.program}
+                      isValid={this.isValid}
+                      onProgramChange={this.onProgramChange}
+                      campusInputs={this.state.campusInputs}
+                      campus={!this.props.applications.length ? this.state.campus || this.props.user.campus : this.state.campus}
+                      errorMessage={this.state.errorMessage}
+                      onCampusChange={this.onCampusChange}
+                      programSelected={!!this.state.program || this.props.user.program}
+                      hasExistingApps={this.props.applications.length}
+                    />
+                  )}
+                </div>
               ) : (
                 <div className="program-select column-headline">
                   <h4 className="column-headline">Looking for active applications...</h4>

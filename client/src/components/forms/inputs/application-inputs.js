@@ -90,7 +90,7 @@ export const APPLICATION_INPUTS = [
         validate: ['checked'],
         errorMsg: 'You must agree to being 18 or older',
         sfIgnore: true
-      }
+      },
     ]
-  }
+  },
 ]
