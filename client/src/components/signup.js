@@ -101,6 +101,7 @@ class Signup extends Component {
           }
         })
         let result = await response.json();
+        if (result.message) throw new Error(result.message)
         localStorage.token = result.token;
         const applications = result.data.applications.map(app => {
           const stageObj = utils.getStage(app);

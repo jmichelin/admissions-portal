@@ -39,8 +39,6 @@ class Salesforce {
       Id: null,
       FirstName: null,
       LastName: null,
-      // Campus__c: null,
-      // Product__c: null,
       Has_Portal_Account__c: true,
       Last_Portal_Login__c: new Date()
     }
@@ -49,7 +47,6 @@ class Salesforce {
       Id: null,
       FirstName: null,
       LastName: null,
-      // Campus__c: formParams.campus,
       Has_Portal_Account__c: true,
       Last_Portal_Login__c: new Date()
     }
@@ -76,11 +73,10 @@ class Salesforce {
       });
     });
   }
-  
+
   async signUpSignInUserUpdate(requestbody){
     let salesforceUser = null;
     let searchResponse = await this.findSalesforceUser(requestbody.email);
-    console.log(encodeURIComponent(requestbody.email))
 
     // if contact - update contact to reflect portal account creation
     salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
@@ -91,8 +87,7 @@ class Salesforce {
       contact.Id = salesforceUser.Id
       contact.FirstName = requestbody.first_name
       contact.LastName = requestbody.last_name
-      
-      console.log(contact)
+
       await this.updateContact(contact);
     }
 
@@ -100,17 +95,25 @@ class Salesforce {
     if (!salesforceUser) {
       salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Lead');
       if (salesforceUser){
-        console.log("LEAD")
-        let lead = this.SALESFORCE_LEAD;
-        lead.Id = salesforceUser.Id
-        lead.FirstName = requestbody.first_name
-        lead.LastName = requestbody.last_name
-        
-        console.log(lead)
+        // let lead = this.SALESFORCE_LEAD;
+        // lead.Id = salesforceUser.Id;
+        // lead.FirstName = requestbody.first_name;
+        // lead.LastName = requestbody.last_name;
+        // lead.Campus__c = requestbody.campus;
+        let lead = {
+          RecordTypeId: LEAD_STUDENT_RECORD_ID,
+          Id: salesforceUser.Id,
+          FirstName: requestbody.first_name,
+          LastName: requestbody.last_name,
+          Campus__c: requestbody.campus,
+          Product__c: requestbody.courseProduct,
+          Has_Portal_Account__c: true,
+          Last_Portal_Login__c: new Date()
+        }
         await this.updateLead(lead);
-      }  
+      }
     }
-    
+
     //if no contact or lead create a lead
     if (!salesforceUser) {
       console.log("new lead")
@@ -123,25 +126,25 @@ class Salesforce {
 
   async createLead(formData) {
     return new Promise( (resolve, reject) => {
-      let salesforceData = {};
-      salesforceData.FirstName = formData.first_name;
-      salesforceData.LastName = formData.last_name;
-      salesforceData.Phone = '222-222-2222';
-      salesforceData.Email = formData.email;
-      salesforceData.Campus__c = formData.campus === 'Austin-2nd St District' ? 'Austin-2nd Street District' : formData.campus;
-      salesforceData.Product__c = formData.courseProduct;
-      salesforceData.Company = 'Unknown';
-      salesforceData.Source__c = 'Admissions Portal';
-      salesforceData.LeadSource = 'Galvanize.com';
-      salesforceData.LeadSourceDetail__c = 'Direct';
-      salesforceData.Has_Portal_Account__c = 'true';
-      salesforceData.Last_Portal_Login__c = new Date();
-      salesforceData.Privacy_Policy_Date__c = new Date();
-      salesforceData.Terms_of_Service_Date__c = new Date();
-      salesforceData.Code_of_Conduct_Date__c = new Date();
-      salesforceData.Data_Use_Policy_Date__c = new Date();
+      let newForm = {};
+      newForm.FirstName = formData.first_name;
+      newForm.LastName = formData.last_name;
+      newForm.Phone = '222-222-2222';
+      newForm.Email = formData.email;
+      newForm.Campus__c = formData.campus === 'Austin-2nd St District' ? 'Austin-2nd Street District' : formData.campus;
+      newForm.Product__c = formData.courseProduct;
+      newForm.Company = 'Unknown';
+      newForm.Source__c = 'Admissions Portal';
+      newForm.LeadSource = 'Galvanize.com';
+      newForm.LeadSourceDetail__c = 'Direct';
+      newForm.Has_Portal_Account__c = 'true';
+      newForm.Last_Portal_Login__c = new Date();
+      newForm.Privacy_Policy_Date__c = new Date();
+      newForm.Terms_of_Service_Date__c = new Date();
+      newForm.Code_of_Conduct_Date__c = new Date();
+      newForm.Data_Use_Policy_Date__c = new Date();
 
-      this.connection.sobject('Lead').create(salesforceData, (err, res) => {
+      this.connection.sobject('Lead').create(newForm, (err, res) => {
         if (err) { reject(err); }
         if (!res || !res.success) { reject(res); }
         resolve(res);

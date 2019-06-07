@@ -80,7 +80,6 @@ router.post('/signup', async (req, res, next) => {
         }
         createTokenSendResponse(newUser[0], opportunities, res, next);
       } catch(err) {
-        console.log(err);
         res.status(501);
         const error = new Error('Hmm... There was an error creating your account. Please contact admissions@galvanize.com');
         next(error);
@@ -92,39 +91,17 @@ router.post('/signin', async (req, res, next) => {
   const result = Joi.validate(req.body, signinSchema);
   if (result.error === null) {
     try {
-      let user = await Q.getUserbyEmail(req.body.email)
-      let result = user || bcrypt.compare(req.body.password, user.password)
+      let user = await Q.getUserbyEmail(req.body.email);
+      let result = user || bcrypt.compare(req.body.password, user.password);
       if (result) {
         let salesforceUser = await salesforce.signUpSignInUserUpdate(user);
         createTokenSendResponse(user, [], res, next);
       }
     } catch(err) {
-      console.log(err);
       res.status(422);
       const error = new Error('Unable to login. Check your email and password.');
       next(error);
     }
-
-      // .then(user => {
-      //   if (user) {
-      //     bcrypt.compare(req.body.password, user.password)
-      //     .then(result => {
-      //       if (result) {
-      //         let salesforceUser = await salesforce.signUpSignInUserUpdate(req.body);
-
-      //         await Q.updateSalesforceUserAttrs(user, salesforceUser);
-
-      //         createTokenSendResponse(user, [], res, next);
-      //       } else {
-      //         respondError(res, next);
-      //       }
-      //     });
-      //   } else {
-      //     respondError(res, next);
-      //   }
-      // }).catch(err => {
-      //   respondError(res, next);
-      // });
   } else {
     respondError(res, next);
   }
