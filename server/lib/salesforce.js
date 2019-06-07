@@ -107,13 +107,23 @@ class Salesforce {
     });
   }
 
+  updateContact(contactId) {
+    return new Promise( (resolve, reject) => {
+      this.connection.sobject('Contact').update({
+        Id: contactId,
+        Has_Portal_Account__c: 'true',
+        Last_Portal_Login__c: new Date()
+      }, (err, res) => {
+        if(err) { reject(err); }
+        resolve(res);
+      });
+    });
+  }
+
   async getOpportunities(email) {
     await this.login();
 
-    const response = await this.contactQuery(email);
-    if (!response.records.length) return []
-
-    let opps = await this.oppQuery(response.records[0].Account.Id)
+    let opps = await this.oppQuery(email)
     if (!opps.length) return []
 
     let scorecardIds = opps.filter(opp => opp.scorecardId).map(opp => opp.scorecardId)
@@ -170,11 +180,11 @@ class Salesforce {
   }
 }
 
-  oppQuery(id) {
+  oppQuery(email) {
     return new Promise( (resolve, reject) => {
       this.connection.sobject("Opportunity")
     .select('Id, StageName, Name, Course_Product__c, Course_Type__c, CreatedDate, Campus__c, Course_Start_Date_Actual__c, Product_Code__c, Scorecard__c')
-    .where({AccountId: id})
+    .where({'Student_Email__c': email})
     .orderby("CreatedDate", "DESC")
       .execute((err, res) => {
         if (err) { reject(err); }
