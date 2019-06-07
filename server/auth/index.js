@@ -56,41 +56,29 @@ router.post('/signup', async (req, res, next) => {
   const result = Joi.validate(req.body, signupSchema);
   if (result.error !== null) return next(result.error)
   try {
-    let salesforceUser = await salesforce.findSalesforceUser(req.body.email)
-    console.log(salesforceUser);
-    let userContact = await salesforceUser.searchRecords.find(record => record.attributes.type === 'Contact')
-    console.log('found contact!', userContact);
+    let salesforceUser = null;
+    let searchResponse = await salesforce.findSalesforceUser(req.body.email)
+    salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
 
-    let userLead = await salesforceUser.searchRecords.find(record => record.attributes.type === 'Lead')
+    if (!salesforceUser) {
+      salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Lead')
+    }
+    if (!salesforceUser) {
+      //create lead
+
+    }
 
 
-
-    // let sfdcUser = salesforceUser.searchRecords.map(record => {
-    //   if (record.attributes.type === 'Contact') {
-    //     return;
-    //     //if contact set user id on user table
-    //     // set salesforce id and set salesforce type
-    //     return record;
-    //   } else if (record.attributes.type === 'Lead') {
-    //     return record;
-    //
-    //   } else {
-    //     // create lead
-    //     return record;
-    //   }
-    // })
-
-    //if lead
-
-    // if no lead
     let user = await Q.getUserbyEmail(req.body.email);
     if (user) {
       const error = new Error('A user with this email already exists.');
       res.status(409);
       next(error);
     } else {
+      let newBody = req.body;
+      newBody.salesforceUser = salesforceUser;
       let hashedPassword = await bcrypt.hash(req.body.password, 12);
-      let newUser = await Q.addNewUser(req.body, hashedPassword);
+      let newUser = await Q.addNewUser(newBody, hashedPassword);
       let values = JSON.stringify({Campus__c: req.body.campus});
       let opportunities = await salesforce.getOpportunities(newUser[0].email);
       if (opportunities.length === 0) {
