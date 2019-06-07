@@ -119,6 +119,7 @@ class Signup extends Component {
           }
           this.props.updateState(updatedState, '/dashboard')
         }).catch(err => {
+          console.log(err);
             this.setState({
               errorMessage: err.message,
               isLoading: false

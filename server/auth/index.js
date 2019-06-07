@@ -54,45 +54,44 @@ function createTokenSendResponse(user, opportunities, res, next) {
 
 router.post('/signup', async (req, res, next) => {
   const result = Joi.validate(req.body, signupSchema);
-  if (result.error !== null) return next(result.error)
-  try {
-    let salesforceUser = null;
-    let searchResponse = await salesforce.findSalesforceUser(req.body.email)
-    salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
+  if (result.error !== null) return next(result.error);
 
-    if (!salesforceUser) {
-      salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Lead')
+  // look for existing user in DB first
+  let user = await Q.getUserbyEmail(req.body.email);
+  if (user) {
+    const error = new Error('A user with this email already exists.');
+    res.status(409);
+    next(error);
+  } else {
+      try {
+        // look for user in salesforce first
+        let salesforceUser = null;
+        let searchResponse = await salesforce.findSalesforceUser(req.body.email);
+        salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
+        salesforceUser =  salesforceUser || await searchResponse.searchRecords.find(record => record.attributes.type === 'Lead');
+        if (!salesforceUser) {
+          let newLead = await salesforce.createLead(req.body);
+          salesforceUser = { Id: newLead.Id, attributes: {type: 'Lead'}};
+        }
+        // if no existing user post to db user information
+        let newBody = req.body;
+        newBody.salesforceUser = salesforceUser;
+        let hashedPassword = await bcrypt.hash(req.body.password, 12);
+        let newUser = await Q.addNewUser(newBody, hashedPassword);
+        let values = JSON.stringify({Campus__c: req.body.campus});
+        let opportunities = await salesforce.getOpportunities(newUser[0].email);
+        if (!opportunities.length) {
+          let application = await Q.findOrCreateApplication(req.body.courseType, req.body.courseProduct, newUser[0].id, values);
+          opportunities.push(application);
+        }
+        createTokenSendResponse(newUser[0], opportunities, res, next);
+      } catch(err) {
+        console.log(err);
+        res.status(501);
+        const error = new Error('Hmm... There was an error creating your account. Please contact admissions@galvanize.com');
+        next(error);
+        }
     }
-    if (!salesforceUser) {
-      //create lead
-      let newLead = await salesforce.createLead(req.body);
-      salesforceUser = { Id: newLead.Id, attributes: {type: 'Lead'}}
-      console.log('our new lead', newLead);
-    }
-
-
-    let user = await Q.getUserbyEmail(req.body.email);
-    if (user) {
-      const error = new Error('A user with this email already exists.');
-      res.status(409);
-      next(error);
-    } else {
-      let newBody = req.body;
-      newBody.salesforceUser = salesforceUser;
-      let hashedPassword = await bcrypt.hash(req.body.password, 12);
-      let newUser = await Q.addNewUser(newBody, hashedPassword);
-      let values = JSON.stringify({Campus__c: req.body.campus});
-      let opportunities = await salesforce.getOpportunities(newUser[0].email);
-      if (opportunities.length === 0) {
-        let application = await Q.findOrCreateApplication(req.body.courseType, req.body.courseProduct, newUser[0].id, values);
-        opportunities.push(application)
-      }
-      createTokenSendResponse(newUser[0], opportunities, res, next);
-    }
-  } catch(err) {
-    console.log(err);
-    next(err)
-  }
 });
 
 router.post('/signin', (req, res, next) => {
