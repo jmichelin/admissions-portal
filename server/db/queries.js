@@ -24,6 +24,15 @@ module.exports = {
         });
     },
 
+    updateSalesforceUserAttrs: function(user, salesforceUser) {
+      return knex('user')
+      .update({
+        salesforce_id: salesforceUser.Id,
+        salesforce_type: salesforceUser.attributes.type
+      })
+      .where('email', user.email);
+    },
+
     updateUserPasswordToken: function(user, token) {
       return knex('user')
         .update({
