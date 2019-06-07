@@ -2,8 +2,8 @@ export const PORTAL_BASE_URL = 'https://admissions.galvanize.com';
 
 export const GALVANIZE_BASE_URL = 'https://www.galvanize.com';
 
-export const PROSPECT_RECORD_ID = '012j00000004QndAAE';
-export const STUDENT_RECORD_ID = '012j0000000kfkDAAQ';
+export const LEAD_PROSPECT_RECORD_ID = '012j00000004QndAAE';
+export const LEAD_STUDENT_RECORD_ID = '012j0000000kfkDAAQ';
 export const SF_WDI_SYLLABUS_CAMPAIGN_ID = process.env.SF_WDI_SYLLABUS_CAMPAIGN_ID;
 export const SF_WDI_APPLICATION_CAMPAIGN_ID = process.env.SF_WDI_APPLICATION_CAMPAIGN_ID;
 export const SF_DSI_SYLLABUS_CAMPAIGN_ID = process.env.SF_DSI_SYLLABUS_CAMPAIGN_ID;

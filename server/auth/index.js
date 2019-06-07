@@ -65,27 +65,7 @@ router.post('/signup', async (req, res, next) => {
   } else {
       try {
         // look for user in salesforce first
-        let salesforceUser = null;
-        // TODO: need to escape special characters in email before searching salesforce or will break
-        let searchResponse = await salesforce.findSalesforceUser(encodeURIComponent(req.body.email));
-
-        // if contact - update contact to reflect portal account creation
-        salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
-        if (salesforceUser) {
-          await salesforce.updateContact(salesforceUser.Id, req.body);
-        }
-
-        // if no contact look for lead and update lead
-        if (!salesforceUser) {
-          salesforceUser =  await searchResponse.searchRecords.find(record => record.attributes.type === 'Lead');
-          if (salesforceUser) await salesforce.updateLead(salesforceUser.Id, req.body);
-        }
-
-        //if no contact or lead create a lead
-        if (!salesforceUser) {
-          let newLead = await salesforce.createLead(req.body);
-          salesforceUser = { Id: newLead.Id, attributes: {type: 'Lead'}};
-        }
+        let salesforceUser = await salesforce.signUpSignInUserUpdate(req.body);
 
         // Post new user info with salesforce in fo to DB
         let newBody = req.body;
@@ -104,30 +84,47 @@ router.post('/signup', async (req, res, next) => {
         res.status(501);
         const error = new Error('Hmm... There was an error creating your account. Please contact admissions@galvanize.com');
         next(error);
-        }
+      }
     }
 });
 
-router.post('/signin', (req, res, next) => {
+router.post('/signin', async (req, res, next) => {
   const result = Joi.validate(req.body, signinSchema);
   if (result.error === null) {
-    Q.getUserbyEmail(req.body.email)
-      .then(user => {
-        if (user) {
-          bcrypt.compare(req.body.password, user.password)
-            .then(result => {
-              if (result) {
-                createTokenSendResponse(user, [], res, next);
-              } else {
-                respondError(res, next);
-              }
-            });
-        } else {
-          respondError(res, next);
-        }
-      }).catch(err => {
-        respondError(res, next);
-      });
+    try {
+      let user = await Q.getUserbyEmail(req.body.email)
+      let result = user || bcrypt.compare(req.body.password, user.password)
+      if (result) {
+        let salesforceUser = await salesforce.signUpSignInUserUpdate(user);
+        createTokenSendResponse(user, [], res, next);
+      }
+    } catch(err) {
+      console.log(err);
+      res.status(422);
+      const error = new Error('Unable to login. Check your email and password.');
+      next(error);
+    }
+
+      // .then(user => {
+      //   if (user) {
+      //     bcrypt.compare(req.body.password, user.password)
+      //     .then(result => {
+      //       if (result) {
+      //         let salesforceUser = await salesforce.signUpSignInUserUpdate(req.body);
+
+      //         await Q.updateSalesforceUserAttrs(user, salesforceUser);
+
+      //         createTokenSendResponse(user, [], res, next);
+      //       } else {
+      //         respondError(res, next);
+      //       }
+      //     });
+      //   } else {
+      //     respondError(res, next);
+      //   }
+      // }).catch(err => {
+      //   respondError(res, next);
+      // });
   } else {
     respondError(res, next);
   }

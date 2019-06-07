@@ -7,8 +7,8 @@ import moment from 'moment';
 
 
 import {
-  PROSPECT_RECORD_ID,
-  STUDENT_RECORD_ID,
+  LEAD_PROSPECT_RECORD_ID,
+  LEAD_STUDENT_RECORD_ID,
   SF_WDI_SYLLABUS_CAMPAIGN_ID,
   SF_WDI_APPLICATION_CAMPAIGN_ID,
   SF_DSI_SYLLABUS_CAMPAIGN_ID,
@@ -33,6 +33,26 @@ class Salesforce {
     this.connection = new jsforce.Connection({
       loginUrl : this.baseUrl
     });
+
+    this.SALESFORCE_LEAD = {
+      RecordTypeId: LEAD_STUDENT_RECORD_ID,
+      Id: null,
+      FirstName: null,
+      LastName: null,
+      // Campus__c: null,
+      // Product__c: null,
+      Has_Portal_Account__c: true,
+      Last_Portal_Login__c: new Date()
+    }
+
+    this.SALESFORCE_CONTACT = {
+      Id: null,
+      FirstName: null,
+      LastName: null,
+      // Campus__c: formParams.campus,
+      Has_Portal_Account__c: true,
+      Last_Portal_Login__c: new Date()
+    }
   }
 
   login() {
@@ -50,11 +70,55 @@ class Salesforce {
     return new Promise( (resolve, reject) => {
       this.connection.search(
         queryString,
-      (err, res) => {
-        if (err) { reject(err); }
+        (err, res) => {
+          if (err) { reject(err); }
         resolve(res);
       });
     });
+  }
+  
+  async signUpSignInUserUpdate(requestbody){
+    let salesforceUser = null;
+    let searchResponse = await this.findSalesforceUser(requestbody.email);
+    console.log(encodeURIComponent(requestbody.email))
+
+    // if contact - update contact to reflect portal account creation
+    salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
+    console.log(salesforceUser)
+    if (salesforceUser) {
+      console.log("CONTACT")
+      let contact = this.SALESFORCE_CONTACT;
+      contact.Id = salesforceUser.Id
+      contact.FirstName = requestbody.first_name
+      contact.LastName = requestbody.last_name
+      
+      console.log(contact)
+      await this.updateContact(contact);
+    }
+
+    // if no contact look for lead and update lead
+    if (!salesforceUser) {
+      salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Lead');
+      if (salesforceUser){
+        console.log("LEAD")
+        let lead = this.SALESFORCE_LEAD;
+        lead.Id = salesforceUser.Id
+        lead.FirstName = requestbody.first_name
+        lead.LastName = requestbody.last_name
+        
+        console.log(lead)
+        await this.updateLead(lead);
+      }  
+    }
+    
+    //if no contact or lead create a lead
+    if (!salesforceUser) {
+      console.log("new lead")
+      let newLead = await this.createLead(requestbody);
+      salesforceUser = { Id: newLead.Id, attributes: {type: 'Lead'}};
+    }
+
+    return salesforceUser;
   }
 
   async createLead(formData) {
@@ -85,37 +149,18 @@ class Salesforce {
     });
   }
 
-  updateLead(id, formParams) {
+  updateLead(lead) {
     return new Promise( (resolve, reject) => {
-      this.connection.sobject('Lead').update({
-        Id: id,
-        FirstName: formParams.first_name,
-        LastName: formParams.last_name,
-        Campus__c: formParams.Campus__c,
-        Product__c: formParams.courseProduct,
-        Has_Portal_Account__c: 'true',
-        Last_Portal_Login__c: new Date(),
-        Privacy_Policy_Date__c: new Date(),
-        Terms_of_Service_Date__c: new Date(),
-        Code_of_Conduct_Date__c: new Date(),
-        Data_Use_Policy_Date__c: new Date()
-      }, (err, res) => {
+      this.connection.sobject('Lead').update( lead , (err, res) => {
         if(err) { reject(err); }
         resolve(res);
       });
     });
   }
 
-  updateContact(id, formParams) {
+  updateContact(contact) {
     return new Promise( (resolve, reject) => {
-      this.connection.sobject('Contact').update({
-        Id: id,
-        FirstName: formParams.first_name,
-        LastName: formParams.last_name,
-        Campus__c: formParams.campus,
-        Has_Portal_Account__c: 'true',
-        Last_Portal_Login__c: new Date()
-      }, (err, res) => {
+      this.connection.sobject('Contact').update( contact , (err, res) => {
         if(err) { reject(err); }
         resolve(res);
       });
@@ -141,7 +186,7 @@ class Salesforce {
   }
 
 
-// old from dotcom but will use on application submit
+  // old from dotcom but will use on application submit
   getCampaignId(campaignType, product) {
     let isWebDev = product === 'Full Stack' || product === 'Web Development';
 
@@ -365,16 +410,16 @@ function _reformatScorecard(ogData) {
 
 function _makeQueryForExistingLead(email) {
   return `SELECT Id FROM Lead
-    WHERE ( RecordTypeId = '${PROSPECT_RECORD_ID}'
-    OR RecordTypeId = '${STUDENT_RECORD_ID}' )
+    WHERE ( RecordTypeId = '${LEAD_PROSPECT_RECORD_ID}'
+    OR RecordTypeId = '${LEAD_STUDENT_RECORD_ID}' )
     AND Email = '${email}'
     ORDER BY LastModifiedDate DESC LIMIT 1`;
 }
 
 function _makeQueryForExistingLeadForApplication(email) {
   return `SELECT Id FROM Lead
-    WHERE ( RecordTypeId = '${PROSPECT_RECORD_ID}'
-    OR RecordTypeId = '${STUDENT_RECORD_ID}' )
+    WHERE ( RecordTypeId = '${LEAD_PROSPECT_RECORD_ID}'
+    OR RecordTypeId = '${LEAD_STUDENT_RECORD_ID}' )
     AND Email = '${email}'
     AND IsConverted = false
     ORDER BY LastModifiedDate DESC LIMIT 1`;
@@ -394,5 +439,6 @@ function _makeQueryForExistingOpportunity(id) {
 }
 
 function _makeSalesforceUserQuery(email) {
-  return `FIND {${email}} RETURNING Contact(Id, Email ORDER BY CreatedDate DESC), Opportunity(Id, Student__r.Email ORDER BY CreatedDate DESC), Lead(Id, Email ORDER BY CreatedDate DESC)`;
+  let escapedEmail = email.replace(/[-[\]{}()*+?\\^$|#\s]/g, '\\$&');
+  return `FIND {${escapedEmail}} IN Email FIELDS RETURNING Contact(Id, Email ORDER BY CreatedDate DESC), Opportunity(Id, Student__r.Email ORDER BY CreatedDate DESC), Lead(Id, Email ORDER BY CreatedDate DESC)`;
 }
