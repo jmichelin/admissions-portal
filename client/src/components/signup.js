@@ -106,12 +106,12 @@ class Signup extends Component {
         }).then(result => {
           localStorage.token = result.token;
           const applications = result.data.applications.map(app => {
-          const stageObj = utils.getStage(app);
-          app.formalName = stageObj.name;
-          app.currentStep = stageObj.step;
-          app.admissionsProcess = stageObj.process;
-          return app;
-        })
+            const stageObj = utils.getStage(app);
+            app.formalName = stageObj.name;
+            app.currentStep = stageObj.step;
+            app.admissionsProcess = stageObj.process;
+            return app;
+          })
           let updatedState = {
             user: result.data.user,
             applications: applications,

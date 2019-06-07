@@ -126,12 +126,13 @@ module.exports = {
       .where("id", id).first()
     },
 
-    getUserApplications: function(userId) {
-      return knex('application')
+    getUserApplications: async function(userId) {
+      let apps = await knex('application')
         .select('*')
         .where('user_id', userId)
         .where('complete', null)
         .orderByRaw('created_at DESC')
+      return apps.map(app => { app.type = 'application'; return app })
     },
 
     updateApplication: async function(application) {
@@ -139,13 +140,15 @@ module.exports = {
         .where({id: application.id})
         .first()
       if (foundApp !== undefined && application.user_id == foundApp.user_id) {
-        return knex('application').update({
-          values: application.values,
-          updated_at: knex.fn.now(),
-          complete: application.complete,
-        })
-        .where({id: application.id})
-        .returning('*')
+        let app = await knex('application').update({
+            values: application.values,
+            updated_at: knex.fn.now(),
+            complete: application.complete,
+          })
+          .where({id: application.id})
+          .returning('*')
+        app[0].type = 'application';
+        return app
       } else {
         return undefined
       }
@@ -173,6 +176,7 @@ module.exports = {
           created_at: knex.fn.now()
         })
         .returning('*')
+      newApp.type = 'application'
       return newApp
     },
 };
