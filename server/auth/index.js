@@ -66,6 +66,7 @@ router.post('/signup', async (req, res, next) => {
       try {
         // look for user in salesforce first
         let salesforceUser = null;
+        // TODO: need to escape special characters in email before searching salesforce or will break
         let searchResponse = await salesforce.findSalesforceUser(req.body.email);
         salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
         salesforceUser =  salesforceUser || await searchResponse.searchRecords.find(record => record.attributes.type === 'Lead');
