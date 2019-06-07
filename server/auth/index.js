@@ -67,19 +67,27 @@ router.post('/signup', async (req, res, next) => {
         // look for user in salesforce first
         let salesforceUser = null;
         // TODO: need to escape special characters in email before searching salesforce or will break
-        let searchResponse = await salesforce.findSalesforceUser(req.body.email);
-        salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
+        let searchResponse = await salesforce.findSalesforceUser(encodeURIComponent(req.body.email));
 
-        // if contact - save contact id and type to user table and post to contact updates
+        // if contact - update contact to reflect portal account creation
+        salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
         if (salesforceUser) {
-          await salesforce.updateContact(salesforceUser.Id)
+          await salesforce.updateContact(salesforceUser.Id, req.body);
         }
-        salesforceUser =  salesforceUser || await searchResponse.searchRecords.find(record => record.attributes.type === 'Lead');
+
+        // if no contact look for lead and update lead
+        if (!salesforceUser) {
+          salesforceUser =  await searchResponse.searchRecords.find(record => record.attributes.type === 'Lead');
+          if (salesforceUser) await salesforce.updateLead(salesforceUser.Id, req.body);
+        }
+
+        //if no contact or lead create a lead
         if (!salesforceUser) {
           let newLead = await salesforce.createLead(req.body);
           salesforceUser = { Id: newLead.Id, attributes: {type: 'Lead'}};
         }
-        // if no existing user post to db user information
+
+        // Post new user info with salesforce in fo to DB
         let newBody = req.body;
         newBody.salesforceUser = salesforceUser;
         let hashedPassword = await bcrypt.hash(req.body.password, 12);

@@ -77,8 +77,6 @@ class Salesforce {
       salesforceData.Code_of_Conduct_Date__c = new Date();
       salesforceData.Data_Use_Policy_Date__c = new Date();
 
-      console.log('data to salesforce', salesforceData);
-
       this.connection.sobject('Lead').create(salesforceData, (err, res) => {
         if (err) { reject(err); }
         if (!res || !res.success) { reject(res); }
@@ -87,19 +85,20 @@ class Salesforce {
     });
   }
 
-  updateLead(formParams, leadId) {
+  updateLead(id, formParams) {
     return new Promise( (resolve, reject) => {
       this.connection.sobject('Lead').update({
-        Id: leadId,
-        FirstName: formParams.FirstName,
-        LastName: formParams.LastName,
+        Id: id,
+        FirstName: formParams.first_name,
+        LastName: formParams.last_name,
         Campus__c: formParams.Campus__c,
-        pi__first_touch_url__c: formParams.pi__first_touch_url__c,
-        pi__conversion_object_name__c: formParams.pi__conversion_object_name__c,
-        Privacy_Policy_Date__c: formParams.Privacy_Policy_Date__c,
-        Terms_of_Service_Date__c: formParams.Privacy_Policy_Date__c,
-        Code_of_Conduct_Date__c: formParams.Privacy_Policy_Date__c,
-        Data_Use_Policy_Date__c: formParams.Privacy_Policy_Date__c
+        Product__c: formParams.courseProduct,
+        Has_Portal_Account__c: 'true',
+        Last_Portal_Login__c: new Date(),
+        Privacy_Policy_Date__c: new Date(),
+        Terms_of_Service_Date__c: new Date(),
+        Code_of_Conduct_Date__c: new Date(),
+        Data_Use_Policy_Date__c: new Date()
       }, (err, res) => {
         if(err) { reject(err); }
         resolve(res);
@@ -107,10 +106,13 @@ class Salesforce {
     });
   }
 
-  updateContact(contactId) {
+  updateContact(id, formParams) {
     return new Promise( (resolve, reject) => {
       this.connection.sobject('Contact').update({
-        Id: contactId,
+        Id: id,
+        FirstName: formParams.first_name,
+        LastName: formParams.last_name,
+        Campus__c: formParams.campus,
         Has_Portal_Account__c: 'true',
         Last_Portal_Login__c: new Date()
       }, (err, res) => {
@@ -163,8 +165,6 @@ class Salesforce {
       return _makeQueryForExistingLeadForApplication(email);
     }
   }
-
-
 
   prepFormParamsForSFDC(formParams) {
     if (formParams.Birthdate__c) {
