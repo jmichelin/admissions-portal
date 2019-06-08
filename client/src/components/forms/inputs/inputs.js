@@ -28,13 +28,12 @@ function getCreateAccountInputs() {
       errorMessage: 'Enter a valid email.'
     },
     {
-      id: 'program',
-      fieldName: 'Product__c',
-      label: 'Preferred Program',
-      type: 'select',
+      id: 'phone',
+      label: 'Phone',
+      type: 'tel',
       value: '',
-      options: APPLICATION_INPUTS,
-      errorMessage: 'Select a program.'
+      required: true,
+      errorMessage: 'Enter a valid phone number.'
     },
     {
       id: 'campus',
@@ -44,6 +43,15 @@ function getCreateAccountInputs() {
       value: '',
       options: CAMPUSES,
       errorMessage: "Select a campus."
+    },
+    {
+      id: 'program',
+      fieldName: 'Product__c',
+      label: 'Preferred Program',
+      type: 'select',
+      value: '',
+      options: APPLICATION_INPUTS,
+      errorMessage: 'Select a program.'
     },
     {
       id: 'password',

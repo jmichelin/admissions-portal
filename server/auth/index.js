@@ -16,6 +16,7 @@ const signupSchema = Joi.object().keys({
   password: Joi.string().min(5).max(15).required(),
   first_name: Joi.string().required(),
   last_name: Joi.string().required(),
+  phone: Joi.string().required(),
   program: Joi.string().required(),
   campus: Joi.string().required(),
   courseType: Joi.string().required(),
@@ -64,10 +65,9 @@ router.post('/signup', async (req, res, next) => {
     next(error);
   } else {
       try {
-        // look for user in salesforce first
+        // look for user in salesforce first and update salseforce
         let salesforceUser = await salesforce.signUpSignInUserUpdate(req.body);
-
-        // Post new user info with salesforce in fo to DB
+        // Then post new user info with salesforce in fo to DB
         let newBody = req.body;
         newBody.salesforceUser = salesforceUser;
         let hashedPassword = await bcrypt.hash(req.body.password, 12);
@@ -92,16 +92,21 @@ router.post('/signin', async (req, res, next) => {
   if (result.error === null) {
     try {
       let user = await Q.getUserbyEmail(req.body.email);
-      let result = user || bcrypt.compare(req.body.password, user.password);
-      if (result) {
-        let salesforceUser = await salesforce.signUpSignInUserUpdate(user);
-        createTokenSendResponse(user, [], res, next);
+      if (user) {
+        let result = await bcrypt.compare(req.body.password, user.password);
+        console.log(result);
+        if (result) {
+          let salesforceUser = await salesforce.signUpSignInUserUpdate(user);
+          createTokenSendResponse(user, [], res, next);
+        } else {
+          respondError(res, next);
+        }
+      } else {
+        respondError(res, next);
       }
     } catch(err) {
       console.log(err);
-      res.status(422);
-      const error = new Error('Unable to login. Check your email and password.');
-      next(error);
+      respondError(res, next);
     }
   } else {
     respondError(res, next);

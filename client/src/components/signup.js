@@ -11,6 +11,7 @@ import { APPLICATION_INPUTS } from './forms/inputs/application-inputs';
 import utils from '../helpers/utils';
 
 import Joi from 'joi';
+const phoneJoi = Joi.extend(require('joi-phone-number'));
 
 const SIGNUP_URL = '/auth/signup';
 
@@ -29,6 +30,7 @@ class Signup extends Component {
       confirmed_password: '',
       program: '',
       campus: '',
+      phone: '',
       terms: false,
       isFormValid: false,
       submitAttempted: false,
@@ -52,7 +54,7 @@ class Signup extends Component {
 
   validUser = (data) => {
     const result = Joi.validate(data, schema);
-
+    console.log(result);
     if (this.state.confirmed_password !== this.state.password) return false;
     if (this.state.terms === false) return false;
     if (result.error === null) {
@@ -85,9 +87,9 @@ class Signup extends Component {
       submitAttempted: true,
       isLoading: true
     })
-    const { first_name, last_name, email, password, program, campus } = this.state;
+    const { first_name, last_name, email, password, program, campus, phone } = this.state;
     const { courseType, courseProduct } = APPLICATION_INPUTS.find(e => e.name === program) || { courseType: undefined, courseProduct: undefined }
-    const formData = { first_name, last_name, email, password, program, campus, courseType, courseProduct }
+    const formData = { first_name, last_name, email, password, program, campus, phone, courseType, courseProduct }
 
     // set courseType and courseProduct from Application Inputs to send to server
     if (this.validUser(formData)) {
@@ -198,10 +200,13 @@ class Signup extends Component {
             {this.createInputs().slice(3,5)}
           </div>
           <div className="form-group">
-            {this.createInputs().slice(5,7)}
+            {this.createInputs().slice(5,6)}
+          </div>
+          <div className="form-group">
+            {this.createInputs().slice(6,8)}
           </div>
           <div className="form-footer">
-            {this.createInputs().slice(7,8)}
+            {this.createInputs().slice(8,9)}
             <input type="submit" value="Create Account" className={this.state.isLoading ? "button-primary -loading" : "button-primary"}/>
           </div>
           <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
@@ -218,6 +223,7 @@ const schema = {
   password: Joi.string().min(5).max(15),
   program: Joi.string(),
   campus: Joi.string(),
+  phone: phoneJoi.string().phoneNumber(),
   courseType: Joi.string(),
   courseProduct: Joi.string(),
 }

@@ -68,6 +68,7 @@ class Salesforce {
         Id: salesforceUser.Id,
         FirstName: requestbody.first_name,
         LastName: requestbody.last_name,
+        Phone: requestbody.phone,
         Campus__c: requestbody.campus,
         Product__c: requestbody.courseProduct,
         Has_Portal_Account__c: true,
@@ -86,6 +87,7 @@ class Salesforce {
           Id: salesforceUser.Id,
           FirstName: requestbody.first_name,
           LastName: requestbody.last_name,
+          Phone: requestbody.phone,
           Campus__c: requestbody.campus,
           Product__c: requestbody.courseProduct,
           Has_Portal_Account__c: true,
@@ -107,27 +109,29 @@ class Salesforce {
 
   async createLead(formData) {
     return new Promise( (resolve, reject) => {
-      let newForm = {};
-      newForm.FirstName = formData.first_name;
-      newForm.LastName = formData.last_name;
-      newForm.Phone = '222-222-2222';
-      newForm.Email = formData.email;
-      newForm.Campus__c = formData.campus === 'Austin-2nd St District' ? 'Austin-2nd Street District' : formData.campus;
-      newForm.Product__c = formData.courseProduct;
-      newForm.Company = 'Unknown';
-      newForm.Source__c = 'Admissions Portal';
-      newForm.LeadSource = 'Galvanize.com';
-      newForm.LeadSourceDetail__c = 'Direct';
-      newForm.pi__conversion_object_name__c = 'Admissions Portal',
-      newForm.form_source__c = 'Admissions Portal',
-      newForm.Has_Portal_Account__c = 'true';
-      newForm.Last_Portal_Login__c = new Date();
-      newForm.Privacy_Policy_Date__c = new Date();
-      newForm.Terms_of_Service_Date__c = new Date();
-      newForm.Code_of_Conduct_Date__c = new Date();
-      newForm.Data_Use_Policy_Date__c = new Date();
+      let lead = {
+        FirstName: formData.first_name,
+        LastName: formData.last_name,
+        Phone: formData.phone,
+        Email: formData.email,
+        Campus__c: formData.campus === 'Austin-2nd St District' ? 'Austin-2nd Street District' : formData.campus,
+        Product__c: formData.courseProduct,
+        Company: 'Unknown',
+        Source__c: 'Admissions Portal',
+        LeadSource: 'Galvanize.com',
+        LeadSourceDetail__c: 'Direct',
+        pi__conversion_object_name__c: 'Admissions Portal',
+        form_source__c: 'Admissions Portal',
+        Has_Portal_Account__c: 'true',
+        Last_Portal_Login__c: new Date(),
+        Privacy_Policy_Date__c: new Date(),
+        Terms_of_Service_Date__c: new Date(),
+        Code_of_Conduct_Date__c: new Date(),
+        Data_Use_Policy_Date__c: new Date()
+      };
 
-      this.connection.sobject('Lead').create(newForm, (err, res) => {
+
+      this.connection.sobject('Lead').create(lead, (err, res) => {
         if (err) { reject(err); }
         if (!res || !res.success) { reject(res); }
         resolve(res);
