@@ -98,6 +98,7 @@ router.post('/signin', async (req, res, next) => {
         createTokenSendResponse(user, [], res, next);
       }
     } catch(err) {
+      console.log(err);
       res.status(422);
       const error = new Error('Unable to login. Check your email and password.');
       next(error);

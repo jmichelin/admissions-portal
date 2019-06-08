@@ -125,7 +125,7 @@ const PROGRAMS = {
     }
   },
   'Data Science' : {
-    'Default' : {
+    '13 Week Full-Time Immersive' : {
       name: 'Data Science Immersive',
       step: getDSIStage,
       process: DSI_STEPS
@@ -138,6 +138,8 @@ const PROGRAMS = {
   }
 };
 
+// TODO: This needs to be refactored - it never will resolve to default
+// but instead will break because of the course prod and course type ternarys
 function getStage(program) {
   let courseProducts = program.courseProduct ? PROGRAMS[program.courseProduct] : PROGRAMS[program.course_product];
 

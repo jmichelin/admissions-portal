@@ -33,23 +33,6 @@ class Salesforce {
     this.connection = new jsforce.Connection({
       loginUrl : this.baseUrl
     });
-
-    this.SALESFORCE_LEAD = {
-      RecordTypeId: LEAD_STUDENT_RECORD_ID,
-      Id: null,
-      FirstName: null,
-      LastName: null,
-      Has_Portal_Account__c: true,
-      Last_Portal_Login__c: new Date()
-    }
-
-    this.SALESFORCE_CONTACT = {
-      Id: null,
-      FirstName: null,
-      LastName: null,
-      Has_Portal_Account__c: true,
-      Last_Portal_Login__c: new Date()
-    }
   }
 
   login() {
@@ -80,13 +63,16 @@ class Salesforce {
 
     // if contact - update contact to reflect portal account creation
     salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
-    console.log(salesforceUser)
     if (salesforceUser) {
-      console.log("CONTACT")
-      let contact = this.SALESFORCE_CONTACT;
-      contact.Id = salesforceUser.Id
-      contact.FirstName = requestbody.first_name
-      contact.LastName = requestbody.last_name
+      let contact = {
+        Id: salesforceUser.Id,
+        FirstName: requestbody.first_name,
+        LastName: requestbody.last_name,
+        Campus__c: requestbody.campus,
+        Product__c: requestbody.courseProduct,
+        Has_Portal_Account__c: true,
+        Last_Portal_Login__c: new Date()
+      };
 
       await this.updateContact(contact);
     }
@@ -95,11 +81,6 @@ class Salesforce {
     if (!salesforceUser) {
       salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Lead');
       if (salesforceUser){
-        // let lead = this.SALESFORCE_LEAD;
-        // lead.Id = salesforceUser.Id;
-        // lead.FirstName = requestbody.first_name;
-        // lead.LastName = requestbody.last_name;
-        // lead.Campus__c = requestbody.campus;
         let lead = {
           RecordTypeId: LEAD_STUDENT_RECORD_ID,
           Id: salesforceUser.Id,
@@ -137,6 +118,8 @@ class Salesforce {
       newForm.Source__c = 'Admissions Portal';
       newForm.LeadSource = 'Galvanize.com';
       newForm.LeadSourceDetail__c = 'Direct';
+      newForm.pi__conversion_object_name__c = 'Admissions Portal',
+      newForm.form_source__c = 'Admissions Portal',
       newForm.Has_Portal_Account__c = 'true';
       newForm.Last_Portal_Login__c = new Date();
       newForm.Privacy_Policy_Date__c = new Date();
