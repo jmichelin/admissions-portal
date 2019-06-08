@@ -91,8 +91,10 @@ router.post('/signin', async (req, res, next) => {
   const result = Joi.validate(req.body, signinSchema);
   if (result.error === null) {
     try {
-      if (await Q.getUserbyEmail(req.body.email)) {
-        if (await bcrypt.compare(req.body.password, user.password)) {
+      let user = await Q.getUserbyEmail(req.body.email);
+      if (user) {
+        let result = await bcrypt.compare(req.body.password, user.password);
+        if (result) {
           let salesforceUser = await salesforce.signUpSignInUserUpdate(user);
           createTokenSendResponse(user, [], res, next);
         } else {
