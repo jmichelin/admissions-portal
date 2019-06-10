@@ -80,6 +80,7 @@ router.post('/signup', async (req, res, next) => {
         }
         createTokenSendResponse(newUser[0], opportunities, res, next);
       } catch(err) {
+        console.log(err)
         res.status(501);
         const error = new Error('Hmm... There was an error creating your account. Please contact admissions@galvanize.com');
         next(error);

@@ -14,11 +14,9 @@ class Dashboard extends Component {
   constructor(props){
     super(props);
 
-    const programInputs = inputs.getProgramInputs(APPLICATION_INPUTS, props.applications);
     const campusInputs = inputs.getCampusInputs(CAMPUSES);
 
     this.state = {
-      programInputs: programInputs,
       campusInputs: campusInputs,
       program: props.user.program || '',
       campus: props.user.campus || '',
@@ -33,14 +31,6 @@ class Dashboard extends Component {
       if (dataRefresh) this.props.getData(true);
     }
     if (window && window.analytics) window.analytics.page('Dashboard')
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.applications.length === 0 && this.props.applications.length > 0) {
-      this.setState({
-        programInputs: inputs.getProgramInputs(APPLICATION_INPUTS, this.props.applications),
-      });
-    }
   }
 
   onProgramChange = (e) => {
@@ -67,6 +57,7 @@ class Dashboard extends Component {
   }
 
   render() {
+    let programInputs = inputs.getProgramInputs(APPLICATION_INPUTS, this.props.applications)
     return (
       <div className="dashboard">
         <div className="container">
@@ -86,10 +77,10 @@ class Dashboard extends Component {
                       user={this.props.user}
                     />
                   )}
-                  {this.state.programInputs.options.length > 0 && (
+                  {programInputs.options.length > 0 && (
                     <ProgramSelect
                       isLoading={this.props.isLoading}
-                      programInputs={this.state.programInputs}
+                      programInputs={programInputs}
                       program={!this.props.applications.length ? this.state.program || this.props.user.program : this.state.program}
                       isValid={this.isValid}
                       onProgramChange={this.onProgramChange}
