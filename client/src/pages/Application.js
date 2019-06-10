@@ -27,7 +27,11 @@ class Application extends Component {
       result[currentVal["fieldName"]] = '';
       return result
     }, {});
-    const program = props.location.state.program ? props.location.state.program : props.location.state.opp
+
+    let program = {};
+    if (props.location.state) {
+      program = props.location.state.program ? props.location.state.program : props.location.state.opp
+    }
     this.state = {
       campus: '',
       courseType: program.courseType || program.course_type,
@@ -170,7 +174,7 @@ class Application extends Component {
         this.setState({ saveButtonText: 'Saved!' });
         setTimeout(() => {
           this.setState({ saveButtonText: 'Save' });
-        }, 2000)
+        }, 1000)
       })
       .catch((err) => {
         this.setState({ errorText: 'Something has gone wrong, please contact support@galvanize.com' });
