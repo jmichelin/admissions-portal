@@ -64,50 +64,45 @@ router.post('/signup', async (req, res, next) => {
     res.status(409);
     next(error);
   } else {
-      try {
-        // look for user in salesforce first and update salseforce
-        let salesforceUser = await salesforce.signUpSignInUserUpdate(req.body);
-        // Then post new user info with salesforce in fo to DB
-        let newBody = req.body;
-        newBody.salesforceUser = salesforceUser;
-        let hashedPassword = await bcrypt.hash(req.body.password, 12);
-        let newUser = await Q.addNewUser(newBody, hashedPassword);
-        let values = JSON.stringify({Campus__c: req.body.campus});
-        let opportunities = await salesforce.getOpportunities(newUser[0].email);
-        if (!opportunities.length) {
-          let application = await Q.findOrCreateApplication(req.body.courseType, req.body.courseProduct, newUser[0].id, values);
-          opportunities.push(application);
-        }
-        createTokenSendResponse(newUser[0], opportunities, res, next);
-      } catch(err) {
-        console.log(err)
-        res.status(501);
-        const error = new Error('Hmm... There was an error creating your account. Please contact admissions@galvanize.com');
-        next(error);
+    try {
+      // look for user in salesforce first and update salseforce
+      let salesforceUser = await salesforce.signUpSignInUserUpdate(req.body);
+      // Then post new user info with salesforce in fo to DB
+      let newBody = req.body;
+      newBody.salesforceUser = salesforceUser;
+      let hashedPassword = await bcrypt.hash(req.body.password, 12);
+      let newUser = await Q.addNewUser(newBody, hashedPassword);
+      let values = JSON.stringify({Campus__c: req.body.campus, Phone: req.body.phone});
+      let opportunities = await salesforce.getOpportunities(newUser[0].email);
+      if (!opportunities.length) {
+        let application = await Q.findOrCreateApplication(req.body.courseType, req.body.courseProduct, newUser[0].id, values);
+        opportunities.push(application);
       }
+      createTokenSendResponse(newUser[0], opportunities, res, next);
+    } catch(err) {
+      console.log(err)
+      res.status(501);
+      const error = new Error('Hmm... There was an error creating your account. Please contact admissions@galvanize.com');
+      next(error);
     }
+  }
 });
 
 router.post('/signin', async (req, res, next) => {
   const result = Joi.validate(req.body, signinSchema);
-  if (result.error === null) {
-    try {
-      let user = await Q.getUserbyEmail(req.body.email);
-      if (user) {
-        let result = await bcrypt.compare(req.body.password, user.password);
-        if (result) {
-          let salesforceUser = await salesforce.signUpSignInUserUpdate(user);
-          createTokenSendResponse(user, [], res, next);
-        } else {
-          respondError(res, next);
-        }
-      } else {
-        respondError(res, next);
-      }
-    } catch(err) {
-      respondError(res, next);
-    }
-  } else {
+  if (result.error !== null) return respondError(res, next);
+
+  try {
+    let user = await Q.getUserbyEmail(req.body.email);
+    if (!user) return respondError(res, next);
+
+    let result = await bcrypt.compare(req.body.password, user.password);
+    if (!result) return respondError(res, next);
+
+    let salesforceUser = await salesforce.signUpSignInUserUpdate(user);
+    await Q.updateSalesforceUserAttrs(user.email, salesforceUser)
+    createTokenSendResponse(user, [], res, next);
+  } catch(err) {
     respondError(res, next);
   }
 });

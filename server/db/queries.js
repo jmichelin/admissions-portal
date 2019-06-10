@@ -24,13 +24,13 @@ module.exports = {
         });
     },
 
-    updateSalesforceUserAttrs: function(user, salesforceUser) {
+    updateSalesforceUserAttrs: function(userEmail, salesforceUser) {
       return knex('user')
       .update({
         salesforce_id: salesforceUser.Id,
         salesforce_type: salesforceUser.attributes.type
       })
-      .where('email', user.email);
+      .where('email', userEmail);
     },
 
     updateUserPasswordToken: function(user, token) {
