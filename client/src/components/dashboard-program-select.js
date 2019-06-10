@@ -10,6 +10,8 @@ class ProgramSelect extends Component {
   // TODO: This is a weird way to make this work - should we put course prod and course type on user too? Will we always be able to search by course name?
   retrieveApp(program) {
     const foundApp = APPLICATION_INPUTS.find(e => e.name === program)
+    // TODO if campus in set (Denver, Boulder, Seattle, Phoenix) and courseProduct is 'Full Stack'
+    // rename courseType from 12 week to 18 week
     if (foundApp) return ({ courseProduct: foundApp.courseProduct, courseType: foundApp.courseType })
   }
 

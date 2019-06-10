@@ -10,6 +10,10 @@ router.patch('/:id', async (req, res) => {
     user_id: req.user.id,
   };
 
+  if (req.body.course_type) {
+    application.course_type = req.body.course_type;
+  }
+
   try {
     let savedApp = await Q.updateApplication(application)
     if (savedApp) return res.status(200).send(savedApp)

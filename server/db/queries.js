@@ -151,11 +151,15 @@ module.exports = {
         .where({id: application.id})
         .first()
       if (foundApp !== undefined && application.user_id == foundApp.user_id) {
-        let app = await knex('application').update({
-            values: application.values,
-            updated_at: knex.fn.now(),
-            complete: application.complete,
-          })
+        let updateApp = {
+          values: application.values,
+          updated_at: knex.fn.now(),
+          complete: application.complete,
+        }
+        if (application.course_type) {
+          updateApp.course_type = req.body.course_type;
+        }
+        let app = await knex('application').update(updateApp)
           .where({id: application.id})
           .returning('*')
         app[0].type = 'application';
