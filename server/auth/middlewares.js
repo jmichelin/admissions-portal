@@ -33,7 +33,6 @@ function isLoggedIn(req, res, next) {
   }
 }
 
-
 function verifyBasicAuth(req, res, next) {
   let credentials;
   try {

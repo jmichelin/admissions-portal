@@ -9,6 +9,7 @@ import moment from 'moment';
 import {
   LEAD_PROSPECT_RECORD_ID,
   LEAD_STUDENT_RECORD_ID,
+  OPP_STUDENT_RECORD_ID,
   SF_WDI_SYLLABUS_CAMPAIGN_ID,
   SF_WDI_APPLICATION_CAMPAIGN_ID,
   SF_DSI_SYLLABUS_CAMPAIGN_ID,
@@ -55,6 +56,35 @@ class Salesforce {
         resolve(res);
       });
     });
+  }
+
+  async applicationStepUpdate(user, application, applicationComplete) {
+    if (user.salesforce_type === "Contact") {
+      let contact = {
+        Id: user.salesforce_id,
+        Has_Portal_Account__c: true,
+        Last_Portal_Login__c: new Date(),
+        Campus__c: application.values.Campus__c
+      }
+
+      await this.updateContact(contact);
+
+      if (applicationComplete) {
+        let courseInfo = JSON.parse(application.values.Which_dates_you_prefer_to_take_course__c);
+        await this.createOpp(user, courseInfo)
+      }
+    } else if (user.salesforce_type === "Lead"){
+      let lead = {
+        Id: user.salesforce_id,
+        Campus__c: application.values.Campus__c,
+        Product__c: application.course_product,
+        Status: "Started Application",
+        Which_dates_you_prefer_to_take_course__c: JSON.parse(application.values.Which_dates_you_prefer_to_take_course__c).courseName,
+        Application_Completed__c: applicationComplete
+      }
+
+      await this.updateLead(lead);
+    }
   }
 
   async signUpSignInUserUpdate(requestbody){
@@ -131,6 +161,25 @@ class Salesforce {
       };
 
       this.connection.sobject('Lead').create(lead, (err, res) => {
+        if (err) { reject(err); }
+        if (!res || !res.success) { reject(res); }
+        resolve(res);
+      });
+    });
+  }
+
+  async createOpp(user, courseInfo) {
+    return new Promise( (resolve, reject) => {
+      let opp = {
+        RecordTypeId: OPP_STUDENT_RECORD_ID,
+        Name: user.name + " " + courseInfo.cohortCode + " Application",
+        CloseDate: new Date(),
+        Course__c: courseInfo.courseId,
+        Student__c: user.salesforce_id,
+        StageName: "New"
+      };
+
+      this.connection.sobject('Opportunity').create(opp, (err, res) => {
         if (err) { reject(err); }
         if (!res || !res.success) { reject(res); }
         resolve(res);
