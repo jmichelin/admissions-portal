@@ -170,6 +170,9 @@ export const IMMERSIVE_COURSE_TYPES = [
   '13 Week Full-Time Immersive', '12 Week Full-Time Immersive', '36 Week Part-Time Immersive', '18 Week Full-Time Immersive', 'Specialty Immersive'
 ];
 
+export const CAMPUSES_SEI_18WK = ['Phoenix-Warehouse District', 'Seattle-Pioneer Square', 'Denver-Platte', 'Boulder-Walnut St.'];
+
+
 export const PYTHON_TEST_1 =
 `import main
 import unittest

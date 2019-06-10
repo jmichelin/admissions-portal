@@ -102,7 +102,7 @@ function getDSIStage(program) {
 }
 
 const PROGRAMS = {
-  'Web Development' : {
+  'Full Stack' : {
     '18 Week Full-Time Immersive' : {
       name: 'Extended Software Engineering Immersive',
       step: getSEI18WkStage,
@@ -142,7 +142,7 @@ const PROGRAMS = {
 // but instead will break because of the course prod and course type ternarys
 function getStage(program) {
   let courseProducts = program.courseProduct ? PROGRAMS[program.courseProduct] : PROGRAMS[program.course_product];
-
+  console.log(program);
   if (!courseProducts) {
     let stage = PROGRAMS['Default'];
     return { step: stage.step(program), process: stage.process, name: stage.name };

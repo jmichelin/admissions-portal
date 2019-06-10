@@ -1,5 +1,7 @@
 const knex = require('./knex');
 
+import { CAMPUSES_SEI_18WK } from '../constants';
+
 module.exports = {
 
     getAllUsers: function() {
@@ -147,11 +149,14 @@ module.exports = {
     },
 
     updateApplication: async function(application) {
+      let realCourseType = _checkIf18wkCourseType(application.alues.Campus__c, application.courseType, application.courseProduct);
+
       const foundApp = await knex('application').select('*')
         .where({id: application.id})
         .first()
       if (foundApp !== undefined && application.user_id == foundApp.user_id) {
         let app = await knex('application').update({
+            courseType: realCourseType,
             values: application.values,
             updated_at: knex.fn.now(),
             complete: application.complete,
@@ -166,10 +171,11 @@ module.exports = {
     },
 
     findOrCreateApplication: async function(courseType, courseProduct, userId, values) {
+      let realCourseType = _checkIf18wkCourseType(JSON.parse(values).Campus__c, courseType, courseProduct);
       let foundApp = await knex('application')
         .select('*')
         .where({
-          course_type: courseType,
+          course_type: realCourseType,
           course_product: courseProduct,
           user_id: userId,
           complete: null,
@@ -180,7 +186,7 @@ module.exports = {
 
       let [newApp] = await knex('application')
         .insert({
-          course_type: courseType,
+          course_type: realCourseType,
           course_product: courseProduct,
           user_id: userId,
           values: values,
@@ -191,3 +197,10 @@ module.exports = {
       return newApp
     },
 };
+
+function _checkIf18wkCourseType(campus, courseType, courseProduct) {
+  if (CAMPUSES_SEI_18WK.includes(campus) && (courseProduct === 'Full Stack') && (courseType = '18 Week Full-Time Immersive')) {
+  return '18 Week Full-Time Immersive';
+  }
+  return courseType;
+}
