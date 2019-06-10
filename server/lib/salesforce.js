@@ -60,7 +60,7 @@ class Salesforce {
   async signUpSignInUserUpdate(requestbody){
     let salesforceUser = null;
     let searchResponse = await this.findSalesforceUser(requestbody.email);
-
+    
     // if contact - update contact to reflect portal account creation
     salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
     if (salesforceUser) {
@@ -74,13 +74,13 @@ class Salesforce {
         Has_Portal_Account__c: true,
         Last_Portal_Login__c: new Date()
       };
-
+      
       await this.updateContact(contact);
     }
-
+    
     // if no contact look for lead and update lead
     if (!salesforceUser) {
-      salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Lead');
+      salesforceUser = searchResponse.searchRecords.find(record => record.attributes.type === 'Lead');
       if (salesforceUser){
         let lead = {
           RecordTypeId: LEAD_STUDENT_RECORD_ID,
@@ -88,7 +88,7 @@ class Salesforce {
           FirstName: requestbody.first_name,
           LastName: requestbody.last_name,
           Phone: requestbody.phone,
-          Campus__c: requestbody.campus,
+          Campus__c: requestbody.campus === 'Austin-2nd St District' ? 'Austin-2nd Street District' : requestbody.campus,
           Product__c: requestbody.courseProduct,
           Has_Portal_Account__c: true,
           Last_Portal_Login__c: new Date()
@@ -99,23 +99,23 @@ class Salesforce {
 
     //if no contact or lead create a lead
     if (!salesforceUser) {
-      console.log("new lead")
       let newLead = await this.createLead(requestbody);
-      salesforceUser = { Id: newLead.Id, attributes: {type: 'Lead'}};
+      salesforceUser = { Id: newLead.id, attributes: {type: 'Lead'}};
     }
 
     return salesforceUser;
   }
 
-  async createLead(formData) {
+  async createLead(leadData) {
     return new Promise( (resolve, reject) => {
       let lead = {
-        FirstName: formData.first_name,
-        LastName: formData.last_name,
-        Phone: formData.phone,
-        Email: formData.email,
-        Campus__c: formData.campus === 'Austin-2nd St District' ? 'Austin-2nd Street District' : formData.campus,
-        Product__c: formData.courseProduct,
+        RecordTypeId: LEAD_STUDENT_RECORD_ID,
+        FirstName: leadData.first_name,
+        LastName: leadData.last_name,
+        Phone: leadData.phone,
+        Email: leadData.email,
+        Campus__c: leadData.campus === 'Austin-2nd St District' ? 'Austin-2nd Street District' : leadData.campus,
+        Product__c: leadData.courseProduct,
         Company: 'Unknown',
         Source__c: 'Admissions Portal',
         LeadSource: 'Galvanize.com',
@@ -129,7 +129,6 @@ class Salesforce {
         Code_of_Conduct_Date__c: new Date(),
         Data_Use_Policy_Date__c: new Date()
       };
-
 
       this.connection.sobject('Lead').create(lead, (err, res) => {
         if (err) { reject(err); }
@@ -430,5 +429,5 @@ function _makeQueryForExistingOpportunity(id) {
 
 function _makeSalesforceUserQuery(email) {
   let escapedEmail = email.replace(/[-[\]{}()*+?\\^$|#\s]/g, '\\$&');
-  return `FIND {${escapedEmail}} IN Email FIELDS RETURNING Contact(Id, Email ORDER BY CreatedDate DESC), Opportunity(Id, Student__r.Email ORDER BY CreatedDate DESC), Lead(Id, Email ORDER BY CreatedDate DESC)`;
+  return `FIND {${escapedEmail}} IN ALL FIELDS RETURNING Contact(Id, Email ORDER BY CreatedDate DESC), Opportunity(Id, Student__r.Email ORDER BY CreatedDate DESC), Lead(Id, Email ORDER BY CreatedDate DESC)`;
 }
