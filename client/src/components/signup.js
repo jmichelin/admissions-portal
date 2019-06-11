@@ -20,6 +20,10 @@ class Signup extends Component {
   constructor(props){
     super(props);
     const accountInputs = inputs.getCreateAccountInputs();
+    const values = accountInputs.reduce((result, currentVal) => {
+      result[currentVal["fieldName"]] = '';
+      return result
+    }, {});
 
     this.state = {
       formInputs: accountInputs,
@@ -35,20 +39,41 @@ class Signup extends Component {
       isFormValid: false,
       submitAttempted: false,
       errorMessage: '',
-      isLoading: false
+      isLoading: false,
+      values,
     }
     this.onInputChange = this.onInputChange.bind(this);
     this.validField = this.validField.bind(this);
+  }
+
+  checkDependencies = (fieldName, value) => {
+    // check dependencies
+    this.state.formInputs.forEach((input) => {
+      if (input.dependentField === fieldName) {
+        input.dependentProcess(value)
+          .then((options) => {
+            // only using for select, so update options
+            this.setState({
+              formInputs: this.state.formInputs.map((s) => { return s.id === input.id ? Object.assign({}, s, { options }): s })
+            })
+        })
+      }
+    })
   }
 
   onInputChange(event) {
     const target = event.target;
 
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+    const fieldName = target.fieldName;
 
-    this.setState({
-      [name]: value
+    this.checkDependencies(fieldName, value);
+    this.setState(prevState => ({
+      ...prevState,
+      values: {
+        ...prevState.values,
+        [fieldName]: value
+      },
     });
   }
 
@@ -88,8 +113,6 @@ class Signup extends Component {
     })
     const { first_name, last_name, email, password, program, campus, phone } = this.state;
     const { courseType, courseProduct } = APPLICATION_INPUTS.find(e => e.name === program) || { courseType: undefined, courseProduct: undefined }
-    // TODO if campus in set (Denver, Boulder, Seattle, Phoenix) and courseProduct is 'Full Stack'
-    // rename courseType from 12 week to 18 week
     const formData = { first_name, last_name, email, password, program, campus, phone, courseType, courseProduct }
 
     // set courseType and courseProduct from Application Inputs to send to server

@@ -1,10 +1,15 @@
 import { CAMPUSES } from '../../../constants';
 import { APPLICATION_INPUTS } from './application-inputs';
 
+const getPrograms = (field) => {
+  console.log(field)
+}
+
 function getCreateAccountInputs() {
   return [
     {
       id: 'first_name',
+      fieldName: 'first_name',
       label: 'First Name',
       type: 'text',
       value: '',
@@ -13,6 +18,7 @@ function getCreateAccountInputs() {
     },
     {
       id: 'last_name',
+      fieldName: 'last_name',
       label: 'Last Name',
       type: 'text',
       value: '',
@@ -21,6 +27,7 @@ function getCreateAccountInputs() {
     },
     {
       id: 'email',
+      fieldName: 'email',
       label: 'Email',
       type: 'email',
       value: '',
@@ -29,6 +36,7 @@ function getCreateAccountInputs() {
     },
     {
       id: 'phone',
+      fieldName: 'phone',
       label: 'Phone',
       type: 'tel',
       value: '',
@@ -37,27 +45,29 @@ function getCreateAccountInputs() {
     },
     {
       id: 'campus',
+      fieldName: 'campus',
       label: 'Preferred Campus',
       type: 'select',
-      fieldName: 'Campus__c',
       value: '',
       options: CAMPUSES,
       errorMessage: "Select a campus."
     },
     {
       id: 'program',
-      fieldName: 'Product__c',
+      fieldName: 'program',
       label: 'Preferred Program',
       type: 'select',
       value: '',
       options: APPLICATION_INPUTS,
-      errorMessage: 'Select a program.'
+      errorMessage: 'Select a program.',
+      dependentField: "campus",
+      dependentProcess: getPrograms,
     },
     {
       id: 'password',
       label: 'Password',
       type: 'password',
-      fieldName: 'Password',
+      fieldName: 'password',
       value: '',
       required: true,
       errorMessage: 'Password must be between 5 and 15 characters.'
@@ -66,7 +76,7 @@ function getCreateAccountInputs() {
       id: 'confirmed_password',
       label: 'Confirm Password',
       type: 'password',
-      fieldName: 'Confirm Password',
+      fieldName: 'confirmed_password',
       value: '',
       required: true,
       errorMessage: 'Passwords must match.'
@@ -74,7 +84,7 @@ function getCreateAccountInputs() {
     {
       id: 'terms',
       label: `I agree to Galvanize's Privacy Policy and Terms of Use.`,
-      fieldName: 'Privacy_Policy_Date__c',
+      fieldName: 'terms',
       type: 'checkbox',
       value: '',
       required: true,

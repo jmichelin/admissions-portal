@@ -17,7 +17,7 @@ router.patch('/:id', async (req, res) => {
   if (req.body.course_type) {
     application.course_type = req.body.course_type;
   }
-  
+
   let completed = !!req.body.complete;
   try {
     let savedApp = await Q.updateApplication(application)

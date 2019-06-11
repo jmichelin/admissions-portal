@@ -140,8 +140,6 @@ class Application extends Component {
 
   persistApp(complete) {
     this.setState({unsavedChanges: false})
-    // TODO if campus in set (Denver, Boulder, Seattle, Phoenix) and courseProduct is 'Full Stack'
-    // rename courseType from 12 week to 18 week
 
     return fetch(`${APPLICATIONS_ENDPOINT}/${this.state.applicationId}`, {
       method: 'PATCH',

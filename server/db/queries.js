@@ -206,11 +206,9 @@ function _filterCourses(courses) {
 }
 
 function _checkIf18wkCourseType(campus, courseType, courseProduct) {
-  if (courseProduct === 'Full Stack') {
-    if (CAMPUSES_SEI_18WK.includes(campus) && (courseType = '18 Week Full-Time Immersive')) {
+  if (courseProduct === 'Full Stack' && CAMPUSES_SEI_18WK.includes(campus)) {
     return '18 Week Full-Time Immersive';
   }
-  return '12 Week Full-Time Immersive';
-  }
+
   return courseType;
 }

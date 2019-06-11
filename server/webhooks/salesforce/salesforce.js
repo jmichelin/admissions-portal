@@ -2,7 +2,6 @@ const express = require('express');
 
 const router = express.Router();
 const Q = require('../../db/queries');
-const salesforce = require('../../lib/salesforce');
 
 router.post("/", (req, _res, _next) => {
   let sfCampusesWithOfferrings = req.body;
