@@ -27,23 +27,12 @@ class Signup extends Component {
 
     this.state = {
       formInputs: accountInputs,
-      first_name: '',
-      last_name:'',
-      email:'',
-      password:'',
-      confirmed_password: '',
-      program: '',
-      campus: '',
-      phone: '',
-      terms: false,
       isFormValid: false,
       submitAttempted: false,
       errorMessage: '',
       isLoading: false,
       values,
     }
-    this.onInputChange = this.onInputChange.bind(this);
-    this.validField = this.validField.bind(this);
   }
 
   checkDependencies = (fieldName, value) => {
@@ -61,7 +50,7 @@ class Signup extends Component {
     })
   }
 
-  onInputChange(event) {
+  onInputChange = (event) => {
     const target = event.target;
 
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -79,8 +68,8 @@ class Signup extends Component {
 
   validUser = (data) => {
     const result = Joi.validate(data, schema);
-    if (this.state.confirmed_password !== this.state.password) return false;
-    if (this.state.terms === false) return false;
+    if (this.state.values.confirmed_password !== this.state.values.password) return false;
+    if (this.state.values.terms === false) return false;
     if (result.error === null) {
       return true;
     } else {
@@ -88,15 +77,15 @@ class Signup extends Component {
     }
   }
 
-  validField(input) {
-    const field = { [input.id]: this.state[input.id] }
+  validField = (input) => {
+    const field = { [input.id]: this.state.values[input.id] }
     const result = Joi.validate(field, schema);
 
     if (input.id === 'confirmed_password') {
-      return this.state[input.id] === this.state.password;
+      return this.state.values[input.id] === this.state.values.password;
     }
     if (input.id === 'terms') {
-      return this.state.terms;
+      return this.state.values.terms;
     }
     if (result.error === null) {
       return true;
@@ -111,7 +100,7 @@ class Signup extends Component {
       submitAttempted: true,
       isLoading: true
     })
-    const { first_name, last_name, email, password, program, campus, phone } = this.state;
+    const { first_name, last_name, email, password, program, campus, phone } = this.state.values;
     const { courseType, courseProduct } = APPLICATION_INPUTS.find(e => e.name === program) || { courseType: undefined, courseProduct: undefined }
     const formData = { first_name, last_name, email, password, program, campus, phone, courseType, courseProduct }
 
@@ -164,7 +153,7 @@ class Signup extends Component {
             name={input.id}
             placeholder={input.label}
             required={input.required}
-            value={this.state[input.id]}
+            value={this.state.values[input.id]}
             onInputChange={this.onInputChange}
             errorMessage={input.errorMessage}
             showError={this.state.submitAttempted && !this.validField(input)}
@@ -178,7 +167,7 @@ class Signup extends Component {
             name={input.id}
             label={input.label}
             required={input.required}
-            checked={this.state.consent}
+            checked={this.state.values.terms}
             terms={true}
             onInputChange={this.onInputChange}
             showError={this.state.submitAttempted && !this.validField(input)}
@@ -190,7 +179,7 @@ class Signup extends Component {
               name={input.id}
               placeholder={input.label}
               required={input.required}
-              value={this.state[input.id]}
+              value={this.state.values[input.id]}
               options={input.options}
               onOptionClick={(e) => this.onInputChange(e)}
               disabled={input.dependentField ? !this.state.values[input.dependentField] : false}
