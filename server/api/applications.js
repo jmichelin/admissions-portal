@@ -8,12 +8,17 @@ router.patch('/:id', async (req, res) => {
   const application = {
     id: req.params.id,
     values: req.body.values,
+    courseType: req.body.courseType,
+    courseProduct: req.body.courseProduct,
     complete: req.body.complete,
     user_id: req.user.id,
   };
+
+  if (req.body.course_type) {
+    application.course_type = req.body.course_type;
+  }
   
   let completed = !!req.body.complete;
- 
   try {
     let savedApp = await Q.updateApplication(application)
     if (savedApp) {

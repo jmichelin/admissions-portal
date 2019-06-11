@@ -9,7 +9,6 @@ import Checkbox from '../components/forms/checkbox';
 import InputGroup from '../components/forms/input-group';
 import Label from '../components/forms/label';
 import Select from '../components/forms/select';
-
 import Schema from '../helpers/validations';
 import { APPLICATION_INPUTS } from '../components/forms/inputs/application-inputs';
 import {
@@ -51,7 +50,9 @@ class Application extends Component {
     if (!this.state.courseType || !this.state.courseProduct) return this.props.history.push('/dashboard')
 
     const endpoint = `${APPLICATION_INITIALIZE_ENDPOINT}/type/${encodeURIComponent(this.state.courseType)}/product/${encodeURIComponent(this.state.courseProduct)}`
-
+    let campus;
+    if (this.props.location.state && this.props.location.state.campus) campus = this.props.location.state.campus;
+    if (this.props.location.state.opp && this.props.location.state.opp.values && this.props.location.state.opp.values.Campus__c) campus = this.props.location.state.opp.values.Campus__c;
     fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -60,7 +61,7 @@ class Application extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        Campus__c: this.props.location.state.campus,
+        Campus__c: campus,
       })
     })
       .then(resp => resp.json())
@@ -69,18 +70,6 @@ class Application extends Component {
         if (resp.values) {
           Object.keys(resp.values).forEach(key => this.checkDependencies(key, resp.values[key]));
           this.setState((prevState) => ({ values: {...prevState.values, ...resp.values }, applicationId: resp.id }) )
-
-          // TODO: This prepopulates campus from program select. It could be much cleaner.
-          if (this.props.location.state && this.props.location.state.campus) {
-            this.setState(prevState => ({
-              ...prevState,
-              values: {
-                ...prevState.values,
-                'Campus__c': this.props.location.state.campus
-              },
-            }))
-            this.checkDependencies('Campus__c', this.props.location.state.campus)
-          }
         }
       })
 
@@ -151,6 +140,8 @@ class Application extends Component {
 
   persistApp(complete) {
     this.setState({unsavedChanges: false})
+    // TODO if campus in set (Denver, Boulder, Seattle, Phoenix) and courseProduct is 'Full Stack'
+    // rename courseType from 12 week to 18 week
 
     return fetch(`${APPLICATIONS_ENDPOINT}/${this.state.applicationId}`, {
       method: 'PATCH',
@@ -161,6 +152,8 @@ class Application extends Component {
       },
       body: JSON.stringify({
         values: this.state.values,
+        courseType: this.state.courseType,
+        courseProduct: this.state.courseProduct,
         complete,
       })
     })
@@ -302,7 +295,7 @@ class Application extends Component {
             <div className="portal-inner">
               <Hero
                 headline={'Complete Your Application'}
-                description={(this.state.courseType ? `${this.state.courseProduct} - ${this.state.courseType}` : 'Software Engineering Immersive')}
+                description={''}
               />
               <Breadcrumb refreshData={this.state.refreshData} />
               <AdmissionsProcessSteps opp={fakeOpp} />

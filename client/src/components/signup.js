@@ -88,6 +88,8 @@ class Signup extends Component {
     })
     const { first_name, last_name, email, password, program, campus, phone } = this.state;
     const { courseType, courseProduct } = APPLICATION_INPUTS.find(e => e.name === program) || { courseType: undefined, courseProduct: undefined }
+    // TODO if campus in set (Denver, Boulder, Seattle, Phoenix) and courseProduct is 'Full Stack'
+    // rename courseType from 12 week to 18 week
     const formData = { first_name, last_name, email, password, program, campus, phone, courseType, courseProduct }
 
     // set courseType and courseProduct from Application Inputs to send to server

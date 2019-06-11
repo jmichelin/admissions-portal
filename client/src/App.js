@@ -68,9 +68,10 @@ class App extends Component {
         })
           .then(res => res.json())
           .then(result => { this.setApplications(result); })
-          .catch(() => { this.clearData() })
+          .catch((err) => { console.log(err); this.clearData() })
       })
     } else {
+      console.log('getting here......');
       this.clearData()
     }
   }
