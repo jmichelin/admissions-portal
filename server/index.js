@@ -3,12 +3,15 @@ var secure = require('express-force-https');
 const path = require('path');
 const morgan = require('morgan');
 const cors = require('cors');
+const Honeybadger = require('honeybadger');
+
+Honeybadger.configure({ apiKey: '042208c6' });
 
 require('dotenv').config();
 
 if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
   require('babel-register')({
-     presets: [ 'es2015' ]
+    presets: [ 'es2015' ]
   });
 }
 
@@ -16,6 +19,8 @@ const app = express();
 if (process.env.NODE_ENV !== 'test') {
   app.use(secure);
 }
+
+app.use(Honeybadger.requestHandler);
 
 const middlewares = require('./auth/middlewares');
 const auth = require('./auth');
@@ -60,6 +65,9 @@ function errorHandler(err, req, res, next) {
 }
 
 app.use(notFound);
+
+app.use(Honeybadger.errorHandler);
+
 app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
