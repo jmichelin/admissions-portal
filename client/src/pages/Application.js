@@ -9,7 +9,6 @@ import Checkbox from '../components/forms/checkbox';
 import InputGroup from '../components/forms/input-group';
 import Label from '../components/forms/label';
 import Select from '../components/forms/select';
-
 import Schema from '../helpers/validations';
 import { APPLICATION_INPUTS } from '../components/forms/inputs/application-inputs';
 import {
@@ -27,7 +26,11 @@ class Application extends Component {
       result[currentVal["fieldName"]] = '';
       return result
     }, {});
-    const program = props.location.state.program ? props.location.state.program : props.location.state.opp
+
+    let program = {};
+    if (props.location.state) {
+      program = props.location.state.program ? props.location.state.program : props.location.state.opp
+    }
     this.state = {
       campus: '',
       courseType: program.courseType || program.course_type,
@@ -137,6 +140,8 @@ class Application extends Component {
 
   persistApp(complete) {
     this.setState({unsavedChanges: false})
+    // TODO if campus in set (Denver, Boulder, Seattle, Phoenix) and courseProduct is 'Full Stack'
+    // rename courseType from 12 week to 18 week
 
     return fetch(`${APPLICATIONS_ENDPOINT}/${this.state.applicationId}`, {
       method: 'PATCH',
@@ -162,7 +167,7 @@ class Application extends Component {
         this.setState({ saveButtonText: 'Saved!' });
         setTimeout(() => {
           this.setState({ saveButtonText: 'Save' });
-        }, 2000)
+        }, 1000)
       })
       .catch((err) => {
         this.setState({ errorText: 'Something has gone wrong, please contact support@galvanize.com' });
@@ -290,7 +295,7 @@ class Application extends Component {
             <div className="portal-inner">
               <Hero
                 headline={'Complete Your Application'}
-                description={(this.state.courseType ? `${this.state.courseProduct} - ${this.state.courseType}` : 'Software Engineering Immersive')}
+                description={''}
               />
               <Breadcrumb refreshData={this.state.refreshData} />
               <AdmissionsProcessSteps opp={fakeOpp} />
