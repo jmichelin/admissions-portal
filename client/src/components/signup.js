@@ -49,7 +49,7 @@ class Signup extends Component {
   checkDependencies = (fieldName, value) => {
     // check dependencies
     this.state.formInputs.forEach((input) => {
-      if (input.dependentField === fieldName) {
+      if (input.dependentField && input.dependentField === fieldName) {
         input.dependentProcess(value)
           .then((options) => {
             // only using for select, so update options
@@ -65,7 +65,7 @@ class Signup extends Component {
     const target = event.target;
 
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const fieldName = target.fieldName;
+    const fieldName = target.name;
 
     this.checkDependencies(fieldName, value);
     this.setState(prevState => ({
@@ -74,7 +74,7 @@ class Signup extends Component {
         ...prevState.values,
         [fieldName]: value
       },
-    });
+    }));
   }
 
   validUser = (data) => {
