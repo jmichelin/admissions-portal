@@ -75,12 +75,13 @@ router.post('/signup', async (req, res, next) => {
       let values = JSON.stringify({Campus__c: req.body.campus, Phone: req.body.phone});
       let opportunities = await salesforce.getOpportunities(newUser[0].email);
       if (!opportunities.length) {
-        let application = await Q.findOrCreateApplication(req.body.courseType, req.body.courseProduct, newUser[0].id, values);
+        console.log(values);
+        let application = await Q.findOrCreateApplication(req.body.courseType, req.body.courseProduct, newUser[0].id, JSON.parse(values));
         opportunities.push(application);
       }
       createTokenSendResponse(newUser[0], opportunities, res, next);
     } catch(err) {
-      console.log(err)
+      console.log(err);
       res.status(501);
       const error = new Error('Hmm... There was an error creating your account. Please contact admissions@galvanize.com');
       next(error);

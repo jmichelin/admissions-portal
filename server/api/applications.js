@@ -6,6 +6,8 @@ router.patch('/:id', async (req, res) => {
   const application = {
     id: req.params.id,
     values: req.body.values,
+    courseType: req.body.courseType,
+    courseProduct: req.body.courseProduct,
     complete: req.body.complete,
     user_id: req.user.id,
   };

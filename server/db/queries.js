@@ -149,14 +149,13 @@ module.exports = {
     },
 
     updateApplication: async function(application) {
-      let realCourseType = _checkIf18wkCourseType(application.alues.Campus__c, application.courseType, application.courseProduct);
-
+      let realCourseType = _checkIf18wkCourseType(application.values.Campus__c, application.courseType, application.courseProduct);
       const foundApp = await knex('application').select('*')
         .where({id: application.id})
         .first()
       if (foundApp !== undefined && application.user_id == foundApp.user_id) {
         let app = await knex('application').update({
-            courseType: realCourseType,
+            course_type: realCourseType,
             values: application.values,
             updated_at: knex.fn.now(),
             complete: application.complete,
@@ -171,7 +170,8 @@ module.exports = {
     },
 
     findOrCreateApplication: async function(courseType, courseProduct, userId, values) {
-      let realCourseType = _checkIf18wkCourseType(JSON.parse(values).Campus__c, courseType, courseProduct);
+      console.log('inside', values, values.Campus__c);
+      let realCourseType = _checkIf18wkCourseType(values.Campus__c, courseType, courseProduct);
       let foundApp = await knex('application')
         .select('*')
         .where({
@@ -199,8 +199,11 @@ module.exports = {
 };
 
 function _checkIf18wkCourseType(campus, courseType, courseProduct) {
-  if (CAMPUSES_SEI_18WK.includes(campus) && (courseProduct === 'Full Stack') && (courseType = '18 Week Full-Time Immersive')) {
-  return '18 Week Full-Time Immersive';
+  if (courseProduct === 'Full Stack') {
+    if (CAMPUSES_SEI_18WK.includes(campus) && (courseType = '18 Week Full-Time Immersive')) {
+    return '18 Week Full-Time Immersive';
+  }
+  return '12 Week Full-Time Immersive';
   }
   return courseType;
 }
