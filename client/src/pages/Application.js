@@ -50,7 +50,6 @@ class Application extends Component {
     let campus;
     if (this.props.location.state && this.props.location.state.campus) campus = this.props.location.state.campus;
     if (this.props.location.state.opp && this.props.location.state.opp.values && this.props.location.state.opp.values.Campus__c) campus = this.props.location.state.opp.values.Campus__c;
-    console.log('campus', campus);
     fetch(endpoint, {
       method: 'POST',
       headers: {

@@ -110,10 +110,11 @@ module.exports = {
     },
 
     createCampus: function(campus) {
+      let courses = _filterCourses(campus.courses)
       return knex('campus')
       .insert({
         name: campus.campus,
-        offerrings: JSON.stringify(campus.courses)
+        offerrings: JSON.stringify(courses)
       })
     },
 
@@ -170,7 +171,6 @@ module.exports = {
     },
 
     findOrCreateApplication: async function(courseType, courseProduct, userId, values) {
-      console.log('inside', values, values.Campus__c);
       let realCourseType = _checkIf18wkCourseType(values.Campus__c, courseType, courseProduct);
       let foundApp = await knex('application')
         .select('*')
@@ -180,7 +180,7 @@ module.exports = {
           user_id: userId,
           complete: null,
         })
-        .orderByRaw('created_at DESC').first()
+        .orderByRaw('created_at DESC').first();
 
       if (foundApp !== undefined) return foundApp;
 
@@ -192,11 +192,18 @@ module.exports = {
           values: values,
           created_at: knex.fn.now()
         })
-        .returning('*')
-      newApp.type = 'application'
-      return newApp
+        .returning('*');
+      newApp.type = 'application';
+      return newApp;
     },
 };
+
+function _filterCourses(courses) {
+  return courses.filter(course => {
+    // filter course by campus and subsequent course type and course product, and course with start date in future
+    return course;
+  });
+}
 
 function _checkIf18wkCourseType(campus, courseType, courseProduct) {
   if (courseProduct === 'Full Stack') {

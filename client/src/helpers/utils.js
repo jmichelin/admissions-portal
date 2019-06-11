@@ -104,7 +104,7 @@ function getDSIStage(program) {
 const PROGRAMS = {
   'Full Stack' : {
     '18 Week Full-Time Immersive' : {
-      name: 'Extended Software Engineering Immersive',
+      name: 'Software Engineering Immersive',
       step: getSEI18WkStage,
       process: SEI_STEPS_18_WK,
     },
