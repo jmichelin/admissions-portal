@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Prompt, withRouter } from 'react-router-dom';
 import Joi from 'joi';
-
 import AdmissionsProcessSteps from '../components/admissions-process-steps';
 import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
@@ -31,6 +30,7 @@ class Application extends Component {
     if (props.location.state) {
       program = props.location.state.program ? props.location.state.program : props.location.state.opp
     }
+
     this.state = {
       campus: '',
       courseType: program.courseType || program.course_type,
@@ -42,7 +42,6 @@ class Application extends Component {
       saveButtonText: 'Save',
       errorText: null,
       unsavedChanges: false,
-      refreshData: false
     };
   }
 
@@ -51,8 +50,10 @@ class Application extends Component {
 
     const endpoint = `${APPLICATION_INITIALIZE_ENDPOINT}/type/${encodeURIComponent(this.state.courseType)}/product/${encodeURIComponent(this.state.courseProduct)}`
     let campus;
+
     if (this.props.location.state && this.props.location.state.campus) campus = this.props.location.state.campus;
     if (this.props.location.state.opp && this.props.location.state.opp.values && this.props.location.state.opp.values.Campus__c) campus = this.props.location.state.opp.values.Campus__c;
+
     fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -91,12 +92,13 @@ class Application extends Component {
     // check dependencies
     this.state.steps.forEach((step) => {
       if (step.dependentField === fieldName) {
-        step.dependentProcess(value).then((options) => {
-          // only using for select, so update options
-          this.setState({
-            steps: this.state.steps.map((s) => { return s.id === step.id ? Object.assign({}, s, { options }): s })
+        step.dependentProcess(value)
+          .then((options) => {
+            // only using for select, so update options
+            this.setState({
+              steps: this.state.steps.map((s) => { return s.id === step.id ? Object.assign({}, s, { options }): s })
+            })
           })
-        })
       }
     })
   }
@@ -139,7 +141,7 @@ class Application extends Component {
   }
 
   persistApp(complete) {
-    this.setState({unsavedChanges: false})
+    this.setState({ unsavedChanges: false })
 
     return fetch(`${APPLICATIONS_ENDPOINT}/${this.state.applicationId}`, {
       method: 'PATCH',
@@ -158,7 +160,7 @@ class Application extends Component {
   }
 
   onSave = () => {
-    this.setState({ errorText: null, refreshData: true });
+    this.setState({ errorText: null });
     this.persistApp(null)
       .then(resp => resp.json())
       .then(() => {
@@ -173,14 +175,14 @@ class Application extends Component {
   }
 
   onSubmit = () => {
-    this.setState({ errorText: null, submitAttempted: true, refreshData: true });
+    this.setState({ errorText: null, submitAttempted: true });
     if (this.invalidValues()) return;
 
     this.persistApp(new Date())
       .then(resp => resp.json())
       .then(() => this.props.history.push({
         pathname: '/dashboard',
-        state: { dataRefresh: this.state.refreshData }
+        state: { dataRefresh: true }
       }))
       .catch((err) => {
         this.setState({ errorText: 'Something has gone wrong, please contact support@galvanize.com' });
@@ -295,7 +297,7 @@ class Application extends Component {
                 headline={'Complete Your Application'}
                 description={''}
               />
-              <Breadcrumb refreshData={this.state.refreshData} />
+              <Breadcrumb refreshData={true} />
               <AdmissionsProcessSteps opp={fakeOpp} />
               <p className="come-back-message">
                 You can always click &quot;Save&quot; and come back to finish at a later time...

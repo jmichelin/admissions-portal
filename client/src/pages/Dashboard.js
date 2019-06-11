@@ -1,23 +1,17 @@
 import React, { Component } from 'react';
-
 import Hero from '../components/hero';
 import ProgramSelect from '../components/dashboard-program-select';
 import ProgramList from '../components/dashboard-program-list';
 import LoadingWheel from '../components/base/loader-orange';
-
 import { CAMPUSES, HERO_TEXT } from '../constants';
 import { APPLICATION_INPUTS} from '../components/forms/inputs/application-inputs';
-
-import inputs from '../components/forms/inputs/select-inputs';
 
 class Dashboard extends Component {
   constructor(props){
     super(props);
 
-    const campusInputs = inputs.getCampusInputs(CAMPUSES);
-
     this.state = {
-      campusInputs: campusInputs,
+      campusInputs: { options:[] },
       program: props.user.program || '',
       campus: props.user.campus || '',
       errorMessage: '',
@@ -27,25 +21,25 @@ class Dashboard extends Component {
   componentDidMount() {
     if (!this.props.fetchedData) this.props.getData(true);
     if (this.props.location.state && this.props.location.state.dataRefresh) {
-      const {dataRefresh} = this.props.location.state;
-      if (dataRefresh) this.props.getData(true);
+      this.props.getData(true);
     }
     if (window && window.analytics) window.analytics.page('Dashboard')
   }
 
   onProgramChange = (e) => {
+    const program = e.target.value;
+    const campusInputs = this.campusInputs(program);
+
     this.setState({
-      program: e.target.value,
+      program: program,
       campus: '',
-      errorMessage: ''
+      errorMessage: '',
+      campusInputs,
     });
   }
 
   onCampusChange = (e) => {
-    this.setState({
-      campus: e.target.value,
-      errorMessage: ''
-    });
+    this.setState({ campus: e.target.value, errorMessage: '' });
   }
 
   isValid(fieldName) {
@@ -56,8 +50,53 @@ class Dashboard extends Component {
     return !!data.program;
   }
 
+  campusInputs(program = null) {
+    let campuses;
+
+    if (program) campuses = CAMPUSES.filter(c => c.programs.find(p => p.name === program))
+
+    return {
+      id: 'campus',
+      label: 'Campus',
+      type: 'select',
+      value: '',
+      options: campuses.map(campus => {
+        return {
+          name: `${campus.city}`,
+          value: campus.sfdcName
+        };
+      })
+    };
+  }
+
+  programInputs(applications = null) {
+    let options = APPLICATION_INPUTS.map(program => {
+      return {
+        name: program.name,
+        value: program.name,
+        courseProduct: program.courseProduct,
+        courseType: program.courseType,
+      };
+    })
+
+    if (applications && applications.length > 0) {
+      options = options.filter((option) => (
+        !applications.find(app => app.course_product === option.courseProduct)
+      ));
+    }
+
+    return  {
+      id: 'program',
+      label: 'Program',
+      type: 'select',
+      value: '',
+      options,
+    };
+  }
+
   render() {
-    let programInputs = inputs.getProgramInputs(APPLICATION_INPUTS, this.props.applications)
+    const programInputs = this.programInputs(this.props.applications)
+
     return (
       <div className="dashboard">
         <div className="container">

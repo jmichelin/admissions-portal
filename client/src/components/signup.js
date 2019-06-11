@@ -4,21 +4,17 @@ import inputs from './forms/inputs/inputs';
 import InputGroup from './forms/input-group';
 import Checkbox from './forms/checkbox';
 import Select from './forms/select';
-
 import HRLogo from '../assets/images/hack-reactor-horizontal-logo.png';
 import { APPLICATION_INPUTS } from './forms/inputs/application-inputs';
-
 import utils from '../helpers/utils';
-
 import Joi from 'joi';
 const phoneJoi = Joi.extend(require('joi-phone-number'));
-
 const SIGNUP_URL = '/auth/signup';
 
 class Signup extends Component {
-
   constructor(props){
     super(props);
+
     const accountInputs = inputs.getCreateAccountInputs();
     const values = accountInputs.reduce((result, currentVal) => {
       result[currentVal["fieldName"]] = '';
@@ -52,7 +48,6 @@ class Signup extends Component {
 
   onInputChange = (event) => {
     const target = event.target;
-
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const fieldName = target.name;
 
@@ -70,11 +65,9 @@ class Signup extends Component {
     const result = Joi.validate(data, schema);
     if (this.state.values.confirmed_password !== this.state.values.password) return false;
     if (this.state.values.terms === false) return false;
-    if (result.error === null) {
-      return true;
-    } else {
-      return false;
-    }
+    if (result.error) return false
+      
+    return true
   }
 
   validField = (input) => {
@@ -84,29 +77,23 @@ class Signup extends Component {
     if (input.id === 'confirmed_password') {
       return this.state.values[input.id] === this.state.values.password;
     }
-    if (input.id === 'terms') {
-      return this.state.values.terms;
-    }
-    if (result.error === null) {
-      return true;
-    }
-    return false;
+    if (input.id === 'terms') return this.state.values.terms;
+    if (result.error) return false;
+
+    return true;
   }
 
   handleSubmit = async (event) => {
     event.preventDefault();
 
-    this.setState({
-      submitAttempted: true,
-      isLoading: true
-    })
+    this.setState({ submitAttempted: true, isLoading: true })
+
     const { first_name, last_name, email, password, program, campus, phone } = this.state.values;
     const { courseType, courseProduct } = APPLICATION_INPUTS.find(e => e.name === program) || { courseType: undefined, courseProduct: undefined }
     const formData = { first_name, last_name, email, password, program, campus, phone, courseType, courseProduct }
 
     // set courseType and courseProduct from Application Inputs to send to server
     if (this.validUser(formData)) {
-
       try {
         let response = await fetch(SIGNUP_URL, {
           method: 'POST',
@@ -137,7 +124,6 @@ class Signup extends Component {
           isLoading: false
         })
       }
-
     } else {
       this.setState({ isLoading: false });
     }
@@ -220,9 +206,13 @@ class Signup extends Component {
           </div>
           <div className="form-footer">
             {this.createInputs().slice(8,9)}
-            <input type="submit" value="Create Account" className={this.state.isLoading ? "button-primary -loading" : "button-primary"}/>
+            <input type="submit" value="Create Account" className={this.state.isLoading ? "button-primary -loading" : "button-primary"} />
           </div>
-          <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
+          <div className="error-wrapper">
+            <span className="form note form-error">
+              {this.state.errorMessage}
+            </span>
+          </div>
         </form>
       </div>
     );

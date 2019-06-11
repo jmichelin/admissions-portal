@@ -1,21 +1,9 @@
 import { CAMPUSES } from '../../../constants';
 import { APPLICATION_INPUTS } from './application-inputs';
 
-// TODO Murph where's the source of truth on these?
-const CAMPUS_OFFERINGS = {
-  "Austin-2nd St District": [{name: 'Software Engineering Immersive'}],
-  "Boulder-Walnut St.": [{name: 'Software Engineering Immersive'}],
-  "Denver-Platte": [{name:'Software Engineering Immersive'}, {name: 'Data Science Immersive'}],
-  "NYC-SoHo": [{name:'Software Engineering Immersive'}, {name: 'Data Science Immersive'}],
-  "Phoenix-Warehouse District": [{name: 'Software Engineering Immersive'}],
-  "Los Angeles": [{name: 'Software Engineering Immersive'}],
-  "San Francisco-SoMa": [{name:'Software Engineering Immersive'}, {name: 'Data Science Immersive'}],
-  "Seattle-Pioneer Square": [{name:'Software Engineering Immersive'}, {name: 'Data Science Immersive'}],
-  "Remote": [{name: 'Software Engineering Immersive'}]
-}
-
 const getPrograms = (campus) => {
-  return Promise.resolve(CAMPUS_OFFERINGS[campus])
+  const campusObj = CAMPUSES.find(c => c.sfdcName === campus)
+  return Promise.resolve(campusObj.programs)
 }
 
 function getCreateAccountInputs() {

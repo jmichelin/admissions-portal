@@ -37,7 +37,8 @@ export const CAMPUSES = [
     sfdcName: 'Austin-2nd St District',
     ycbmLink: 'https://atx-interviews.youcanbook.me',
     ycbmId:'ycbmiframeatx-interviews',
-    location: '2nd Street District'
+    location: '2nd Street District',
+    programs: [{name: 'Software Engineering Immersive'}]
   },
   {
     name: 'boulder',
@@ -51,7 +52,8 @@ export const CAMPUSES = [
     sfdcName: 'Boulder-Walnut St.',
     ycbmLink: 'https://agn-interviews.youcanbook.me',
     ycbmId:'ycbmiframeagn-interviews',
-    location: 'Walnut'
+    location: 'Walnut',
+    programs: [{name: 'Software Engineering Immersive'}]
   },
   {
     name: 'denver-platte',
@@ -65,7 +67,8 @@ export const CAMPUSES = [
     sfdcName: 'Denver-Platte',
     ycbmLink: 'https://agn-interviews.youcanbook.me',
     ycbmId:'ycbmiframeagn-interviews',
-    location: 'Platte'
+    location: 'Platte',
+    programs: [{name:'Software Engineering Immersive'}, {name: 'Data Science Immersive'}]
   },
   {
     name: 'new-york',
@@ -79,7 +82,8 @@ export const CAMPUSES = [
     sfdcName: 'NYC-SoHo',
     ycbmLink: 'https://nyc-interviews.youcanbook.me',
     ycbmId:'ycbmiframenyc-interviews',
-    location: 'West SoHo'
+    location: 'West SoHo',
+    programs: [{name: 'Software Engineering Immersive'}]
   },
   {
     name: 'phoenix',
@@ -93,7 +97,8 @@ export const CAMPUSES = [
     sfdcName: 'Phoenix-Warehouse District',
     ycbmLink: 'https://agn-interviews.youcanbook.me',
     ycbmId:'ycbmiframeagn-interviews',
-    location: 'Warehouse District'
+    location: 'Warehouse District',
+    programs: [{name: 'Software Engineering Immersive'}]
   },
   {
     name: 'los-angeles',
@@ -107,7 +112,8 @@ export const CAMPUSES = [
     sfdcName: 'Los Angeles',
     ycbmLink: 'https://la-interviews.youcanbook.me',
     ycbmId:'ycbmiframela-interviews',
-    location: 'Los Angeles'
+    location: 'Los Angeles',
+    programs: [{name: 'Software Engineering Immersive'}]
   },
   {
     name: 'san-francisco',
@@ -121,7 +127,8 @@ export const CAMPUSES = [
     sfdcName: 'San Francisco-SoMa',
     ycbmLink: 'https://sf-interviews.youcanbook.me',
     ycbmId:'ycbmiframesf-interviews',
-    location: 'SoMa'
+    location: 'SoMa',
+    programs: [{name:'Software Engineering Immersive'}, {name: 'Data Science Immersive'}]
   },
   {
     name: 'seattle',
@@ -135,7 +142,8 @@ export const CAMPUSES = [
     sfdcName: 'Seattle-Pioneer Square',
     ycbmLink: 'https://agn-interviews.youcanbook.me',
     ycbmId:'ycbmiframeagn-interviews',
-    location: 'Pioneer Square'
+    location: 'Pioneer Square',
+    programs: [{name:'Software Engineering Immersive'}, {name: 'Data Science Immersive'}]
   },
   {
     name: 'remote',
@@ -149,7 +157,8 @@ export const CAMPUSES = [
     sfdcName: 'Remote',
     ycbmLink: 'https://remote-interviews.youcanbook.me',
     ycbmId:'ycbmiframeremote-interviews',
-    location: 'Remote'
+    location: 'Remote',
+    programs: [{name: 'Software Engineering Immersive'}]
   }
 ];
 
