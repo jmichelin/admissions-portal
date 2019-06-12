@@ -4,6 +4,7 @@ const Q = require('../../db/queries');
 const request = require('supertest');
 const knex = require('../../../server/db/knex');
 const Testing = require('../test.helpers');
+import Salesforce from '../../lib/salesforce';
 
 describe('api applications', () => {
   let sandbox;
@@ -12,26 +13,25 @@ describe('api applications', () => {
   beforeEach((done) => {
     sandbox = sinon.createSandbox();
     app = require('../../index');
-    knex.raw("start transaction").then(function () {
-      done();
-    });
+    knex.raw("start transaction").then(() => { done(); });
   });
 
   afterEach((done) => {
     sandbox.restore();
-    knex.raw("rollback").then(function () {
-      done();
-    });
+    knex.raw("rollback").then(() => { done(); });
   });
 
   describe('PATCH api/v1/applications', () => {
     it('updates an exsiting application with values and completion', async () => {
-      let courseType = '4 billion year immersive';
-      let courseProduct = 'Life on Earth';
-      let completeDate = "Mon Jun 03 2019 13:36:58"
-      let userApplication = await Testing.userWithApplication(courseType, courseProduct);
-      let res = await request(app)
-        .patch('/api/v1/applications')
+      sandbox.stub(Salesforce.prototype, 'login').resolves(true)
+      sandbox.stub(Salesforce.prototype, 'applicationStepUpdate').resolves(true)
+
+      const courseType = '4 billion year immersive';
+      const courseProduct = 'Life on Earth';
+      const completeDate = "Mon Jun 03 2019 13:36:58"
+      const userApplication = await Testing.userWithApplication(courseType, courseProduct);
+      const res = await request(app)
+        .patch(`/api/v1/applications/${userApplication.application.id}`)
         .set('Authorization', `Bearer ${userApplication.token}`)
         .send({
           course_type: courseType,
@@ -40,20 +40,24 @@ describe('api applications', () => {
           complete: completeDate,
         })
         .expect(200)
+      const body = res.body[0]
+      const application = await Q.getApplication(body.id)
 
-      let body = res.body[0]
-      let application = await Q.getApplication(body.id)
       expect(application.course_type).to.eq('4 billion year immersive');
       expect(application.course_product).to.eq('Life on Earth');
       expect(application.values['Campus__C']).to.eq("dollop");
       expect(application.complete.getTime()).to.eq(new Date(completeDate).getTime());
     })
 
-    it('404s when no application exists for the course type and product for the user', async() => {
-      let courseType = '4 billion year immersive';
-      let courseProduct = 'Life on Earth';
-      let token = await Testing.testUser();
-      let res = await request(app)
+    it('404s when no application exists for the course type and product for the user', async () => {
+      sandbox.stub(Salesforce.prototype, 'login').resolves(true)
+      sandbox.stub(Salesforce.prototype, 'applicationStepUpdate').resolves(true)
+
+      const courseType = '4 billion year immersive';
+      const courseProduct = 'Life on Earth';
+      const token = await Testing.testUser();
+
+      await request(app)
         .post('/api/v1/applications')
         .set('Authorization', `Bearer ${token}`)
         .send({
@@ -67,9 +71,13 @@ describe('api applications', () => {
 
   describe('POST api/v1/applications/initialize/type/:type/product/:product', () => {
     it('stores a new application for the course type and product', (done) => {
-      let courseType = encodeURIComponent('4 billion year immersive');
-      let courseProduct = encodeURIComponent('Life on Earth');
-      let url = `/api/v1/applications/initialize/type/${courseType}/product/${courseProduct}`
+      sandbox.stub(Salesforce.prototype, 'login').resolves(true)
+      sandbox.stub(Salesforce.prototype, 'applicationStepUpdate').resolves(true)
+
+      const courseType = encodeURIComponent('4 billion year immersive');
+      const courseProduct = encodeURIComponent('Life on Earth');
+      const url = `/api/v1/applications/initialize/type/${courseType}/product/${courseProduct}`
+
       Testing.testUser().then((token) => {
         request(app)
           .post(url)
@@ -88,11 +96,14 @@ describe('api applications', () => {
     })
 
     it('updates an existing application for the course type and product', async () => {
-      let courseType = encodeURIComponent('4 billion year immersive');
-      let courseProduct = encodeURIComponent('Life on Earth');
-      let url = `/api/v1/applications/initialize/type/${courseType}/product/${courseProduct}`
-      let userApplication = await Testing.userWithApplication('4 billion year immersive', 'Life on Earth');
-      let resp = await request(app)
+      sandbox.stub(Salesforce.prototype, 'login').resolves(true)
+      sandbox.stub(Salesforce.prototype, 'applicationStepUpdate').resolves(true)
+
+      const courseType = encodeURIComponent('4 billion year immersive');
+      const courseProduct = encodeURIComponent('Life on Earth');
+      const url = `/api/v1/applications/initialize/type/${courseType}/product/${courseProduct}`
+      const userApplication = await Testing.userWithApplication('4 billion year immersive', 'Life on Earth');
+      const resp = await request(app)
         .post(url)
         .set('Authorization', `Bearer ${userApplication.token}`)
         .send({})

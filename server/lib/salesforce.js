@@ -2,10 +2,7 @@
 
 import jsforce from 'jsforce';
 import _ from 'lodash';
-
 import moment from 'moment';
-
-
 import {
   LEAD_PROSPECT_RECORD_ID,
   LEAD_STUDENT_RECORD_ID,
@@ -15,7 +12,6 @@ import {
   SF_DSI_SYLLABUS_CAMPAIGN_ID,
   SF_DSI_APPLICATION_CAMPAIGN_ID,
   SF_NEWSLETTER_CAMPAIGN_ID,
-  CAMPUSES,
   IMMERSIVE_COURSE_TYPES
 } from '../constants';
 
@@ -26,14 +22,11 @@ if (environment === 'development' || environment === 'test') {
 }
 
 class Salesforce {
-
   constructor() {
     this.username = process.env.SF_USERNAME;
     this.password = process.env.SF_PASSWORD;
     this.baseUrl = process.env.SF_OAUTH_BASE_URL;
-    this.connection = new jsforce.Connection({
-      loginUrl : this.baseUrl
-    });
+    this.connection = new jsforce.Connection({ loginUrl : this.baseUrl });
   }
 
   login() {

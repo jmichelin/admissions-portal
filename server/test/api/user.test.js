@@ -33,43 +33,43 @@ describe('api users', () => {
   beforeEach((done) => {
     sandbox = sinon.createSandbox();
     app = require('../../index');
-    knex.raw('start transaction').then(function () {
-      done();
-    });
+    knex.raw('start transaction').then(() => { done(); });
   });
 
   afterEach((done) => {
     sandbox.restore();
-    knex.raw('rollback').then(function () {
-      done();
-    });
+    knex.raw('rollback').then(() => { done(); });
   });
 
   describe('GET api/v1/user', () => {
     it('gives user details, sf opportunities, and applications', async () => {
       const user = await Testing.userWithApplication('neat course type', 'neat course product');
 
-      sandbox.stub(Salesforce.prototype, 'login').resolves(true);
-      sandbox.stub(Salesforce.prototype, 'contactQuery').resolves(contactQuery);
-      sandbox.stub(Salesforce.prototype, 'oppQuery').resolves(oppQueryResult);
-      sandbox.stub(Salesforce.prototype, 'scorecardQueries').resolves(scoreCardQueriesResult);
+      sandbox.stub(Salesforce.prototype, 'getOpportunities').resolves([{
+        id: 999,
+        course_product: 'neat course product 2',
+        course_type: 'neat course type 2',
+        values: {},
+        complete: null,
+        user_id: 1296,
+        created_at: new Date(),
+        updated_at: new Date(),
+        type: 'opportunity'
+      }]);
 
       const res = await request(app)
         .get('/api/v1/user')
         .set('Authorization', `Bearer ${user.token}`)
         .send()
         .expect(200)
-      const opp = res.body.data.opportunities[0];
       const userRes = res.body.data.user;
-      const application = res.body.data.applications[0];
-      
-      expect(opp.id).to.eq('006n0000008k9kBAAQ');
-      expect(opp.courseProduct).to.eq('Web Development');
-      expect(opp.courseType).to.eq('12 Week Full-Time Immersive');
-      expect(opp.scorecard.finalCode).to.eq(null);
-      expect(opp.scorecard.moveForwardCode).to.eq(null);
-      expect(opp.scorecard.oppId).to.eq('006n0000008k9kBAAQ');
-      expect(opp.scorecard.moveForwardInterview).to.eq(null);
+      const opp = res.body.data.applications[0];
+      const application = res.body.data.applications[1];
+
+      expect(opp.id).to.eq(999);
+      expect(opp.course_product).to.eq('neat course product 2');
+      expect(opp.course_type).to.eq('neat course type 2');
+      expect(opp.type).to.eq('opportunity');
       expect(userRes.first_name).to.eq('F');
       expect(userRes.last_name).to.eq('L');
       expect(userRes.email).to.eq('lf@example.com');
@@ -80,11 +80,9 @@ describe('api users', () => {
   });
 
   it('returns applications even when salesforce returns no opportunities', async () => {
+    sandbox.stub(Salesforce.prototype, 'getOpportunities').resolves([]);
+
     const user = await Testing.userWithApplication('neat course type', 'neat course product');
-
-    sandbox.stub(Salesforce.prototype, 'login').resolves(true);
-    sandbox.stub(Salesforce.prototype, 'contactQuery').resolves(emptyContactQuery);
-
     const res = await request(app)
       .get('/api/v1/user')
       .set('Authorization', `Bearer ${user.token}`)
@@ -92,7 +90,8 @@ describe('api users', () => {
       .expect(200)
     const application = res.body.data.applications[0];
     
-    expect(res.body.data.opportunities.length).to.eq(0);
+    expect(res.body.data.applications.length).to.eq(1);
+    expect(res.body.data.opportunities).to.eq(undefined);
     expect(application.id).to.eq(user.application.id);
     expect(application.courseType).to.eq(user.application.courseType);
     expect(application.courseProduct).to.eq(user.application.courseProduct);

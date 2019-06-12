@@ -10,8 +10,7 @@ router.get('/', async (req, res, next) => {
     userApplications.forEach(app => app.type = 'application');
 
     const data = { user: req.user, applications: userApplications };
-
-    let opportunities = await salesforce.getOpportunities(req.user.email);
+    const opportunities = await salesforce.getOpportunities(req.user.email);
 
     data.applications = data.applications.concat(opportunities).sort((a, b) => b.created_at.getTime() - a.created_at.getTime());
 
