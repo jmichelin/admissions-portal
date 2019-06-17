@@ -96,7 +96,6 @@ class Dashboard extends Component {
 
   render() {
     const programInputs = this.programInputs(this.props.applications)
-
     return (
       <div className="dashboard">
         <div className="container">
@@ -112,7 +111,6 @@ class Dashboard extends Component {
                     <ProgramList
                       applications={this.props.applications}
                       internalStatusUpdate={this.state.internalStatusUpdate}
-                      opps={this.props.applications}
                       user={this.props.user}
                     />
                   )}

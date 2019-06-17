@@ -7,19 +7,19 @@ export default (props) => {
       <div className="table-row -steps">
         <div className="steps-list">
           <div className="steps">
-            {Object.keys(props.opp.admissionsProcess).map((steppy, i) => {
-              const step = props.opp.admissionsProcess[steppy];
+            {Object.keys(props.admissionsProcess).map((steppy, i) => {
+              const step = props.admissionsProcess[steppy];
 
               if (step.status.includes('Enroll') || step.status.includes('Hold') || step.hidden) return null;
 
-              if (props.opp.currentStep &&  props.opp.currentStep.step > step.step) {
+              if (props.admissionsProcess.currentStep &&  props.admissionsProcess.currentStep.step > step.step) {
                 return (
                   <div className="step" key={i}>
                     <span className="number -complete"><img alt=""src={checkMark}></img></span>
                     <span className="label">{step.status}</span>
                   </div>
                 )
-              } else if (props.opp.currentStep === step.step) {
+              } else if (props.admissionsProcess.currentStep === step.step) {
                 return (
                   <div className="step" key={i}>
                     <span className="number -active">{step.step}</span>

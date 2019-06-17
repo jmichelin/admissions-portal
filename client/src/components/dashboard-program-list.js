@@ -7,7 +7,7 @@ import ResourcesDSI from './resources-dsi';
 
 import moment from 'moment';
 
-const ProgramList = ({ opps }) => (
+const ProgramList = ({ applications }) => (
   <div className="table">
     <div className="table-head">
       <ul className="table-row">
@@ -18,17 +18,17 @@ const ProgramList = ({ opps }) => (
       </ul>
     </div>
     <div className="table-body">
-      {opps.map((opp, i) => (
-        <div className="application-row" key={`application-${opp.id}`}>
+      {applications.map((application, i) => (
+        <div className="application-row" key={`application-${application.id}`}>
           <ul className="table-row -listing">
-            <li>{opp.formalName}</li>
-            <li className="hide-mobile">{opp.values ? opp.values.Campus__c : opp.campus}</li>
-            <li className="hide-mobile">{moment(opp.courseStart).format('MM/DD/YYYY')}</li>
-            <li className="hide-tablet">{opp.currentStep ? opp.currentStep.status : 'Talk to Your Enrollment Officer'}</li>
+            <li>{application.formalName}</li>
+            <li className="hide-mobile">{application.values ? application.values.Campus__c : application.campus}</li>
+            <li className="hide-mobile">{moment(application.courseStart).format('MM/DD/YYYY')}</li>
+            <li className="hide-tablet">{application.currentStep ? application.currentStep.status : 'Talk to Your Enrollment Officer'}</li>
           </ul>
-          {i < 1 && <AdmissionsProcessSteps opp={opp} activeStep={opp.currentStep} />}
-          <NextStepBlock opp={opp} step={opp.currentStep} />
-          {i < 1 && (opp.courseProduct === 'Data Science' ? <ResourcesDSI /> : <ResourcesSEI />)}
+          {i < 1 && <AdmissionsProcessSteps admissionsProcess={application.admissionsProcess} activeStep={application.currentStep} />}
+          <NextStepBlock opp={application} step={application.currentStep} />
+          {i < 1 && (application.courseProduct === 'Data Science' ? <ResourcesDSI /> : <ResourcesSEI />)}
         </div>
       ))}
     </div>

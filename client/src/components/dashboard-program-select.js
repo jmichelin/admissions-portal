@@ -5,12 +5,15 @@ import { PROGRAM_SELECT_TEXT } from '../constants';
 import { APPLICATION_INPUTS } from './forms/inputs/application-inputs';
 
 import Select from '../components/forms/select';
+import utils from '../helpers/utils';
 
 class ProgramSelect extends Component {
-  // TODO: This is a weird way to make this work - should we put course prod and course type on user too? Will we always be able to search by course name?
   retrieveApp(program) {
     const foundApp = APPLICATION_INPUTS.find(e => e.name === program)
-    if (foundApp) return ({ courseProduct: foundApp.courseProduct, courseType: foundApp.courseType })
+
+    if (foundApp) {
+      const admissionsProcess = utils.getStage(this.props.program);
+      return ({ courseProduct: foundApp.courseProduct, courseType: foundApp.courseType, admissionsProcess: admissionsProcess })}
   }
 
   render() {

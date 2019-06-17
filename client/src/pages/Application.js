@@ -12,7 +12,6 @@ import Schema from '../helpers/validations';
 import { APPLICATION_INPUTS } from '../components/forms/inputs/application-inputs';
 import {
   APPLICATIONS_ENDPOINT,
-  APPLICATION_STEPS_SEI_12WK,
   APPLICATION_INITIALIZE_ENDPOINT
 } from '../constants';
 
@@ -35,6 +34,7 @@ class Application extends Component {
       campus: '',
       courseType: program.courseType || program.course_type,
       courseProduct: program.courseProduct|| program.course_product,
+      admissionsProcess: program.admissionsProcess,
       steps: inputs.formFields,
       values: values,
       errors: {},
@@ -53,6 +53,7 @@ class Application extends Component {
 
     if (this.props.location.state && this.props.location.state.campus) campus = this.props.location.state.campus;
     if (this.props.location.state.opp && this.props.location.state.opp.values && this.props.location.state.opp.values.Campus__c) campus = this.props.location.state.opp.values.Campus__c;
+
 
     fetch(endpoint, {
       method: 'POST',
@@ -285,8 +286,6 @@ class Application extends Component {
 
 
   render() {
-    const fakeOpp = { admissionsProcess: APPLICATION_STEPS_SEI_12WK, currentStep: 1 };
-
     return (
       <>
         <Prompt message="You have unsaved changes, are you sure you want to leave?" when={this.state.unsavedChanges} />
@@ -298,7 +297,7 @@ class Application extends Component {
                 description={''}
               />
               <Breadcrumb refreshData={true} />
-              <AdmissionsProcessSteps opp={fakeOpp} />
+              <AdmissionsProcessSteps admissionsProcess={this.state.admissionsProcess} />
               <p className="come-back-message">
                 You can always click &quot;Save&quot; and come back to finish at a later time...
               </p>
