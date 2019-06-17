@@ -52,27 +52,31 @@ class Salesforce {
   }
 
   async applicationStepUpdate(user, application, applicationComplete) {
+    console.log('user', user);
+    console.log('application', application);
+    console.log('applicationComplete', applicationComplete);
+
     if (user.salesforce_type === "Contact") {
       let contact = {
         Id: user.salesforce_id,
         Has_Portal_Account__c: true,
         Last_Portal_Login__c: new Date(),
-        Campus__c: application.values.Campus__c
+        Campus__c: application.values.Campus__c === 'Austin-2nd St District' ? 'Austin-2nd Street District' : application.values.Campus__c
       }
 
       await this.updateContact(contact);
 
       if (applicationComplete) {
-        let courseInfo = JSON.parse(application.values.Which_dates_you_prefer_to_take_course__c);
-        await this.createOpp(user, courseInfo)
+        let courseInfo = application.values.Which_dates_you_prefer_to_take_course__c;
+        await this.createOpp(user, courseInfo);
       }
     } else if (user.salesforce_type === "Lead"){
       let lead = {
         Id: user.salesforce_id,
-        Campus__c: application.values.Campus__c,
+        Campus__c: application.values.Campus__c === 'Austin-2nd St District' ? 'Austin-2nd Street District' : application.values.Campus__c,
         Product__c: application.course_product,
         Status: "Started Application",
-        Which_dates_you_prefer_to_take_course__c: JSON.parse(application.values.Which_dates_you_prefer_to_take_course__c).courseName,
+        Which_dates_you_prefer_to_take_course__c: application.values.Which_dates_you_prefer_to_take_course__c,
         Application_Completed__c: applicationComplete
       }
 
@@ -83,7 +87,7 @@ class Salesforce {
   async signUpSignInUserUpdate(requestbody){
     let salesforceUser = null;
     let searchResponse = await this.findSalesforceUser(requestbody.email);
-    
+
     // if contact - update contact to reflect portal account creation
     salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
     if (salesforceUser) {
@@ -92,15 +96,15 @@ class Salesforce {
         FirstName: requestbody.first_name,
         LastName: requestbody.last_name,
         Phone: requestbody.phone,
-        Campus__c: requestbody.campus,
+        Campus__c: requestbody.campus === 'Austin-2nd St District' ? 'Austin-2nd Street District' : requestbody.campus,
         Product__c: requestbody.courseProduct,
         Has_Portal_Account__c: true,
         Last_Portal_Login__c: new Date()
       };
-      
+
       await this.updateContact(contact);
     }
-    
+
     // if no contact look for lead and update lead
     if (!salesforceUser) {
       salesforceUser = searchResponse.searchRecords.find(record => record.attributes.type === 'Lead');
