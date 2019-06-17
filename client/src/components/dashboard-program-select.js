@@ -13,7 +13,7 @@ class ProgramSelect extends Component {
 
     if (foundApp) {
       const admissionsProcess = utils.getStage(this.props.program);
-      return ({ courseProduct: foundApp.courseProduct, courseType: foundApp.courseType, admissionsProcess: admissionsProcess })}
+      return ({ courseProduct: foundApp.courseProduct, courseType: foundApp.courseType, admissionsProcess: admissionsProcess.process })}
   }
 
   render() {
