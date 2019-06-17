@@ -71,7 +71,6 @@ class App extends Component {
           .catch((err) => { console.log(err); this.clearData() })
       })
     } else {
-      console.log('getting here......');
       this.clearData()
     }
   }

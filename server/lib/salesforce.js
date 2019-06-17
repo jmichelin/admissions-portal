@@ -52,9 +52,6 @@ class Salesforce {
   }
 
   async applicationStepUpdate(user, application, applicationComplete) {
-    console.log('user', user);
-    console.log('application', application);
-    console.log('applicationComplete', applicationComplete);
 
     if (user.salesforce_type === "Contact") {
       let contact = {

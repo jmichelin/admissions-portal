@@ -11,7 +11,6 @@ const getOfferings = async (field) => {
     .then(res => res.json())
     .then(result => {
       return result.map((offering) => {
-        console.log(offering);
         return { value: offering.courseName, name: moment(offering.startDate).format('MMM DD, YYYY') }
       });
     });

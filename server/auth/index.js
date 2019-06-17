@@ -77,7 +77,6 @@ router.post('/signup', async (req, res, next) => {
       let values = JSON.stringify({Campus__c: req.body.campus, Phone: req.body.phone});
       let opportunities = await salesforce.getOpportunities(newUser[0].email);
       if (!opportunities.length) {
-        console.log(values);
         let application = await Q.findOrCreateApplication(req.body.courseType, req.body.courseProduct, newUser[0].id, JSON.parse(values));
         opportunities.push(application);
       }
