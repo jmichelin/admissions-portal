@@ -21,6 +21,8 @@ if (environment === 'development' || environment === 'test') {
   dotenv.config();
 }
 
+const Q = require('../db/queries');
+
 class Salesforce {
   constructor() {
     this.username = process.env.SF_USERNAME;
@@ -28,7 +30,7 @@ class Salesforce {
     this.baseUrl = process.env.SF_OAUTH_BASE_URL;
     this.connection = new jsforce.Connection({ loginUrl : this.baseUrl });
   }
-
+  
   login() {
     return new Promise( (resolve, reject) => {
       this.connection.login(this.username, this.password, (err, userInfo) => {
@@ -37,6 +39,18 @@ class Salesforce {
       });
     });
   }
+  
+  async updateUserAfterLeadConvert(email) {
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    await this.login();
+
+    let salesforceUser = null;
+    let searchResponse = await this.findSalesforceUser(email);
+    
+    // if contact - update users salesforce id/type
+    salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
+    if (salesforceUser) await Q.updateSalesforceUserAttrs(email, salesforceUser);
+  }  
 
   async findSalesforceUser(email) {
     await this.login();

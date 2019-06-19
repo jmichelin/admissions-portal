@@ -20,10 +20,12 @@ router.patch('/:id', async (req, res) => {
 
   let completed = !!req.body.complete;
   try {
+    let user = await Q.getUserbyEmail(req.user.email); // Could be a stale user object (saleforce user updated)
     let savedApp = await Q.updateApplication(application)
     if (savedApp) {
       await salesforce.login();
-      await salesforce.applicationStepUpdate(req.user, application, completed);
+      await salesforce.applicationStepUpdate(user, application, completed);
+      if (completed) salesforce.updateUserAfterLeadConvert(user.email)
       return res.status(200).send(savedApp)
     }
     return res.status(404).send({error: "application not found"})
@@ -40,8 +42,9 @@ router.post('/initialize/type/:courseType/product/:courseProduct', async (req, r
 
   try {
     await salesforce.login();
-    const application = await Q.findOrCreateApplication(courseType, courseProduct, req.user.id, req.body);
-    await salesforce.applicationStepUpdate(req.user, application, false);
+    let user = await Q.getUserbyEmail(req.user.email); // Could be a stale user object (saleforce user updated)
+    const application = await Q.findOrCreateApplication(courseType, courseProduct, user.id, req.body);
+    await salesforce.applicationStepUpdate(user, application, false);
     return res.status(200).send(application)
   } catch (err) {
     console.log("Error initializing program:", err)
