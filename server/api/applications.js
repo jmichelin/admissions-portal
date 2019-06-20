@@ -25,7 +25,7 @@ router.patch('/:id', async (req, res) => {
     if (savedApp) {
       await salesforce.login();
       await salesforce.applicationStepUpdate(user, application, completed);
-      if (completed) salesforce.updateUserAfterLeadConvert(user.email)
+      if (completed) await Q.updateSalesforceUserAttrs(req.user.email, null)
       return res.status(200).send(savedApp)
     }
     return res.status(404).send({error: "application not found"})
