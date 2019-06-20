@@ -303,12 +303,12 @@ class Application extends Component {
               </p>
               <div className="application-form">
                 {this.renderSteps()}
+                {this.state.errorText && <p className="error-msg">{this.state.errorText}</p>}
                 <div className="action">
                   <button className="button-secondary" type="submit" onClick={this.onSave}>{this.state.saveButtonText}</button>
                   <button className="button-primary" type="submit" onClick={this.onSubmit}>Submit</button>
                 </div>
               </div>
-              {this.state.errorText && <p className="error-msg">{this.state.errorText}</p>}
             </div>
           </div>
         </div>

@@ -27,6 +27,15 @@ p.lead {
   }
 }
 
+p.error-msg {
+  text-align: center;
+  font-weight: bold;
+  color: #F79020;
+  display: block;
+  width: 100%;
+  margin-bottom: 0px;
+}
+
 p.-inverse {
   color: $color-white;
 }
