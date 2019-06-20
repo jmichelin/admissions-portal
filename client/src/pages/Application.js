@@ -180,12 +180,15 @@ class Application extends Component {
     if (this.invalidValues()) return;
 
     this.persistApp(new Date())
-      .then(resp => resp.json())
+      .then(resp => {
+        if (!resp.ok) throw new Error("HTTP status " + resp.status);
+        return resp.json()
+      })
       .then(() => this.props.history.push({
         pathname: '/dashboard',
         state: { dataRefresh: true }
       }))
-      .catch((err) => {
+      .catch((_err) => {
         this.setState({ errorText: 'Something has gone wrong, please contact support@galvanize.com' });
       })
   }
