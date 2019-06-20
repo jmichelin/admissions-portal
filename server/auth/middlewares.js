@@ -1,5 +1,6 @@
 import auth from './basic-auth';
 const jwt = require('jsonwebtoken');
+const Q = require('../db/queries');
 
 function checkTokenSetUser(req, res, next) {
   const err = new Error('Your session has expired. Please log back in.');
@@ -7,12 +8,12 @@ function checkTokenSetUser(req, res, next) {
   if (authHeader && authHeader.indexOf("Basic") == -1) {
     const token = authHeader.split(' ')[1];
     if (token) {
-      jwt.verify(token, process.env.TOKEN_SECRET, (error, user) => {
+      jwt.verify(token, process.env.TOKEN_SECRET, async (error, user) => {
         if (error) {
           res.status(401);
           next(err);
         }
-        req.user = user;
+        req.user = await Q.getUserById(user.id);
         next();
       });
     } else {

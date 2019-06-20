@@ -31,12 +31,7 @@ const signinSchema = Joi.object().keys({
 
 function createTokenSendResponse(user, opportunities, res, next) {
   const payload = {
-    id: user.id,
-    email: user.email,
-    first_name: user.first_name,
-    last_name:user.last_name,
-    salesforce_type:user.salesforce_type,
-    salesforce_id:user.salesforce_id
+    id: user.id
   };
   jwt.sign(payload, process.env.TOKEN_SECRET, {
     expiresIn: '6h'

@@ -13,6 +13,12 @@ module.exports = {
       .first();
   },
 
+  getUserById: function(id) {
+    return knex('user')
+      .where('id', id)
+      .first();
+  },
+
   addNewUser: function(user, password) {
     return knex('user')
       .returning(['id','email', "first_name", "last_name", "salesforce_id", "salesforce_type"])
