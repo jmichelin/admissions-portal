@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-
 import Hero from '../components/hero';
 import CalendarIframe from '../components/calendar-iframe';
 import LoadingWheel from '../components/base/loader-orange';
 import InterviewSidebar from '../components/book-interview-sidebar-dsi';
-
 import { HERO_TEXT, DSI_STEPS, DSI_YCBM_CALENDAR_ID, DSI_YCBM_CALENDAR_URL } from '../constants';
-
 
 class BookInterviewDSI extends Component {
   constructor(props){
@@ -49,6 +46,7 @@ class BookInterviewDSI extends Component {
   hideSpinner(iframe) {
     iframe.contentWindow.postMessage('hello', "*");
     window.addEventListener("message", this.handleFrameTasks);
+
     this.setState({
       isLoading: false,
       hideSpinner: true
@@ -57,10 +55,9 @@ class BookInterviewDSI extends Component {
 
   handleFrameTasks = (e) => {
     document.getElementById(DSI_YCBM_CALENDAR_ID).style.height = `${e.data}px`
+
     if (!isNaN(e.data)) {
-      this.setState({
-        height:e.data
-      })
+      this.setState({ height: e.data })
     }
   }
 

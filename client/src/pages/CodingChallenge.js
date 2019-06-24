@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-
 import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
 import * as buble from 'buble'
@@ -49,8 +48,7 @@ class CodingChallenge extends Component {
   }
 
   prettyErrorMessage(err) {
-    let pretty =  err.toString().split('\n')[0];
-    return pretty;
+    return err.toString().split('\n')[0];
   }
 
   runLocal = async (code, e) => {
@@ -68,6 +66,7 @@ class CodingChallenge extends Component {
           errorMessage: this.prettyErrorMessage(err)
         })
       }, 800)
+
       return;
     }
 
@@ -79,11 +78,10 @@ class CodingChallenge extends Component {
       handlers: {
         onSingleTestResult: (result) => {
           results.push(result)
-
         },
         onRunComplete: async (submittedCode) => {
-          let allCorrect = results && results.every(r => r.type === 'test-pass')
-          let firstFailingTest = results.find(el => el.type === 'test-fail')
+          const allCorrect = results && results.every(r => r.type === 'test-pass')
+          const firstFailingTest = results.find(el => el.type === 'test-fail')
 
           this.setState({
             showProcessing: false,
@@ -98,13 +96,13 @@ class CodingChallenge extends Component {
           return submittedCode;
         },
         onUnexpectedTerminate: (reason) => {
-          if (reason === 'timeout') {
-            alert("Your code timed out.")
-          }
+          if (reason === 'timeout') alert("Your code timed out.")
+
           this.setState({
             showProcessing: false,
             errorMessage: 'Your code threw an error. Check your syntax.'
           })
+
           return;
         },
       }
@@ -121,6 +119,7 @@ class CodingChallenge extends Component {
         moveForward: 'No',
         stage: 'Sent Takehome'
       }
+
       fetch(CODE_CHALLENGE_ENDPOINT, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -131,16 +130,17 @@ class CodingChallenge extends Component {
       })
         .then(response => {
           if (response.ok) return response.json()
-          this.setState({ redirectToDashboard: true});
+          this.setState({ redirectToDashboard: true });
           throw new Error();
         })
-        .then(() => { this.setState({ attemptSubmitted: true}); })
-        .catch(() => { this.setState({ redirectToDashboard: true}); })
+        .then(() => { this.setState({ attemptSubmitted: true }); })
+        .catch(() => { this.setState({ redirectToDashboard: true }); })
     }
   }
 
   codeSubmit(e) {
     e.preventDefault();
+
     if (this.state.allPassed && this.state.submittedCode) {
       this.setState({ submittingCode: true })
 
@@ -160,9 +160,8 @@ class CodingChallenge extends Component {
         },
       })
         .then(response => {
-          if (response.ok) {
-            return response.json()
-          }
+          if (response.ok) return response.json()
+
           throw new Error();
         })
         .then(() => {
@@ -174,9 +173,7 @@ class CodingChallenge extends Component {
           this.setState({ errorMessage: err.message, submittingCode: false })
         })
     } else {
-      this.setState({
-        errorMessage: 'There was an error submitting your code. Please try again.'
-      })
+      this.setState({ errorMessage: 'There was an error submitting your code. Please try again.' })
     }
   }
 
