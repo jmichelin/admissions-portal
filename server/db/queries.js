@@ -203,6 +203,12 @@ module.exports = {
     newApp.type = 'application';
     return newApp;
   },
+
+  deleteApplication: async function(applicationID) {
+    await knex('application')
+      .where('id', applicationID)
+      .del();
+  },
 };
 
 function _filterCourses(courses) {

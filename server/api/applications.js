@@ -14,23 +14,35 @@ router.patch('/:id', async (req, res) => {
     user_id: req.user.id,
   };
 
-  if (req.body.course_type) {
-    application.course_type = req.body.course_type;
-  }
+  if (req.body.course_type) application.course_type = req.body.course_type;
 
-  let completed = !!req.body.complete;
+  const completed = !!req.body.complete;
+
   try {
-    let savedApp = await Q.updateApplication(application)
+    const savedApp = await Q.updateApplication(application);
+
     if (savedApp) {
       await salesforce.login();
       await salesforce.applicationStepUpdate(req.user, application, completed);
-      return res.status(200).send(savedApp)
+      return res.status(200).send(savedApp);
     }
-    return res.status(404).send({error: "application not found"})
 
+    return res.status(404).send({ error: 'application not found' })
   } catch(err) {
     console.log(err)
     return res.status(500)
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+  if (req.user.id !== req.body.applicationUserID) return res.status(401);
+
+  try {
+    await Q.deleteApplication(req.params.id);
+    return res.json({ message: `Successfully deleted application ${req.params.id}` });
+  } catch (err) {
+    console.log(err);
+    return res.status(500);
   }
 });
 

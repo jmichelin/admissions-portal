@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-
 import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
-
 import CalendarIframe from '../components/calendar-iframe';
-import LoadingWheel from '../components/base/loader-orange';
+import LoadingWheel from '../components/base/LoadingWheel';
 import CampusList from '../components/book-interview-campuses';
 import InterviewSidebar from '../components/book-interview-sidebar';
-
 import { HERO_TEXT, SEI_STEPS_12_WK } from '../constants';
 
 class BookInterview extends Component {
