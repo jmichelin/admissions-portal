@@ -92,11 +92,13 @@ class ProgramList extends Component {
           <div className="table-body">
             {applications.map((application, i) => (
               <div className="application-row" key={i}>
-                <div className="delete-application">
-                  <button onClick={() => this.showModal(application)}>
-                    X
-                  </button>
-                </div>
+                {application.currentStep.step === 1 && (
+                  <div className="delete-application">
+                    <button onClick={() => this.showModal(application)}>
+                      X
+                    </button>
+                  </div>
+                )}
                 <ul className="table-row -listing">
                   <li>{application.formalName}</li>
                   <li className="hide-mobile">{application.values ? application.values.Campus__c : application.campus}</li>
