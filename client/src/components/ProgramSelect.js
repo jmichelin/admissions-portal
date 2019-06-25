@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
 import { PROGRAM_SELECT_TEXT } from '../constants';
 import { APPLICATION_INPUTS } from './forms/inputs/application-inputs';
-
 import Select from '../components/forms/select';
 import utils from '../helpers/utils';
 
@@ -13,7 +11,12 @@ class ProgramSelect extends Component {
 
     if (foundApp) {
       const admissionsProcess = utils.getStage(this.props.program);
-      return ({ courseProduct: foundApp.courseProduct, courseType: foundApp.courseType, admissionsProcess: admissionsProcess.process })}
+      return ({
+        courseProduct: foundApp.courseProduct,
+        courseType: foundApp.courseType,
+        admissionsProcess: admissionsProcess.process,
+      })
+    }
   }
 
   render() {

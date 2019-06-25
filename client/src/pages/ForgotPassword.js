@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
 import PortalAside from '../components/portal-aside';
 import inputs from '../components/forms/inputs/inputs';
 import InputGroup from '../components/forms/input-group';
@@ -11,10 +10,8 @@ class ForgotPassword extends Component {
   constructor(props) {
     super(props);
 
-    const accountInputs = inputs.getForgotPasswordInputs();
-
     this.state = {
-      formInputs: accountInputs,
+      formInputs: inputs.getForgotPasswordInputs(),
       submitAttempted: false,
       email: '',
       showError: false,
@@ -50,10 +47,10 @@ class ForgotPassword extends Component {
             errorMessage={input.errorMessage}
             showError={this.state.submitAttempted && !this.validField(input)}
           />
-          )
+        )
       } else {
-          return null;
-        }
+        return null;
+      }
     })
   }
 
@@ -68,11 +65,9 @@ class ForgotPassword extends Component {
   validUser(data) {
     const result = Joi.validate(data, schema);
 
-    if (result.error === null) {
-      return true;
-    } else {
-      return false;
-    }
+    if (result.error === null) return true;
+
+    return false;
   }
 
   sendEmail(e) {
@@ -121,27 +116,45 @@ class ForgotPassword extends Component {
           <div className="portal">
             <PortalAside/>
             <div className="form-content">
-              <h1 className="title">Admissions Portal<span>New!</span></h1>
+              <h1 className="title">
+                Admissions Portal<span>New!</span>
+              </h1>
               <div className="logo-wrapper">
-                <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
-                <img className="logo -hr" src={HRLogo} alt="Hack Reactor Logo"></img>
+                <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo" />
+                <img className="logo -hr" src={HRLogo} alt="Hack Reactor Logo" />
               </div>
-              <h3 className="portal-title -forgot-pass">Forgot Your Password?</h3>
-              <p className="citation -thin -center">Enter your email to receive a password reset link.</p>
-            <form onSubmit={this.sendEmail}>
-            <div className="form-group">
-              {this.createInputs().slice(0,1)}
+              <h3 className="portal-title -forgot-pass">
+                Forgot Your Password?
+              </h3>
+              <p className="citation -thin -center">
+                Enter your email to receive a password reset link.
+              </p>
+              <form onSubmit={this.sendEmail}>
+                <div className="form-group">
+                  {this.createInputs().slice(0,1)}
+                </div>
+                <div className="form-footer">
+                  <button className={this.state.isLoading ? "button-primary -loading" : "button-primary"}>
+                    Submit
+                  </button>
+                </div>
+                <div className="error-wrapper">
+                  <span className="form note form-error">
+                    {this.state.errorMessage}
+                  </span>
+                </div>
+              </form>
+              <div className="-center">
+                <Link to="/">
+                  <button className="-inline">
+                    Back to Login
+                  </button>
+                </Link>
+              </div>
             </div>
-            <div className="form-footer">
-              <button className={this.state.isLoading ? "button-primary -loading" : "button-primary"}>Submit</button>
-            </div>
-            <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
-          </form>
-          <div className="-center"><Link to="/"><button className="-inline">Back to Login</button></Link></div>
-        </div>
+          </div>
         </div>
       </div>
-    </div>
     );
   }
 }

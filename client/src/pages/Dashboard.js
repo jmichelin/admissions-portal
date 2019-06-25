@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Hero from '../components/hero';
-import ProgramSelect from '../components/dashboard-program-select';
-import ProgramList from '../components/dashboard-program-list';
-import LoadingWheel from '../components/base/loader-orange';
+import ProgramSelect from '../components/ProgramSelect';
+import ProgramList from '../components/ProgramList';
+import LoadingWheel from '../components/base/LoadingWheel';
 import { CAMPUSES, HERO_TEXT } from '../constants';
-import { APPLICATION_INPUTS} from '../components/forms/inputs/application-inputs';
+import { APPLICATION_INPUTS } from '../components/forms/inputs/application-inputs';
 
 class Dashboard extends Component {
   constructor(props){
@@ -96,6 +96,7 @@ class Dashboard extends Component {
 
   render() {
     const programInputs = this.programInputs(this.props.applications)
+
     return (
       <div className="dashboard">
         <div className="container">
@@ -112,6 +113,7 @@ class Dashboard extends Component {
                       applications={this.props.applications}
                       internalStatusUpdate={this.state.internalStatusUpdate}
                       user={this.props.user}
+                      getData={this.props.getData}
                     />
                   )}
                   {programInputs.options.length > 0 && (

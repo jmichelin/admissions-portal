@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Prompt, withRouter } from 'react-router-dom';
 import Joi from 'joi';
-import AdmissionsProcessSteps from '../components/admissions-process-steps';
+import AdmissionsProcessSteps from '../components/AdmissionsProcessSteps';
 import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
 import Checkbox from '../components/forms/checkbox';
@@ -10,10 +10,7 @@ import Label from '../components/forms/label';
 import Select from '../components/forms/select';
 import Schema from '../helpers/validations';
 import { APPLICATION_INPUTS } from '../components/forms/inputs/application-inputs';
-import {
-  APPLICATIONS_ENDPOINT,
-  APPLICATION_INITIALIZE_ENDPOINT
-} from '../constants';
+import { APPLICATIONS_ENDPOINT, APPLICATION_INITIALIZE_ENDPOINT } from '../constants';
 
 class Application extends Component {
   constructor(props){
