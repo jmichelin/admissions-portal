@@ -177,12 +177,15 @@ class Application extends Component {
     if (this.invalidValues()) return;
 
     this.persistApp(new Date())
-      .then(resp => resp.json())
+      .then(resp => {
+        if (!resp.ok) throw new Error("HTTP status " + resp.status);
+        return resp.json()
+      })
       .then(() => this.props.history.push({
         pathname: '/dashboard',
         state: { dataRefresh: true }
       }))
-      .catch((err) => {
+      .catch((_err) => {
         this.setState({ errorText: 'Something has gone wrong, please contact support@galvanize.com' });
       })
   }
@@ -300,12 +303,12 @@ class Application extends Component {
               </p>
               <div className="application-form">
                 {this.renderSteps()}
+                {this.state.errorText && <p className="error-msg">{this.state.errorText}</p>}
                 <div className="action">
                   <button className="button-secondary" type="submit" onClick={this.onSave}>{this.state.saveButtonText}</button>
                   <button className="button-primary" type="submit" onClick={this.onSubmit}>Submit</button>
                 </div>
               </div>
-              {this.state.errorText && <p className="error-msg">{this.state.errorText}</p>}
             </div>
           </div>
         </div>

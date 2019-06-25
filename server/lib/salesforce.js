@@ -28,7 +28,7 @@ class Salesforce {
     this.baseUrl = process.env.SF_OAUTH_BASE_URL;
     this.connection = new jsforce.Connection({ loginUrl : this.baseUrl });
   }
-
+  
   login() {
     return new Promise( (resolve, reject) => {
       this.connection.login(this.username, this.password, (err, userInfo) => {

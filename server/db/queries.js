@@ -13,6 +13,12 @@ module.exports = {
       .first();
   },
 
+  getUserById: function(id) {
+    return knex('user')
+      .where('id', id)
+      .first();
+  },
+
   addNewUser: function(user, password) {
     return knex('user')
       .returning(['id','email', "first_name", "last_name", "salesforce_id", "salesforce_type"])
@@ -29,8 +35,8 @@ module.exports = {
   updateSalesforceUserAttrs: function(userEmail, salesforceUser) {
     return knex('user')
       .update({
-        salesforce_id: salesforceUser.Id,
-        salesforce_type: salesforceUser.attributes.type
+        salesforce_id: salesforceUser ? salesforceUser.Id : null,
+        salesforce_type: salesforceUser ? salesforceUser.attributes.type : null
       })
       .where('email', userEmail);
   },
