@@ -38,7 +38,7 @@ module.exports = {
         salesforce_id: salesforceUser ? salesforceUser.Id : null,
         salesforce_type: salesforceUser ? salesforceUser.attributes.type : null
       })
-      .where('email', userEmail);
+      .where('email', userEmail).returning('*');
   },
 
   updateUserPasswordToken: function(user, token) {

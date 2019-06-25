@@ -1,6 +1,8 @@
 import auth from './basic-auth';
 const jwt = require('jsonwebtoken');
 const Q = require('../db/queries');
+import Salesforce from '../lib/salesforce';
+const salesforce = new Salesforce();
 
 function checkTokenSetUser(req, res, next) {
   const err = new Error('Your session has expired. Please log back in.');
@@ -13,7 +15,15 @@ function checkTokenSetUser(req, res, next) {
           res.status(401);
           next(err);
         }
-        req.user = await Q.getUserById(user.id);
+        user = await Q.getUserById(user.id);
+        if(user.salesforce_id == null || user.salesforce_id == "") {
+          let searchResponse = await salesforce.findSalesforceUser(user.email);
+          let salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
+          if (salesforceUser) {
+            [user] = await Q.updateSalesforceUserAttrs(user.email, salesforceUser);
+          }
+        }
+        req.user = user;
         next();
       });
     } else {
