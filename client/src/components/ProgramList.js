@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import Modal from 'react-modal';
+import moment from 'moment';
 import AdmissionsProcessSteps from './AdmissionsProcessSteps';
 import NextStepBlock from './NextStepsBlock';
 import ResourcesSEI from './ResourcesSei';
 import ResourcesDSI from './ResourcesDsi';
-import Modal from 'react-modal';
-import moment from 'moment';
 
 const modalStyles = {
   content : {
@@ -21,7 +21,6 @@ const modalStyles = {
 
 class ProgramList extends Component {
   state = {
-    applications: this.props.applications,
     appDeleteError: null,
     modalOpen: false,
     appForDeletion: null,
@@ -57,7 +56,8 @@ class ProgramList extends Component {
   }
 
   render() {
-    const { applications, appDeleteError, modalOpen, appForDeletion } = this.state;
+    const { appDeleteError, modalOpen, appForDeletion } = this.state;
+    const { applications } = this.props;
 
     return (
       <>

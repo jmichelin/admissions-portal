@@ -52,7 +52,6 @@ class Salesforce {
   }
 
   async applicationStepUpdate(user, application, applicationComplete) {
-
     if (user.salesforce_type === "Contact") {
       let contact = {
         Id: user.salesforce_id,
