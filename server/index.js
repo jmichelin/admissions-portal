@@ -58,7 +58,7 @@ function notFound(req, res, next) {
   next(error);
 }
 
-function errorHandler(err, _req, res) {
+function errorHandler(err, _req, res, next) {
   res.status(res.statusCode || 500).json({
     message: err.message,
     stack: err.stack
