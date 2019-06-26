@@ -2,7 +2,7 @@ import React from 'react';
 import checkMark from '../assets/images/icon-checkmark-orange.png';
 
 export default (props) => {
-  if(!props.admissionsProcess) return null;
+  if (!props.admissionsProcess) return null;
 
   return (
     <div className="admissions-steps">
@@ -11,6 +11,7 @@ export default (props) => {
           <div className="steps">
             {Object.keys(props.admissionsProcess).map((steppy, i) => {
               const step = props.admissionsProcess[steppy];
+
               if (step.status.includes('Enroll') || step.status.includes('Hold') || step.hidden) return null;
 
               if (props.admissionsProcess.currentStep &&  props.admissionsProcess.currentStep.step > step.step) {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Hero from '../components/hero';
 import CalendarIframe from '../components/calendar-iframe';
-import LoadingWheel from '../components/base/loader-orange';
+import LoadingWheel from '../components/base/LoadingWheel';
 import InterviewSidebar from '../components/book-interview-sidebar-dsi';
 import { HERO_TEXT, DSI_STEPS, DSI_YCBM_CALENDAR_ID, DSI_YCBM_CALENDAR_URL } from '../constants';
 

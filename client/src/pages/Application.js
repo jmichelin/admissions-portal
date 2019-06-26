@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Prompt, withRouter } from 'react-router-dom';
 import Joi from 'joi';
-import AdmissionsProcessSteps from '../components/admissions-process-steps';
+import AdmissionsProcessSteps from '../components/AdmissionsProcessSteps';
 import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
 import Checkbox from '../components/forms/checkbox';
@@ -10,10 +10,7 @@ import Label from '../components/forms/label';
 import Select from '../components/forms/select';
 import Schema from '../helpers/validations';
 import { APPLICATION_INPUTS } from '../components/forms/inputs/application-inputs';
-import {
-  APPLICATIONS_ENDPOINT,
-  APPLICATION_INITIALIZE_ENDPOINT
-} from '../constants';
+import { APPLICATIONS_ENDPOINT, APPLICATION_INITIALIZE_ENDPOINT } from '../constants';
 
 class Application extends Component {
   constructor(props){
@@ -180,12 +177,15 @@ class Application extends Component {
     if (this.invalidValues()) return;
 
     this.persistApp(new Date())
-      .then(resp => resp.json())
+      .then(resp => {
+        if (!resp.ok) throw new Error("HTTP status " + resp.status);
+        return resp.json()
+      })
       .then(() => this.props.history.push({
         pathname: '/dashboard',
         state: { dataRefresh: true }
       }))
-      .catch((err) => {
+      .catch((_err) => {
         this.setState({ errorText: 'Something has gone wrong, please contact support@galvanize.com' });
       })
   }
@@ -303,12 +303,12 @@ class Application extends Component {
               </p>
               <div className="application-form">
                 {this.renderSteps()}
+                {this.state.errorText && <p className="error-msg">{this.state.errorText}</p>}
                 <div className="action">
                   <button className="button-secondary" type="submit" onClick={this.onSave}>{this.state.saveButtonText}</button>
                   <button className="button-primary" type="submit" onClick={this.onSubmit}>Submit</button>
                 </div>
               </div>
-              {this.state.errorText && <p className="error-msg">{this.state.errorText}</p>}
             </div>
           </div>
         </div>

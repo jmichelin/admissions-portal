@@ -13,7 +13,8 @@ export default (props) => (
         pathname: `${props.step.buttonPath}`,
         state: { opp: props.opp },
         override: props.step.override
-      }}>
+      }}
+      >
         <button className="button-primary">
           {props.step.buttonText}
         </button>
