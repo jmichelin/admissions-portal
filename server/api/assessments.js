@@ -95,7 +95,9 @@ function noRunningTests(req, res, next) {
     .then((processing) => {
       if (processing.length > 0 && processing[0].count > 0) {
         Q.errorOutStaleAssessments(req.user.id).then(() => {
-          return res.status(401).send({error: 'You already are running a test!'})
+          res.status(401);
+          const error = new Error('You are already running a test!');
+          next(error)
         })
       } else {
         next()

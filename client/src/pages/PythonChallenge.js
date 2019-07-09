@@ -141,19 +141,18 @@ class PythonChallenge extends Component {
       if (response.ok) {
         return response.json().then((data) => {
           this.setState({ showProcessing: true, runningTestId: data.id });
-          this.pollForChallenge(data.id)
+          this.pollForChallenge(data.id);
         })
       }
       return response.json().then(error => {
-        console.log(error);
-        throw new Error()
+        throw new Error(error.message)
       })
 
     }).then(result => {
       this.setState({ attemptSubmitted: true });
     })
     .catch(err => {
-      this.setState({ errorMessage: SUPPORT_ERROR_MESSAGE });
+      this.setState({ errorMessage: err.message || SUPPORT_ERROR_MESSAGE });
     })
   }
 
