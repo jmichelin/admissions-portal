@@ -450,3 +450,5 @@ export const SNIPPET_2 = {
   placeholder: PLACEHOLDER_2,
   question: `You have some numeric data stored in a dictionary. The data could represent any number of things, for example, people's names and their height in inches, or cities and their populations. Complete the function below to return all the keys of the dictionary where their associated values are greater than or equal to some cutoff.`
 };
+
+export const SUPPORT_ERROR_MESSAGE = "Uh oh! There was a processing error. Please contact support@galvanize.com"
