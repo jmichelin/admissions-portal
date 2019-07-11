@@ -4,28 +4,26 @@ import moment from 'moment';
 const CAMPUS_FETCH_URL = '/api/v1/campuses';
 
 const getOfferings = async (campus, courseType, courseProduct) => {
-  console.log('campus', campus, courseType, courseProduct);
   if (!campus || !courseType || !courseProduct) return [];
   let offerings = await fetch(`${CAMPUS_FETCH_URL}/${encodeURI(campus)}`, {
     headers: { Authorization: `Bearer ${localStorage.token}`}
   })
     .then(res => res.json())
     .then(result => {
-      console.log('result', result);
       return result.filter(c => {
-        if (c.courseProduct === 'Web Development') courseProduct = 'Web Development';
+        //normalize Full Stack from Leads for Web Development as Course Product on Courses
+        if (courseProduct === 'Full Stack') courseProduct = 'Web Development';
         // if 18wk campus return only 18wk courses otherwise return 12wk courses
           if (courseProduct === 'Web Development' && CAMPUSES_SEI_18WK.includes(campus)) {
             return c.courseType === '18 Week Full-Time Immersive' && c.courseProduct === courseProduct;
           } else if (courseProduct === 'Web Development' && campus === 'Remote') {
             return ((c.courseType === '12 Week Full-Time Immersive' || c.courseType === '36 Week Part-Time Immersive') && c.courseProduct === courseProduct);
           } else {
-            //normalize Full Stack from Leads for Web Development as Course Product on Courses
             return c.courseType === courseType && c.courseProduct === courseProduct;
           }
       }).map((offering) => {
         console.log('offering', offering);
-        return { value: offering.courseName, name: `${moment(offering.startDate).format('MMM DD, YYYY')} ${offering.courseType === `36 Week Part-Time Immersive` ? 'Part-Time' : ''}` };
+        return { value: offering.courseName, name: `${moment(offering.startDate).format('MMM DD, YYYY')} ${offering.courseType === `36 Week Part-Time Immersive` ? '(Part-Time)' : ''}` };
       });
     });
   return offerings;
