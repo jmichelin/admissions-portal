@@ -8,6 +8,8 @@ import InputGroup from '../components/forms/input-group';
 import Label from '../components/forms/label';
 import Select from '../components/forms/select';
 import Schema from '../helpers/validations';
+import LoadingWheel from '../components/base/LoadingWheel';
+
 import { APPLICATION_INPUTS } from '../components/forms/inputs/application-inputs';
 import { APPLICATIONS_ENDPOINT, APPLICATION_INITIALIZE_ENDPOINT } from '../constants';
 
@@ -32,12 +34,14 @@ class Application extends Component {
 
     this.state = {
       campus: '',
+      program: program,
       courseType: program.courseType || program.course_type,
       courseProduct: program.courseProduct|| program.course_product,
       admissionsProcess: program.admissionsProcess,
       steps: inputs ? inputs.formFields: [],
       values: values,
       errors: {},
+      isLoading: true,
       submitAttempted: false,
       saveButtonText: 'Save',
       errorText: null,
@@ -70,7 +74,7 @@ class Application extends Component {
         if (resp.complete) return this.props.history.push('/dashboard');
         if (resp.values) {
           Object.keys(resp.values).forEach(key => this.checkDependencies(key, resp.values[key]));
-          this.setState((prevState) => ({ values: {...prevState.values, ...resp.values }, applicationId: resp.id }) )
+          this.setState((prevState) => ({ values: {...prevState.values, ...resp.values }, applicationId: resp.id, isLoading: false }) )
         }
       })
 
@@ -296,19 +300,28 @@ class Application extends Component {
             <div className="portal-inner">
               <Hero
                 headline={'Complete Your Application'}
-                description={''}
+                description={this.state.program.formalName}
               />
               <Breadcrumb refreshData={true} />
-              <p className="come-back-message">
-                You can always click &quot;Save&quot; and come back to finish at a later time...
-              </p>
               <div className="application-form">
-                {this.renderSteps()}
-                {this.state.errorText && <p className="error-msg">{this.state.errorText}</p>}
-                <div className="action">
-                  <button className="button-secondary" type="submit" onClick={this.onSave}>{this.state.saveButtonText}</button>
-                  <button className="button-primary" type="submit" onClick={this.onSubmit}>Submit</button>
-                </div>
+                {!this.state.isLoading ?
+                  <>
+                  <p className="header-description">
+                    This application is one page and takes a few minutes to complete.  After you submit your application you'll be taken back to the dashboard to complete the rest of the admissions process.  You can always click &quot;Save&quot; and come back to finish at a later time.
+                  </p>
+                  {this.renderSteps()}
+                  {this.state.errorText && <p className="error-msg">{this.state.errorText}</p>}
+                  <div className="action">
+                    <button className="button-secondary" type="submit" onClick={this.onSave}>{this.state.saveButtonText}</button>
+                    <button className="button-primary" type="submit" onClick={this.onSubmit}>Submit</button>
+                  </div>
+                  </>:
+                  <div className="program-select column-headline">
+                    <h4 className="column-headline">Loading your application...</h4>
+                    <LoadingWheel/>
+                  </div>
+                }
+
               </div>
             </div>
           </div>
