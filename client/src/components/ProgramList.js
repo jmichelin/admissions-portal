@@ -14,8 +14,7 @@ const modalStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    height: '225px',
-    width: '500px',
+    zIndex: '2'
   }
 };
 
@@ -29,7 +28,7 @@ class ProgramList extends Component {
   showModal = (application) => {
     this.setState({ modalOpen: true, appForDeletion: application });
   };
-  
+
   hideModal = () => {
     this.setState({ modalOpen: false, appForDeletion: null });
   };
@@ -48,7 +47,7 @@ class ProgramList extends Component {
       this.props.getData(true);
     } catch (_err) {
       this.setState({
-        appDeleteError: 'Sorry, there was an error deleting your application. Please contact dev@galvanize.com',
+        appDeleteError: 'Sorry, there was an error deleting your application. Please contact support@galvanize.com',
         modalOpen: false,
         appForDeletion: null,
       });
@@ -70,10 +69,10 @@ class ProgramList extends Component {
           <div className="modal-content-wrapper">
             <h4>Are you sure you want to delete this application?</h4>
             <div className="modal-buttons">
-              <button className="cancel-button" onClick={this.hideModal}>
+              <button className="button-secondary" onClick={this.hideModal}>
                 Cancel
               </button>
-              <button className="delete-button" onClick={() => this.deleteApplication(appForDeletion)}>
+              <button className="button-primary" onClick={() => this.deleteApplication(appForDeletion)}>
                 Delete
               </button>
             </div>
@@ -93,25 +92,20 @@ class ProgramList extends Component {
             {applications.map((application, i) => (
               <div className="application-row" key={i}>
                 {application.currentStep.step === 1 && (
-                  <div className="delete-application">
-                    <button onClick={() => this.showModal(application)}>
-                      X
-                    </button>
-                  </div>
-                )}
                 <ul className="table-row -listing">
                   <li>{application.formalName}</li>
                   <li className="hide-mobile">{application.values ? application.values.Campus__c : application.campus}</li>
                   <li className="hide-mobile">{moment(application.courseStart).format('MM/DD/YYYY')}</li>
                   <li className="hide-tablet">{application.currentStep ? application.currentStep.status : 'Talk to Your Enrollment Officer'}</li>
                 </ul>
+                )}
                 {i < 1 && (
                   <AdmissionsProcessSteps
                     admissionsProcess={application.admissionsProcess}
                     activeStep={application.currentStep}
                   />
                 )}
-                <NextStepBlock opp={application} step={application.currentStep} />
+                <NextStepBlock opp={application} step={application.currentStep} showModal={this.showModal}/>
                 {i < 1 && (application.courseProduct === 'Data Science' ? <ResourcesDSI /> : <ResourcesSEI />)}
               </div>
             ))}
