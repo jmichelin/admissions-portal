@@ -127,8 +127,10 @@ module.exports = {
   },
 
   updateCampus: function(campus) {
+    const courses = _filterCourses(campus.courses)
+
     return knex('campus')
-      .update({ offerrings: JSON.stringify(campus.courses) })
+      .update({ offerrings: JSON.stringify(courses) })
       .where({name: campus.campus})
   },
 
@@ -219,8 +221,7 @@ module.exports = {
 
 function _filterCourses(courses) {
   return courses.filter(course => {
-    // filter course by campus and subsequent course type and course product, and course with start date in future
-    return course;
+    return Date.parse(course.startDate) > Date.now() && course.courseType.includes('Immersive') && !course.courseType.includes('Specialty Immersive');
   });
 }
 

@@ -3,14 +3,21 @@ import moment from 'moment';
 
 const CAMPUS_FETCH_URL = '/api/v1/campuses';
 
-const getOfferings = async (field) => {
-  if (!field) return [];
-  let offerings = await fetch(`${CAMPUS_FETCH_URL}/${encodeURI(field)}`, {
+const getOfferings = async (campus, courseType, courseProduct) => {
+  console.log('campus', campus, courseType, courseProduct);
+  if (!campus || !courseType || !courseProduct) return [];
+  let offerings = await fetch(`${CAMPUS_FETCH_URL}/${encodeURI(campus)}`, {
     headers: { Authorization: `Bearer ${localStorage.token}`}
   })
     .then(res => res.json())
     .then(result => {
-      return result.map((offering) => {
+      console.log('result', result);
+      return result.filter(c => {
+        //normalize Full Stack from Leads for Web Development as Course Product on Courses
+        if (c.courseProduct === 'Web Development') courseProduct = 'Web Development';
+        return c.courseType === courseType && c.courseProduct === courseProduct
+      }).map((offering) => {
+        console.log('offering', offering);
         return { value: offering.courseName, name: moment(offering.startDate).format('MMM DD, YYYY') }
       });
     });

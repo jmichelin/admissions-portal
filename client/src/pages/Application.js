@@ -56,7 +56,7 @@ class Application extends Component {
 
     if (this.props.location.state && this.props.location.state.campus) campus = this.props.location.state.campus;
     if (this.props.location.state.opp && this.props.location.state.opp.values && this.props.location.state.opp.values.Campus__c) campus = this.props.location.state.opp.values.Campus__c;
-
+    this.setState({campus:campus})
 
     fetch(endpoint, {
       method: 'POST',
@@ -73,6 +73,7 @@ class Application extends Component {
       .then((resp) => {
         if (resp.complete) return this.props.history.push('/dashboard');
         if (resp.values) {
+          console.log('resonse', resp.values);
           Object.keys(resp.values).forEach(key => this.checkDependencies(key, resp.values[key]));
           this.setState((prevState) => ({ values: {...prevState.values, ...resp.values }, applicationId: resp.id, isLoading: false }) )
         }
@@ -96,7 +97,7 @@ class Application extends Component {
     // check dependencies
     this.state.steps.forEach((step) => {
       if (step.dependentField === fieldName) {
-        step.dependentProcess(value)
+        step.dependentProcess(value, this.state.courseType, this.state.courseProduct)
           .then((options) => {
             // only using for select, so update options
             this.setState({
