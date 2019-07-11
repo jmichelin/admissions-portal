@@ -222,6 +222,8 @@ module.exports = {
 function _filterCourses(courses) {
   return courses.filter(course => {
     return Date.parse(course.startDate) > Date.now() && course.courseType.includes('Immersive') && !course.courseType.includes('Specialty Immersive');
+  }).sort((a,b) => {
+    return new Date(a.startDate) - new Date(b.startDate);
   });
 }
 

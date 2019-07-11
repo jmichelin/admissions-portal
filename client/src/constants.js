@@ -486,3 +486,5 @@ export const PROGRAM_SELECT_TEXT = {
   citationText1: "Once you submit an application you can proceed within this portal to complete the next step in your program's admissions process.",
 };
 export const SUPPORT_ERROR_MESSAGE = "Uh oh! There was a processing error. Please contact support@galvanize.com"
+
+export const CAMPUSES_SEI_18WK = ['Phoenix-Warehouse District', 'Seattle-Pioneer Square', 'Denver-Platte', 'Boulder-Walnut St.'];

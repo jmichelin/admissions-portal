@@ -18,12 +18,15 @@ class Application extends Component {
     super(props);
 
     let program = {};
-    let inputs, values;
+    let inputs, values, courseType;
     if (props.location.state) {
       program = props.location.state.program ? props.location.state.program : props.location.state.opp;
       if(program.course_product) program.courseProduct = program.course_product;
       if(program.course_type) program.courseType = program.course_type;
-      inputs = APPLICATION_INPUTS.find(app => (app.courseProduct === program.courseProduct) && (app.courseType === program.courseType));
+      courseType = program.courseType === '18 Week Full-Time Immersive' ? '12 Week Full-Time Immersive' : program.courseType;
+      inputs = APPLICATION_INPUTS.find(app => (
+        (app.courseProduct === program.courseProduct) && (app.courseType === courseType)
+      ));
       if (inputs) {
         values = inputs.formFields.reduce((result, currentVal) => {
           result[currentVal["fieldName"]] = '';
@@ -35,8 +38,8 @@ class Application extends Component {
     this.state = {
       campus: '',
       program: program,
-      courseType: program.courseType || program.course_type,
-      courseProduct: program.courseProduct|| program.course_product,
+      courseType: courseType,
+      courseProduct: program.courseProduct,
       admissionsProcess: program.admissionsProcess,
       steps: inputs ? inputs.formFields: [],
       values: values,
@@ -50,7 +53,7 @@ class Application extends Component {
   }
 
   componentDidMount() {
-    if (!this.state.courseType || !this.state.courseProduct || !this.state.values) return this.props.history.push('/dashboard')
+    if (!this.state.courseType || !this.state.courseProduct || !this.state.values) return this.props.history.push('/dashboard');
     const endpoint = `${APPLICATION_INITIALIZE_ENDPOINT}/type/${encodeURIComponent(this.state.courseType)}/product/${encodeURIComponent(this.state.courseProduct)}`
     let campus;
 
