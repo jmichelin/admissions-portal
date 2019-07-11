@@ -12,7 +12,7 @@ export default (props) => {
         </a>
         : null;
 
-  let deleteButton = props.showModal && props.opp ?
+  let deleteButton = props.showModal && props.opp.currentStep.step === 1 ?
         <div className="modal-button">
           <button className="-inline -white" onClick={() => props.showModal(props.opp)}>
             Delete Application
