@@ -44,7 +44,7 @@ describe('api assessments', () => {
       Testing.userWithProcessingAssessment().then((result) => {
         request(app)
           .get(`/api/v1/assessments/${result.assessmentId}`)
-          .set('Authorization', `Bearer ${result.token}`) 
+          .set('Authorization', `Bearer ${result.token}`)
           .send()
           .expect(200)
           .end((err, res) => {
@@ -82,7 +82,7 @@ describe('api assessments', () => {
       Testing.userWithProcessingAssessment().then((result) => {
         request(app)
           .patch(`/api/v1/assessments/${result.assessmentId}/cancel`)
-          .set('Authorization', `Bearer ${result.token}`) 
+          .set('Authorization', `Bearer ${result.token}`)
           .send({})
           .expect(200)
           .end((err, res) => {
@@ -120,7 +120,7 @@ describe('api assessments', () => {
       Testing.testUser().then((token) => {
         request(app)
           .post('/api/v1/assessments')
-          .set('Authorization', `Bearer ${token}`) 
+          .set('Authorization', `Bearer ${token}`)
           .send({"snippet_id": 1,"answer": "def dogs"})
           .expect(200)
           .end((err, res) => {
@@ -143,16 +143,14 @@ describe('api assessments', () => {
       Testing.userWithProcessingAssessment().then((result) => {
         request(app)
           .post('/api/v1/assessments')
-          .set('Authorization', `Bearer ${result.token}`) 
+          .set('Authorization', `Bearer ${result.token}`)
           .send({"snippet_id": 1,"answer": "def dogs"})
           .expect(401)
           .end((err, res) => {
             if (err) return done(err);
-            expect(res.body.error).to.eq('You already are running a test!')
             done()
           });
       })
     });
   });
 });
-

@@ -5,7 +5,7 @@ const Q = require('../db/queries');
 import { SNIPPET_1, SNIPPET_2 } from '../constants';
 import Assessments from '../lib/assessments';
 
-router.get('/user', (req, res) => {
+router.get('/user', (req, res, next) => {
   Q.getUserLatestAssessment(req.user.id)
     .then((latestAsessments) => res.json(latestAsessments))
     .catch(() => {
@@ -15,7 +15,7 @@ router.get('/user', (req, res) => {
     });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', (req, res, next) => {
   Q.getAssessment(req.params.id)
     .then((assessment) => {
       if (assessment === undefined || assessment.user_id !== req.user.id) {
@@ -32,7 +32,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.patch('/:id/cancel', (req, res) => {
+router.patch('/:id/cancel', (req, res, next) => {
   Q.getAssessment(req.params.id)
     .then((assessment) => {
       if (assessment.user_id !== req.user.id) {
@@ -82,7 +82,7 @@ router.post('/', noRunningTests, (req, res, next) => {
    })
    .catch(() => {
      res.status(501);
-     const error = new Error('Error saving assessment.');
+     const error = new Error('Error running assessment.');
      next(error);
    });
 });
@@ -92,7 +92,9 @@ function noRunningTests(req, res, next) {
     .then((processing) => {
       if (processing.length > 0 && processing[0].count > 0) {
         Q.errorOutStaleAssessments(req.user.id).then(() => {
-          return res.status(401).send({ error: 'You already are running a test!' })
+          res.status(401);
+          const error = new Error('You are already running a test!');
+          next(error)
         })
       } else {
         next()

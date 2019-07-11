@@ -9,8 +9,9 @@ import {
   UPDATE_OPP_ENDPOINT,
   UPDATE_SCORECARD_ENDPOINT,
   PYTHON_CHALLENGE_ENDPOINT,
+  SUPPORT_ERROR_MESSAGE,
   DSI_STEPS,
-  HERO_TEXT,
+  HERO_TEXT
 } from '../constants';
 import { SNIPPET_1, SNIPPET_2 } from '../constants';
 import CodeEditor from '../components/CodeEditor';
@@ -26,6 +27,7 @@ class PythonChallenge extends Component {
       allPassed: false,
       submittingCode: false,
       errorMessage: "",
+      submitErrorMessage: "",
       redirectToDashboard: false,
       attemptSubmitted: false,
       runningTestId: null,
@@ -82,7 +84,7 @@ class PythonChallenge extends Component {
         },
       }).then(response => {
         if (response.ok) {
-          response.json().then((data) => {
+          return response.json().then((data) => {
             let snippet1Placeholder = SNIPPET_1.placeholder
             let snippet2Placeholder = SNIPPET_2.placeholder
             let ch1Status = ""
@@ -112,6 +114,12 @@ class PythonChallenge extends Component {
             })
           })
         }
+        return response.json().then(error => {
+          throw new Error()
+        })
+      })
+      .catch(err => {
+        this.setState({ errorMessage: SUPPORT_ERROR_MESSAGE });
       })
     } else {
       this.setState({ redirectToDashboard: true })
@@ -119,6 +127,8 @@ class PythonChallenge extends Component {
   }
 
   testCode(code, e, snippetId) {
+    this.setState({ errorMessage: '' });
+
     let data = {
       answer: code,
       snippet_id: snippetId
@@ -132,16 +142,20 @@ class PythonChallenge extends Component {
       },
     }).then(response => {
       if (response.ok) {
-        response.json().then((data) => {
+        return response.json().then((data) => {
           this.setState({ showProcessing: true, runningTestId: data.id });
-          this.pollForChallenge(data.id)
+          this.pollForChallenge(data.id);
         })
-        return
-      } else {
-        this.setState({ errorMessage: "err" });
       }
+      return response.json().then(error => {
+        throw new Error(error.message)
+      })
+
     }).then(result => {
       this.setState({ attemptSubmitted: true });
+    })
+    .catch(err => {
+      this.setState({ errorMessage: err.message || SUPPORT_ERROR_MESSAGE });
     })
   }
 
@@ -154,7 +168,7 @@ class PythonChallenge extends Component {
       },
     }).then(response => {
       if (response.ok) {
-        response.json().then((data) => {
+        return response.json().then((data) => {
           if (data.status === "processing") {
             setTimeout(()=>{
               this.pollForChallenge(data.id)
@@ -188,10 +202,13 @@ class PythonChallenge extends Component {
             }
           }
         })
-        return
-      } else {
-        this.setState({ errorMessage: "err" });
       }
+      return response.json().then(error => {
+        throw new Error()
+      })
+    })
+    .catch(err => {
+      this.setState({ errorMessage: SUPPORT_ERROR_MESSAGE });
     })
   }
 
@@ -205,12 +222,15 @@ class PythonChallenge extends Component {
       },
     }).then(response => {
       if (response.ok) {
-        response.json().then((data) => {
+        return response.json().then((data) => {
         })
-        return
-      } else {
-        this.setState({ errorMessage: "err" });
       }
+      return response.json().then(error => {
+        throw new Error()
+      })
+    })
+    .catch(err => {
+      this.setState({ errorMessage: SUPPORT_ERROR_MESSAGE });
     })
   }
 
@@ -236,19 +256,22 @@ class PythonChallenge extends Component {
         if (response.ok) {
           return response.json()
         }
-        throw new Error();
+        return response.json().then(error => {
+          throw new Error(error.message)
+        })
       }).then(result => {
         let stageUpdate = DSI_STEPS.STEP_THREE;
         this.props.statusUpdate(this.state.opp.id, stageUpdate)
         this.setState({ submittingCode: false, redirectToDashboard:true});
       }).catch(err => {
+
         this.setState({
-          errorMessage: err.message, submittingCode: false
+          submitErrorMessage: err.message, submittingCode: false
         })
       })
     } else {
       this.setState({
-        errorMessage: 'There was an error submitting your code. Please try again.'
+        submitErrorMessage: 'There was an error submitting your code. Please try again.'
       })
     }
   }
@@ -303,7 +326,7 @@ class PythonChallenge extends Component {
                   useResetInput={true}
                   cancelEndpoint={this.cancelRunningChallenge}
                   mode="python"
-                  errorMessage={this.state.ch1Status}
+                  errorMessage={this.state.errorMessage || this.state.ch1Status}
                   allPassed={this.state.allPassed}
                   showProcessing={this.state.showProcessing}
                   submittingCode={this.state.submittingCode}
@@ -327,7 +350,7 @@ class PythonChallenge extends Component {
                   useResetInput={true}
                   cancelEndpoint={this.cancelRunningChallenge}
                   mode="python"
-                  errorMessage={this.state.ch2Status}
+                  errorMessage={this.state.errorMessage || this.state.ch2Status}
                   allPassed={this.state.allPassed}
                   showProcessing={this.state.showProcessing}
                   submittingCode={this.state.submittingCode}
@@ -337,14 +360,10 @@ class PythonChallenge extends Component {
               </div>
             </div>
             <div style={{textAlign: "center"}}>
-              <button
-                className={this.state.submittingCode ? "button-primary -loading" : "button-secondary"}
-                disabled={!this.state.allPassed}
-                onClick={(e) => this.codeSubmit(e)}>
-                  Submit Code
-              </button>
-              <br/>
-              <br/>
+              <button className={this.state.submittingCode ? "button-primary -loading" : "button-secondary"} disabled={!this.state.allPassed} onClick={ (e) => this.codeSubmit(e) }>Submit Code</button>
+              <div className="error-wrapper">
+                <br></br>
+                <span className="form note form-error">{ this.state.submitErrorMessage }</span></div>
             </div>
           </div>
         </div>

@@ -484,3 +484,4 @@ export const PROGRAM_SELECT_TEXT = {
   heroDescription: 'Manage your application, see next steps and complete the admissions process from here.',
   citationText1: "Once you submit an application you can proceed within this portal to complete the next step in your program's admissions process.",
 };
+export const SUPPORT_ERROR_MESSAGE = "Uh oh! There was a processing error. Please contact support@galvanize.com"
