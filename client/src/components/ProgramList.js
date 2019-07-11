@@ -8,7 +8,7 @@ import ResourcesDSI from './ResourcesDsi';
 
 const modalStyles = {
   content : {
-    top: '50%',
+    top: '45%',
     left: '50%',
     right: 'auto',
     bottom: 'auto',

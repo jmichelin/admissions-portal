@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Prompt, withRouter } from 'react-router-dom';
 import Joi from 'joi';
-import AdmissionsProcessSteps from '../components/AdmissionsProcessSteps';
 import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
 import Checkbox from '../components/forms/checkbox';
@@ -300,7 +299,6 @@ class Application extends Component {
                 description={''}
               />
               <Breadcrumb refreshData={true} />
-              <AdmissionsProcessSteps admissionsProcess={this.state.admissionsProcess} />
               <p className="come-back-message">
                 You can always click &quot;Save&quot; and come back to finish at a later time...
               </p>
