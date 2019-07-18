@@ -1,5 +1,4 @@
 import { CAMPUSES } from '../../../constants';
-import { APPLICATION_INPUTS } from './application-inputs';
 
 const getPrograms = (campus) => {
   const campusObj = CAMPUSES.find(c => c.sfdcName === campus)
@@ -59,7 +58,7 @@ function getCreateAccountInputs() {
       label: 'Preferred Program',
       type: 'select',
       value: '',
-      options: APPLICATION_INPUTS,
+      options: [],
       errorMessage: 'Select a program.',
       dependentField: "campus",
       dependentProcess: getPrograms,

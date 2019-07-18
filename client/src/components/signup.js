@@ -5,7 +5,7 @@ import InputGroup from './forms/input-group';
 import Checkbox from './forms/checkbox';
 import Select from './forms/select';
 import HRLogo from '../assets/images/hack-reactor-horizontal-logo.png';
-import { APPLICATION_INPUTS } from './forms/inputs/application-inputs';
+import { AVAILABLE_PROGRAMS } from '../constants';
 import utils from '../helpers/utils';
 import Joi from 'joi';
 const phoneJoi = Joi.extend(require('joi-phone-number'));
@@ -59,6 +59,16 @@ class Signup extends Component {
         [fieldName]: value
       },
     }));
+
+    if (fieldName === "campus") {
+      this.setState(prevState => ({
+        ...prevState,
+        values: {
+          ...prevState.values,
+          program: ""
+        },
+      }));
+    }
   }
 
   validUser = (data) => {
@@ -66,7 +76,7 @@ class Signup extends Component {
     if (this.state.values.confirmed_password !== this.state.values.password) return false;
     if (this.state.values.terms === false) return false;
     if (result.error) return false
-      
+
     return true
   }
 
@@ -89,7 +99,7 @@ class Signup extends Component {
     this.setState({ submitAttempted: true, isLoading: true })
 
     const { first_name, last_name, email, password, program, campus, phone } = this.state.values;
-    const { courseType, courseProduct } = APPLICATION_INPUTS.find(e => e.name === program) || { courseType: undefined, courseProduct: undefined }
+    const { courseType, courseProduct } = AVAILABLE_PROGRAMS.find(e => e.courseType === program) || { courseType: undefined, courseProduct: undefined }
     const formData = { first_name, last_name, email, password, program, campus, phone, courseType, courseProduct }
 
     // set courseType and courseProduct from Application Inputs to send to server

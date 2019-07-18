@@ -24,6 +24,32 @@ export const SF_DSI_SYLLABUS_CAMPAIGN_ID = process.env.SF_DSI_SYLLABUS_CAMPAIGN_
 export const SF_DSI_APPLICATION_CAMPAIGN_ID = process.env.SF_DSI_APPLICATION_CAMPAIGN_ID;
 export const SF_NEWSLETTER_CAMPAIGN_ID = process.env.SF_NEWSLETTER_CAMPAIGN_ID;
 
+const DSI_IMMERSIVE = {
+    courseName: 'Data Science Immersive',
+    courseType: '13 Week Full-Time Immersive',
+    courseProduct: 'Data Science'
+  };
+
+const SEI_IMMERSIVE = {
+    courseName: 'Software Engineering Immersive',
+    courseType: '12 Week Full-Time Immersive',
+    courseProduct: 'Full Stack'
+  };
+
+const SEI_IMMERSIVE_EXTENDED = {
+    courseName: 'Software Engineering Immersive',
+    courseType: '18 Week Full-Time Immersive',
+    courseProduct: 'Full Stack'
+  };
+
+const SEI_IMMERSIVE_PART_TIME = {
+    courseName: 'Part-Time Software Engineering Immersive',
+    courseType: '36 Week Full-Time Immersive',
+    courseProduct: 'Full Stack'
+  };
+
+export const AVAILABLE_PROGRAMS = [DSI_IMMERSIVE, SEI_IMMERSIVE, SEI_IMMERSIVE_EXTENDED, SEI_IMMERSIVE_PART_TIME];
+
 export const CAMPUSES = [
   {
     name: 'austin',
@@ -38,7 +64,7 @@ export const CAMPUSES = [
     ycbmLink: 'https://atx-interviews.youcanbook.me',
     ycbmId:'ycbmiframeatx-interviews',
     location: '2nd Street District',
-    programs: [{name: 'Software Engineering Immersive'}]
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE]
   },
   {
     name: 'boulder',
@@ -53,7 +79,7 @@ export const CAMPUSES = [
     ycbmLink: 'https://agn-interviews.youcanbook.me',
     ycbmId:'ycbmiframeagn-interviews',
     location: 'Walnut',
-    programs: [{name: 'Software Engineering Immersive'}]
+    programs: [SEI_IMMERSIVE_EXTENDED]
   },
   {
     name: 'denver-platte',
@@ -68,7 +94,7 @@ export const CAMPUSES = [
     ycbmLink: 'https://agn-interviews.youcanbook.me',
     ycbmId:'ycbmiframeagn-interviews',
     location: 'Platte',
-    programs: [{name:'Software Engineering Immersive'}, {name: 'Data Science Immersive'}]
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE_EXTENDED]
   },
   {
     name: 'new-york',
@@ -83,7 +109,7 @@ export const CAMPUSES = [
     ycbmLink: 'https://nyc-interviews.youcanbook.me',
     ycbmId:'ycbmiframenyc-interviews',
     location: 'West SoHo',
-    programs: [{name: 'Software Engineering Immersive'}]
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE]
   },
   {
     name: 'phoenix',
@@ -98,7 +124,7 @@ export const CAMPUSES = [
     ycbmLink: 'https://agn-interviews.youcanbook.me',
     ycbmId:'ycbmiframeagn-interviews',
     location: 'Warehouse District',
-    programs: [{name: 'Software Engineering Immersive'}]
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE_EXTENDED]
   },
   {
     name: 'los-angeles',
@@ -113,7 +139,7 @@ export const CAMPUSES = [
     ycbmLink: 'https://la-interviews.youcanbook.me',
     ycbmId:'ycbmiframela-interviews',
     location: 'Los Angeles',
-    programs: [{name: 'Software Engineering Immersive'}]
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE]
   },
   {
     name: 'san-francisco',
@@ -128,7 +154,7 @@ export const CAMPUSES = [
     ycbmLink: 'https://sf-interviews.youcanbook.me',
     ycbmId:'ycbmiframesf-interviews',
     location: 'SoMa',
-    programs: [{name:'Software Engineering Immersive'}, {name: 'Data Science Immersive'}]
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE]
   },
   {
     name: 'seattle',
@@ -143,7 +169,7 @@ export const CAMPUSES = [
     ycbmLink: 'https://agn-interviews.youcanbook.me',
     ycbmId:'ycbmiframeagn-interviews',
     location: 'Pioneer Square',
-    programs: [{name:'Software Engineering Immersive'}, {name: 'Data Science Immersive'}]
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE_EXTENDED]
   },
   {
     name: 'remote',
@@ -158,34 +184,9 @@ export const CAMPUSES = [
     ycbmLink: 'https://remote-interviews.youcanbook.me',
     ycbmId:'ycbmiframeremote-interviews',
     location: 'Remote',
-    programs: [{name: 'Software Engineering Immersive'}]
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE]
   }
 ];
-
-// TODO: process from application inputs instead
-export const FULL_TIME_PROGRAMS = [
-  {
-    name:'Data Science Immersive',
-    courseProduct: 'Data Science',
-    courseType: '13 Week Full-Time Immersive'
-  },
-  {
-    name:'Data Science Remote Immersive',
-    courseProduct: 'Data Science',
-    courseType: '13 Week Full-Time Immersive'
-  },
-  {
-    name:'Software Engineering Immersive',
-    courseProduct: 'Web Development',
-    courseType: '12 Week Full-Time Immersive'
-  },
-  {
-    name:'Part Time Software Engineering Immersive',
-    courseProduct: 'Web Development',
-    courseType: '36 Week Full-Time Immersive'
-  }
-];
-
 
 export const CODING_CHALLENGE_TESTS = `describe("declaredAnArray", function() {
 it("myArray is defined as an array", function() {
