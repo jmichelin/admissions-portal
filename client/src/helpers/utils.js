@@ -140,6 +140,7 @@ const PROGRAMS = {
 
 // TODO: This needs to be refactored - it never will resolve to default
 // but instead will break because of the course prod and course type ternarys
+// can refactor this to use the AVAILABLE_PROGRAMS constant in constants file
 function getStage(program) {
   let courseProducts = program.courseProduct ? PROGRAMS[program.courseProduct] : PROGRAMS[program.course_product];
   if (!courseProducts) {

@@ -11,10 +11,9 @@ class Dashboard extends Component {
     super(props);
 
     this.state = {
-      campusInputs: { options:[] },
       program: props.user.program || '',
       campus: props.user.campus || '',
-      errorMessage: '',
+      errorMessage: ''
     };
   }
 
@@ -28,13 +27,10 @@ class Dashboard extends Component {
 
   onProgramChange = (e) => {
     const program = e.target.value;
-    const campusInputs = this.campusInputs(program);
 
     this.setState({
       program: program,
-      campus: '',
-      errorMessage: '',
-      campusInputs,
+      errorMessage: ''
     });
   }
 
@@ -48,25 +44,6 @@ class Dashboard extends Component {
 
   formIsValid(data) {
     return !!data.program;
-  }
-
-  campusInputs(program = null) {
-    let campuses;
-
-    if (program) campuses = CAMPUSES.filter(c => c.programs.find(p => p.name === program))
-
-    return {
-      id: 'campus',
-      label: 'Campus',
-      type: 'select',
-      value: '',
-      options: campuses.map(campus => {
-        return {
-          name: `${campus.city}`,
-          value: campus.sfdcName
-        };
-      })
-    };
   }
 
   programInputs(applications = null) {
@@ -123,11 +100,10 @@ class Dashboard extends Component {
                       program={!this.props.applications.length ? this.state.program || this.props.user.program : this.state.program}
                       isValid={this.isValid}
                       onProgramChange={this.onProgramChange}
-                      campusInputs={this.state.campusInputs}
                       campus={!this.props.applications.length ? this.state.campus || this.props.user.campus : this.state.campus}
                       errorMessage={this.state.errorMessage}
                       onCampusChange={this.onCampusChange}
-                      programSelected={!!this.state.program || this.props.user.program}
+                      campusSelected={!!this.state.campus}
                       hasExistingApps={this.props.applications.length}
                     />
                   )}

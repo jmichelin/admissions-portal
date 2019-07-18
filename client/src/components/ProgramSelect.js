@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { PROGRAM_SELECT_TEXT } from '../constants';
+import { PROGRAM_SELECT_TEXT, CAMPUSES } from '../constants';
 import { APPLICATION_INPUTS } from './forms/inputs/application-inputs';
 import Select from '../components/forms/select';
 import utils from '../helpers/utils';
@@ -29,6 +29,19 @@ class ProgramSelect extends Component {
         <div className="form">
           <div className="form-group">
             <Select name="select-normal"
+              label='Select a Campus'
+              id="campus"
+              fieldName=""
+              options={CAMPUSES}
+              className="select"
+              showError={this.props.submitAttempted && !this.props.isValid('campus')}
+              currentSelection={this.props.campus}
+              value={this.props.campus}
+              onOptionClick={this.props.onCampusChange}
+            />
+          </div>
+          <div className="form-group">
+            <Select name="select-normal"
               label='Select a Program'
               fieldName=""
               options={this.props.programInputs.options}
@@ -37,20 +50,7 @@ class ProgramSelect extends Component {
               currentSelection={this.props.program}
               value={this.props.program}
               onOptionClick={this.props.onProgramChange}
-            />
-          </div>
-          <div className="form-group">
-            <Select name="select-normal"
-              label='Select a Campus'
-              id="campus"
-              fieldName=""
-              options={this.props.campusInputs.options}
-              className="select"
-              showError={this.props.submitAttempted && !this.props.isValid('campus')}
-              currentSelection={this.props.campus}
-              value={this.props.campus}
-              onOptionClick={this.props.onCampusChange}
-              disabled={!this.props.programSelected}
+              disabled={!this.props.campusSelected}
             />
           </div>
             <div className="action">
