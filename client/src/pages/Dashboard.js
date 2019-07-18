@@ -3,7 +3,7 @@ import Hero from '../components/hero';
 import ProgramSelect from '../components/ProgramSelect';
 import ProgramList from '../components/ProgramList';
 import LoadingWheel from '../components/base/LoadingWheel';
-import { CAMPUSES, HERO_TEXT } from '../constants';
+import { HERO_TEXT } from '../constants';
 import { APPLICATION_INPUTS } from '../components/forms/inputs/application-inputs';
 
 class Dashboard extends Component {

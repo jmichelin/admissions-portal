@@ -15,14 +15,13 @@ const getOfferings = async (campus, courseType, courseProduct) => {
         if (courseProduct === 'Full Stack') courseProduct = 'Web Development';
         // if 18wk campus return only 18wk courses otherwise return 12wk courses
           if (courseProduct === 'Web Development' && CAMPUSES_SEI_18WK.includes(campus)) {
-            return c.courseType === '18 Week Full-Time Immersive' && c.courseProduct === courseProduct;
+            return c.courseType === '18 Week Full-Time Immersive' && c.courseProduct === courseProduct && Date.parse(c.startDate) > Date.now()
           } else if (courseProduct === 'Web Development' && campus === 'Remote') {
-            return ((c.courseType === '12 Week Full-Time Immersive' || c.courseType === '36 Week Part-Time Immersive') && c.courseProduct === courseProduct);
+            return ((c.courseType === '12 Week Full-Time Immersive' || c.courseType === '36 Week Part-Time Immersive') && c.courseProduct === courseProduct && Date.parse(c.startDate) > Date.now())
           } else {
-            return c.courseType === courseType && c.courseProduct === courseProduct;
+            return c.courseType === courseType && c.courseProduct === courseProduct && Date.parse(c.startDate) > Date.now()
           }
       }).map((offering) => {
-        console.log('offering', offering);
         return { value: offering.courseName, name: `${moment(offering.startDate).format('MMM DD, YYYY')} ${offering.courseType === `36 Week Part-Time Immersive` ? '(Part-Time)' : ''}` };
       });
     });

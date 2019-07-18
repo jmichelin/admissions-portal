@@ -67,7 +67,10 @@ class App extends Component {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         })
           .then(res => res.json())
-          .then(result => { this.setApplications(result); })
+          .then(result => {
+            console.log(result);
+
+             this.setApplications(result); })
           .catch((err) => { console.log(err); this.clearData() })
       })
     } else {

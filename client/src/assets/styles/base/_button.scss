@@ -116,8 +116,9 @@
   &.-loading {
     /*@extend %hide-text;*/
     color: transparent;
-    background-image: url('https://s3-us-west-2.amazonaws.com/galvanize.com-dev/loader-black.svg');
+    background-image: url('https://s3-us-west-2.amazonaws.com/galvanize.com-dev/loader-white.svg');
     background-size: auto 70%;
+    background-color: $color-brand-primary;
   }
   &.-inverse {
     color: white;

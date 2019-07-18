@@ -144,6 +144,18 @@ module.exports = {
     return knex('campus').select('*')
   },
 
+  getCourseByName: function(courseName) {
+    // let subquery = knex('campus')
+    // .select(knex.raw(`jsonb_array_elements(offerrings) as off`))
+    // .distinct()
+    // return knex('campus')
+    // .select(knex.raw(`all_offerings.off`))
+    // .from(subquery)
+    // .where(knex.raw(`all_offerings.off->>'courseName' = '${courseName}'`))
+    // .first()
+     return knex.raw(`SELECT all_offerings.off FROM (SELECT jsonb_array_elements(offerrings) as off FROM campus) as all_offerings WHERE all_offerings.off->>'courseName' = '${courseName}' LIMIT 1;`)
+    },
+
   getApplication: function(id) {
     return knex('application')
       .select('*')

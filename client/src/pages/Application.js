@@ -49,6 +49,8 @@ class Application extends Component {
       saveButtonText: 'Save',
       errorText: null,
       unsavedChanges: false,
+      savingApp: false,
+      submittingApp: false
     };
   }
 
@@ -76,7 +78,6 @@ class Application extends Component {
       .then((resp) => {
         if (resp.complete) return this.props.history.push('/dashboard');
         if (resp.values) {
-          console.log('resonse', resp.values);
           Object.keys(resp.values).forEach(key => this.checkDependencies(key, resp.values[key]));
           this.setState((prevState) => ({ values: {...prevState.values, ...resp.values }, applicationId: resp.id, isLoading: false }) )
         }
@@ -168,11 +169,11 @@ class Application extends Component {
   }
 
   onSave = () => {
-    this.setState({ errorText: null });
+    this.setState({ errorText: null, savingApp: true });
     this.persistApp(null)
       .then(resp => resp.json())
       .then(() => {
-        this.setState({ saveButtonText: 'Saved!' });
+        this.setState({ savingApp: false, saveButtonText: 'Saved!' });
         setTimeout(() => {
           this.setState({ saveButtonText: 'Save' });
         }, 1000)
@@ -185,7 +186,7 @@ class Application extends Component {
   onSubmit = () => {
     this.setState({ errorText: null, submitAttempted: true });
     if (this.invalidValues()) return;
-
+    this.setState({ submittingApp: true });
     this.persistApp(new Date())
       .then(resp => {
         if (!resp.ok) throw new Error("HTTP status " + resp.status);
@@ -196,7 +197,7 @@ class Application extends Component {
         state: { dataRefresh: true }
       }))
       .catch((_err) => {
-        this.setState({ errorText: 'Something has gone wrong, please contact support@galvanize.com' });
+        this.setState({ submittingApp: false, errorText: 'Something has gone wrong, please contact support@galvanize.com' });
       })
   }
 
@@ -316,8 +317,8 @@ class Application extends Component {
                   {this.renderSteps()}
                   {this.state.errorText && <p className="error-msg">{this.state.errorText}</p>}
                   <div className="action">
-                    <button className="button-secondary" type="submit" onClick={this.onSave}>{this.state.saveButtonText}</button>
-                    <button className="button-primary" type="submit" onClick={this.onSubmit}>Submit</button>
+                    <button type="submit" onClick={this.onSave} className={this.state.savingApp ? "button-secondary -loading" : "button-secondary"}>{this.state.saveButtonText}</button>
+                    <button type="submit" onClick={this.onSubmit} className={this.state.submittingApp ? "button-primary -loading" : "button-primary"}>Submit</button>
                   </div>
                   </>:
                   <div className="program-select column-headline">

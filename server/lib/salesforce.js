@@ -14,6 +14,7 @@ import {
   IMMERSIVE_COURSE_TYPES
 } from '../constants';
 
+const Q = require('../db/queries');
 var dotenv = require('dotenv');
 var environment = process.env.NODE_ENV || 'development';
 if (environment === 'development' || environment === 'test') {
@@ -62,8 +63,12 @@ class Salesforce {
       await this.updateContact(contact);
 
       if (applicationComplete) {
-        let courseInfo = application.values.Which_dates_you_prefer_to_take_course__c;
-        await this.createOpp(user, courseInfo);
+        let courseInfo = await Q.getCourseByName(application.values.Which_dates_you_prefer_to_take_course__c);
+        if (courseInfo && courseInfo.rows && courseInfo.rows.length) {
+          await this.createOpp(user, courseInfo.rows[0].off);
+        } else {
+          throw new Error('Error retrieving correct course for opportunity.')
+        }
       }
     } else if (user.salesforce_type === "Lead"){
       let lead = {
@@ -199,10 +204,8 @@ class Salesforce {
 
   async getOpportunities(email) {
     await this.login();
-
     let opps = await this.oppQuery(email)
     if (!opps.length) return []
-
     let scorecardIds = opps.filter(opp => opp.scorecardId).map(opp => opp.scorecardId)
     let scorecards = await this.scorecardQueries(scorecardIds);
 
