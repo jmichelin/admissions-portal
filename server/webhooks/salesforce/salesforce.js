@@ -28,10 +28,11 @@ function reformatData(ogData) {
 
   ogData.forEach( course => {
     let cleanCourse = {}
-
+    console.log(course);
     cleanCourse.startDate = course['startDate'];
     cleanCourse.courseProduct = course['courseProduct'];
     cleanCourse.courseId = course['courseId'];
+    cleanCourse.campus = course['campus'];
     cleanCourse.cohortCode = course['cohortCode'];
     cleanCourse.courseName = course['courseName'];
     cleanCourse.courseType = course['courseType'];

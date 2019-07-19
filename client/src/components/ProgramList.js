@@ -91,14 +91,12 @@ class ProgramList extends Component {
           <div className="table-body">
             {applications.map((application, i) => (
               <div className="application-row" key={i}>
-                {application.currentStep.step === 1 && (
                 <ul className="table-row -listing">
                   <li>{application.formalName}</li>
                   <li className="hide-mobile">{application.values ? application.values.Campus__c : application.campus}</li>
                   <li className="hide-mobile">{moment(application.courseStart).format('MM/DD/YYYY')}</li>
                   <li className="hide-tablet">{application.currentStep ? application.currentStep.status : 'Talk to Your Enrollment Officer'}</li>
                 </ul>
-                )}
                 {i < 1 && (
                   <AdmissionsProcessSteps
                     admissionsProcess={application.admissionsProcess}

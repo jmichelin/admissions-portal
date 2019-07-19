@@ -110,7 +110,7 @@ class Dashboard extends Component {
                 </div>
               ) : (
                 <div className="program-select column-headline">
-                  <h4 className="column-headline">Looking for active applications...</h4>
+                  <h4 className="column-headline">Retrieving active applications...</h4>
                   <LoadingWheel/>
                 </div>
               )}

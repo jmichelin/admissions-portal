@@ -68,8 +68,6 @@ class App extends Component {
         })
           .then(res => res.json())
           .then(result => {
-            console.log(result);
-
              this.setApplications(result); })
           .catch((err) => { console.log(err); this.clearData() })
       })

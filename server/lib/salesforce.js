@@ -172,6 +172,7 @@ class Salesforce {
         Name: user.name + " " + courseInfo.cohortCode + " Application",
         CloseDate: new Date(),
         Course__c: courseInfo.courseId,
+        Campus__c: courseInfo.campus === 'Austin-2nd St District' ? 'Austin-2nd Street District' : courseInfo.campus,
         Student__c: user.salesforce_id,
         StageName: "New"
       };
