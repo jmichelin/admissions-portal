@@ -312,8 +312,7 @@ class Application extends Component {
                 {!this.state.isLoading ?
                   <>
                   <p className="header-description">
-                    This application is one page and takes a few minutes to complete.  After you submit your application you'll be taken back to the dashboard to complete the rest of the admissions process.  You can always click &quot;Save&quot; and come back to finish at a later time.
-                  </p>
+                  This application takes just a few minutes to complete. After submitting your application, you’ll be taken back to the dashboard to complete the rest of the admissions process. You can always click &quot;Save&quot; and come back to finish later.</p>
                   {this.renderSteps()}
                   {this.state.errorText && <p className="error-msg">{this.state.errorText}</p>}
                   <div className="action">

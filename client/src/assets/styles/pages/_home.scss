@@ -35,12 +35,20 @@
     margin-bottom: $space-and-half;
   }
 
+  .logo-wrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
   .program-logo {
     height: 40px;
     width: auto;
+    margin-bottom: 26px;
 
     &.-dsi {
-      height: 48px;
+      margin-top: -7px;
+      margin-bottom: 0;
     }
   }
   p  {

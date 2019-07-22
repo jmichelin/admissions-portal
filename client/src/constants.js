@@ -250,7 +250,7 @@ export const SEI_STEPS_12_WK = {
   STEP_ONE: {
     step: 1,
     status: 'Complete Your Application',
-    description: 'The first step in the admissions process for this program is to submit your application. The application asks for basic personal information and work background. Reach out to admissions@galvanize.com if you have any questions.',
+    description: 'For the first step in the admissions process, please answer a few questions about yourself to finish completing your application. If you have any questions, reach out to us at admissions@galvanize.com.',
     buttonPath: '/application',
     buttonText: 'Complete Your Application',
     blockClass:'-grey'
@@ -296,9 +296,10 @@ export const SEI_STEPS_18_WK = {
   STEP_ONE: {
     step: 1,
     status: 'Complete Your Application',
-    description: 'Complete your APP NOW',
+    description: 'For the first step in the admissions process, please answer a few questions about yourself to finish completing your application. If you have any questions, reach out to us at admissions@galvanize.com.',
     buttonPath: '/application',
-    buttonText: 'Complete your app NOW I SAID NOW',
+    buttonText: 'Complete Your Application',
+    blockClass:'-grey'
   },
   STEP_TWO: {
     step: 1.5,
@@ -350,7 +351,11 @@ export const SEI_STEPS_18_WK = {
 export const DSI_STEPS = {
   STEP_ONE: {
     step: 1,
-    status: 'Complete Your Application'
+    status: 'Complete Your Application',
+    description: 'For the first step in the admissions process, please answer a few questions about yourself to finish completing your application. If you have any questions, reach out to us at admissions@galvanize.com.',
+    buttonPath: '/application',
+    buttonText: 'Complete Your Application',
+    blockClass:'-grey'
   },
   STEP_TWO: {
     step: 2,
