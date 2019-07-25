@@ -151,7 +151,6 @@ class Application extends Component {
 
       if (validation.error !== null) errors[step.id] = step.errorMsg;
     });
-
     this.setState({ errors });
 
     return Object.keys(errors).length > 0
@@ -204,7 +203,6 @@ class Application extends Component {
         return resp.json()
       })
       .then((result) => {
-        console.log(result);
         this.props.history.push({
         pathname: '/dashboard',
         state: { dataRefresh: true }
@@ -216,7 +214,7 @@ class Application extends Component {
   }
 
   renderSelect(input, i) {
-    if (input.fieldName === "International__c" && this.state.isACitizen !== true) {
+    if (input.fieldName === "Authorize_to_work_in_US__c" && this.state.isACitizen !== true) {
       return null;
     }
     return (
