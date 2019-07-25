@@ -8,6 +8,7 @@ const CAMPUS_FETCH_URL = '/api/v1/campuses';
 
 const getOfferings = async (campus, courseType, courseProduct) => {
   if (!campus || !courseType || !courseProduct) return [];
+  if (campus === 'Austin-2nd Street District') campus = 'Austin-2nd St District';
   let offerings = await fetch(`${CAMPUS_FETCH_URL}/${encodeURI(campus)}`, {
       headers: {
         Authorization: `Bearer ${localStorage.token}`

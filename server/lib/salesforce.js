@@ -21,6 +21,8 @@ if (environment === 'development' || environment === 'test') {
   dotenv.config();
 }
 
+import sfdcUtils from './salesforce-utils';
+
 class Salesforce {
   constructor() {
     this.username = process.env.SF_USERNAME;
@@ -70,17 +72,18 @@ class Salesforce {
           throw new Error('Error retrieving correct course for opportunity.')
         }
       }
-    } else if (user.salesforce_type === "Lead"){
-      let lead = {
-        Id: user.salesforce_id,
-        Campus__c: application.values.Campus__c === 'Austin-2nd St District' ? 'Austin-2nd Street District' : application.values.Campus__c,
-        Product__c: application.course_product,
-        Status: "Started Application",
-        Which_dates_you_prefer_to_take_course__c: application.values.Which_dates_you_prefer_to_take_course__c,
-        Application_Completed__c: applicationComplete
-      }
-
-      await this.updateLead(lead);
+    } else if (user.salesforce_type === "Lead") {
+        let lead = application.values;
+        lead.Id = user.salesforce_id;
+        lead.Campus__c = sfdcUtils.normalizeAustin(application.values.Campus__c);
+        lead.Product__c = application.course_product;
+        lead.Status = "Started Application";
+        lead.Which_dates_you_prefer_to_take_course__c = application.values.Which_dates_you_prefer_to_take_course__c;
+        lead.Course_to_which_you_are_applying__c - sfdcUtils.reformatCourseToWhichApplying(application.course_product);
+        lead.Application_Completed__c = applicationComplete;
+        let cleanLead = sfdcUtils.prepFormParamsForSFDC(lead)
+        console.log('lead posting', cleanLead);
+      await this.updateLead(cleanLead);
     }
   }
 
