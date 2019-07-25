@@ -8,7 +8,7 @@ export default (props) => {
   return (
     <div className="portal-aside">
       <div className="program-block">
-        <div class="logo-wrapper">
+        <div className="logo-wrapper">
           <img className="program-logo" alt="" src={SEILogo}></img>
           <img className="program-logo -dsi" alt="" src={DSILogo}></img>
         </div>

@@ -10,21 +10,25 @@ function checkTokenSetUser(req, res, next) {
   if (authHeader && authHeader.indexOf("Basic") == -1) {
     const token = authHeader.split(' ')[1];
     if (token) {
-      jwt.verify(token, process.env.TOKEN_SECRET, async (error, user) => {
-        if (error) {
-          res.status(401);
-          next(err);
-        }
-        user = await Q.getUserById(user.id);
-        if(user.salesforce_id == null || user.salesforce_id == "") {
-          let searchResponse = await salesforce.findSalesforceUser(user.email);
-          let salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
-          if (salesforceUser) {
-            [user] = await Q.updateSalesforceUserAttrs(user.email, salesforceUser);
+      jwt.verify(token, process.env.TOKEN_SECRET, async (error, authUser) => {
+        try {
+          if (error || !authUser) {
+            res.status(401);
+            return next(err);
           }
+          let user = await Q.getUserById(authUser.id);
+          if(user.salesforce_id == null || user.salesforce_id == "") {
+            let searchResponse = await salesforce.findSalesforceUser(user.email);
+            let salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
+            if (salesforceUser) {
+              [user] = await Q.updateSalesforceUserAttrs(user.email, salesforceUser);
+            }
+          }
+          req.user = user;
+          next();
+        } catch(err) {
+          next(err)
         }
-        req.user = user;
-        next();
       });
     } else {
       next(err);
@@ -51,13 +55,13 @@ function verifyBasicAuth(req, res, next) {
   } catch(err) {
     return _unauthorized(res, err.toString());
   }
-  
+
   if (!credentials) return _unauthorized(res, 'Invalid Credentials');
-  
+
   if (auth.basic.isAuthorized(credentials.username, credentials.password)) {
     return next();
   }
-  
+
   return _unauthorized(res);
 }
 

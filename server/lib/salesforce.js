@@ -65,7 +65,7 @@ class Salesforce {
       if (applicationComplete) {
         let courseInfo = await Q.getCourseByName(application.values.Which_dates_you_prefer_to_take_course__c);
         if (courseInfo && courseInfo.rows && courseInfo.rows.length) {
-          await this.createOpp(user, courseInfo.rows[0].off);
+          await this.createOpp(user, courseInfo.rows[0].off, application.values);
         } else {
           throw new Error('Error retrieving correct course for opportunity.')
         }
@@ -165,17 +165,16 @@ class Salesforce {
     });
   }
 
-  async createOpp(user, courseInfo) {
+  async createOpp(user, courseInfo, application) {
     return new Promise( (resolve, reject) => {
-      let opp = {
-        RecordTypeId: OPP_STUDENT_RECORD_ID,
-        Name: user.name + " " + courseInfo.cohortCode + " Application",
-        CloseDate: new Date(),
-        Course__c: courseInfo.courseId,
-        Campus__c: courseInfo.campus === 'Austin-2nd St District' ? 'Austin-2nd Street District' : courseInfo.campus,
-        Student__c: user.salesforce_id,
-        StageName: "New"
-      };
+      let opp = application;
+        opp.RecordTypeId = OPP_STUDENT_RECORD_ID,
+        opp.Name = user.name + " " + courseInfo.cohortCode + " Application",
+        opp.CloseDate = new Date(),
+        opp.Course__c = courseInfo.courseId,
+        opp.Campus__c = courseInfo.campus === 'Austin-2nd St District' ? 'Austin-2nd Street District' : courseInfo.campus,
+        opp.Student__c = user.salesforce_id,
+        opp.StageName = "New"
 
       this.connection.sobject('Opportunity').create(opp, (err, res) => {
         if (err) { reject(err); }

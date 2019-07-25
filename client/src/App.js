@@ -104,7 +104,7 @@ class App extends Component {
             <PrivateRoute exact path='/python-challenge' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={PythonChallenge}/>
             <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterview}/>
             <PrivateRoute exact path='/book-interview-dsi' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterviewDSI}/>
-            <PrivateRoute path="/application" {...this.state} statusUpdate={this.statusUpdate} component={Application} />
+            <PrivateRoute path="/application" {...this.state} clearData={this.clearData} statusUpdate={this.statusUpdate} component={Application} />
             <NoMatch/>
           </Switch>
           </main>

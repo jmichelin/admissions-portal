@@ -50,7 +50,8 @@ class Application extends Component {
       errorText: null,
       unsavedChanges: false,
       savingApp: false,
-      submittingApp: false
+      submittingApp: false,
+      isACitizen: ""
     };
   }
 
@@ -76,6 +77,9 @@ class Application extends Component {
     })
       .then(resp => resp.json())
       .then((resp) => {
+        if (resp.message === 'jwt expired' || resp.message === 'jwt malformed' || resp.message === 'Your session has expired. Please log back in.') {
+          this.props.clearData()
+        }
         if (resp.complete) return this.props.history.push('/dashboard');
         if (resp.values) {
           Object.keys(resp.values).forEach(key => this.checkDependencies(key, resp.values[key]));
@@ -115,7 +119,11 @@ class Application extends Component {
   onInputChange = (fieldName, event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-
+    if (fieldName === "International__c") {
+      this.setState({
+        isACitizen: value
+      })
+    }
     this.checkDependencies(fieldName, value);
     this.setState(prevState => ({
       ...prevState,
@@ -172,7 +180,10 @@ class Application extends Component {
     this.setState({ errorText: null, savingApp: true });
     this.persistApp(null)
       .then(resp => resp.json())
-      .then(() => {
+      .then((resp) => {
+        if (resp.message === 'jwt expired' || resp.message === 'jwt malformed' || resp.message === 'Your session has expired. Please log back in.') {
+          return this.props.clearData()
+        }
         this.setState({ savingApp: false, saveButtonText: 'Saved!' });
         setTimeout(() => {
           this.setState({ saveButtonText: 'Save' });
@@ -192,16 +203,22 @@ class Application extends Component {
         if (!resp.ok) throw new Error("HTTP status " + resp.status);
         return resp.json()
       })
-      .then(() => this.props.history.push({
+      .then((result) => {
+        console.log(result);
+        this.props.history.push({
         pathname: '/dashboard',
         state: { dataRefresh: true }
-      }))
+        })
+      })
       .catch((_err) => {
         this.setState({ submittingApp: false, errorText: 'Something has gone wrong, please contact support@galvanize.com' });
       })
   }
 
   renderSelect(input, i) {
+    if (input.fieldName === "International__c" && this.state.isACitizen !== true) {
+      return null;
+    }
     return (
       <div key={`input-${i}`} className={`input ${input.type}`}>
         <Select
