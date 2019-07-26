@@ -59,13 +59,20 @@ class Salesforce {
         Id: user.salesforce_id,
         Has_Portal_Account__c: true,
         Last_Portal_Login__c: new Date(),
-        Campus__c: application.values.Campus__c === 'Austin-2nd St District' ? 'Austin-2nd Street District' : application.values.Campus__c
+        Campus__c: sfdcUtils.normalizeAustin(application.values.Campus__c)
       }
 
       await this.updateContact(contact);
 
       if (applicationComplete) {
+        let cleanContact = sfdcUtils.salesforceFieldSanitizer(application.values, 'Contact');
+        cleanContact.Id = user.salesforce_id,
+        cleanContact.Last_Portal_Login__c = new Date();
+        console.log('clean!!!', cleanContact);
+        await this.updateContact(cleanContact);
+
         let courseInfo = await Q.getCourseByName(application.values.Which_dates_you_prefer_to_take_course__c);
+        console.log(courseInfo);
         if (courseInfo && courseInfo.rows && courseInfo.rows.length) {
           await this.createOpp(user, courseInfo.rows[0].off, application.values);
         } else {
@@ -99,7 +106,7 @@ class Salesforce {
         FirstName: requestbody.first_name,
         LastName: requestbody.last_name,
         Phone: requestbody.phone,
-        Campus__c: requestbody.campus === 'Austin-2nd St District' ? 'Austin-2nd Street District' : requestbody.campus,
+        Campus__c: sfdcUtils.normalizeAustin(requestbody.campus),
         Product__c: requestbody.courseProduct,
         Has_Portal_Account__c: true,
         Last_Portal_Login__c: new Date()
@@ -118,7 +125,7 @@ class Salesforce {
           FirstName: requestbody.first_name,
           LastName: requestbody.last_name,
           Phone: requestbody.phone,
-          Campus__c: requestbody.campus === 'Austin-2nd St District' ? 'Austin-2nd Street District' : requestbody.campus,
+          Campus__c: sfdcUtils.normalizeAustin(requestbody.campus),
           Product__c: requestbody.courseProduct,
           Has_Portal_Account__c: true,
           Last_Portal_Login__c: new Date()
@@ -144,7 +151,7 @@ class Salesforce {
         LastName: leadData.last_name,
         Phone: leadData.phone,
         Email: leadData.email,
-        Campus__c: leadData.campus === 'Austin-2nd St District' ? 'Austin-2nd Street District' : leadData.campus,
+        Campus__c: sfdcUtils.normalizeAustin(leadData.campus),
         Product__c: leadData.courseProduct,
         Company: 'Unknown',
         Source__c: 'Admissions Portal',
@@ -169,17 +176,18 @@ class Salesforce {
   }
 
   async createOpp(user, courseInfo, application) {
+    console.log(application);
+  let cleanOppty = sfdcUtils.salesforceFieldSanitizer(application, 'Opportunity')
+  console.log(cleanOppty);
     return new Promise( (resolve, reject) => {
-      let opp = application;
-        opp.RecordTypeId = OPP_STUDENT_RECORD_ID,
-        opp.Name = user.name + " " + courseInfo.cohortCode + " Application",
-        opp.CloseDate = new Date(),
-        opp.Course__c = courseInfo.courseId,
-        opp.Campus__c = courseInfo.campus === 'Austin-2nd St District' ? 'Austin-2nd Street District' : courseInfo.campus,
-        opp.Student__c = user.salesforce_id,
-        opp.StageName = "New"
+        cleanOppty.RecordTypeId = OPP_STUDENT_RECORD_ID,
+        cleanOppty.Name = user.name + " " + courseInfo.cohortCode + " Application",
+        cleanOppty.CloseDate = new Date(),
+        cleanOppty.Course__c = courseInfo.courseId,
+        cleanOppty.Student__c = user.salesforce_id,
+        cleanOppty.StageName = "New"
 
-      this.connection.sobject('Opportunity').create(opp, (err, res) => {
+      this.connection.sobject('Opportunity').create(cleanOppty, (err, res) => {
         if (err) { reject(err); }
         if (!res || !res.success) { reject(res); }
         resolve(res);
