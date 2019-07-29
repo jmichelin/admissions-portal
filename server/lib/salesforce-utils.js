@@ -10,9 +10,6 @@
    Which_dates_you_prefer_to_take_course__c: {
      Opportunity: 'Which_dates_you_prefer_to_take_course__c'
    },
-   Course_to_which_you_are_applying__c: {
-     Opportunity: 'Course_to_which_you_are_applying__c',
-   },
    LinkedIn__c: {
      Contact: 'LinkedIn_Username__c',
    },
@@ -23,7 +20,7 @@
      Contact: 'Identify_as_LGBTQ__c',
    },
    EthnicityNew__c: {
-     Contact: 'Race__c',
+     Contact: 'EthnicityNew__c',
    },
    Race__c: {
      Contact: 'Race__c',
@@ -46,19 +43,16 @@
    },
    Dependent_of_Veteran__c: {
      Contact: 'Dependent_of_Veteran__c',
-   }
-   // How_did_you_hear_about_gSchool__c: {
-   //   Contact: 'contact',
-   //   Opportunity: 'Contact__c__c'
-   // },
-   // If_gSchool_student_yes__c: {
-   //   Contact: 'contact',
-   //   Opportunity: 'Contact__c__c'
-   // },
-   // Authorize_to_work_in_US__c: {
-   //   Contact: 'contact',
-   //   Opportunity: 'Contact__c__c'
-   // },
+   },
+   How_did_you_hear_about_gSchool__c: {
+     Contact: 'Referral_Source__c'
+   },
+   If_gSchool_student_yes__c: {
+     Contact: 'Referred_by_Name__c',
+   },
+   Authorize_to_work_in_US__c: {
+     Contact: 'Authorize_to_work_in_US__c',
+   },
 
  };
 
@@ -100,14 +94,14 @@
    return cleanCampus;
  }
 
- function prepFormParamsForSFDC(formParams) {
+ function prepLeadParamsforSFDC(formParams) {
    if (formParams.Birthdate__c) {
      let bDayParts = formParams.Birthdate__c.split('/');
      let formattedBDay = `${ bDayParts[2] }-${ bDayParts[0] }-${ bDayParts[1] }`;
      formParams.Birthdate__c = formattedBDay;
    }
 
-   if (formParams.Product__c === 'Web Development') {
+   if (formParams.Product__c === 'Web Development' || formParams.Product__c === 'Full Stack') {
      formParams.Product__c = 'Full Stack';
      formParams.Course_to_which_you_are_applying__c = 'Full Stack Immersive';
    } else if (formParams.Product__c === 'Data Science') {
@@ -117,7 +111,7 @@
    if (!formParams.Dependent_of_Veteran__c) {
      formParams.Dependent_of_Veteran__c === 'false'
    }
-   if (formParamsIf_gSchool_student_yes__c) formParams.Where_you_referred_by_a_gSchool_student__c = 'Yes'
+   if (formParams.If_gSchool_student_yes__c) formParams.Where_you_referred_by_a_gSchool_student__c = 'Yes'
    // TODO: Get rid of coding experience delete
    delete formParams['Coding_Experience__c'];
    delete formParams['Is_Eighteen'];
@@ -131,6 +125,6 @@
    reformatBirthday,
    reformatCourseToWhichApplying,
    normalizeAustin,
-   prepFormParamsForSFDC,
+   prepLeadParamsforSFDC,
    salesforceFieldSanitizer
  };

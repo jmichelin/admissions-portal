@@ -68,11 +68,9 @@ class Salesforce {
         let cleanContact = sfdcUtils.salesforceFieldSanitizer(application.values, 'Contact');
         cleanContact.Id = user.salesforce_id,
         cleanContact.Last_Portal_Login__c = new Date();
-        console.log('clean!!!', cleanContact);
         await this.updateContact(cleanContact);
 
         let courseInfo = await Q.getCourseByName(application.values.Which_dates_you_prefer_to_take_course__c);
-        console.log(courseInfo);
         if (courseInfo && courseInfo.rows && courseInfo.rows.length) {
           await this.createOpp(user, courseInfo.rows[0].off, application.values);
         } else {
@@ -80,16 +78,15 @@ class Salesforce {
         }
       }
     } else if (user.salesforce_type === "Lead") {
-        let lead = application.values;
+      let lead = applicationComplete ? application.values : {};
         lead.Id = user.salesforce_id;
         lead.Campus__c = sfdcUtils.normalizeAustin(application.values.Campus__c);
-        lead.Product__c = application.course_product;
+        lead.Product__c = application.courseProduct;
         lead.Status = "Started Application";
         lead.Which_dates_you_prefer_to_take_course__c = application.values.Which_dates_you_prefer_to_take_course__c;
-        lead.Course_to_which_you_are_applying__c - sfdcUtils.reformatCourseToWhichApplying(application.course_product);
+        lead.Course_to_which_you_are_applying__c - sfdcUtils.reformatCourseToWhichApplying(application.courseProduct);
         lead.Application_Completed__c = applicationComplete;
-        let cleanLead = sfdcUtils.prepFormParamsForSFDC(lead)
-        console.log('lead posting', cleanLead);
+        let cleanLead = sfdcUtils.prepLeadParamsforSFDC(lead)
       await this.updateLead(cleanLead);
     }
   }
@@ -176,16 +173,16 @@ class Salesforce {
   }
 
   async createOpp(user, courseInfo, application) {
-    console.log(application);
   let cleanOppty = sfdcUtils.salesforceFieldSanitizer(application, 'Opportunity')
-  console.log(cleanOppty);
+  console.log('application', application);
     return new Promise( (resolve, reject) => {
-        cleanOppty.RecordTypeId = OPP_STUDENT_RECORD_ID,
-        cleanOppty.Name = user.name + " " + courseInfo.cohortCode + " Application",
-        cleanOppty.CloseDate = new Date(),
-        cleanOppty.Course__c = courseInfo.courseId,
-        cleanOppty.Student__c = user.salesforce_id,
-        cleanOppty.StageName = "New"
+        cleanOppty.RecordTypeId = OPP_STUDENT_RECORD_ID;
+        cleanOppty.Name = user.name + " " + courseInfo.cohortCode + " Application";
+        cleanOppty.CloseDate = new Date();
+        cleanOppty.Course__c = courseInfo.courseId;
+        cleanOppty.Student__c = user.salesforce_id;
+        cleanOppty.StageName = "New";
+        cleanOppty.Course_to_which_you_are_applying__c = sfdcUtils.reformatCourseToWhichApplying(application.course_product);
 
       this.connection.sobject('Opportunity').create(cleanOppty, (err, res) => {
         if (err) { reject(err); }
@@ -254,20 +251,6 @@ class Salesforce {
       return _makeQueryForExistingLeadForApplication(email);
     }
   }
-
-  prepFormParamsForSFDC(formParams) {
-    if (formParams.Birthdate__c) {
-      let bDayParts = formParams.Birthdate__c.split('/');
-      let formattedBDay = `${ bDayParts[2] }-${ bDayParts[0] }-${ bDayParts[1] }`;
-      formParams.Birthdate__c = formattedBDay;
-    }
-
-    if (formParams.Product__c === 'Web Development') {
-      formParams.Product__c = 'Full Stack';
-
-    return formParams;
-  }
-}
 
   oppQuery(email) {
     return new Promise( (resolve, reject) => {
