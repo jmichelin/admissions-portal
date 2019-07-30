@@ -80,10 +80,7 @@ export const APPLICATION_INPUTS = [{
       validate: ["string"],
       errorMsg: "Please select an option",
       value: '',
-      options: [{
-          name: 'Select One',
-          value: 'notselected'
-        },
+      options: [
         {
           name: 'High School/GED',
           value: 'High School/GED'
@@ -446,10 +443,7 @@ export const APPLICATION_INPUTS = [{
         validate: ["string"],
         errorMsg: "Please select an option",
         value: '',
-        options: [{
-            name: 'Select One',
-            value: 'notselected'
-          },
+        options: [
           {
             name: 'High School/GED',
             value: 'High School/GED'

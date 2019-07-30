@@ -51,7 +51,8 @@ class Application extends Component {
       unsavedChanges: false,
       savingApp: false,
       submittingApp: false,
-      isACitizen: ""
+      showFirstPage: true,
+      pageSliceValue: 8
     };
   }
 
@@ -119,11 +120,6 @@ class Application extends Component {
   onInputChange = (fieldName, event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    if (fieldName === "US_Citizen_or_Permanent_Resident__c") {
-      this.setState({
-        isACitizen: value
-      })
-    }
     this.checkDependencies(fieldName, value);
     this.setState(prevState => ({
       ...prevState,
@@ -138,10 +134,11 @@ class Application extends Component {
     });
   }
 
-  invalidValues = () => {
+  invalidValues = (range) => {
     const errors = {};
-
-    this.state.steps.forEach((step) => {
+    let steps = this.state.steps;
+    if (range) steps = this.state.steps.slice(0, this.state.pageSliceValue)
+    steps.forEach((step) => {
       const validationSet = step.validate.reduce((result, currentVal) => {
         result[currentVal] = this.state.values[step.fieldName]
         return result
@@ -211,6 +208,15 @@ class Application extends Component {
       .catch((_err) => {
         this.setState({ submittingApp: false, errorText: 'Something has gone wrong, please contact support@galvanize.com' });
       })
+  }
+
+  goToNextStep = () => {
+    if (this.invalidValues(this.state.pageSliceValue)) return;
+    this.setState({ showFirstPage: false });
+  }
+
+  goToFirstStep = () => {
+    this.setState({ showFirstPage: true });
   }
 
   renderSelect(input, i) {
@@ -292,7 +298,7 @@ class Application extends Component {
   }
 
   renderSteps() {
-    return this.state.steps.map((input,i) => {
+    let inputs = this.state.steps.map((input,i) => {
       switch (input.type) {
         case "text":
           return this.renderText(input, i)
@@ -306,6 +312,8 @@ class Application extends Component {
           return this.renderText(input, i)
       }
     })
+
+    return {firstPage: inputs.slice(0, this.state.pageSliceValue), secondPage: inputs.slice(this.state.pageSliceValue)}
   }
 
 
@@ -326,19 +334,27 @@ class Application extends Component {
                   <>
                   <p className="header-description">
                   This application takes just a few minutes to complete. After submitting your application, you’ll be taken back to the dashboard to complete the rest of the admissions process. You can always click &quot;Save&quot; and come back to finish later.</p>
-                  {this.renderSteps()}
+                {this.state.showFirstPage ? this.renderSteps().firstPage : this.renderSteps().secondPage}
                   {this.state.errorText && <p className="error-msg">{this.state.errorText}</p>}
-                  <div className="action">
-                    <button type="submit" onClick={this.onSave} className={this.state.savingApp ? "button-secondary -loading" : "button-secondary"}>{this.state.saveButtonText}</button>
-                    <button type="submit" onClick={this.onSubmit} className={this.state.submittingApp ? "button-primary -loading" : "button-primary"}>Submit</button>
-                  </div>
+
+                  { this.state.showFirstPage ?
+                    <div className="action">
+                      <button id="save" type="submit" onClick={this.onSave} className={this.state.savingApp ? "button-secondary -loading" : "button-secondary"}>{this.state.saveButtonText}</button>
+                      <button type="submit" onClick={this.goToNextStep} className="button-primary">Next</button>
+                    </div> :
+                    <div className="action">
+                      <button type="submit" onClick={this.goToFirstStep} className="button-secondary">Back</button>
+                      <button id="save" type="submit" onClick={this.onSave} className={this.state.savingApp ? "button-secondary -loading" : "button-secondary"}>{this.state.saveButtonText}</button>
+                      <button type="submit" onClick={this.onSubmit} className={this.state.submittingApp ? "button-primary -loading" : "button-primary"}>Submit Application</button>
+                    </div>
+                  }
+
                   </>:
                   <div className="program-select column-headline">
                     <h4 className="column-headline">Loading your application...</h4>
                     <LoadingWheel/>
                   </div>
                 }
-
               </div>
             </div>
           </div>
