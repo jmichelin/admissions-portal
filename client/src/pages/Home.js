@@ -23,9 +23,6 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.clearData();
-    window.analytics.ready(function() {
-      window.analytics.page('Home')
-       });
      }
 
   render() {

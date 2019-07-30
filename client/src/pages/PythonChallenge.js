@@ -53,7 +53,6 @@ class PythonChallenge extends Component {
         this.setState({ redirectToDashboard: true })
       }
       this.setState({opp: opp})
-      if (window && window.analytics) window.analytics.page('Python Challenge')
       if (["New", "New - Pending AA", "Appointment", "Studying"].indexOf(opp.stage) > -1) {
         fetch(UPDATE_OPP_ENDPOINT, {
           method: "POST",

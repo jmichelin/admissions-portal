@@ -33,7 +33,6 @@ class BookInterview extends Component {
         this.setState({ redirectToDashboard: true })
       }
       this.setState({opp: opp})
-      if (window && window.analytics) window.analytics.page('Book Interview')
      } else {
       this.setState({ redirectToDashboard: true })
     }

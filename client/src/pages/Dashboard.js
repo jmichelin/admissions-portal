@@ -22,7 +22,6 @@ class Dashboard extends Component {
     if (this.props.location.state && this.props.location.state.dataRefresh) {
       this.props.getData(true);
     }
-    if (window && window.analytics) window.analytics.page('Dashboard')
   }
 
   onProgramChange = (e) => {

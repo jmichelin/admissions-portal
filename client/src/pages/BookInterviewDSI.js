@@ -33,7 +33,6 @@ class BookInterviewDSI extends Component {
 
       this.setState({ opp }, this.loadBookingTool)
 
-      if (window && window.analytics) window.analytics.page('Book Interview DSI')
      } else {
       this.setState({ redirectToDashboard: true })
     }

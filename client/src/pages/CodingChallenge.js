@@ -38,12 +38,6 @@ class CodingChallenge extends Component {
       }
 
       this.setState({ opp })
-
-      if (window && window.analytics) {
-        window.analytics.page('Coding Challenge')
-      } else {
-        this.setState({ redirectToDashboard: true })
-      }
     }
   }
 
