@@ -79,7 +79,7 @@ export const APPLICATION_INPUTS = [{
       type: 'select',
       validate: ["string"],
       errorMsg: "Please select an option",
-      fieldName: 'Coding_Experience__c',
+      fieldName: 'Javascript__c',
       value: '',
       options: [{
           name: '(1) I do not have prior coding experience',

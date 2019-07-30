@@ -10,6 +10,15 @@
    Which_dates_you_prefer_to_take_course__c: {
      Opportunity: 'Which_dates_you_prefer_to_take_course__c'
    },
+   Javascript__c: {
+     Opportunity: 'Javascript__c'
+   },
+   How_much_experience_with_Python__c: {
+     Opportunity: 'How_much_experience_with_Python__c'
+   },
+   If_Experience_Other__c: {
+     Opportunity: 'If_Experience_Other__c'
+   },
    LinkedIn__c: {
      Contact: 'LinkedIn_Username__c',
    },
@@ -108,12 +117,8 @@
      formParams.Course_to_which_you_are_applying__c = 'Data Science Immersive';
    }
 
-   if (!formParams.Dependent_of_Veteran__c) {
-     formParams.Dependent_of_Veteran__c === 'false'
-   }
    if (formParams.If_gSchool_student_yes__c) formParams.Where_you_referred_by_a_gSchool_student__c = 'Yes'
-   // TODO: Get rid of coding experience delete
-   delete formParams['Coding_Experience__c'];
+
    delete formParams['Is_Eighteen'];
    delete formParams['Terms'];
    delete formParams['Valid_Information'];

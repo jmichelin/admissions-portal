@@ -214,9 +214,6 @@ class Application extends Component {
   }
 
   renderSelect(input, i) {
-    if (input.fieldName === "Authorize_to_work_in_US__c" && this.state.isACitizen !== true) {
-      return null;
-    }
     return (
       <div key={`input-${i}`} className={`input ${input.type}`}>
         <Select
