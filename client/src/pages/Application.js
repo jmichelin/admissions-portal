@@ -119,7 +119,7 @@ class Application extends Component {
   onInputChange = (fieldName, event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    if (fieldName === "International__c") {
+    if (fieldName === "US_Citizen_or_Permanent_Resident__c") {
       this.setState({
         isACitizen: value
       })
