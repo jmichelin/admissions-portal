@@ -281,6 +281,7 @@ class Application extends Component {
           name={input.id}
           label={input.label}
           required={input.required}
+          terms={input.id === "terms"}
           checked={this.state.values[input.fieldName]}
           onInputChange={(e) => this.onInputChange(input.fieldName, e)}
           errorMessage={this.state.errors[input.id]}
