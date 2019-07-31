@@ -86,7 +86,7 @@ function getCreateAccountInputs() {
       label: `I agree to Galvanize's Privacy Policy and Terms of Use.`,
       fieldName: 'terms',
       type: 'checkbox',
-      value: '',
+      value: 'false',
       required: true,
       errorMessage: 'This is a required field.'
     }

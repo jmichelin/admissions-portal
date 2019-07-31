@@ -74,8 +74,9 @@ class Signup extends Component {
   validUser = (data) => {
     console.log('data', data);
     const result = Joi.validate(data, schema);
+    console.log(result);
     if (this.state.values.confirmed_password !== this.state.values.password) return false;
-    if (this.state.values.terms === false) return false;
+    if (this.state.values.terms !== true) return false;
     if (result.error) return false
 
     return true
@@ -101,15 +102,13 @@ class Signup extends Component {
 
     const { first_name, last_name, email, password, program, campus, phone } = this.state.values;
     const { courseType, courseProduct } = AVAILABLE_PROGRAMS.find(e => e.courseType === program) || { courseType: undefined, courseProduct: undefined }
-    const formData = { first_name, last_name, email, password, program, campus, phone, courseType, courseProduct }
+    const formData = { first_name, last_name, email, password, program, campus, phone, courseType, courseProduct, ...this.props.leadSource }
     // set courseType and courseProduct from Application Inputs to send to server
     if (this.validUser(formData)) {
-      let allData = {...formData, ...this.props.leadSource }
-      console.log(allData);
       try {
         let response = await fetch(SIGNUP_URL, {
           method: 'POST',
-          body: JSON.stringify(allData),
+          body: JSON.stringify(formData),
           headers: {
             'content-type': 'application/json'
           }
@@ -243,9 +242,9 @@ const schema = {
   courseProduct: Joi.string(),
   LeadSource: Joi.string(),
   LeadSourceDetail__c: Joi.string(),
-  pi__utm_source__c: Joi.string(),
-  pi__utm_medium__c: Joi.string(),
-  pi__utm_campaign__c: Joi.string()
+  pi__utm_source__c: Joi.string().allow('', null),
+  pi__utm_medium__c: Joi.string().allow('', null),
+  pi__utm_campaign__c: Joi.string().allow('', null)
 }
 
 export default withRouter(Signup);
