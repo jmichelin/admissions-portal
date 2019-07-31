@@ -133,7 +133,6 @@ class Salesforce {
 
     //if no contact or lead create a lead
     if (!salesforceUser) {
-      console.log(requestbody);
       let newLead = await this.createLead(requestbody);
       salesforceUser = { Id: newLead.id, attributes: {type: 'Lead'}};
     }
@@ -178,7 +177,6 @@ class Salesforce {
 
   async createOpp(user, courseInfo, application) {
   let cleanOppty = sfdcUtils.salesforceFieldSanitizer(application, 'Opportunity')
-  console.log('application', application);
     return new Promise( (resolve, reject) => {
         cleanOppty.RecordTypeId = OPP_STUDENT_RECORD_ID;
         cleanOppty.Name = user.name + " " + courseInfo.cohortCode + " Application";

@@ -89,13 +89,9 @@
  }
 
  function reformatCourseToWhichApplying(courseProduct) {
-   if (courseProduct === 'Web Development') {
-     courseProduct = 'Full Stack';
-     formParams.Course_to_which_you_are_applying__c = 'Full Stack Immersive';
-   } else if (courseProduct === 'Data Science') {
-     formParams.Course_to_which_you_are_applying__c = 'Data Science Immersive';
-   }
-   return courseProduct;
+   let course = 'Full Stack Immersive'
+   if (courseProduct === 'Data Science') course = 'Data Science Immersive';
+   return course;
  }
 
  function normalizeAustin(campus) {

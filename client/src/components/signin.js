@@ -62,7 +62,7 @@ class Signin extends Component {
     })
 
     const { email, password } = this.state;
-    const formData = { email, password }
+    const formData = { email, password, ...this.props.leadSource }
 
     if (this.validUser(formData)) {
       fetch(SIGNIN_URL, {
@@ -154,7 +154,12 @@ class Signin extends Component {
 
 const schema = {
   email: Joi.string().email(),
-  password: Joi.string().min(5).max(15)
+  password: Joi.string().min(5).max(15),
+  LeadSource: Joi.string(),
+  LeadSourceDetail__c: Joi.string(),
+  pi__utm_source__c: Joi.string().allow('', null),
+  pi__utm_medium__c: Joi.string().allow('', null),
+  pi__utm_campaign__c: Joi.string().allow('', null)
 }
 
 export default Signin;

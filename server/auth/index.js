@@ -30,7 +30,12 @@ const signupSchema = Joi.object().keys({
 
 const signinSchema = Joi.object().keys({
   email: Joi.string().email().required(),
-  password: Joi.string().min(5).max(15).required()
+  password: Joi.string().min(5).max(15).required(),
+  LeadSource: Joi.string(),
+  LeadSourceDetail__c: Joi.string(),
+  pi__utm_source__c: Joi.string(),
+  pi__utm_medium__c: Joi.string(),
+  pi__utm_campaign__c: Joi.string()
 });
 
 

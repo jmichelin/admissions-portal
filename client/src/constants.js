@@ -80,7 +80,7 @@ export const CAMPUSES = [
     ycbmLink: 'https://agn-interviews.youcanbook.me',
     ycbmId:'ycbmiframeagn-interviews',
     location: 'Walnut',
-    programs: [SEI_IMMERSIVE_EXTENDED]
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE_EXTENDED]
   },
   {
     name: 'denver-platte',
