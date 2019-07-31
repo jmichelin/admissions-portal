@@ -1,4 +1,9 @@
-import { SEI_STEPS_12_WK, SEI_STEPS_18_WK, DSI_STEPS } from '../constants';
+import {
+  SEI_STEPS_12_WK,
+  SEI_STEPS_18_WK,
+  DSI_STEPS,
+  LEAD_SOURCE_COOKIE
+} from '../constants';
 
 function getCourseName(opp) {
   const campus = opp.campus;
@@ -6,20 +11,38 @@ function getCourseName(opp) {
   if (opp.courseProduct === 'Web Development' && opp.courseType.includes('Immersive')) {
     if (opp.productCode && opp.productCode.includes('-WD-')) {
       if (opp.productCode && opp.productCode.includes('-WD-REM')) {
-        return {course: 'Remote Software Engineering Immersive', campus : 'Remote'};
+        return {
+          course: 'Remote Software Engineering Immersive',
+          campus: 'Remote'
+        };
       }
       if (opp.productCode && opp.productCode.includes('-WD-RPT')) {
-          return {course: 'Part-Time Remote Software Engineering Immersive', campus : "Remote"};
+        return {
+          course: 'Part-Time Remote Software Engineering Immersive',
+          campus: "Remote"
+        };
       } else {
-        return {course: 'Software Engineering Immersive', campus : campus};
+        return {
+          course: 'Software Engineering Immersive',
+          campus: campus
+        };
       }
     } else {
-      return {course: 'Specialty Immersive', campus: campus};
+      return {
+        course: 'Specialty Immersive',
+        campus: campus
+      };
     }
-  } else if (opp.productCode && opp.productCode.includes('-DS-')  && opp.courseType.includes('Immersive')) {
-    return {course: 'Data Science Immersive', campus : campus};
+  } else if (opp.productCode && opp.productCode.includes('-DS-') && opp.courseType.includes('Immersive')) {
+    return {
+      course: 'Data Science Immersive',
+      campus: campus
+    };
   } else {
-    return {course: 'Specialty Immersive', campus: campus};
+    return {
+      course: 'Specialty Immersive',
+      campus: campus
+    };
   }
 }
 
@@ -102,18 +125,18 @@ function getDSIStage(program) {
 }
 
 const PROGRAMS = {
-  'Full Stack' : {
-    '18 Week Full-Time Immersive' : {
+  'Full Stack': {
+    '18 Week Full-Time Immersive': {
       name: 'Software Engineering Immersive',
       step: getSEI18WkStage,
       process: SEI_STEPS_18_WK,
     },
-    '36 Week Full-Time Immersive' : {
+    '36 Week Full-Time Immersive': {
       name: 'Part-Time Software Engineering Immersive',
       step: getSEI12WkStage,
       process: SEI_STEPS_12_WK
     },
-    'Specialty Immersive' : {
+    'Specialty Immersive': {
       name: 'Specialty Immersive',
       step: getSEI12WkStage,
       process: SEI_STEPS_12_WK
@@ -124,17 +147,17 @@ const PROGRAMS = {
       process: SEI_STEPS_12_WK
     }
   },
-  'Data Science' : {
-    '13 Week Full-Time Immersive' : {
+  'Data Science': {
+    '13 Week Full-Time Immersive': {
       name: 'Data Science Immersive',
       step: getDSIStage,
       process: DSI_STEPS
     }
   },
-  'Default' : {
-      name: 'Software Engineering Immersive',
-      step: getSEI12WkStage,
-      process: SEI_STEPS_12_WK
+  'Default': {
+    name: 'Software Engineering Immersive',
+    step: getSEI12WkStage,
+    process: SEI_STEPS_12_WK
   }
 };
 
@@ -145,16 +168,68 @@ function getStage(program) {
   let courseProducts = program.courseProduct ? PROGRAMS[program.courseProduct] : PROGRAMS[program.course_product];
   if (!courseProducts) {
     let stage = PROGRAMS['Default'];
-    return { step: stage.step(program), process: stage.process, name: stage.name };
+    return {
+      step: stage.step(program),
+      process: stage.process,
+      name: stage.name
+    };
   }
 
   let courseType = program.courseType ? PROGRAMS[program.courseProduct][program.courseType] : PROGRAMS[program.course_product][program.course_type];
   if (!courseType) {
     courseType = PROGRAMS[program.courseProduct]['Default'];
-    return { step: courseType.step(program), process: courseType.process, name: courseType.name }
+    return {
+      step: courseType.step(program),
+      process: courseType.process,
+      name: courseType.name
+    }
   };
-  return { step: courseType.step(program), process: courseType.process, name: courseType.name }
+  return {
+    step: courseType.step(program),
+    process: courseType.process,
+    name: courseType.name
+  }
 };
+
+function lookForCookie(cookies, cname) {
+  let cookiesArr = cookies.split(';')
+  for (var i = 0; i < cookiesArr.length; i++) {
+    if (cookiesArr[i].includes(cname)) return cookiesArr[i].split('=')[1];
+  }
+  return null;
+}
+
+function getParameterByName(name, queryString) {
+  let query = queryString.toString();
+  name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+  let regexS = "[\\?&]" + name + "=([^&#]*)";
+  let regex = new RegExp(regexS);
+  let results = regex.exec(query);
+  if (results == null) return '';
+  else return decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+function getLeadSource(cookie, queryString) {
+  let leadSource = {};
+
+  if (document && lookForCookie(cookie, LEAD_SOURCE_COOKIE)) {
+    let currentCookie = JSON.parse(lookForCookie(cookie, LEAD_SOURCE_COOKIE));
+    leadSource.LeadSource = currentCookie.source;
+    leadSource.LeadSourceDetail__c = currentCookie.utm_source;
+    leadSource.pi__utm_source__c = currentCookie.utm_source;
+    leadSource.pi__utm_medium__c = currentCookie.utm_medium;
+    leadSource.pi__utm_campaign__c = currentCookie.utm_campaign;
+    return leadSource;
+  } else if (getParameterByName('src', queryString) === "hackreactor") {
+    leadSource.LeadSource = 'HackReactor.com';
+    leadSource.LeadSourceDetail__c = 'Direct';
+    return leadSource;
+  } else {
+    leadSource.LeadSource = 'Galvanize.com';
+    leadSource.LeadSourceDetail__c = 'Direct';
+    return leadSource;
+  }
+}
 
 export default {
   getSEI12WkStage,
@@ -162,4 +237,7 @@ export default {
   getDSIStage,
   getStage,
   getCourseName,
+  lookForCookie,
+  getParameterByName,
+  getLeadSource
 };

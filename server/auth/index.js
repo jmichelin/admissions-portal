@@ -21,6 +21,11 @@ const signupSchema = Joi.object().keys({
   campus: Joi.string().required(),
   courseType: Joi.string().required(),
   courseProduct: Joi.string().required(),
+  LeadSource: Joi.string(),
+  LeadSourceDetail__c: Joi.string(),
+  pi__utm_source__c: Joi.string(),
+  pi__utm_medium__c: Joi.string(),
+  pi__utm_campaign__c: Joi.string()
 });
 
 const signinSchema = Joi.object().keys({

@@ -133,6 +133,7 @@ class Salesforce {
 
     //if no contact or lead create a lead
     if (!salesforceUser) {
+      console.log(requestbody);
       let newLead = await this.createLead(requestbody);
       salesforceUser = { Id: newLead.id, attributes: {type: 'Lead'}};
     }
@@ -152,8 +153,11 @@ class Salesforce {
         Product__c: leadData.courseProduct,
         Company: 'Unknown',
         Source__c: 'Admissions Portal',
-        LeadSource: 'Galvanize.com',
-        LeadSourceDetail__c: 'Direct',
+        LeadSource: leadData.LeadSource,
+        LeadSourceDetail__c: leadData.LeadSourceDetail__c,
+        pi__utm_source__c: leadData.LeadSourceDetail__c,
+        pi__utm_medium__c: leadData.pi__utm_medium__c,
+        pi__utm_campaign__c: leadData.pi__utm_campaign__c,
         pi__conversion_object_name__c: 'Admissions Portal',
         form_source__c: 'Admissions Portal',
         Has_Portal_Account__c: 'true',
