@@ -214,8 +214,8 @@ function getLeadSource(cookie, queryString) {
 
   if (document && lookForCookie(cookie, LEAD_SOURCE_COOKIE)) {
     let currentCookie = JSON.parse(lookForCookie(cookie, LEAD_SOURCE_COOKIE));
-    leadSource.LeadSource = currentCookie.source;
-    leadSource.LeadSourceDetail__c = currentCookie.utm_source;
+    leadSource.LeadSource = currentCookie.source || "Galvanize.com";
+    leadSource.LeadSourceDetail__c = currentCookie.utm_source || "Direct";
     leadSource.pi__utm_source__c = currentCookie.utm_source;
     leadSource.pi__utm_medium__c = currentCookie.utm_medium;
     leadSource.pi__utm_campaign__c = currentCookie.utm_campaign;

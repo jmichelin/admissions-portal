@@ -155,7 +155,7 @@ class Salesforce {
         Source__c: 'Admissions Portal',
         LeadSource: leadData.LeadSource,
         LeadSourceDetail__c: leadData.LeadSourceDetail__c,
-        pi__utm_source__c: leadData.LeadSourceDetail__c,
+        pi__utm_source__c: leadData.pi__utm_source__c,
         pi__utm_medium__c: leadData.pi__utm_medium__c,
         pi__utm_campaign__c: leadData.pi__utm_campaign__c,
         pi__conversion_object_name__c: 'Admissions Portal',
