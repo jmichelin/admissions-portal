@@ -159,8 +159,8 @@ export const APPLICATION_INPUTS = [{
       label: 'What is your motivating factor for learning Software Engineering?',
       fieldName: 'Reason_applying_to_this_gSchool_Program__c',
       type: 'textarea',
-      validate: ["250-1500-chars"],
-      errorMsg: "Must have at least 250 characters",
+      validate: ["150-1500-chars"],
+      errorMsg: "Must have at least 150 characters",
       value: ''
     }, {
       id: 'ethnicity',
@@ -514,8 +514,8 @@ export const APPLICATION_INPUTS = [{
         label: 'What is your motivating factor for learning Software Engineering?',
         fieldName: 'Reason_applying_to_this_gSchool_Program__c',
         type: 'textarea',
-        validate: ["250-1500-chars"],
-        errorMsg: "Must have at least 250 characters",
+        validate: ["150-1500-chars"],
+        errorMsg: "Must have at least 150 characters",
         value: ''
       }, {
         id: 'ethnicity',
