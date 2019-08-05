@@ -311,9 +311,9 @@ class PythonChallenge extends Component {
               <div className="instructions col">
                 <h4 className="column-header">CHALLENGE 1 Instructions</h4>
                   <p>
-                    Complete the function <code>consonant_first</code> according to its docstring.<br></br><br></br>
-                    You can test your code as many times as you need. Your code will also save if you need to come back later.  <br></br><br></br>Need help? Our <a href="https://www.galvanize.com/data-science/prep">Prep Programs</a> are a great option to get up to speed!
-                  </p>
+                    Complete the function <code>consonant_first</code> according to its docstring.
+                  <br></br><br></br>Your function should return a list, not just print that list. <br></br><br></br>
+                  You can test your code as many times as you need. Your code will also save if you need to come back later.<br></br><br></br>Need help? Our <a href="https://www.galvanize.com/data-science/prep">Prep Programs</a> are a great option to get up to speed!</p>
               </div>
               <div className="code-editor col">
                 <h4 className="column-header">Challenge 1</h4>
@@ -337,7 +337,7 @@ class PythonChallenge extends Component {
             <div className="challenge-editor">
               <div className="instructions col">
                 <h4 className="column-header">Challenge 2 Instructions</h4>
-                <p>{SNIPPET_2.question}</p>
+                <p>{SNIPPET_2.question}<br></br><br></br>Your function should return a set, not just print that set.</p>
               </div>
               <div className="code-editor col">
                 <h4 className="column-header">Challenge 2</h4>

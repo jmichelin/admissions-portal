@@ -48,8 +48,9 @@ class Signup extends Component {
 
   onInputChange = (event) => {
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    let value = target.type === 'checkbox' ? target.checked : target.value;
     const fieldName = target.name;
+    if(target.name === "email") value = value.toLowerCase();
 
     this.checkDependencies(fieldName, value);
     this.setState(prevState => ({

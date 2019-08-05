@@ -23,7 +23,7 @@ module.exports = {
     return knex('user')
       .returning(['id','email', "first_name", "last_name", "salesforce_id", "salesforce_type"])
       .insert({
-        email: user.email,
+        email: user.email.toLowerCase(),
         password: password,
         first_name: user.first_name,
         last_name: user.last_name,
