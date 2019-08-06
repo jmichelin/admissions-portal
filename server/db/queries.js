@@ -172,12 +172,13 @@ module.exports = {
   },
 
   updateApplication: async function(application) {
+    console.log(application);
     let realCourseType = _checkIf18wkCourseType(application.values.Campus__c, application.courseType, application.courseProduct);
     const foundApp = await knex('application')
       .select('*')
       .where({id: application.id})
       .first()
-
+      console.log('foundapp', foundApp);
     if (foundApp !== undefined && application.user_id == foundApp.user_id) {
       let app = await knex('application')
         .update({
@@ -240,6 +241,8 @@ function _filterCourses(courses) {
 }
 
 function _checkIf18wkCourseType(campus, courseType, courseProduct) {
+  console.log('hey!!!');
+  console.log(courseType, courseProduct);
   if (courseProduct === 'Full Stack' && CAMPUSES_SEI_18WK.includes(campus)) {
     return '18 Week Full-Time Immersive';
   }

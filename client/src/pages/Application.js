@@ -22,8 +22,9 @@ class Application extends Component {
     if (props.location.state) {
       program = props.location.state.program ? props.location.state.program : props.location.state.opp;
       if(program.course_product) program.courseProduct = program.course_product;
+      if(program.courseProduct = 'Web Development') program.courseProduct = 'Full Stack';
       if(program.course_type) program.courseType = program.course_type;
-      courseType = program.courseType === '18 Week Full-Time Immersive' ? '12 Week Full-Time Immersive' : program.courseType;
+      courseType = program.courseType === '18 Week Part-Time Immersive' ? '12 Week Full-Time Immersive' : program.courseType;
       inputs = APPLICATION_INPUTS.find(app => (
         (app.courseProduct === program.courseProduct) && (app.courseType === courseType)
       ));
@@ -57,6 +58,7 @@ class Application extends Component {
   }
 
   componentDidMount() {
+    debugger;
     if (!this.state.courseType || !this.state.courseProduct || !this.state.values) return this.props.history.push('/dashboard');
     const endpoint = `${APPLICATION_INITIALIZE_ENDPOINT}/type/${encodeURIComponent(this.state.courseType)}/product/${encodeURIComponent(this.state.courseProduct)}`
     let campus;

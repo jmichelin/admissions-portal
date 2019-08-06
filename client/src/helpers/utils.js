@@ -131,7 +131,7 @@ const PROGRAMS = {
       step: getSEI18WkStage,
       process: SEI_STEPS_18_WK,
     },
-    '36 Week Full-Time Immersive': {
+    '36 Week Part-Time Immersive': {
       name: 'Part-Time Software Engineering Immersive',
       step: getSEI12WkStage,
       process: SEI_STEPS_12_WK

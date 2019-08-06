@@ -45,7 +45,7 @@ const SEI_IMMERSIVE_EXTENDED = {
 
 const SEI_IMMERSIVE_PART_TIME = {
     courseName: 'Part-Time Software Engineering Immersive',
-    courseType: '36 Week Full-Time Immersive',
+    courseType: '36 Week Part-Time Immersive',
     courseProduct: 'Full Stack'
   };
 
@@ -185,7 +185,7 @@ export const CAMPUSES = [
     ycbmLink: 'https://remote-interviews.youcanbook.me',
     ycbmId:'ycbmiframeremote-interviews',
     location: 'Remote',
-    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE]
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE, SEI_IMMERSIVE_PART_TIME]
   }
 ];
 
