@@ -203,7 +203,8 @@ class Application extends Component {
       })
       .then((result) => {
         this.props.history.push({
-        pathname: `/dashboard/?conv=app_complete&prod=${this.state.courseProduct}`,
+        pathname: `/dashboard/`,
+        search: `?conv=app_complete&prod=${this.state.courseProduct}`,
         state: { dataRefresh: true }
         })
       })

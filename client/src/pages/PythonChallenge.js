@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
@@ -261,7 +261,8 @@ class PythonChallenge extends Component {
       }).then(result => {
         let stageUpdate = DSI_STEPS.STEP_THREE;
         this.props.statusUpdate(this.state.opp.id, stageUpdate)
-        this.setState({ submittingCode: false, redirectToDashboard:true});
+        this.setState({ submittingCode: false});
+        return this.props.history.push(`/dashboard/?conv=takehome_complete&prod=Data Science`)
       }).catch(err => {
 
         this.setState({
@@ -371,4 +372,4 @@ class PythonChallenge extends Component {
   }
 }
 
-export default PythonChallenge;
+export default withRouter(PythonChallenge);
