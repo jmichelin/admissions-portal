@@ -22,7 +22,7 @@ class Application extends Component {
     if (props.location.state) {
       program = props.location.state.program ? props.location.state.program : props.location.state.opp;
       if(program.course_product) program.courseProduct = program.course_product;
-      if(program.courseProduct = 'Web Development') program.courseProduct = 'Full Stack';
+      if(program.courseProduct === 'Web Development') program.courseProduct = 'Full Stack';
       if(program.course_type) program.courseType = program.course_type;
       courseType = program.courseType === '18 Week Full-Time Immersive' ? '12 Week Full-Time Immersive' : program.courseType;
       inputs = APPLICATION_INPUTS.find(app => (
@@ -83,7 +83,7 @@ class Application extends Component {
         if (resp.message === 'jwt expired' || resp.message === 'jwt malformed' || resp.message === 'Your session has expired. Please log back in.') {
           this.props.clearData()
         }
-        if (resp.complete) return this.props.history.push('/dashboard');
+        if (resp.complete) return this.props.history.push(`/dashboard/?conv=app_complete&prod=${this.state.courseProduct}`);
         if (resp.values) {
           Object.keys(resp.values).forEach(key => this.checkDependencies(key, resp.values[key]));
           this.setState((prevState) => ({ values: {...prevState.values, ...resp.values }, applicationId: resp.id, isLoading: false }) )
@@ -203,7 +203,7 @@ class Application extends Component {
       })
       .then((result) => {
         this.props.history.push({
-        pathname: '/dashboard',
+        pathname: `/dashboard/?conv=app_complete&prod=${this.state.courseProduct}`,
         state: { dataRefresh: true }
         })
       })

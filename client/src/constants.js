@@ -251,7 +251,7 @@ export const SEI_STEPS_12_WK = {
   STEP_ONE: {
     step: 1,
     status: 'Complete Your Application',
-    description: 'For the first step in the admissions process, please answer a few questions about yourself to complete your application for our Onsite, Remote, or Remote Part-Time Software Engineering Programs. If you have any questions, reach out to us at admissions@galvanize.com.',
+    description: 'For the first step in the admissions process, please answer a few questions about yourself to complete your application for our Onsite, Remote, or Remote Part-Time Software Engineering programs. If you have any questions, reach out to us at admissions@galvanize.com.',
     buttonPath: '/application',
     buttonText: 'Complete Your Application',
     blockClass:'-grey'

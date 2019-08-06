@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
 import * as buble from 'buble'
@@ -161,7 +161,8 @@ class CodingChallenge extends Component {
         .then(() => {
           const stageUpdate = this.state.opp.courseType === '18 Week Full-Time Immersive' ? SEI_STEPS_18_WK.STEP_TWO : SEI_STEPS_12_WK.STEP_THREE;
           this.props.statusUpdate(this.state.opp.id, stageUpdate)
-          this.setState({ submittingCode: false, redirectToDashboard:true});
+          this.setState({ submittingCode: false});
+          return this.props.history.push(`/dashboard/?conv=takehome_complete&prod=Full Stack`)
         })
         .catch(err => {
           this.setState({ errorMessage: err.message, submittingCode: false })
@@ -209,4 +210,4 @@ class CodingChallenge extends Component {
   }
 }
 
-export default CodingChallenge;
+export default withRouter(CodingChallenge);
