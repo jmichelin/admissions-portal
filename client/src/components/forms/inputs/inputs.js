@@ -55,7 +55,7 @@ function getCreateAccountInputs() {
     {
       id: 'program',
       fieldName: 'program',
-      label: 'Preferred Program',
+      label: 'Preferred Program Category',
       type: 'select',
       value: '',
       options: [],

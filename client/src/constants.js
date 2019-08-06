@@ -26,19 +26,19 @@ export const SF_NEWSLETTER_CAMPAIGN_ID = process.env.SF_NEWSLETTER_CAMPAIGN_ID;
 export const LEAD_SOURCE_COOKIE = 'fa-ad-source';
 
 const DSI_IMMERSIVE = {
-    courseName: 'Data Science Immersive',
+    courseName: 'Data Science',
     courseType: '13 Week Full-Time Immersive',
     courseProduct: 'Data Science'
   };
 
 const SEI_IMMERSIVE = {
-    courseName: 'Software Engineering Immersive',
+    courseName: 'Software Engineering',
     courseType: '12 Week Full-Time Immersive',
     courseProduct: 'Full Stack'
   };
 
 const SEI_IMMERSIVE_EXTENDED = {
-    courseName: 'Software Engineering Immersive',
+    courseName: 'Software Engineering',
     courseType: '18 Week Full-Time Immersive',
     courseProduct: 'Full Stack'
   };
@@ -185,7 +185,7 @@ export const CAMPUSES = [
     ycbmLink: 'https://remote-interviews.youcanbook.me',
     ycbmId:'ycbmiframeremote-interviews',
     location: 'Remote',
-    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE, SEI_IMMERSIVE_PART_TIME]
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE]
   }
 ];
 
@@ -251,7 +251,7 @@ export const SEI_STEPS_12_WK = {
   STEP_ONE: {
     step: 1,
     status: 'Complete Your Application',
-    description: 'For the first step in the admissions process, please answer a few questions about yourself to finish completing your application. If you have any questions, reach out to us at admissions@galvanize.com.',
+    description: 'For the first step in the admissions process, please answer a few questions about yourself to complete your application for our Onsite, Remote, or Remote Part-Time Software Engineering Programs. If you have any questions, reach out to us at admissions@galvanize.com.',
     buttonPath: '/application',
     buttonText: 'Complete Your Application',
     blockClass:'-grey'
