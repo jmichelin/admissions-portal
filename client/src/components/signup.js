@@ -127,7 +127,7 @@ class Signup extends Component {
           applications: applications,
           fetchedData: true
         }
-        this.props.updateState(updatedState, '/dashboard')
+        this.props.updateState(updatedState, `/dashboard?conv=signup&prod=${courseProduct}`)
       } catch(err) {
         this.setState({
           errorMessage: err.message,

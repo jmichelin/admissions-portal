@@ -165,7 +165,7 @@ const PROGRAMS = {
 // but instead will break because of the course prod and course type ternarys
 // can refactor this to use the AVAILABLE_PROGRAMS constant in constants file
 function getStage(program) {
-  console.log(program);
+  if(program.course_product === 'Full Stack') program.course_product = 'Web Development';
   let courseProducts = program.courseProduct ? PROGRAMS[program.courseProduct] : PROGRAMS[program.course_product];
   if (!courseProducts) {
     let stage = PROGRAMS['Default'];

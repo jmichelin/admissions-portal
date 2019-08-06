@@ -78,7 +78,7 @@ class App extends Component {
 
   updateState = (updatedState, redirect) => {
     this.setState({...updatedState}, () =>
-      this.props.history.push('/dashboard')
+      this.props.history.push(redirect)
     )
   }
 
