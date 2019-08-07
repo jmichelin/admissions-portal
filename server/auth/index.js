@@ -4,30 +4,44 @@ const Q = require('../db/queries');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 import crypto from 'crypto';
+
+import Salesforce from '../lib/salesforce';
+const salesforce = new Salesforce();
+
 const nodemailer = require('nodemailer');
-
-
 const router = express.Router();
 
 const signupSchema = Joi.object().keys({
   email: Joi.string().email().required(),
   password: Joi.string().min(5).max(15).required(),
   first_name: Joi.string().required(),
-  last_name: Joi.string().required()
+  last_name: Joi.string().required(),
+  phone: Joi.string().required(),
+  program: Joi.string().required(),
+  campus: Joi.string().required(),
+  courseType: Joi.string().required(),
+  courseProduct: Joi.string().required(),
+  LeadSource: Joi.string(),
+  LeadSourceDetail__c: Joi.string(),
+  pi__utm_source__c: Joi.string(),
+  pi__utm_medium__c: Joi.string(),
+  pi__utm_campaign__c: Joi.string()
 });
 
 const signinSchema = Joi.object().keys({
   email: Joi.string().email().required(),
-  password: Joi.string().min(5).max(15).required()
+  password: Joi.string().min(5).max(15).required(),
+  LeadSource: Joi.string(),
+  LeadSourceDetail__c: Joi.string(),
+  pi__utm_source__c: Joi.string(),
+  pi__utm_medium__c: Joi.string(),
+  pi__utm_campaign__c: Joi.string()
 });
 
 
-function createTokenSendResponse(user, res, next) {
+function createTokenSendResponse(user, opportunities, res, next) {
   const payload = {
-    id: user.id,
-    email: user.email,
-    first_name: user.first_name,
-    last_name:user.last_name
+    id: user.id
   };
   jwt.sign(payload, process.env.TOKEN_SECRET, {
     expiresIn: '6h'
@@ -36,69 +50,66 @@ function createTokenSendResponse(user, res, next) {
       respondError(res, next);
     } else {
       res.json({
-        token
+        token,
+        data: {
+          user: payload,
+          applications: opportunities
+        },
       });
     }
   });
 }
 
-
-router.get('/', (req, res) => {
-  res.json({
-    user: req.user,
-    message: 'Hello!'
-  });
-});
-
-
-
-
-router.post('/signup', (req, res, next) => {
+router.post('/signup', async (req, res, next) => {
   const result = Joi.validate(req.body, signupSchema);
-  if (result.error === null) {
-    Q.getUserbyEmail(req.body.email)
-      .then(user => {
-        if (user) {
-          const error = new Error('A user with this email already exists.');
-          res.status(409);
-          next(error);
-        } else {
-          bcrypt.hash(req.body.password, 12)
-            .then(hashedPassword => {
-              Q.addNewUser(req.body, hashedPassword)
-                .then((newUser) => {
-                  createTokenSendResponse(newUser[0], res, next);
-                });
-            })
-            .catch(err => next(err));
-        }
-      });
+  if (result.error !== null) return next(result.error);
+
+  // look for existing user in DB first
+  let user = await Q.getUserbyEmail(req.body.email);
+  if (user) {
+    const error = new Error('A user with this email already exists.');
+    res.status(409);
+    next(error);
   } else {
-    next(result.error);
+    try {
+      // look for user in salesforce first and update salseforce
+      let salesforceUser = await salesforce.signUpSignInUserUpdate(req.body);
+      // Then post new user info with salesforce in fo to DB
+      let newBody = req.body;
+      newBody.salesforceUser = salesforceUser;
+      let hashedPassword = await bcrypt.hash(req.body.password, 12);
+      let newUser = await Q.addNewUser(newBody, hashedPassword);
+      let values = JSON.stringify({Campus__c: req.body.campus, Phone: req.body.phone});
+      let opportunities = await salesforce.getOpportunities(newUser[0].email);
+      if (!opportunities.length) {
+        let application = await Q.findOrCreateApplication(req.body.courseType, req.body.courseProduct, newUser[0].id, JSON.parse(values));
+        opportunities.push(application);
+      }
+      createTokenSendResponse(newUser[0], opportunities, res, next);
+    } catch(err) {
+      console.log(err);
+      res.status(501);
+      const error = new Error('Hmm... There was an error creating your account. Please contact admissions@galvanize.com');
+      next(error);
+    }
   }
 });
 
-router.post('/signin', (req, res, next) => {
+router.post('/signin', async (req, res, next) => {
   const result = Joi.validate(req.body, signinSchema);
-  if (result.error === null) {
-    Q.getUserbyEmail(req.body.email)
-      .then(user => {
-        if (user) {
-          bcrypt.compare(req.body.password, user.password)
-            .then(result => {
-              if (result) {
-                createTokenSendResponse(user, res, next);
-              } else {
-                respondError(res, next);
-              }
-            });
-        } else {
-          respondError(res, next);
-        }
-      }).catch(err => {
-        respondError(res, next);
-      });
-  } else {
+  if (result.error !== null) return respondError(res, next);
+
+  try {
+    let user = await Q.getUserbyEmail(req.body.email);
+    if (!user) return respondError(res, next);
+
+    let result = await bcrypt.compare(req.body.password, user.password);
+    if (!result) return respondError(res, next);
+
+    let salesforceUser = await salesforce.signUpSignInUserUpdate(user);
+    await Q.updateSalesforceUserAttrs(user.email, salesforceUser)
+    createTokenSendResponse(user, [], res, next);
+  } catch(err) {
     respondError(res, next);
   }
 });

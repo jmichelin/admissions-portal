@@ -1,5 +1,5 @@
-.dashboard .table {
-  & {
+.dashboard {
+  .table {
     width: 100%;
     padding: $pad-double;
   }
@@ -19,7 +19,6 @@
   .table-row {
     display: flex;
     list-style: none;
-    justify-content: space-between;
     margin: 0;
 
      li {
@@ -37,89 +36,57 @@
       padding: $pad-and-half $pad;
     }
 
-    .application-row {
-      background: $color-white;
-      margin-top: $space;
-      margin-bottom: $space-triple;
-      border: 1px solid $color-brand-primary;
-
-      .-listing {
-        border-bottom: 1px solid $color-brand-primary;
-        background: $color-gray-1;
-      }
-    }
-
     & :first-child.application-row  {
       margin-top: 0;
       border-top: 0;
     }
   }
 
-  .table-row.-steps {
-    display: flex;
-    justify-content: center;
-    background: white;
-    border-radius: 4px;
+  .application-row {
+    background: $color-white;
+    margin-top: $space;
+    margin-bottom: $space;
+    border: 1px solid $color-brand-primary;
+
+    .-listing {
+      background: $color-gray-1;
+    }
   }
 
-  .steps-list .steps {
+  .delete-application {
     display: flex;
-    justify-content: center;
-    padding: 0;
+    justify-content: flex-end;
+
+    button {
+      cursor: pointer;
+    }
   }
 
-  .steps-list .steps .step {
-    padding: 0 $pad;
+  .error {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    width: 210px;
-    position: relative;
-
-    .label {
-      margin-top: $space;
-      text-align: center;
-      font-size: 14px;
-      max-width: 130px;
-    }
-
-    .number {
-      position: relative;
-      z-index: 1;
-      font-size: 20px;
-      color: $color-white;
-      background: $color-brand-primary;
-      border-radius: 50%;
-      width: 40px;
-      line-height: 40px;
-      text-align: center;
-    }
-
-    .-complete {
-      border: 2px solid $color-brand-primary;
-      background: $color-white;
-      img {
-        width: 18px;
-        margin-left: 2px;
-        margin-bottom: -2px;
-      }
-    }
-
-    &::after {
-      position: absolute;
-      content: '';
-      top: 22px;
-      left: 122px;
-      width: 185px;
-      height: 2px;
-      background: $color-brand-primary;
-    }
-    &:last-child::after {
-      display: none;
-    }
+    justify-content: flex-end;
+    color: red;
   }
 }
+
+.modal-button {
+  padding-top: $pad/2;
+  color: white;
+  margin-bottom: -2em;
+  padding-bottom: $pad;
+}
+
+.modal-content-wrapper {
+  text-align: center;
+
+  .modal-buttons {
+    display: flex;
+    justify-content: center;
+    padding-top: 25px;
+  }
+}
+
+
 
 @media (max-width: 875px) {
   .table {

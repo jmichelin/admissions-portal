@@ -13,31 +13,28 @@ describe('api assessments', () => {
   beforeEach((done) => {
     sandbox = sinon.createSandbox();
     app = require('../../index');
-    knex.raw("start transaction").then(function () {
-      done();
-    });
+    knex.raw("start transaction").then(() => { done(); });
   });
 
   afterEach((done) => {
     sandbox.restore();
-    knex.raw("rollback").then(function () {
-      done();
-    });
+    knex.raw("rollback").then(() => { done(); });
   });
 
   describe('GET api/v1/assessments/user', () => {
     it("yields only the user's latest assessment for a given snippet id", (done) => {
-      Testing.userWithThreeAssessments().then((result) => {
-        request(app)
-          .get('/api/v1/assessments/user')
-          .set('Authorization', `Bearer ${result.token}`)
-          .send()
-          .expect(200)
-          .end((err, res) => {
-            if (err) return done(err);
-            expect(res.body.length).to.eq(2);
-            done()
-          });
+      Testing.userWithThreeAssessments()
+        .then((result) => {
+          request(app)
+            .get('/api/v1/assessments/user')
+            .set('Authorization', `Bearer ${result.token}`)
+            .send()
+            .expect(200)
+            .end((err, res) => {
+              if (err) return done(err);
+              expect(res.body.length).to.eq(2);
+              done()
+            });
       });
     })
   })

@@ -1,0 +1,79 @@
+.admissions-steps {
+  .table-row.-steps {
+    display: flex;
+    justify-content: center;
+    background: white;
+    border-radius: 4px;
+  }
+
+  .error-msg {
+    color: red;
+    text-align: center;
+  }
+
+  .steps-list .steps {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .steps-list .steps .step {
+    padding: 0 $pad;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    width: 210px;
+    position: relative;
+
+    .label {
+      margin-top: $space;
+      text-align: center;
+      font-size: 14px;
+      max-width: 130px;
+    }
+
+    .number {
+      position: relative;
+      z-index: 1;
+      font-size: 20px;
+      color: $color-white;
+      background: $color-brand-primary;
+      border-radius: 50%;
+      width: 40px;
+      line-height: 38px;
+      text-align: center;
+    }
+
+    .-complete {
+      border: 2px solid $color-brand-primary;
+      background: $color-white;
+      img {
+        width: 18px;
+        margin-left: 2px;
+        margin-bottom: -2px;
+      }
+    }
+
+    .-active {
+      border: 2px solid $color-brand-primary;
+      background: $color-white;
+      color: $color-brand-primary;
+      height: 40px;
+    }
+
+    &::after {
+      position: absolute;
+      content: '';
+      top: 22px;
+      left: 122px;
+      width: 185px;
+      height: 2px;
+      background: $color-brand-primary;
+    }
+
+    &:last-child::after {
+      display: none;
+    }
+  }
+}

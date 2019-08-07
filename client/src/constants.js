@@ -7,16 +7,15 @@ export const TECH_INTERVIEW_SEI_URL = 'https://www.galvanize.com/web-development
 export const TECH_INTERVIEW_DSI_URL = 'https://www.galvanize.com/data-science/interview';
 export const PREP_SEI_URL = 'https://www.galvanize.com/web-development/prep';
 export const PREP_DSI_URL = 'https://www.galvanize.com/data-science/prep';
-
 export const DSI_YCBM_CALENDAR_URL ='https://dsi-interviews.youcanbook.me';
 export const DSI_YCBM_CALENDAR_ID = 'ycbmiframedsi-interviews';
-
 export const CODE_CHALLENGE_ENDPOINT = '/api/v1/user/code-submit';
 export const PYTHON_CODE_SUBMIT_ENDPOINT = '/api/v1/user/python-submit';
 export const UPDATE_OPP_ENDPOINT = '/api/v1/user/update-opp-stage';
 export const UPDATE_SCORECARD_ENDPOINT = '/api/v1/user/update-scorecard';
 export const PYTHON_CHALLENGE_ENDPOINT = '/api/v1/assessments';
-
+export const APPLICATIONS_ENDPOINT = '/api/v1/applications';
+export const APPLICATION_INITIALIZE_ENDPOINT  = '/api/v1/applications/initialize';
 export const PROSPECT_RECORD_ID = '012j00000004QndAAE';
 export const STUDENT_RECORD_ID = '012j0000000kfkDAAQ';
 export const SF_WDI_SYLLABUS_CAMPAIGN_ID = process.env.SF_WDI_SYLLABUS_CAMPAIGN_ID;
@@ -24,9 +23,37 @@ export const SF_WDI_APPLICATION_CAMPAIGN_ID = process.env.SF_WDI_APPLICATION_CAM
 export const SF_DSI_SYLLABUS_CAMPAIGN_ID = process.env.SF_DSI_SYLLABUS_CAMPAIGN_ID;
 export const SF_DSI_APPLICATION_CAMPAIGN_ID = process.env.SF_DSI_APPLICATION_CAMPAIGN_ID;
 export const SF_NEWSLETTER_CAMPAIGN_ID = process.env.SF_NEWSLETTER_CAMPAIGN_ID;
+export const LEAD_SOURCE_COOKIE = 'fa-ad-source';
+
+const DSI_IMMERSIVE = {
+    courseName: 'Data Science',
+    courseType: '13 Week Full-Time Immersive',
+    courseProduct: 'Data Science'
+  };
+
+const SEI_IMMERSIVE = {
+    courseName: 'Software Engineering',
+    courseType: '12 Week Full-Time Immersive',
+    courseProduct: 'Full Stack'
+  };
+
+const SEI_IMMERSIVE_EXTENDED = {
+    courseName: 'Software Engineering',
+    courseType: '18 Week Full-Time Immersive',
+    courseProduct: 'Full Stack'
+  };
+
+const SEI_IMMERSIVE_PART_TIME = {
+    courseName: 'Part-Time Software Engineering Immersive',
+    courseType: '36 Week Part-Time Immersive',
+    courseProduct: 'Full Stack'
+  };
+
+export const AVAILABLE_PROGRAMS = [DSI_IMMERSIVE, SEI_IMMERSIVE, SEI_IMMERSIVE_EXTENDED, SEI_IMMERSIVE_PART_TIME];
 
 export const CAMPUSES = [
-  { name: 'austin',
+  {
+    name: 'austin',
     optionName: 'Austin, TX', // used in select dropdowns
     lat: '30.26532630000001',
     lon: '-97.74954989999998',
@@ -37,9 +64,11 @@ export const CAMPUSES = [
     sfdcName: 'Austin-2nd St District',
     ycbmLink: 'https://atx-interviews.youcanbook.me',
     ycbmId:'ycbmiframeatx-interviews',
-    location: '2nd Street District'
+    location: '2nd Street District',
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE]
   },
-  { name: 'boulder',
+  {
+    name: 'boulder',
     optionName: 'Boulder, CO',
     lat: '40.0165447',
     lon: '-105.28168599999998',
@@ -50,9 +79,11 @@ export const CAMPUSES = [
     sfdcName: 'Boulder-Walnut St.',
     ycbmLink: 'https://agn-interviews.youcanbook.me',
     ycbmId:'ycbmiframeagn-interviews',
-    location: 'Walnut'
+    location: 'Walnut',
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE_EXTENDED]
   },
-  { name: 'denver-platte',
+  {
+    name: 'denver-platte',
     optionName: 'Denver, CO',
     lat: '39.75766149999999',
     lon: '-105.00695439999998',
@@ -63,9 +94,11 @@ export const CAMPUSES = [
     sfdcName: 'Denver-Platte',
     ycbmLink: 'https://agn-interviews.youcanbook.me',
     ycbmId:'ycbmiframeagn-interviews',
-    location: 'Platte'
+    location: 'Platte',
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE_EXTENDED]
   },
-  { name: 'new-york',
+  {
+    name: 'new-york',
     optionName: 'New York, NY',
     lat: '40.7263875',
     lon: '-74.00779190000003',
@@ -76,9 +109,11 @@ export const CAMPUSES = [
     sfdcName: 'NYC-SoHo',
     ycbmLink: 'https://nyc-interviews.youcanbook.me',
     ycbmId:'ycbmiframenyc-interviews',
-    location: 'West SoHo'
+    location: 'West SoHo',
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE]
   },
-  { name: 'phoenix',
+  {
+    name: 'phoenix',
     optionName: 'Phoenix, AZ',
     lat: '33.439984',
     lon: '-112.066826',
@@ -89,9 +124,11 @@ export const CAMPUSES = [
     sfdcName: 'Phoenix-Warehouse District',
     ycbmLink: 'https://agn-interviews.youcanbook.me',
     ycbmId:'ycbmiframeagn-interviews',
-    location: 'Warehouse District'
+    location: 'Warehouse District',
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE_EXTENDED]
   },
-  { name: 'los-angeles',
+  {
+    name: 'los-angeles',
     optionName: 'Los Angeles, CA',
     lat: '33.976037',
     lon: '-118.390798',
@@ -102,9 +139,11 @@ export const CAMPUSES = [
     sfdcName: 'Los Angeles',
     ycbmLink: 'https://la-interviews.youcanbook.me',
     ycbmId:'ycbmiframela-interviews',
-    location: 'Los Angeles'
+    location: 'Los Angeles',
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE]
   },
-  { name: 'san-francisco',
+  {
+    name: 'san-francisco',
     optionName: 'San Francisco, CA',
     lat: '37.7875728',
     lon: '-122.39658180000004',
@@ -115,9 +154,11 @@ export const CAMPUSES = [
     sfdcName: 'San Francisco-SoMa',
     ycbmLink: 'https://sf-interviews.youcanbook.me',
     ycbmId:'ycbmiframesf-interviews',
-    location: 'SoMa'
+    location: 'SoMa',
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE]
   },
-  { name: 'seattle',
+  {
+    name: 'seattle',
     optionName: 'Seattle, WA',
     lat: '47.5990943',
     lon: '-122.33370980000001',
@@ -128,9 +169,11 @@ export const CAMPUSES = [
     sfdcName: 'Seattle-Pioneer Square',
     ycbmLink: 'https://agn-interviews.youcanbook.me',
     ycbmId:'ycbmiframeagn-interviews',
-    location: 'Pioneer Square'
+    location: 'Pioneer Square',
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE_EXTENDED]
   },
-  { name: 'remote',
+  {
+    name: 'remote',
     optionName: 'Remote',
     lat: '47.5990943',
     lon: '-122.33370980000001',
@@ -141,29 +184,10 @@ export const CAMPUSES = [
     sfdcName: 'Remote',
     ycbmLink: 'https://remote-interviews.youcanbook.me',
     ycbmId:'ycbmiframeremote-interviews',
-    location: 'Remote'
+    location: 'Remote',
+    programs: [DSI_IMMERSIVE, SEI_IMMERSIVE]
   }
 ];
-
-export const FULL_TIME_PROGRAMS = [
-  {
-    name:'Data Science Immersive',
-    sfdcName: 'Data Science'
-  },{
-      name:'Data Science Remote Immersive',
-      sfdcName: 'Data Science Remote Immersive'
-  },{
-    name:'Software Engineering Immersive',
-    sfdcName: 'Software Engineering Immersive'
-  },{
-    name:'Software Engineering Remote Immersive',
-    sfdcName: 'Software Engineering Remote Immersive'
-  },{
-    name:'Software Engineering Remote Part Time Immersive',
-    sfdcName: 'Software Engineering Remote Part Time Immersive'
-  }
-];
-
 
 export const CODING_CHALLENGE_TESTS = `describe("declaredAnArray", function() {
 it("myArray is defined as an array", function() {
@@ -203,7 +227,7 @@ it("myInfo.github is defined as a string or null", function() {
 export const HERO_TEXT = {
   DASHBOARD: {
     heroHeadline: 'Admissions Portal Dashboard',
-    heroDescription: 'Manage your application, see next steps and complete the admissions process from here.'
+    heroDescription: 'Start applications and complete the admissions process for each program from here.'
   },
   CODING_CHALLENGE: {
     heroHeadline: 'Pass the Coding Challenge',
@@ -226,7 +250,11 @@ export const HERO_TEXT = {
 export const SEI_STEPS_12_WK = {
   STEP_ONE: {
     step: 1,
-    status: 'Complete Your Application'
+    status: 'Complete Your Application',
+    description: 'For the first step in the admissions process, please answer a few questions about yourself to complete your application for our Onsite, Remote, or Remote Part-Time Software Engineering programs. If you have any questions, reach out to us at admissions@galvanize.com.',
+    buttonPath: '/application',
+    buttonText: 'Complete Your Application',
+    blockClass:'-grey'
   },
   STEP_TWO: {
     step: 2,
@@ -268,7 +296,11 @@ export const SEI_STEPS_12_WK = {
 export const SEI_STEPS_18_WK = {
   STEP_ONE: {
     step: 1,
-    status: 'Complete Your Application'
+    status: 'Complete Your Application',
+    description: 'For the first step in the admissions process, please answer a few questions about yourself to finish completing your application. If you have any questions, reach out to us at admissions@galvanize.com.',
+    buttonPath: '/application',
+    buttonText: 'Complete Your Application',
+    blockClass:'-grey'
   },
   STEP_TWO: {
     step: 1.5,
@@ -280,7 +312,6 @@ export const SEI_STEPS_18_WK = {
     hidden: true,
     blockClass:'-blue',
     alertText: 'We still recommend you do the Group Assessment even if you also attempt to FastTrack.'
-
   },
   STEP_THREE: {
     step: 1.75,
@@ -297,7 +328,6 @@ export const SEI_STEPS_18_WK = {
     buttonText: 'FastTrack Coding Challenge',
     override: true,
     alertText: 'Want to see if you can do our accelerated FastTrack program?  Pass this coding challenge to be eligible for a final Technical Interview to get into FastTrack.'
-
   },
   STEP_FIVE: {
     step: 3,
@@ -322,7 +352,11 @@ export const SEI_STEPS_18_WK = {
 export const DSI_STEPS = {
   STEP_ONE: {
     step: 1,
-    status: 'Complete Your Application'
+    status: 'Complete Your Application',
+    description: 'For the first step in the admissions process, please answer a few questions about yourself to finish completing your application. If you have any questions, reach out to us at admissions@galvanize.com.',
+    buttonPath: '/application',
+    buttonText: 'Complete Your Application',
+    blockClass:'-grey'
   },
   STEP_TWO: {
     step: 2,
@@ -367,7 +401,7 @@ export const APPLICATION_STEPS_SEI_12WK = [
   SEI_STEPS_12_WK.STEP_THREE,
   SEI_STEPS_12_WK.STEP_FOUR,
   SEI_STEPS_12_WK.COMPLETE,
-  SEI_STEPS_12_WK.HOLD
+  SEI_STEPS_12_WK.HOLD,
 ];
 
 export const APPLICATION_STEPS_SEI_18WK = [
@@ -377,7 +411,7 @@ export const APPLICATION_STEPS_SEI_18WK = [
   SEI_STEPS_18_WK.STEP_FOUR,
   SEI_STEPS_18_WK.STEP_FIVE,
   SEI_STEPS_18_WK.COMPLETE,
-  SEI_STEPS_18_WK.HOLD
+  SEI_STEPS_18_WK.HOLD,
 ];
 
 export const APPLICATION_STEPS_DSI = [
@@ -386,7 +420,7 @@ export const APPLICATION_STEPS_DSI = [
   DSI_STEPS.STEP_THREE,
   DSI_STEPS.STEP_FOUR,
   DSI_STEPS.COMPLETE,
-  DSI_STEPS.HOLD
+  DSI_STEPS.HOLD,
 ];
 
 export const PLACEHOLDER_1 = `def consonant_first(text):
@@ -451,4 +485,13 @@ export const SNIPPET_2 = {
   question: `You have some numeric data stored in a dictionary. The data could represent any number of things, for example, people's names and their height in inches, or cities and their populations. Complete the function below to return all the keys of the dictionary where their associated values are greater than or equal to some cutoff.`
 };
 
+export const PROGRAM_SELECT_TEXT = {
+  headlineText: 'Start a New Application',
+  noApplicationsText: "Looks like you don't have any active applications for a course starting in the future. Select a program and campus below to start your application:",
+  existingApplicationsText: "Want to apply for a different program? Start a new application here to get started.  If you have an existing application for the same program please continue your application above.",
+  heroDescription: 'Manage your application, see next steps and complete the admissions process from here.',
+  citationText1: "Once you submit an application you can proceed within this portal to complete the next step in your program's admissions process.",
+};
 export const SUPPORT_ERROR_MESSAGE = "Uh oh! There was a processing error. Please contact support@galvanize.com"
+
+export const CAMPUSES_SEI_18WK = ['Phoenix-Warehouse District', 'Seattle-Pioneer Square', 'Denver-Platte', 'Boulder-Walnut St.'];

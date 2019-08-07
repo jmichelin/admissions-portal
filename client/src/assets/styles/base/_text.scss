@@ -27,6 +27,15 @@ p.lead {
   }
 }
 
+p.error-msg {
+  text-align: center;
+  font-weight: bold;
+  color: #F79020;
+  display: block;
+  width: 100%;
+  margin-bottom: 0px;
+}
+
 p.-inverse {
   color: $color-white;
 }
@@ -48,7 +57,7 @@ p.-inverse {
 .citation {
   font-style: italic;
   font-size: 14px;
-  margin-top: $space-triple;
+  margin-top: $space-double;
 
   &.-thin {
     margin-top: 0;

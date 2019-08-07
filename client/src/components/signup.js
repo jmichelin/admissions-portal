@@ -1,111 +1,140 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import inputs from './forms/inputs/inputs';
 import InputGroup from './forms/input-group';
 import Checkbox from './forms/checkbox';
-
+import Select from './forms/select';
 import HRLogo from '../assets/images/hack-reactor-horizontal-logo.png';
-
+import { AVAILABLE_PROGRAMS } from '../constants';
+import utils from '../helpers/utils';
 import Joi from 'joi';
-
+const phoneJoi = Joi.extend(require('joi-phone-number'));
 const SIGNUP_URL = '/auth/signup';
 
 class Signup extends Component {
-
   constructor(props){
     super(props);
+
     const accountInputs = inputs.getCreateAccountInputs();
+    const values = accountInputs.reduce((result, currentVal) => {
+      result[currentVal["fieldName"]] = '';
+      return result
+    }, {});
 
     this.state = {
       formInputs: accountInputs,
-      first_name: '',
-      last_name:'',
-      email:'',
-      password:'',
-      confirmed_password: '',
-      terms: false,
       isFormValid: false,
       submitAttempted: false,
       errorMessage: '',
-      isLoading: false
-    }
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.onInputChange = this.onInputChange.bind(this);
-    this.validField = this.validField.bind(this);
-    this.validUser = this.validUser.bind(this);
-  }
-
-  onInputChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-  }
-
-  validUser(data) {
-    const result = Joi.validate(data, schema);
-    if (this.state.confirmed_password !== this.state.password) return false;
-    if (this.state.terms === false) return false;
-    if (result.error === null) {
-      return true;
-    } else {
-      return false;
+      isLoading: false,
+      values,
     }
   }
 
-  validField(input) {
-    const field = {[input.id]:this.state[input.id]}
-    const result = Joi.validate(field, schema);
-    if (input.id === 'confirmed_password') {
-      return this.state[input.id] === this.state.password;
-    }
-    if (input.id === 'terms') {
-      return this.state.terms;
-    }
-    if (result.error === null) {
-      return true;
-    }
-    return false;
-}
-
-  handleSubmit(event) {
-    event.preventDefault();
-    this.setState({
-      submitAttempted: true,
-      isLoading: true
-    })
-    const { first_name, last_name, email, password } = this.state;
-    const formData = { first_name, last_name, email, password }
-
-    if (this.validUser(formData)) {
-      fetch(SIGNUP_URL, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-          'content-type': 'application/json'
-        }
-        }).then(response => {
-          if (response.ok) {
-            return response.json()
-          }
-          return response.json().then(error => {
-            throw new Error(error.message)
-          })
-        }).then(result => {
-          localStorage.token = result.token;
-          this.setState({
-            redirectToDashboard: true
-          })
-        }).catch(err => {
+  checkDependencies = (fieldName, value) => {
+    // check dependencies
+    this.state.formInputs.forEach((input) => {
+      if (input.dependentField && input.dependentField === fieldName) {
+        input.dependentProcess(value)
+          .then((options) => {
+            // only using for select, so update options
             this.setState({
-              errorMessage: err.message,
-              isLoading: false
+              formInputs: this.state.formInputs.map((s) => { return s.id === input.id ? Object.assign({}, s, { options }): s })
             })
         })
-      } else {
+      }
+    })
+  }
+
+  onInputChange = (event) => {
+    const target = event.target;
+    let value = target.type === 'checkbox' ? target.checked : target.value;
+    const fieldName = target.name;
+    if(target.name === "email") value = value.toLowerCase();
+
+    this.checkDependencies(fieldName, value);
+    this.setState(prevState => ({
+      ...prevState,
+      values: {
+        ...prevState.values,
+        [fieldName]: value
+      },
+    }));
+
+    if (fieldName === "campus") {
+      this.setState(prevState => ({
+        ...prevState,
+        values: {
+          ...prevState.values,
+          program: ""
+        },
+      }));
+    }
+  }
+
+  validUser = (data) => {
+    const result = Joi.validate(data, schema);
+    if (this.state.values.confirmed_password !== this.state.values.password) return false;
+    if (this.state.values.terms !== true) return false;
+    if (result.error) return false
+
+    return true
+  }
+
+  validField = (input) => {
+    const field = { [input.id]: this.state.values[input.id] }
+    const result = Joi.validate(field, schema);
+
+    if (input.id === 'confirmed_password') {
+      return this.state.values[input.id] === this.state.values.password;
+    }
+    if (input.id === 'terms') return this.state.values.terms;
+    if (result.error) return false;
+
+    return true;
+  }
+
+  handleSubmit = async (event) => {
+    event.preventDefault();
+
+    this.setState({ submitAttempted: true, isLoading: true })
+
+    const { first_name, last_name, email, password, program, campus, phone } = this.state.values;
+    const { courseType, courseProduct } = AVAILABLE_PROGRAMS.find(e => e.courseType === program) || { courseType: undefined, courseProduct: undefined }
+    const formData = { first_name, last_name, email, password, program, campus, phone, courseType, courseProduct, ...this.props.leadSource }
+    // set courseType and courseProduct from Application Inputs to send to server
+    if (this.validUser(formData)) {
+      try {
+        let response = await fetch(SIGNUP_URL, {
+          method: 'POST',
+          body: JSON.stringify(formData),
+          headers: {
+            'content-type': 'application/json'
+          }
+        })
+        let result = await response.json();
+        if (result.message) throw new Error(result.message)
+        localStorage.token = result.token;
+        const applications = result.data.applications.map(app => {
+          const stageObj = utils.getStage(app);
+          app.formalName = stageObj.name;
+          app.currentStep = stageObj.step;
+          app.admissionsProcess = stageObj.process;
+          return app;
+        })
+        let updatedState = {
+          user: result.data.user,
+          applications: applications,
+          fetchedData: true
+        }
+        this.props.updateState(updatedState, `/dashboard/?conv=signup&prod=${courseProduct}`)
+      } catch(err) {
+        this.setState({
+          errorMessage: err.message,
+          isLoading: false
+        })
+      }
+    } else {
       this.setState({ isLoading: false });
     }
   }
@@ -118,13 +147,13 @@ class Signup extends Component {
             key={i}
             type={input.type}
             name={input.id}
-            label={input.label}
+            placeholder={input.label}
             required={input.required}
-            value={this.state[input.id]}
+            value={this.state.values[input.id]}
             onInputChange={this.onInputChange}
             errorMessage={input.errorMessage}
             showError={this.state.submitAttempted && !this.validField(input)}
-            />
+          />
           )
       } else if (input.type === 'checkbox') {
         return (
@@ -134,51 +163,68 @@ class Signup extends Component {
             name={input.id}
             label={input.label}
             required={input.required}
-            checked={this.state.consent}
+            checked={this.state.values.terms}
             terms={true}
             onInputChange={this.onInputChange}
             showError={this.state.submitAttempted && !this.validField(input)}
-            errorMessage={input.errorMessage}/>)
-        } else {
+            errorMessage={input.errorMessage}/>
+        )} else if (input.type === 'select') {
+            return (<Select
+              key={i}
+              type={input.type}
+              name={input.id}
+              placeholder={input.label}
+              required={input.required}
+              value={this.state.values[input.id]}
+              options={input.options}
+              onOptionClick={(e) => this.onInputChange(e)}
+              disabled={input.dependentField ? !this.state.values[input.dependentField] : false}
+              errorMessage={input.errorMessage}
+              showError={this.state.submitAttempted && !this.validField(input)}
+            />
+        )} else {
           return null;
         }
     })
   }
 
-
   render() {
-    if (this.state.redirectToDashboard) {
-      return (
-      <Redirect to="/dashboard"/>
-      )
-    }
     return (
-        <div className="signup">
-          <h1 className="title">Admissions Portal<span>New!</span></h1>
-          <div className="logo-wrapper">
-            <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
-            <img className="logo -hr" src={HRLogo} alt="Hack Reactor Logo"></img>
-          </div>
-          <h3 className="portal-title">Create Your Account</h3>
-          <p className="title-subtext">Already have an account? <button className="-inline" onClick={this.props.toggleSignin}>Sign In</button></p>
-            <p className="citation -thin -center -note">Have an account through Hack Reactor? Create a new account here to pick up where you left off in the admissions process.</p>
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              {this.createInputs().slice(0,2)}
-            </div>
-            <div className="form-group">
-              {this.createInputs().slice(2,3)}
-            </div>
-            <div className="form-group">
-              {this.createInputs().slice(3,5)}
-            </div>
-            <div className="form-footer">
-              {this.createInputs().slice(5,6)}
-              <input type="submit" value="Create Account" className={this.state.isLoading ? "button-primary -loading" : "button-primary"}/>
-            </div>
-            <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
-          </form>
+      <div className="signup">
+        <h1 className="title">Admissions Portal<span>New!</span></h1>
+        <div className="logo-wrapper">
+          <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
+          <img className="logo -hr" src={HRLogo} alt="Hack Reactor Logo"></img>
         </div>
+        <h3 className="portal-title">Create Your Account</h3>
+        <p className="title-subtext">Already have an account? <button className="-inline" onClick={this.props.toggleSignin}>Sign In</button></p>
+        <form onSubmit={this.handleSubmit}>
+          <div className="form-group">
+            {this.createInputs().slice(0,2)}
+          </div>
+          <div className="form-group">
+            {this.createInputs().slice(2,3)}
+          </div>
+          <div className="form-group">
+            {this.createInputs().slice(3,5)}
+          </div>
+          <div className="form-group">
+            {this.createInputs().slice(5,6)}
+          </div>
+          <div className="form-group">
+            {this.createInputs().slice(6,8)}
+          </div>
+          <div className="form-footer">
+            {this.createInputs().slice(8,9)}
+            <input type="submit" value="Create Account" className={this.state.isLoading ? "button-primary -loading" : "button-primary"} />
+          </div>
+          <div className="error-wrapper">
+            <span className="form note form-error">
+              {this.state.errorMessage}
+            </span>
+          </div>
+        </form>
+      </div>
     );
   }
 }
@@ -187,7 +233,17 @@ const schema = {
   first_name: Joi.string(),
   last_name: Joi.string(),
   email: Joi.string().email(),
-  password: Joi.string().min(5).max(15)
+  password: Joi.string().min(5).max(15),
+  program: Joi.string(),
+  campus: Joi.string(),
+  phone: phoneJoi.string().phoneNumber(),
+  courseType: Joi.string(),
+  courseProduct: Joi.string(),
+  LeadSource: Joi.string(),
+  LeadSourceDetail__c: Joi.string(),
+  pi__utm_source__c: Joi.string().allow('', null),
+  pi__utm_medium__c: Joi.string().allow('', null),
+  pi__utm_campaign__c: Joi.string().allow('', null)
 }
 
-export default Signup;
+export default withRouter(Signup);

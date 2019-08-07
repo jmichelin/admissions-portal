@@ -1,5 +1,4 @@
 const express = require('express');
-
 const router = express.Router();
 const Q = require('../db/queries');
 
@@ -8,14 +7,12 @@ import Assessments from '../lib/assessments';
 
 router.get('/user', (req, res, next) => {
   Q.getUserLatestAssessment(req.user.id)
-  .then((latestAsessments) => {
-    return res.json(latestAsessments);
-  })
-  .catch(err => {
-    res.status(501);
-    const error = new Error('Error getting latest assessements.');
-    next(error);
-  });
+    .then((latestAsessments) => res.json(latestAsessments))
+    .catch(() => {
+      res.status(501);
+      const error = new Error('Error getting latest assessements.');
+      next(error);
+    });
 });
 
 router.get('/:id', (req, res, next) => {
@@ -28,7 +25,7 @@ router.get('/:id', (req, res, next) => {
       }
       return
     })
-    .catch(err => {
+    .catch(() => {
       res.status(501);
       const error = new Error('Error getting assessment.');
       next(error);
@@ -41,12 +38,11 @@ router.patch('/:id/cancel', (req, res, next) => {
       if (assessment.user_id !== req.user.id) {
         return res.send(401);
       } else {
-        Q.updateAssessment(req.params.id, 'Tests canceled', 'canceled').then((canceled) => {
-          return res.json(canceled)
-        })
+        Q.updateAssessment(req.params.id, 'Tests canceled', 'canceled')
+          .then(canceled => res.json(canceled))
       }
     })
-    .catch(err => {
+    .catch(() => {
       res.status(501);
       const error = new Error('Error cancelling tests.');
       next(error);
@@ -55,16 +51,17 @@ router.patch('/:id/cancel', (req, res, next) => {
 
 
 router.post('/', noRunningTests, (req, res, next) => {
- let assessment = {
-   snippet_id: req.body.snippet_id,
-   answer: req.body.answer,
-   status: 'processing',
-   test_results: '',
-   user_id: req.user.id
+  let assessment = {
+    snippet_id: req.body.snippet_id,
+    answer: req.body.answer,
+    status: 'processing',
+    test_results: '',
+    user_id: req.user.id
   }
- Q.addNewAssessment(assessment)
+
+  Q.addNewAssessment(assessment)
     .then(savedAssessment => {
-      let payload = {
+      const payload = {
         code_to_assess: assessment.answer,
         setup_to_run_before_code: '',
         tests_to_assess_against: snippet_tests(assessment.snippet_id),
@@ -72,18 +69,18 @@ router.post('/', noRunningTests, (req, res, next) => {
         callback_url: `${process.env.BASE_URL}/webhooks/assessments/${savedAssessment[0].id}?token=${process.env.ASSESSMENTS_CALLBACK_TOKEN}`
       };
 
-     Assessments.post(payload)
-      .then(() => {
-       res.status(200).json({id: savedAssessment[0].id});
-       return;
-     })
-     .catch(err => {
-       res.status(501);
-       const error = new Error('Error calling Asessment Service.');
-       next(error);
-     });
+      Assessments.post(payload)
+        .then(() => {
+          res.status(200).json({ id: savedAssessment[0].id });
+          return;
+        })
+        .catch(() => {
+          res.status(501);
+          const error = new Error('Error calling Asessment Service.');
+          next(error);
+        });
    })
-   .catch(err => {
+   .catch(() => {
      res.status(501);
      const error = new Error('Error running assessment.');
      next(error);
@@ -103,7 +100,7 @@ function noRunningTests(req, res, next) {
         next()
       }
     })
-    .catch(err => {
+    .catch(() => {
       res.status(501);
       const error = new Error('Error clearing out stale running tests.');
       next(error);
