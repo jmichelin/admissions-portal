@@ -8,6 +8,7 @@
     "joi": "^14.0.4",
     "node-sass": "^4.11.0",
     "react": "^16.6.0",
+    "react-app-polyfill": "^1.0.1",
     "react-codemirror2": "^5.1.0",
     "react-dom": "^16.6.0",
     "react-modal": "^3.8.1",
