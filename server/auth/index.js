@@ -5,6 +5,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 import crypto from 'crypto';
 
+import Honeybadger from '../lib/honeybadger';
+const honeybadger = new Honeybadger();
+
 import Salesforce from '../lib/salesforce';
 const salesforce = new Salesforce();
 
@@ -88,6 +91,7 @@ router.post('/signup', async (req, res, next) => {
       createTokenSendResponse(newUser[0], opportunities, res, next);
     } catch(err) {
       console.log(err);
+      honeybadger.notify(err);
       res.status(501);
       const error = new Error('Hmm... There was an error creating your account. Please contact admissions@galvanize.com');
       next(error);
@@ -110,6 +114,7 @@ router.post('/signin', async (req, res, next) => {
     await Q.updateSalesforceUserAttrs(user.email, salesforceUser)
     createTokenSendResponse(user, [], res, next);
   } catch(err) {
+    honeybadger.notify(err);
     respondError(res, next);
   }
 });
@@ -161,6 +166,7 @@ router.post('/forgot-password', (req, res, next) => {
 
       })
       .catch(err => {
+        honeybadger.notify(err);
         const error = new Error('Error setting token. Try again.');
         res.status(422);
         next(error);
@@ -185,6 +191,7 @@ router.get('/reset:id', (req, res, next) => {
       });
     }
   }).catch(err => {
+    honeybadger.notify(err);
     respondForgotError(res, next);
   });
 });
@@ -209,6 +216,7 @@ router.put('/update-password', (req, res, next) => {
           next(error);
         }
       }).catch(err => {
+        honeybadger.notify(err);
         respondError(res, next);
       });
   } else {
