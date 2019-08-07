@@ -5,9 +5,7 @@ var secure = require('express-force-https');
 const path = require('path');
 const morgan = require('morgan');
 const cors = require('cors');
-const Honeybadger = require('honeybadger');
-
-Honeybadger.configure({ apiKey: '042208c6' });
+import Honeybadger from './lib/honeybadger';
 
 if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
   require('babel-register')({
@@ -15,13 +13,14 @@ if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
   });
 }
 
+const honeybadger = new Honeybadger();
 const app = express();
 
 if (process.env.NODE_ENV !== 'test') {
   app.use(secure);
 }
 
-app.use(Honeybadger.requestHandler);
+app.use(honeybadger.requestHandler());
 
 const middlewares = require('./auth/middlewares');
 const auth = require('./auth');
@@ -66,7 +65,7 @@ function errorHandler(err, _req, res, next) {
 }
 
 app.use(notFound);
-app.use(Honeybadger.errorHandler);
+app.use(honeybadger.errorHandler());
 app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
