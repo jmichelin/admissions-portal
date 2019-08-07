@@ -43,7 +43,7 @@ export const APPLICATION_INPUTS = [{
     courseType: '12 Week Full-Time Immersive',
     formFields: [{
       id: 'campus',
-      label: 'Where are you planning to take this course?',
+      label: 'Where are you planning to take this course? *',
       type: 'select',
       fieldName: 'Campus__c',
       value: '',
@@ -52,7 +52,7 @@ export const APPLICATION_INPUTS = [{
       options: CAMPUSES
     }, {
       id: 'course-dates',
-      label: 'When would you like to take this course?',
+      label: 'When would you like to take this course? *',
       fieldName: 'Which_dates_you_prefer_to_take_course__c',
       type: 'select',
       options: [],
@@ -65,7 +65,7 @@ export const APPLICATION_INPUTS = [{
     }, {
       placeholder: 'MM/DD/YYYY',
       id: 'date-of-birth',
-      label: 'Date of Birth',
+      label: 'Date of Birth *',
       fieldName: 'Birthdate__c',
       type: 'text',
       value: '',
@@ -74,7 +74,7 @@ export const APPLICATION_INPUTS = [{
       cleave: true
     },  {
       id: 'education',
-      label: 'Highest level of Education Completed',
+      label: 'Highest level of Education Completed *',
       type: 'select',
       fieldName: 'Highest_Degree__c',
       validate: ["string"],
@@ -107,15 +107,8 @@ export const APPLICATION_INPUTS = [{
         }
       ]
     }, {
-      id: 'linkedin',
-      label: 'LinkedIn URL',
-      validate: [],
-      fieldName: 'LinkedIn__c',
-      type: 'text',
-      value: ''
-    }, {
       id: 'coding-experience',
-      label: 'Coding Experience in JavaScript',
+      label: 'Coding Experience in JavaScript *',
       type: 'select',
       validate: ["string"],
       errorMsg: "Please select an option",
@@ -146,6 +139,13 @@ export const APPLICATION_INPUTS = [{
           value: 'I have built a web application'
         }
       ]
+    },{
+      id: 'linkedin',
+      label: 'LinkedIn URL',
+      validate: [],
+      fieldName: 'LinkedIn__c',
+      type: 'text',
+      value: ''
     }, {
       id: 'other-experience',
       label: 'Other Coding Experience',
@@ -156,7 +156,7 @@ export const APPLICATION_INPUTS = [{
       placeholder: 'Java, Python, etc'
     }, {
       id: 'why-applying',
-      label: 'What is your motivating factor for learning Software Engineering?',
+      label: 'What is your motivating factor for learning Software Engineering? *',
       fieldName: 'Reason_applying_to_this_gSchool_Program__c',
       type: 'textarea',
       validate: ["150-1500-chars"],
@@ -164,7 +164,7 @@ export const APPLICATION_INPUTS = [{
       value: ''
     }, {
       id: 'ethnicity',
-      label: 'What best describes your ethnicity?',
+      label: 'What best describes your ethnicity? *',
       validate: ["string"],
       type: 'select',
       fieldName: 'EthnicityNew__c',
@@ -185,7 +185,7 @@ export const APPLICATION_INPUTS = [{
       ]
     }, {
       id: 'race',
-      label: 'What best describes your race?',
+      label: 'What best describes your race? *',
       type: 'select',
       validate: ["string"],
       fieldName: 'Race__c',
@@ -218,7 +218,7 @@ export const APPLICATION_INPUTS = [{
       ]
     }, {
       id: 'gender',
-      label: 'Gender',
+      label: 'Gender *',
       type: 'select',
       fieldName: 'Gender__c',
       validate: ["string"],
@@ -243,7 +243,7 @@ export const APPLICATION_INPUTS = [{
       ]
     }, {
       id: 'veteran',
-      label: 'Are you a veteran of the U.S. Armed Forces?',
+      label: 'Are you a veteran of the U.S. Armed Forces? *',
       validate: ["string"],
       type: 'select',
       fieldName: 'Veteran__c',
@@ -260,7 +260,7 @@ export const APPLICATION_INPUTS = [{
       ]
     }, {
       id: 'lgbtq',
-      label: 'Do you identify as a member of the LGBTQ community?',
+      label: 'Do you identify as a member of the LGBTQ community? *',
       validate: ["string"],
       type: 'select',
       fieldName: 'Identify_as_LGBTQ__c',
@@ -281,7 +281,7 @@ export const APPLICATION_INPUTS = [{
       ]
     }, {
       id: 'dependent-of-veteran',
-      label: `Are you a dependent of a U.S. Veteran?`,
+      label: `Are you a dependent of a U.S. Veteran? *`,
       validate: ["string"],
       type: 'select',
       fieldName: 'Dependent_of_Veteran__c',
@@ -298,7 +298,7 @@ export const APPLICATION_INPUTS = [{
       ]
     }, {
       id: 'is-international',
-      label: 'Are you a U.S. Citizen or permanent resident?',
+      label: 'Are you a U.S. Citizen or permanent resident? *',
       type: 'select',
       fieldName: 'US_Citizen_or_Permanent_Resident__c',
       value: '',
@@ -315,7 +315,7 @@ export const APPLICATION_INPUTS = [{
       ]
     }, {
       id: 'authorized',
-      label: 'Are you authorized to work in the United States?',
+      label: 'Are you authorized to work in the United States? *',
       type: 'select',
       fieldName: 'Authorize_to_work_in_US__c',
       errorMsg: "Please select an option",
@@ -332,7 +332,7 @@ export const APPLICATION_INPUTS = [{
       ]
     }, {
       id: 'how-heard-about',
-      label: 'How did you hear about Galvanize?',
+      label: 'How did you hear about Galvanize? *',
       validate: ["string"],
       type: 'select',
       fieldName: 'How_did_you_hear_about_gSchool__c',
@@ -406,7 +406,7 @@ export const APPLICATION_INPUTS = [{
     courseType: '13 Week Full-Time Immersive',
     formFields: [{
         id: 'campus',
-        label: 'Where are you planning to take this course?',
+        label: 'Where are you planning to take this course? *',
         type: 'select',
         fieldName: 'Campus__c',
         value: '',
@@ -415,7 +415,7 @@ export const APPLICATION_INPUTS = [{
         options: CAMPUSES
       }, {
         id: 'course-dates',
-        label: 'When would you like to take this course?',
+        label: 'When would you like to take this course? *',
         fieldName: 'Which_dates_you_prefer_to_take_course__c',
         type: 'select',
         options: [],
@@ -428,7 +428,7 @@ export const APPLICATION_INPUTS = [{
       }, {
         placeholder: 'MM/DD/YYYY',
         id: 'date-of-birth',
-        label: 'Date of Birth',
+        label: 'Date of Birth *',
         fieldName: 'Birthdate__c',
         type: 'text',
         value: '',
@@ -437,7 +437,7 @@ export const APPLICATION_INPUTS = [{
         cleave: true
       }, {
         id: 'education',
-        label: 'Highest level of Education Completed',
+        label: 'Highest level of Education Completed *',
         type: 'select',
         fieldName: 'Highest_Degree__c',
         validate: ["string"],
@@ -470,15 +470,8 @@ export const APPLICATION_INPUTS = [{
           }
         ]
       }, {
-        id: 'linkedin',
-        label: 'LinkedIn URL',
-        validate: [],
-        fieldName: 'LinkedIn__c',
-        type: 'text',
-        value: ''
-      }, {
         id: 'coding-experience',
-        label: 'Python Experience',
+        label: 'Python Experience *',
         type: 'select',
         validate: ["string"],
         errorMsg: "Please select an option",
@@ -501,6 +494,13 @@ export const APPLICATION_INPUTS = [{
             value: 'I know and use Python professionally'
           }
         ]
+      },{
+        id: 'linkedin',
+        label: 'LinkedIn URL',
+        validate: [],
+        fieldName: 'LinkedIn__c',
+        type: 'text',
+        value: ''
       },  {
         id: 'other-experience',
         label: 'Other Coding Experience',
@@ -511,7 +511,7 @@ export const APPLICATION_INPUTS = [{
         placeholder: 'R, SQL, etc'
       }, {
         id: 'why-applying',
-        label: 'What is your motivating factor for learning Data Science?',
+        label: 'What is your motivating factor for learning Data Science? *',
         fieldName: 'Reason_applying_to_this_gSchool_Program__c',
         type: 'textarea',
         validate: ["150-1500-chars"],
@@ -519,7 +519,7 @@ export const APPLICATION_INPUTS = [{
         value: ''
       }, {
         id: 'ethnicity',
-        label: 'What best describes your ethnicity?',
+        label: 'What best describes your ethnicity? *',
         validate: ["string"],
         type: 'select',
         fieldName: 'EthnicityNew__c',
@@ -540,7 +540,7 @@ export const APPLICATION_INPUTS = [{
         ]
       }, {
         id: 'race',
-        label: 'What best describes your race?',
+        label: 'What best describes your race? *',
         type: 'select',
         validate: ["string"],
         fieldName: 'Race__c',
@@ -573,7 +573,7 @@ export const APPLICATION_INPUTS = [{
         ]
       }, {
         id: 'gender',
-        label: 'Gender',
+        label: 'Gender *',
         type: 'select',
         fieldName: 'Gender__c',
         validate: ["string"],
@@ -598,7 +598,7 @@ export const APPLICATION_INPUTS = [{
         ]
       }, {
         id: 'veteran',
-        label: 'Are you a veteran of the U.S. Armed Forces?',
+        label: 'Are you a veteran of the U.S. Armed Forces? *',
         validate: ["string"],
         type: 'select',
         fieldName: 'Veteran__c',
@@ -615,7 +615,7 @@ export const APPLICATION_INPUTS = [{
         ]
       }, {
         id: 'lgbtq',
-        label: 'Do you identify as a member of the LGBTQ community?',
+        label: 'Do you identify as a member of the LGBTQ community? *',
         validate: ["string"],
         type: 'select',
         fieldName: 'Identify_as_LGBTQ__c',
@@ -636,7 +636,7 @@ export const APPLICATION_INPUTS = [{
         ]
       }, {
         id: 'dependent-of-veteran',
-        label: `Are you a dependent of a U.S. Veteran?`,
+        label: `Are you a dependent of a U.S. Veteran? *`,
         validate: ["string"],
         type: 'select',
         fieldName: 'Dependent_of_Veteran__c',
@@ -653,7 +653,7 @@ export const APPLICATION_INPUTS = [{
         ]
       }, {
         id: 'is-international',
-        label: 'Are you a U.S. Citizen or permanent resident?',
+        label: 'Are you a U.S. Citizen or permanent resident? *',
         type: 'select',
         fieldName: 'US_Citizen_or_Permanent_Resident__c',
         value: '',
@@ -670,7 +670,7 @@ export const APPLICATION_INPUTS = [{
         ]
       }, {
         id: 'authorized',
-        label: 'Are you authorized to work in the United States?',
+        label: 'Are you authorized to work in the United States? *',
         type: 'select',
         fieldName: 'Authorize_to_work_in_US__c',
         errorMsg: "Please select an option",
@@ -687,7 +687,7 @@ export const APPLICATION_INPUTS = [{
         ]
       }, {
         id: 'how-heard-about',
-        label: 'How did you hear about Galvanize?',
+        label: 'How did you hear about Galvanize? *',
         validate: ["string"],
         type: 'select',
         fieldName: 'How_did_you_hear_about_gSchool__c',

@@ -16,7 +16,10 @@ export default (props) => {
         className={ props.className }
         placeholder={ props.placeholder }
       />
-    <span className="char-count">Between 150 and 1500 characters | ({props.charCount})</span>
+    <div  className="char-count">
+      <span>Between 150 and 1500 characters</span>
+      <span>({props.charCount})</span>
+    </div>
     </>
     )
   }

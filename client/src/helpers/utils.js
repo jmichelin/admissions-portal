@@ -74,7 +74,7 @@ function getSEI12WkStage(program) {
 
 function getSEI18WkStage(program) {
   if (program.type === 'application') {
-    return SEI_STEPS_12_WK.STEP_ONE
+    return SEI_STEPS_18_WK.STEP_ONE
   } else if (!program.scorecard) {
     return SEI_STEPS_12_WK.HOLD;
   } else if (program.scorecard.moveForwardCode !== 'Yes') {
@@ -100,7 +100,7 @@ function getSEI18WkStage(program) {
 
 function getDSIStage(program) {
   if (program.type === 'application') {
-    return SEI_STEPS_12_WK.STEP_ONE
+    return DSI_STEPS.STEP_ONE
   } else if (!program.scorecard) {
     return SEI_STEPS_12_WK.HOLD;
   } else if (program.scorecard.moveForwardCode !== 'Yes') {
@@ -168,6 +168,7 @@ function getStage(program) {
   if(program.course_product === 'Full Stack') program.course_product = 'Web Development';
   let courseProducts = program.courseProduct ? PROGRAMS[program.courseProduct] : PROGRAMS[program.course_product];
   if (!courseProducts) {
+
     let stage = PROGRAMS['Default'];
     return {
       step: stage.step(program),
@@ -178,6 +179,7 @@ function getStage(program) {
 
   let courseType = program.courseType ? PROGRAMS[program.courseProduct][program.courseType] : PROGRAMS[program.course_product][program.course_type];
   if (!courseType) {
+
     courseType = PROGRAMS[program.courseProduct]['Default'];
     return {
       step: courseType.step(program),

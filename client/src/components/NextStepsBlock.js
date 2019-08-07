@@ -25,7 +25,23 @@ export default (props) => {
       <div className="left-text">
         <h4>Next Steps</h4>
         <p className="-inverse">{props.step.description}</p>
-        {props.step.alertText ? <p className="-alert -inverse">{props.step.alertText}</p> : null}
+        {props.step.alertText ?
+          <p className="-alert -inverse">{props.step.alertText}&nbsp;
+            {props.step.alertButtonPath && (
+              <>
+              <Link to={{
+                pathname: `${props.step.alertButtonPath}`,
+                state: { opp: props.opp },
+                override: props.step.override
+              }}
+              >
+              <button className="-inline">
+                {props.step.alertButtonText}
+              </button>
+              </Link>
+              </>
+            )}
+      </p> : null}
       </div>
       <div className="flex--col--center">
       {props.step.buttonPath && (

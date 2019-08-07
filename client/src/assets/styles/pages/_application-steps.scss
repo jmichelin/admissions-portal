@@ -35,6 +35,8 @@
   }
 
   .application-form >.textarea .char-count {
+    display: flex;
+    justify-content: space-between;
     color: $color-gray-3;
     line-height: 2em;
     font-style: italic;
