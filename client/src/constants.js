@@ -297,7 +297,7 @@ export const SEI_STEPS_18_WK = {
   STEP_ONE: {
     step: 1,
     status: 'Complete Your Application',
-    description: 'For the first step in the admissions process, please answer a few questions about yourself to finish completing your application. If you have any questions, reach out to us at admissions@galvanize.com.',
+    description: 'For the first step in the admissions process, please answer a few questions about yourself to complete your application. If you have any questions, reach out to us at admissions@galvanize.com.',
     buttonPath: '/application',
     buttonText: 'Complete Your Application',
     blockClass:'-grey'
@@ -323,11 +323,13 @@ export const SEI_STEPS_18_WK = {
   STEP_FOUR: {
     step: 2,
     status: 'Register for the Group Assessment',
-    description: 'Register for the Group Assessment via a link emailed from your Enrollment Officer.',
-    buttonPath: '/coding-challenge',
-    buttonText: 'FastTrack Coding Challenge',
+    description: 'Register for the Group Assessment to continue your journey into this program. After registering, your Enrollment Officer will walk you through the rest of the admissions process.',
+    buttonUrl: 'https://getcoding.hackreactor.com/hrext-assessment/',
+    buttonText: 'Book Your Group Assessment',
     override: true,
-    alertText: 'Want to see if you can do our accelerated FastTrack program?  Pass this coding challenge to be eligible for a final Technical Interview to get into FastTrack.'
+    alertText: 'Want to see if you can do our accelerated FastTrack program? Pass a coding challenge to be eligible for a final Technical Interview to get into FastTrack.',
+    alertButtonPath: '/coding-challenge',
+    alertButtonText: 'Try the Challenge'
   },
   STEP_FIVE: {
     step: 3,

@@ -172,7 +172,6 @@ module.exports = {
   },
 
   updateApplication: async function(application) {
-    console.log('application', application);
     let realCourseType = _checkIf18wkCourseType(application.values.Campus__c, application.courseType, application.courseProduct);
     const foundApp = await knex('application')
       .select('*')
