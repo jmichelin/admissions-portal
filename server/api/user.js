@@ -3,6 +3,8 @@ const router = express.Router();
 import Salesforce from '../lib/salesforce';
 const salesforce = new Salesforce();
 const Q = require('../db/queries');
+import Honeybadger from '../lib/honeybadger';
+const honeybadger = new Honeybadger();
 
 router.get('/', async (req, res, next) => {
   try {
@@ -16,6 +18,7 @@ router.get('/', async (req, res, next) => {
     res.json({ data });
   } catch(err) {
     console.log(err);
+    honeybadger.notify(err);
     res.status(501);
     const error = new Error('Error retreiving applications.');
     next(error);
@@ -30,6 +33,8 @@ router.post('/update-opp-stage', (req, res, next) => {
       res.send(response);
     })
     .catch(err => {
+      honeybadger.notify(err);
+
       res.status(501);
       const error = new Error('Error updating opportunity.');
       next(error);
@@ -44,6 +49,7 @@ router.post('/update-scorecard', (req, res, next) => {
       res.send(response);
     })
     .catch(err => {
+      honeybadger.notify(err);
       res.status(501);
       const error = new Error('Error updating scorecard.');
       next(error);
@@ -58,6 +64,7 @@ router.post('/code-submit', (req, res, next) => {
       res.send(response);
     })
     .catch(err => {
+      honeybadger.notify(err);
       res.status(501);
       const error = new Error('Error updating coding challenge.');
       next(error);
@@ -72,6 +79,7 @@ router.post('/python-submit', (req, res, next) => {
       res.send(response);
     })
     .catch(err => {
+      honeybadger.notify(err);
       res.status(501);
       const error = new Error('Error updating coding challenge.');
       next(error);

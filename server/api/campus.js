@@ -2,6 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 const Q = require('../db/queries');
+import Honeybadger from '../lib/honeybadger';
+const honeybadger = new Honeybadger();
 
 router.get('/', (_req, res, next) => {
   Q.getCampuses()
@@ -14,6 +16,7 @@ router.get('/', (_req, res, next) => {
       return
     })
     .catch(err => {
+      honeybadger.notify(err);
       res.status(501);
       const error = new Error('Error getting courses.');
       next(error);
@@ -31,6 +34,7 @@ router.get('/:campus', (req, res, next) => {
       return
     })
     .catch(err => {
+      honeybadger.notify(err);
       res.status(501);
       const error = new Error('Error getting course.');
       next(error);

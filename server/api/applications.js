@@ -3,6 +3,8 @@ const router = express.Router();
 const Q = require('../db/queries');
 import Salesforce from '../lib/salesforce';
 const salesforce = new Salesforce();
+import Honeybadger from '../lib/honeybadger';
+const honeybadger = new Honeybadger();
 
 router.patch('/:id', async (req, res) => {
   const application = {
@@ -31,6 +33,7 @@ router.patch('/:id', async (req, res) => {
     return res.status(404).send({ error: 'application not found' })
   } catch(err) {
     console.log(err)
+    honeybadger.notify(err);
     return res.status(500).send({error: "Internal Server Error"})
   }
 });
@@ -43,6 +46,7 @@ router.delete('/:id', async (req, res) => {
     return res.json({ message: `Successfully deleted application ${req.params.id}` });
   } catch (err) {
     console.log(err);
+    honeybadger.notify(err);
     return res.status(500);
   }
 });
@@ -59,6 +63,7 @@ router.post('/initialize/type/:courseType/product/:courseProduct', async (req, r
     return res.status(200).send(application)
   } catch (err) {
     console.log("Error initializing program:", err)
+    honeybadger.notify(err);
     return res.status(500).send(err)
   }
 });
