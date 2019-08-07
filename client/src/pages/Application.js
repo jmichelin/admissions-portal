@@ -58,7 +58,6 @@ class Application extends Component {
   }
 
   componentDidMount() {
-    debugger;
     if (!this.state.courseType || !this.state.courseProduct || !this.state.values) return this.props.history.push('/dashboard');
     const endpoint = `${APPLICATION_INITIALIZE_ENDPOINT}/type/${encodeURIComponent(this.state.courseType)}/product/${encodeURIComponent(this.state.courseProduct)}`
     let campus;
@@ -203,7 +202,7 @@ class Application extends Component {
       })
       .then((result) => {
         this.props.history.push({
-        pathname: `/dashboard/`,
+        pathname: `/dashboard`,
         search: `?conv=app_complete&prod=${this.state.courseProduct}`,
         state: { dataRefresh: true }
         })
@@ -276,6 +275,7 @@ class Application extends Component {
           onInputChange={(e) => this.onInputChange(input.fieldName, e)}
           errorMessage={this.state.errors[input.id]}
           showError={this.state.errors[input.id]}
+          charCount={this.state.values[input.fieldName].length}
         />
       </div>
     )

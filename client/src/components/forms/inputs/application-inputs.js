@@ -511,7 +511,7 @@ export const APPLICATION_INPUTS = [{
         placeholder: 'R, SQL, etc'
       }, {
         id: 'why-applying',
-        label: 'What is your motivating factor for learning Software Engineering?',
+        label: 'What is your motivating factor for learning Data Science?',
         fieldName: 'Reason_applying_to_this_gSchool_Program__c',
         type: 'textarea',
         validate: ["150-1500-chars"],

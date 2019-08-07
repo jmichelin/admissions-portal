@@ -119,7 +119,7 @@ class Signin extends Component {
   render() {
         if (this.state.redirectToDashboard) {
           return (
-          <Redirect to="/dashboard/?conv=signin"/>
+          <Redirect to="/dashboard"/>
           )
         }
 

@@ -34,6 +34,12 @@
       width: 100%;
   }
 
+  .application-form >.textarea .char-count {
+    color: $color-gray-3;
+    line-height: 2em;
+    font-style: italic;
+  }
+
   .application-form >.checkbox .checkbox-field span {
     margin-left: 6px;
   }

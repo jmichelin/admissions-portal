@@ -262,7 +262,10 @@ class PythonChallenge extends Component {
         let stageUpdate = DSI_STEPS.STEP_THREE;
         this.props.statusUpdate(this.state.opp.id, stageUpdate)
         this.setState({ submittingCode: false});
-        return this.props.history.push(`/dashboard/?conv=takehome_complete&prod=Data Science`)
+        return this.props.history.push({
+        pathname: `/dashboard`,
+        search: `?conv=takehome_complete&prod=Data Science`,
+        })
       }).catch(err => {
 
         this.setState({

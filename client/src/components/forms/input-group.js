@@ -20,7 +20,9 @@ export default (props) => {
         onInputChange={props.onInputChange}
         className={errorClass}
         type={props.type}
-        cleave={props.cleave} />
+        cleave={props.cleave}
+        charCount={props.charCount}
+         />
       {error}
       <span className="form-note">{props.note}</span>
     </div>
