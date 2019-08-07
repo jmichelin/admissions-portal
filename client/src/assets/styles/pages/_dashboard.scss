@@ -6,7 +6,8 @@
 }
 
   .program-select {
-    padding: $pad-double;
+    margin: $pad-double;
+    padding: $pad-and-half;
   }
 
   .section-row {
@@ -14,7 +15,7 @@
     margin: 0;
   }
 
-  form {
+  .form {
     display: flex;
     justify-content: flex-start;
     align-items: flex-end;

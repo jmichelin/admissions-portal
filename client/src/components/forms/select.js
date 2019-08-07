@@ -13,30 +13,29 @@ export default (props) => {
     error = <FormError errorMessage={ errorMessage } />
   }
 
-  // each option must have an option property with a name and an optional value
-  // e.g. { name: 'I want the user to see this', value: 'I want the db to see this' }
-  let options = props.options.map((option, i) => {
-    return (
-      <SelectItem  key={ i } option={ option } program={props.program}/>
-    )
+  const options = props.options.map((option, i) => {
+    return <SelectItem  key={i} option={option} />
   });
 
-  if(!props.currentSelection) {
-    options.unshift(<SelectItem key="disabled" disabled="true" />)
+  if (!props.value) {
+    options.unshift(<SelectItem key="disabled" disabled="true" placeholder={props.placeholder} />)
   }
 
   return (
     <div className="input-group">
-      <Label optional={ props.optional } text={ props.label } />
-      <select name={ props.name }
-              id={ props.id }
-              className={ selectClasses }
-              value={ props.currentSelection }
-              disabled={ props.disabled }
-              onChange={ (e) => { props.onOptionClick(e, props.fieldName) } }>
-        { options }
+      {props.label && <Label optional={ props.optional } text={ props.label } />}
+      <select
+        name={props.name}
+        id={props.id}
+        className={selectClasses}
+        placeholder={props.placeholder}
+        value={props.value ? props.value : ""}
+        disabled={ props.disabled }
+        onChange={(e) => { props.onOptionClick(e, props.fieldName) }}
+      >
+        {options}
       </select>
-      { error }
+      {error}
     </div>
   )
 }

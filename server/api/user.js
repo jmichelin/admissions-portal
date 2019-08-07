@@ -1,45 +1,25 @@
 const express = require('express');
-
 const router = express.Router();
-
 import Salesforce from '../lib/salesforce';
-
 const salesforce = new Salesforce();
+const Q = require('../db/queries');
 
-router.get('/', (req, res, next) => {
-  salesforce.login()
-    .then(() => {
-        return salesforce.oppQuery(req.user.email)
-        .then(opps => {
-          let data = {};
-          if (opps.length) {
-            data.opportunities = opps;
-            data.user = req.user;
-            let scorecardIds = [];
-            opps.forEach(opp => {
-              if(opp.scorecardId) scorecardIds.push(opp.scorecardId);
-            });
-            return salesforce.scorecardQueries(scorecardIds)
-              .then(scorecards => {
-                data.opportunities.forEach(opp => {
-                  scorecards.forEach(card => {
-                    if (card.oppId === opp.id)  opp.scorecard = card;
-                  });
-                });
-                res.json({
-                  data: data
-                });
-              });
-          } else {
-            res.json({message: 'No Applications Exist for this User'});
-          }
-        });
-    })
-    .catch(err => {
-      res.status(501);
-      const error = new Error('Error retreiving applications.');
-      next(error);
-    });
+router.get('/', async (req, res, next) => {
+  try {
+    const userApplications = await Q.getUserApplications(req.user.id);
+    userApplications.forEach(app => app.type = 'application');
+
+    const data = { user: req.user, applications: userApplications };
+    const opportunities = await salesforce.getOpportunities(req.user.email);
+    data.applications = data.applications.concat(opportunities).sort((a, b) => b.created_at.getTime() - a.created_at.getTime());
+
+    res.json({ data });
+  } catch(err) {
+    console.log(err);
+    res.status(501);
+    const error = new Error('Error retreiving applications.');
+    next(error);
+  }
 });
 
 router.post('/update-opp-stage', (req, res, next) => {

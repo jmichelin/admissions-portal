@@ -2,8 +2,9 @@ export const PORTAL_BASE_URL = 'https://admissions.galvanize.com';
 
 export const GALVANIZE_BASE_URL = 'https://www.galvanize.com';
 
-export const PROSPECT_RECORD_ID = '012j00000004QndAAE';
-export const STUDENT_RECORD_ID = '012j0000000kfkDAAQ';
+export const LEAD_PROSPECT_RECORD_ID = '012j00000004QndAAE';
+export const LEAD_STUDENT_RECORD_ID = '012j0000000kfkDAAQ';
+export const OPP_STUDENT_RECORD_ID = '012j0000000l0pEAAQ';
 export const SF_WDI_SYLLABUS_CAMPAIGN_ID = process.env.SF_WDI_SYLLABUS_CAMPAIGN_ID;
 export const SF_WDI_APPLICATION_CAMPAIGN_ID = process.env.SF_WDI_APPLICATION_CAMPAIGN_ID;
 export const SF_DSI_SYLLABUS_CAMPAIGN_ID = process.env.SF_DSI_SYLLABUS_CAMPAIGN_ID;
@@ -115,16 +116,16 @@ export const CAMPUSES = [
 export const FULL_TIME_PROGRAMS = [
   {
   name:'Data Science Immersive',
-  sfdcName: 'Data Science'
+  value: 'Data Science'
   },{
   name:'Software Engineering Immersive',
-  sfdcName: 'Software Engineering Immersive'
+  value: 'Software Engineering Immersive'
 },{
   name:'Software Engineering Remote Immersive',
-  sfdcName: 'Software Engineering Remote Immersive'
+  value: 'Software Engineering Remote Immersive'
 },{
   name:'Software Engineering Remote Part Time Immersive',
-  sfdcName: 'Software Engineering Remote Part Time Immersive'
+  value: 'Software Engineering Remote Part Time Immersive'
 }];
 
 
@@ -169,6 +170,9 @@ const OPP_STAGES = ['New', 'Sent Takehome', 'Returned Takehome', 'Offer Out'];
 export const IMMERSIVE_COURSE_TYPES = [
   '13 Week Full-Time Immersive', '12 Week Full-Time Immersive', '36 Week Part-Time Immersive', '18 Week Full-Time Immersive', 'Specialty Immersive'
 ];
+
+export const CAMPUSES_SEI_18WK = ['Phoenix-Warehouse District', 'Seattle-Pioneer Square', 'Denver-Platte', 'Boulder-Walnut St.'];
+
 
 export const PYTHON_TEST_1 =
 `import main

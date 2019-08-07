@@ -6,6 +6,7 @@ export default (props) => {
 
   if (props.type === 'textarea') {
     return (
+      <>
       <textarea
         rows="6"
         cols="100"
@@ -15,26 +16,13 @@ export default (props) => {
         className={ props.className }
         placeholder={ props.placeholder }
       />
+    <div  className="char-count">
+      <span>Between 150 and 1500 characters</span>
+      <span>({props.charCount})</span>
+    </div>
+    </>
     )
   }
-
-  // if (props.cleave) {
-  //   let formatting = props.fieldName === 'Phone' ?
-  //     { phone: true, phoneRegionCode: 'US', delimiter: '-' } : { date: true, datePattern: ['m', 'd', 'Y']};
-  //
-  //   return <Cleave
-  //     options={ formatting }
-  //     type={ props.type }
-  //     autoComplete={ props.autocomplete || '' }
-  //     autoCorrect={ props.autocorrect || '' }
-  //     autoCapitalize={ props.autocapitalize || '' }
-  //     value={ props.defaultValue }
-  //     id={ props.id }
-  //     className={ props.className }
-  //     placeholder={ props.placeholder }
-  //     onChange={ (e) => { props.onInputChange(e, props.fieldName) } }
-  //   />
-  // }
 
   return (
     <input

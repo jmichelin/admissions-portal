@@ -4,13 +4,16 @@ import Signin from '../components/signin';
 
 import PortalAside from '../components/portal-aside';
 
+import utils from '../helpers/utils';
+
 class Home extends Component {
   constructor(props){
     super(props);
 
     this.state = {
       userIsSignedIn: false,
-      showSignin: true
+      showSignin: false,
+      leadSource: {}
     };
     this.toggleSignin = this.toggleSignin.bind(this);
   }
@@ -23,6 +26,10 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.clearData();
+    const leadSource = utils.getLeadSource(document.cookie, window.location.search);
+      this.setState({
+        leadSource: leadSource
+      })
    }
 
   render() {
@@ -33,8 +40,8 @@ class Home extends Component {
             <PortalAside/>
                 <div className="form-content">
                   { this.state.showSignin
-                    ? <Signin toggleSignin={this.toggleSignin}/>
-                    : <Signup toggleSignin={this.toggleSignin}/>
+                    ? <Signin toggleSignin={this.toggleSignin} leadSource={this.state.leadSource}/>
+                  : <Signup toggleSignin={this.toggleSignin} leadSource={this.state.leadSource} updateState={this.props.updateState}/>
                   }
             </div>
           </div>
