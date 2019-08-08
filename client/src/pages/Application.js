@@ -10,6 +10,8 @@ import Select from '../components/forms/select';
 import Schema from '../helpers/validations';
 import LoadingWheel from '../components/base/LoadingWheel';
 
+import utils from '../helpers/utils';
+
 import { APPLICATION_INPUTS } from '../components/forms/inputs/application-inputs';
 import { APPLICATIONS_ENDPOINT, APPLICATION_INITIALIZE_ENDPOINT } from '../constants';
 
@@ -82,7 +84,7 @@ class Application extends Component {
         if (resp.message === 'jwt expired' || resp.message === 'jwt malformed' || resp.message === 'Your session has expired. Please log back in.') {
           this.props.clearData()
         }
-        if (resp.complete) return this.props.history.push(`/dashboard/?conv=app_complete&prod=${this.state.courseProduct}`);
+        if (resp.complete) return this.props.history.push(`/dashboard/?conv=app_complete&prod=${utils.conversionQuery(this.state.courseProduct)}`);
         if (resp.values) {
           Object.keys(resp.values).forEach(key => this.checkDependencies(key, resp.values[key]));
           this.setState((prevState) => ({ values: {...prevState.values, ...resp.values }, applicationId: resp.id, isLoading: false }) )
@@ -203,7 +205,7 @@ class Application extends Component {
       .then((result) => {
         this.props.history.push({
         pathname: `/dashboard`,
-        search: `?conv=app_complete&prod=${this.state.courseProduct}`,
+        search: `?conv=app_complete&prod=${utils.conversionQuery(this.state.courseProduct)}`,
         state: { dataRefresh: true }
         })
       })
