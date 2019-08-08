@@ -4,11 +4,14 @@ const Q = require('../db/queries');
 
 import { SNIPPET_1, SNIPPET_2 } from '../constants';
 import Assessments from '../lib/assessments';
+import Honeybadger from '../lib/honeybadger';
+const honeybadger = new Honeybadger();
 
 router.get('/user', (req, res, next) => {
   Q.getUserLatestAssessment(req.user.id)
     .then((latestAsessments) => res.json(latestAsessments))
-    .catch(() => {
+    .catch((err) => {
+      honeybadger.notify(err);
       res.status(501);
       const error = new Error('Error getting latest assessements.');
       next(error);
@@ -25,7 +28,8 @@ router.get('/:id', (req, res, next) => {
       }
       return
     })
-    .catch(() => {
+    .catch((err) => {
+      honeybadger.notify(err);
       res.status(501);
       const error = new Error('Error getting assessment.');
       next(error);
@@ -42,7 +46,8 @@ router.patch('/:id/cancel', (req, res, next) => {
           .then(canceled => res.json(canceled))
       }
     })
-    .catch(() => {
+    .catch((err) => {
+      honeybadger.notify(err);
       res.status(501);
       const error = new Error('Error cancelling tests.');
       next(error);
@@ -74,13 +79,15 @@ router.post('/', noRunningTests, (req, res, next) => {
           res.status(200).json({ id: savedAssessment[0].id });
           return;
         })
-        .catch(() => {
+        .catch((err) => {
+          honeybadger.notify(err);
           res.status(501);
           const error = new Error('Error calling Asessment Service.');
           next(error);
         });
    })
-   .catch(() => {
+   .catch((err) => {
+     honeybadger.notify(err);
      res.status(501);
      const error = new Error('Error running assessment.');
      next(error);
@@ -100,7 +107,8 @@ function noRunningTests(req, res, next) {
         next()
       }
     })
-    .catch(() => {
+    .catch((err) => {
+      honeybadger.notify(err);
       res.status(501);
       const error = new Error('Error clearing out stale running tests.');
       next(error);
