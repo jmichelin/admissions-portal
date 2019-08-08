@@ -264,7 +264,7 @@ class PythonChallenge extends Component {
         this.setState({ submittingCode: false});
         return this.props.history.push({
         pathname: `/dashboard`,
-        search: `?conv=takehome_complete&prod=Data Science`,
+        search: `?conv=takehome_complete&prod=dsi`,
         })
       }).catch(err => {
 

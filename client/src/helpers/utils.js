@@ -234,6 +234,12 @@ function getLeadSource(cookie, queryString) {
   }
 }
 
+function conversionQuery(product) {
+  if(product === 'Full Stack' || product === 'Web Development') return 'sei';
+  if(product === 'Data Science') return 'dsi';
+  return 'all';
+}
+
 export default {
   getSEI12WkStage,
   getSEI18WkStage,
@@ -242,5 +248,6 @@ export default {
   getCourseName,
   lookForCookie,
   getParameterByName,
-  getLeadSource
+  getLeadSource,
+  conversionQuery
 };
