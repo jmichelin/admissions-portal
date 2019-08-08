@@ -162,7 +162,7 @@ class CodingChallenge extends Component {
           const stageUpdate = this.state.opp.courseType === '18 Week Full-Time Immersive' ? SEI_STEPS_18_WK.STEP_TWO : SEI_STEPS_12_WK.STEP_THREE;
           this.props.statusUpdate(this.state.opp.id, stageUpdate)
           this.setState({ submittingCode: false});
-          return this.props.history.push(`/dashboard/?conv=takehome_complete&prod=sei`)
+          return this.props.history.push(`/dashboard?conv=takehome_complete&prod=sei`)
         })
         .catch(err => {
           this.setState({ errorMessage: err.message, submittingCode: false })
