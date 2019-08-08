@@ -5,7 +5,7 @@ var secure = require('express-force-https');
 const path = require('path');
 const morgan = require('morgan');
 const cors = require('cors');
-const Honeybadger = require('Honeybadger');
+const Honeybadger = require('honeybadger');
 Honeybadger.configure({ apiKey: process.env.HONEYBADGER_API_KEY });
 
 
