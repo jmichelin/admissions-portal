@@ -84,7 +84,7 @@ class Application extends Component {
         if (resp.message === 'jwt expired' || resp.message === 'jwt malformed' || resp.message === 'Your session has expired. Please log back in.') {
           this.props.clearData()
         }
-        if (resp.complete) return this.props.history.push(`/dashboard/?conv=app_complete&prod=${utils.conversionQuery(this.state.courseProduct)}`);
+        if (resp.complete) return this.props.history.push(`/dashboard?conv=app_complete&prod=${utils.conversionQuery(this.state.courseProduct)}`);
         if (resp.values) {
           Object.keys(resp.values).forEach(key => this.checkDependencies(key, resp.values[key]));
           this.setState((prevState) => ({ values: {...prevState.values, ...resp.values }, applicationId: resp.id, isLoading: false }) )
