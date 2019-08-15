@@ -94,7 +94,6 @@ class Salesforce {
   async signUpSignInUserUpdate(requestbody){
     let salesforceUser = null;
     let searchResponse = await this.findSalesforceUser(requestbody.email);
-
     // if contact - update contact to reflect portal account creation
     salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
     if (salesforceUser) {
