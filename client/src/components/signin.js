@@ -62,7 +62,7 @@ class Signin extends Component {
     })
 
     const { email, password } = this.state;
-    const formData = { email, password }
+    const formData = { email, password, ...this.props.leadSource }
 
     if (this.validUser(formData)) {
       fetch(SIGNIN_URL, {
@@ -101,7 +101,7 @@ class Signin extends Component {
             key={i}
             type={input.type}
             name={input.id}
-            label={input.label}
+            placeholder={input.label}
             required={input.required}
             value={this.state[input.id]}
             onInputChange={this.onInputChange}
@@ -130,10 +130,8 @@ class Signin extends Component {
                 <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
                 <img className="logo -hr" src={HRLogo} alt="Hack Reactor Logo"></img>
               </div>
-             <div>
                <h3 className="portal-title">Sign In</h3>
                <p className="title-subtext">Don't have an account? <button className="-inline" onClick={this.props.toggleSignin}>Create Your Account</button></p>
-                 <p className="citation -thin -center -note">Have an account through Hack Reactor? Create a new account here to pick up where you left off in the admissions process.</p>
                  <form onSubmit={this.handleSubmit}>
                    <div className="form-group">
                      {this.createInputs().slice(0,1)}
@@ -149,7 +147,6 @@ class Signin extends Component {
                    <div className="error-wrapper"><span className="form note form-error">{ this.state.errorMessage }</span></div>
                    <div className="-center -margin-top"><Link to="/forgot-password"><button className="-inline" onClick={this.toggleForgotPassword}>Forgot Your Password?</button></Link></div>
                  </form>
-             </div>
             </div>
     );
   }
@@ -157,7 +154,12 @@ class Signin extends Component {
 
 const schema = {
   email: Joi.string().email(),
-  password: Joi.string().min(5).max(15)
+  password: Joi.string().min(5).max(15),
+  LeadSource: Joi.string(),
+  LeadSourceDetail__c: Joi.string(),
+  pi__utm_source__c: Joi.string().allow('', null),
+  pi__utm_medium__c: Joi.string().allow('', null),
+  pi__utm_campaign__c: Joi.string().allow('', null)
 }
 
 export default Signin;

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, withRouter } from 'react-router-dom';
 import { PrivateRoute, PublicRoute, NoMatch } from './helpers/Routes';
 
+import Application from './pages/Application';
 import Header from './components/header';
 import Home from './pages/Home';
 import ForgotPassword from './pages/ForgotPassword';
@@ -15,93 +16,87 @@ import BookInterviewDSI from './pages/BookInterviewDSI';
 import utils from './helpers/utils';
 
 class App extends Component {
-  constructor(props){
-    super(props);
-
-    this.state = {
-      opportunities: [],
-      user: {},
-      isLoading: true,
-      fetchedData: false
-      }
-
-    this.getData = this.getData.bind(this);
-    this.clearData = this.clearData.bind(this);
-    this.statusUpdate = this.statusUpdate.bind(this);
+  state = {
+    applications: [],
+    leads: [],
+    user: {},
+    isLoading: true,
+    fetchedData: false,
+    programSelect: ''
   }
 
-  clearData() {
+  clearData = () => {
     localStorage.removeItem('token');
     this.setState({
-      opportunities: [],
+      applications: [],
+      leads: [],
       user:{},
       fetchedData: false,
-      isLoading: true
+      isLoading: false
     })
   }
 
+  setApplications = (result) => {
+    if (result.message === 'jwt expired' || result.message === 'jwt malformed' || result.message === 'Your session has expired. Please log back in.') {
+      this.clearData()
+    } else if (result.data && result.data.applications && result.data.user) {
+      const applications = result.data.applications.map(app => {
+        const stageObj = utils.getStage(app);
+        app.formalName = stageObj.name;
+        app.currentStep = stageObj.step;
+        app.admissionsProcess = stageObj.process;
+        return app;
+      })
 
-  getData(refresh) {
-    const API_URL = '/api/v1/user';
+      this.setState({
+        applications,
+        user: result.data.user,
+        isLoading: false,
+        fetchedData: true,
+      })
+    } else {
+      // no applications and already fetched
+      this.setState({ isLoading: false, fetchedData: true })
+    }
+  }
+
+  getData = (refresh) => {
     if ((!this.state.fetchedData && localStorage.token) || (refresh && localStorage.token)) {
-      this.setState({isLoading: true}, () => {
-        fetch(API_URL, {
-          headers: {
-            Authorization: `Bearer ${localStorage.token}`
-          },
-        }).then(res => res.json())
-          .then(result => {
-            if (result.message === 'jwt expired' || result.message === 'jwt malformed' || result.message === 'Your session has expired. Please log back in.') {
-              this.clearData()
-            }
-            else if (result.data && result.data.opportunities && result.data.user) {
-              let opps = result.data.opportunities.map(opp => {
-                let stageObj = utils.getStage(opp);
-                let currentStep = stageObj.step;
-                let admissionsProcess = stageObj.process;
-                opp.currentStep = currentStep;
-                opp.admissionsProcess = admissionsProcess;
-                return opp;
-              })
-              this.setState({
-                opportunities: opps,
-                user:result.data.user,
-                isLoading: false,
-                fetchedData: true,
-              })
-            } else {
-              // no opportunities and already fetched
-              this.setState({
-                isLoading: false,
-                fetchedData: true
-              })
-            }
-          }).catch(err => {
-            this.clearData()
-          })
+      this.setState({ isLoading: true }, () => {
+        fetch('/api/v1/user', {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
         })
-      } else {
+          .then(res => res.json())
+          .then(result => {
+             this.setApplications(result); })
+          .catch((err) => { console.log(err); this.clearData() })
+      })
+    } else {
       this.clearData()
     }
   }
 
-  statusUpdate(id, status) {
-   let newOpps = this.state.opportunities.map(opp => {
-     if (opp.id === id) opp.currentStep = status
+  updateState = (updatedState, redirect) => {
+    this.setState({...updatedState}, () =>
+      this.props.history.push(redirect)
+    )
+  }
+
+  statusUpdate = (id, status) => {
+    let newOpps = this.state.applications.map(opp => {
+      if (opp.id === id) opp.currentStep = status
       return opp;
-   })
-     this.setState({
-       opportunities: newOpps
-     })
+    })
+    this.setState({ applications: newOpps })
   }
 
   render() {
-      return (
+    return (
       <div>
         <Header clearData={this.clearData}/>
           <main>
           <Switch>
-            <PublicRoute exact path='/' clearData={this.clearData} component={Home}/>
+            <PublicRoute exact path='/' clearData={this.clearData} updateState={this.updateState} component={Home}/>
             <PublicRoute exact path='/forgot-password' component={ForgotPassword}/>
             <PublicRoute path="/reset:token" component={ResetPassword}/>
             <PrivateRoute exact path='/dashboard'{...this.state}  getData={this.getData} statusUpdate={this.statusUpdate} component={Dashboard}/>
@@ -109,6 +104,7 @@ class App extends Component {
             <PrivateRoute exact path='/python-challenge' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={PythonChallenge}/>
             <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterview}/>
             <PrivateRoute exact path='/book-interview-dsi' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterviewDSI}/>
+            <PrivateRoute path="/application" {...this.state} clearData={this.clearData} statusUpdate={this.statusUpdate} component={Application} />
             <NoMatch/>
           </Switch>
           </main>
@@ -117,4 +113,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

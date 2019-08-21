@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
 
-import { PYTHON_CODE_SUBMIT_ENDPOINT,
-         UPDATE_OPP_ENDPOINT,
-         UPDATE_SCORECARD_ENDPOINT,
-         PYTHON_CHALLENGE_ENDPOINT,
-         DSI_STEPS, HERO_TEXT } from '../constants';
+import {
+  PYTHON_CODE_SUBMIT_ENDPOINT,
+  UPDATE_OPP_ENDPOINT,
+  UPDATE_SCORECARD_ENDPOINT,
+  PYTHON_CHALLENGE_ENDPOINT,
+  SUPPORT_ERROR_MESSAGE,
+  DSI_STEPS,
+  HERO_TEXT
+} from '../constants';
 import { SNIPPET_1, SNIPPET_2 } from '../constants';
 import CodeEditor from '../components/CodeEditor';
 
@@ -23,6 +27,7 @@ class PythonChallenge extends Component {
       allPassed: false,
       submittingCode: false,
       errorMessage: "",
+      submitErrorMessage: "",
       redirectToDashboard: false,
       attemptSubmitted: false,
       runningTestId: null,
@@ -48,7 +53,6 @@ class PythonChallenge extends Component {
         this.setState({ redirectToDashboard: true })
       }
       this.setState({opp: opp})
-      if (window && window.analytics) window.analytics.page('Python Challenge')
       if (["New", "New - Pending AA", "Appointment", "Studying"].indexOf(opp.stage) > -1) {
         fetch(UPDATE_OPP_ENDPOINT, {
           method: "POST",
@@ -79,7 +83,7 @@ class PythonChallenge extends Component {
         },
       }).then(response => {
         if (response.ok) {
-          response.json().then((data) => {
+          return response.json().then((data) => {
             let snippet1Placeholder = SNIPPET_1.placeholder
             let snippet2Placeholder = SNIPPET_2.placeholder
             let ch1Status = ""
@@ -109,6 +113,12 @@ class PythonChallenge extends Component {
             })
           })
         }
+        return response.json().then(error => {
+          throw new Error()
+        })
+      })
+      .catch(err => {
+        this.setState({ errorMessage: SUPPORT_ERROR_MESSAGE });
       })
     } else {
       this.setState({ redirectToDashboard: true })
@@ -116,6 +126,8 @@ class PythonChallenge extends Component {
   }
 
   testCode(code, e, snippetId) {
+    this.setState({ errorMessage: '' });
+
     let data = {
       answer: code,
       snippet_id: snippetId
@@ -129,16 +141,20 @@ class PythonChallenge extends Component {
       },
     }).then(response => {
       if (response.ok) {
-        response.json().then((data) => {
+        return response.json().then((data) => {
           this.setState({ showProcessing: true, runningTestId: data.id });
-          this.pollForChallenge(data.id)
+          this.pollForChallenge(data.id);
         })
-        return
-      } else {
-        this.setState({ errorMessage: "err" });
       }
+      return response.json().then(error => {
+        throw new Error(error.message)
+      })
+
     }).then(result => {
       this.setState({ attemptSubmitted: true });
+    })
+    .catch(err => {
+      this.setState({ errorMessage: err.message || SUPPORT_ERROR_MESSAGE });
     })
   }
 
@@ -151,7 +167,7 @@ class PythonChallenge extends Component {
       },
     }).then(response => {
       if (response.ok) {
-        response.json().then((data) => {
+        return response.json().then((data) => {
           if (data.status === "processing") {
             setTimeout(()=>{
               this.pollForChallenge(data.id)
@@ -185,10 +201,13 @@ class PythonChallenge extends Component {
             }
           }
         })
-        return
-      } else {
-        this.setState({ errorMessage: "err" });
       }
+      return response.json().then(error => {
+        throw new Error()
+      })
+    })
+    .catch(err => {
+      this.setState({ errorMessage: SUPPORT_ERROR_MESSAGE });
     })
   }
 
@@ -202,12 +221,15 @@ class PythonChallenge extends Component {
       },
     }).then(response => {
       if (response.ok) {
-        response.json().then((data) => {
+        return response.json().then((data) => {
         })
-        return
-      } else {
-        this.setState({ errorMessage: "err" });
       }
+      return response.json().then(error => {
+        throw new Error()
+      })
+    })
+    .catch(err => {
+      this.setState({ errorMessage: SUPPORT_ERROR_MESSAGE });
     })
   }
 
@@ -233,19 +255,26 @@ class PythonChallenge extends Component {
         if (response.ok) {
           return response.json()
         }
-        throw new Error();
+        return response.json().then(error => {
+          throw new Error(error.message)
+        })
       }).then(result => {
         let stageUpdate = DSI_STEPS.STEP_THREE;
         this.props.statusUpdate(this.state.opp.id, stageUpdate)
-        this.setState({ submittingCode: false, redirectToDashboard:true});
+        this.setState({ submittingCode: false});
+        return this.props.history.push({
+        pathname: `/dashboard`,
+        search: `?conv=takehome_complete&prod=dsi`,
+        })
       }).catch(err => {
+
         this.setState({
-          errorMessage: err.message, submittingCode: false
+          submitErrorMessage: err.message, submittingCode: false
         })
       })
     } else {
       this.setState({
-        errorMessage: 'There was an error submitting your code. Please try again.'
+        submitErrorMessage: 'There was an error submitting your code. Please try again.'
       })
     }
   }
@@ -277,15 +306,18 @@ class PythonChallenge extends Component {
       <div className="coding-challenge">
         <div className="container">
           <div className="portal-inner">
-
-            <Hero headline={HERO_TEXT.PYTHON_CHALLENGE.heroHeadline} description={HERO_TEXT.PYTHON_CHALLENGE.heroDescription}/>
+            <Hero
+              headline={HERO_TEXT.PYTHON_CHALLENGE.heroHeadline}
+              description={HERO_TEXT.PYTHON_CHALLENGE.heroDescription}
+            />
             <Breadcrumb />
-
             <div className="challenge-editor">
               <div className="instructions col">
                 <h4 className="column-header">CHALLENGE 1 Instructions</h4>
-                  <p>Complete the function <code>consonant_first</code> according to its docstring.<br></br><br></br>
-                  You can test your code as many times as you need. Your code will also save if you need to come back later.  <br></br><br></br>Need help? Our <a href="https://www.galvanize.com/data-science/prep">Prep Programs</a> are a great option to get up to speed!</p>
+                  <p>
+                    Complete the function <code>consonant_first</code> according to its docstring.
+                  <br></br><br></br>Your function should return a list, not just print that list. <br></br><br></br>
+                  You can test your code as many times as you need. Your code will also save if you need to come back later.<br></br><br></br>Need help? Our <a href="https://www.galvanize.com/data-science/prep">Prep Programs</a> are a great option to get up to speed!</p>
               </div>
               <div className="code-editor col">
                 <h4 className="column-header">Challenge 1</h4>
@@ -297,7 +329,7 @@ class PythonChallenge extends Component {
                   useResetInput={true}
                   cancelEndpoint={this.cancelRunningChallenge}
                   mode="python"
-                  errorMessage={this.state.ch1Status}
+                  errorMessage={this.state.errorMessage || this.state.ch1Status}
                   allPassed={this.state.allPassed}
                   showProcessing={this.state.showProcessing}
                   submittingCode={this.state.submittingCode}
@@ -309,7 +341,7 @@ class PythonChallenge extends Component {
             <div className="challenge-editor">
               <div className="instructions col">
                 <h4 className="column-header">Challenge 2 Instructions</h4>
-                <p>{SNIPPET_2.question}</p>
+                <p>{SNIPPET_2.question}<br></br><br></br>Your function should return a set, not just print that set.</p>
               </div>
               <div className="code-editor col">
                 <h4 className="column-header">Challenge 2</h4>
@@ -321,7 +353,7 @@ class PythonChallenge extends Component {
                   useResetInput={true}
                   cancelEndpoint={this.cancelRunningChallenge}
                   mode="python"
-                  errorMessage={this.state.ch2Status}
+                  errorMessage={this.state.errorMessage || this.state.ch2Status}
                   allPassed={this.state.allPassed}
                   showProcessing={this.state.showProcessing}
                   submittingCode={this.state.submittingCode}
@@ -332,8 +364,9 @@ class PythonChallenge extends Component {
             </div>
             <div style={{textAlign: "center"}}>
               <button className={this.state.submittingCode ? "button-primary -loading" : "button-secondary"} disabled={!this.state.allPassed} onClick={ (e) => this.codeSubmit(e) }>Submit Code</button>
-              <br/>
-              <br/>
+              <div className="error-wrapper">
+                <br></br>
+                <span className="form note form-error">{ this.state.submitErrorMessage }</span></div>
             </div>
           </div>
         </div>
@@ -342,4 +375,4 @@ class PythonChallenge extends Component {
   }
 }
 
-export default PythonChallenge;
+export default withRouter(PythonChallenge);

@@ -35,12 +35,20 @@
     margin-bottom: $space-and-half;
   }
 
+  .logo-wrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
   .program-logo {
     height: 40px;
     width: auto;
+    margin-bottom: 26px;
 
     &.-dsi {
-      height: 48px;
+      margin-top: -7px;
+      margin-bottom: 0;
     }
   }
   p  {
@@ -74,7 +82,7 @@
   flex-direction: column;
   align-items: center;
   flex: 5 0 50%;
-  padding: $pad-double;
+  padding: $pad-and-half;
   min-height: 625px;
 }
 
@@ -147,7 +155,7 @@ form {
   }
 
   .portal-title {
-    margin: 45px 0 0 0;
+    margin: 60px 0 0 0;
     font-weight: 500;
     text-align: center;
     font-size: 25px;
@@ -161,6 +169,7 @@ form {
     text-transform: uppercase;
     font-size: 12px;
     text-align: center;
+    margin-bottom: $space;
   }
 }
 

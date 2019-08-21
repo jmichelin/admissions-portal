@@ -10,6 +10,7 @@
 @import './assets/styles/base/_button.scss';
 
 // Pages
+@import './assets/styles/pages/_application-steps.scss';
 @import './assets/styles/pages/_home.scss';
 @import './assets/styles/pages/_dashboard.scss';
 @import './assets/styles/pages/_coding-challenge.scss';
@@ -17,6 +18,7 @@
 
 
 // Components
+@import './assets/styles/components/_admissions-steps.scss';
 @import './assets/styles/components/_breadcrumb.scss';
 @import './assets/styles/components/_hero.scss';
 @import './assets/styles/components/_header.scss';
