@@ -175,13 +175,20 @@ class Salesforce {
   }
 
   async createOpp(user, courseInfo, application) {
-  let cleanOppty = sfdcUtils.salesforceFieldSanitizer(application, 'Opportunity')
+    let cleanOppty = sfdcUtils.salesforceFieldSanitizer(application, 'Opportunity')
+    let searchResponse = await this.findSalesforceUser(user.email);
+    let salesforceUser = await searchResponse.searchRecords.find(record => record.attributes.type === 'Contact');
+    let accountId;
+    if (salesforceUser) {
+      accountId = salesforceUser.AccountId;
+    }
     return new Promise( (resolve, reject) => {
         cleanOppty.RecordTypeId = OPP_STUDENT_RECORD_ID;
         cleanOppty.Name = user.name + " " + courseInfo.cohortCode + " Application";
         cleanOppty.CloseDate = new Date();
         cleanOppty.Course__c = courseInfo.courseId;
         cleanOppty.Student__c = user.salesforce_id;
+        cleanOppty.AccountId = accountId;
         cleanOppty.StageName = "New";
         cleanOppty.Course_to_which_you_are_applying__c = sfdcUtils.reformatCourseToWhichApplying(application.course_product);
 
@@ -468,5 +475,5 @@ function _makeQueryForExistingOpportunity(id) {
 
 function _makeSalesforceUserQuery(email) {
   let escapedEmail = email.replace(/[-[\]{}()*+?\\^$|#\s]/g, '\\$&');
-  return `FIND {${escapedEmail}} IN ALL FIELDS RETURNING Contact(Id, Email ORDER BY CreatedDate DESC), Opportunity(Id, Student__r.Email ORDER BY CreatedDate DESC), Lead(Id, Email ORDER BY CreatedDate DESC)`;
+  return `FIND {${escapedEmail}} IN ALL FIELDS RETURNING Contact(Id, AccountId, Email ORDER BY CreatedDate DESC), Opportunity(Id, Student__r.Email ORDER BY CreatedDate DESC), Lead(Id, Email ORDER BY CreatedDate DESC)`;
 }
