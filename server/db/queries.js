@@ -145,14 +145,6 @@ module.exports = {
   },
 
   getCourseByName: function(courseName) {
-    // let subquery = knex('campus')
-    // .select(knex.raw(`jsonb_array_elements(offerrings) as off`))
-    // .distinct()
-    // return knex('campus')
-    // .select(knex.raw(`all_offerings.off`))
-    // .from(subquery)
-    // .where(knex.raw(`all_offerings.off->>'courseName' = '${courseName}'`))
-    // .first()
      return knex.raw(`SELECT all_offerings.off FROM (SELECT jsonb_array_elements(offerrings) as off FROM campus) as all_offerings WHERE all_offerings.off->>'courseName' = '${courseName}' LIMIT 1;`)
     },
 
@@ -231,7 +223,7 @@ module.exports = {
 
 function _filterCourses(courses) {
   return courses.filter(course => {
-    return Date.parse(course.startDate) > Date.now() && course.courseType.includes('Immersive') && !course.courseType.includes('Specialty Immersive');
+    return course.courseType && Date.parse(course.startDate) > Date.now() && course.courseType.includes('Immersive') && !course.courseType.includes('Specialty Immersive');
   }).sort((a,b) => {
     return new Date(a.startDate) - new Date(b.startDate);
   });
