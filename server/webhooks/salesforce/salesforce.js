@@ -7,7 +7,7 @@ router.post("/", (req, _res, _next) => {
   let sfCampusesWithOfferrings = req.body;
 
   sfCampusesWithOfferrings.forEach( campus => {
-    if (campus.campus != null) {
+    if (campus.campus !== null) {
       return Q.getCampus(campus.campus).then((foundCampus)=>{
         campus.courses = reformatData(campus.courses)
         if (foundCampus !== undefined) {

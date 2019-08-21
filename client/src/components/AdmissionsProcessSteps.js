@@ -11,7 +11,7 @@ export default (props) => {
           <div className="steps">
             {Object.keys(props.admissionsProcess).map((steppy, i) => {
               const step = props.admissionsProcess[steppy];
-              if (step.status.includes('Enroll') || step.status.includes('Hold') || step.hidden) return null;
+              if (step.status && (step.status.includes('Enroll') || step.status.includes('Hold') || step.hidden)) return null;
 
               if (props.activeStep && props.activeStep.step > step.step) {
                 return (
