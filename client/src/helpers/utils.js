@@ -33,7 +33,7 @@ function getCourseName(opp) {
         campus: campus
       };
     }
-  } else if (opp.productCode && opp.productCode.includes('-DS-') && opp.courseType.includes('Immersive')) {
+  } else if (opp.productCode && opp.courseType && opp.productCode.includes('-DS-') && opp.courseType.includes('Immersive')) {
     return {
       course: 'Data Science Immersive',
       campus: campus

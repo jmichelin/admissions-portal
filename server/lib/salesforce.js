@@ -114,7 +114,7 @@ class Salesforce {
     // if no contact look for lead and update lead
     if (!salesforceUser) {
       salesforceUser = searchResponse.searchRecords.find(record => record.attributes.type === 'Lead');
-      if (salesforceUser){
+      if (salesforceUser && !salesforceUser.IsConverted){
         let lead = {
           RecordTypeId: LEAD_STUDENT_RECORD_ID,
           Id: salesforceUser.Id,
@@ -131,7 +131,7 @@ class Salesforce {
     }
 
     //if no contact or lead create a lead
-    if (!salesforceUser) {
+    if (!salesforceUser || salesforceUser.IsConverted) {
       let newLead = await this.createLead(requestbody);
       salesforceUser = { Id: newLead.id, attributes: {type: 'Lead'}};
     }
@@ -475,5 +475,5 @@ function _makeQueryForExistingOpportunity(id) {
 
 function _makeSalesforceUserQuery(email) {
   let escapedEmail = email.replace(/[-[\]{}()*+?\\^$|#\s]/g, '\\$&');
-  return `FIND {${escapedEmail}} IN ALL FIELDS RETURNING Contact(Id, AccountId, Email ORDER BY CreatedDate DESC), Opportunity(Id, Student__r.Email ORDER BY CreatedDate DESC), Lead(Id, Email ORDER BY CreatedDate DESC)`;
+  return `FIND {${escapedEmail}} IN ALL FIELDS RETURNING Contact(Id, AccountId, Email ORDER BY CreatedDate DESC), Opportunity(Id, Student__r.Email ORDER BY CreatedDate DESC), Lead(Id, Email, isConverted ORDER BY CreatedDate DESC)`;
 }

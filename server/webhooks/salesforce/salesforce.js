@@ -3,12 +3,12 @@ const express = require('express');
 const router = express.Router();
 const Q = require('../../db/queries');
 
-router.post("/", (req, _res, _next) => {
+router.post("/", (req, res, next) => {
   let sfCampusesWithOfferrings = req.body;
 
   sfCampusesWithOfferrings.forEach( campus => {
     if (campus.campus != null) {
-      return Q.getCampus(campus.campus).then((foundCampus)=>{
+      return Q.getCampus(campus.campus).then((foundCampus) => {
         campus.courses = reformatData(campus.courses)
         if (foundCampus !== undefined) {
           return Q.updateCampus(campus);
@@ -17,9 +17,11 @@ router.post("/", (req, _res, _next) => {
         }
       }).catch(error => {
         console.log(error);
+        next(error);
       });
     }
   });
+  res.send('Courses sucessfully updated');
 });
 
 function reformatData(ogData) {
