@@ -112,9 +112,14 @@ class Application extends Component {
         step.dependentProcess(value, this.state.courseType, this.state.courseProduct)
           .then((options) => {
             // only using for select, so update options
-            this.setState({
+            this.setState(prevState => ({
+              ...prevState,
+              values: {
+                ...prevState.values,
+                [step.fieldName]: ''
+              },
               steps: this.state.steps.map((s) => { return s.id === step.id ? Object.assign({}, s, { options }): s })
-            })
+            }))
           })
       }
     })

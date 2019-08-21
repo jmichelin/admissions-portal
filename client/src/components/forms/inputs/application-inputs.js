@@ -16,24 +16,47 @@ const getOfferings = async (campus, courseType, courseProduct) => {
     })
     .then(res => res.json())
     .then(result => {
-      return result.filter(c => {
+      let validCourses = result.filter(c => {
         //normalize Full Stack from Leads for Web Development as Course Product on Courses
         if (courseProduct === 'Full Stack') courseProduct = 'Web Development';
         // if 18wk campus return only 18wk courses otherwise return 12wk courses
         if (courseProduct === 'Web Development' && CAMPUSES_SEI_18WK.includes(campus)) {
-          return c.courseType === '18 Week Full-Time Immersive' && c.courseProduct === courseProduct && Date.parse(c.startDate) > Date.now()
+          return c.courseType === '18 Week Full-Time Immersive' && c.courseProduct === courseProduct
         } else if (courseProduct === 'Web Development' && campus === 'Remote') {
-          return ((c.courseType === '12 Week Full-Time Immersive' || c.courseType === '36 Week Part-Time Immersive') && c.courseProduct === courseProduct && Date.parse(c.startDate) > Date.now())
+          return ((c.courseType === '12 Week Full-Time Immersive' || c.courseType === '36 Week Part-Time Immersive') && c.courseProduct === courseProduct)
         } else {
-          return c.courseType === courseType && c.courseProduct === courseProduct && Date.parse(c.startDate) > Date.now()
+          return c.courseType === courseType && c.courseProduct === courseProduct
         }
-      }).map((offering) => {
-        return {
-          value: offering.courseName,
-          name: `${moment(offering.startDate).format('MMM DD, YYYY')} ${offering.courseType === `36 Week Part-Time Immersive` ? '(Part-Time)' : ''}`
-        };
-      });
-    });
+      })
+      if (!validCourses.length) {
+        validCourses = fetch(`${CAMPUS_FETCH_URL}/${encodeURI('Remote')}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.token}`
+            }
+          })
+          .then(res => res.json())
+          .then(remCourses => {
+            return remCourses.filter(remoteCourse => {
+              if (courseProduct === 'Web Development' && CAMPUSES_SEI_18WK.includes(campus)) {
+                return remoteCourse.courseType === '18 Week Full-Time Immersive' && remoteCourse.courseProduct === courseProduct;
+              }
+              return remoteCourse.courseType === courseType && remoteCourse.courseProduct === courseProduct;
+            });
+          });
+          return validCourses;
+      }
+      return validCourses;
+    }).then(filteredCourses => {
+      return filteredCourses.map((offering) => {
+        let remoteTag = offering.campus === "Remote" ? "(Remote)" : ""
+        if (offering.courseType === '36 Week Part-Time Immersive' && offering.campus === "Remote") remoteTag = "(Remote Part-Time)"
+       return {
+         value: offering.courseName,
+         name: `${moment(offering.startDate).format('MMM DD, YYYY')} ${remoteTag}`
+       };
+     });
+    })
+
   return offerings;
 };
 
