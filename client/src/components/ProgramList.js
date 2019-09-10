@@ -94,7 +94,7 @@ class ProgramList extends Component {
                 <ul className="table-row -listing">
                   <li>{application.formalName}</li>
                   <li className="hide-mobile">{application.values ? application.values.Campus__c : application.campus}</li>
-                  <li className="hide-mobile">{moment(application.courseStart).format('MM/DD/YYYY')}</li>
+                  <li className="hide-mobile">{application.values ? '---' : moment(application.courseStart).format('MM/DD/YYYY')}</li>
                   <li className="hide-tablet">{application.currentStep ? application.currentStep.status : 'Talk to Your Enrollment Officer'}</li>
                 </ul>
                 {i < 1 && (
