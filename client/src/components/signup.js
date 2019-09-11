@@ -4,7 +4,6 @@ import inputs from './forms/inputs/inputs';
 import InputGroup from './forms/input-group';
 import Checkbox from './forms/checkbox';
 import Select from './forms/select';
-import HRLogo from '../assets/images/hack-reactor-horizontal-logo.png';
 import { AVAILABLE_PROGRAMS } from '../constants';
 import utils from '../helpers/utils';
 import Joi from 'joi';
@@ -191,11 +190,6 @@ class Signup extends Component {
   render() {
     return (
       <div className="signup">
-        <h1 className="title">Admissions Portal<span>New!</span></h1>
-        <div className="logo-wrapper">
-          <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
-          <img className="logo -hr" src={HRLogo} alt="Hack Reactor Logo"></img>
-        </div>
         <h3 className="portal-title">Create Your Account</h3>
         <p className="title-subtext">Already have an account? <button className="-inline" onClick={this.props.toggleSignin}>Sign In</button></p>
         <form onSubmit={this.handleSubmit}>

@@ -3,7 +3,6 @@ import { Redirect, Link } from 'react-router-dom';
 import inputs from './forms/inputs/inputs';
 import InputGroup from './forms/input-group';
 
-import HRLogo from '../assets/images/hack-reactor-horizontal-logo.png';
 
 import Joi from 'joi';
 
@@ -125,11 +124,6 @@ class Signin extends Component {
 
     return (
             <div className="signin">
-              <h1 className="title">Admissions Portal<span>New!</span></h1>
-              <div className="logo-wrapper">
-                <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
-                <img className="logo -hr" src={HRLogo} alt="Hack Reactor Logo"></img>
-              </div>
                <h3 className="portal-title">Sign In</h3>
                <p className="title-subtext">Don't have an account? <button className="-inline" onClick={this.props.toggleSignin}>Create Your Account</button></p>
                  <form onSubmit={this.handleSubmit}>

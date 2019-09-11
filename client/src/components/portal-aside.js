@@ -1,18 +1,19 @@
 import React from 'react';
 
-import DSILogo from '../assets/images/galvanize_data_science_white.png';
-import SEILogo from '../assets/images/HR_SEI_logo_white_horizontal.png'
+import HRLogo from '../assets/images/hack-reactor-white-blue-horizontal-logo.png';
 
 export default (props) => {
 
   return (
     <div className="portal-aside">
+      <h1 className="title">Admissions Portal</h1>
+      <div className="logo-wrapper">
+        <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo"></img>
+        <img className="logo -hr" src={HRLogo} alt="Hack Reactor Logo"></img>
+      </div>
       <div className="program-block">
-        <div className="logo-wrapper">
-          <img className="program-logo" alt="" src={SEILogo}></img>
-          <img className="program-logo -dsi" alt="" src={DSILogo}></img>
-        </div>
-          <p>From here you can start your application, pass the coding challenge, and book your technical interview to begin your journey of becoming a Software Engineer or a Data Scientist.  Take the leap!</p>
+          <p>From here you can get started with the admissions process for the Galvanize Data Science Immersive or the Hack Reactor Software Engineering Immersive.</p>
+          <p>Start your application, pass the coding challenge, and book your technical interview to begin your journey of becoming a Data Scientist or Software Engineer.</p>
         </div>
       <div className="program-block -campuses">
         <span className="campus-line">Austin <span>&bull;</span> Boulder <span>&bull;</span> Denver<span>&bull;</span>Los Angeles</span>
