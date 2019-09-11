@@ -6,7 +6,7 @@ export default (props) => {
     <div className="sidebar">
     <h4 className="column-headline">Things to Know</h4>
     <ul>
-      <li>The technical interview will assess your readiness for the Data Science Immersive in terms of your ability to reason statistically using Python on data. It consists in a series of small problems that build on each other.</li>
+      <li>The technical interview will assess your readiness for the Data Science Immersive.  You will apply Python to statistical and probabilistic problems.  Through writing a series of functions that are dependent on each other, you will explore and describe features of a mathematical concept.</li>
       <li>The interview will be <span>90 minutes long.</span></li>
       <li>To ensure you can interview in time for your desired cohort, you should book an interview and start preparing immediately. Interview spots fill up quickly, and extra preparation will give you confidence.</li>
       <li>A max of three interviews is permitted.</li>
