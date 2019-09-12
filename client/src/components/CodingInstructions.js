@@ -13,7 +13,7 @@ export default (props) => {
       <h4 className="column-header">Instructions</h4>
       <ol className="progress-bar">
         <li className={`${testPass(props.tests, 0)}`}>First, declare a variable named <code>myArray</code> and assign it to an empty array.</li>
-      <li className={`${testPass(props.tests, 1)}`}>Now populate <code>myArray</code> with two strings:<br></br>Put your full name in the first string, and your Skype handle in the second.</li>
+      <li className={`${testPass(props.tests, 1)}`}>Now populate <code>myArray</code> with two strings:<br></br>Put your full name in the first string, and your favorite color in the second.</li>
     <li className={`${testPass(props.tests, 2)}`}>Next, declare a function named <code>cutName</code>. It should expect a parameter <code>name</code>.</li>
   <li className={`${testPass(props.tests, 3)}`}><code>cutName</code> should return an array by breaking up the input string into individual words.
           <ul>
@@ -30,8 +30,8 @@ export default (props) => {
               <b>Value:</b> The result of calling <code>cutName</code> on the name string within <code>myArray</code>.
             </li>
             <li className={`${testPass(props.tests, 6)}`}>
-              <b>Key:</b> <code>skype</code><br />
-              <b>Value:</b> The Skype handle within <code>myArray</code>.
+              <b>Key:</b> <code>favoriteColor</code><br />
+              <b>Value:</b> The color within <code>myArray</code>.
             </li>
             <li className={`${testPass(props.tests, 7)}`}>
               <b>Key:</b> <code>github</code><br />

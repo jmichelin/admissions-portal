@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import PortalAside from '../components/portal-aside';
 import inputs from '../components/forms/inputs/inputs';
 import InputGroup from '../components/forms/input-group';
-import HRLogo from '../assets/images/hack-reactor-horizontal-logo.png';
 import Joi from 'joi';
 
 class ForgotPassword extends Component {
@@ -41,6 +40,7 @@ class ForgotPassword extends Component {
             type={input.type}
             name={input.id}
             label={input.label}
+            placeholder={input.label}
             required={input.required}
             value={this.state[input.id]}
             onInputChange={this.onInputChange}
@@ -116,13 +116,6 @@ class ForgotPassword extends Component {
           <div className="portal">
             <PortalAside/>
             <div className="form-content">
-              <h1 className="title">
-                Admissions Portal<span>New!</span>
-              </h1>
-              <div className="logo-wrapper">
-                <img className="logo" src="https://s3-us-west-2.amazonaws.com/dotcom-files/Galvanize_Logo.png" alt="Galvanize Logo" />
-                <img className="logo -hr" src={HRLogo} alt="Hack Reactor Logo" />
-              </div>
               <h3 className="portal-title -forgot-pass">
                 Forgot Your Password?
               </h3>
