@@ -152,9 +152,9 @@ it("myInfo is defined as an object", function() {
 it("myInfo.fullName is the same as cutName(myArray[0])", function() {
  expect(myInfo.fullName).to.eql(cutName(myArray[0]));
 });
-it("myInfo.skype should equal myArray[1]", function() {
- expect(myInfo.skype).to.eql(myArray[1]);
- expect(myInfo.skype).to.be.an('string');
+it("myInfo.favoriteColor should equal myArray[1]", function() {
+ expect(myInfo.favoriteColor).to.eql(myArray[1]);
+ expect(myInfo.favoriteColor).to.be.an('string');
 });
 it("myInfo.github is defined as a string or null", function() {
  expect(myInfo).to.be.an('object');
