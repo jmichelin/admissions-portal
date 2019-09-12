@@ -4,6 +4,7 @@ import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
 import InterviewSidebar from '../components/book-interview-sidebar';
 import TIBookingTool from '../components/booking-tool-ti';
+import TAABookingTool from '../components/booking-tool-taa';
 
 import { HERO_TEXT, SEI_STEPS_12_WK } from '../constants';
 
@@ -37,7 +38,6 @@ class BookInterview extends Component {
         showTAA: false
       })
     } else {
-      console.log('true!');
       this.setState({
         showTI: false,
         showTAA: true
@@ -45,11 +45,12 @@ class BookInterview extends Component {
     }
   }
 
-  // <Breadcrumb
-  //   previousComponent={this.hideIframe}
-  //   refreshData={!this.state.isLoading && this.state.showIframe}
-  //   text={(!this.state.isLoading && this.state.showIframe) || this.state.isLoading ? 'Select a Different Calendar' : 'Back to Dashboard'}
-  //   linkUrl={(!this.state.isLoading && this.state.showIframe) || this.state.isLoading ? null : '/dashboard'}/>
+  changeToTI = () => {
+    this.setState({
+      showTI: true,
+      showTAA: false
+    })
+  }
 
   render() {
     return (
@@ -62,15 +63,23 @@ class BookInterview extends Component {
               />
               <div className="two-col">
                 <div className="campus-group">
-
                 { !this.state.showTI && !this.state.showTAA &&
                   <>
-                    <button className="button-primary" onClick={() => this.loadBookingTool('TI')}>Book TI</button>
-                    <button className="button-primary" onClick={() => this.loadBookingTool('TAA')}>Book TAA</button>
+                  <Breadcrumb/>
+                  <div className="pre-question">
+                  <p>Have you ever taken a Software Engineering Technical Interview or Technical Admissions Assessment with Hack Reactor or Galvanize?</p>
+                    <div>
+                      <button className="button-primary" onClick={() => this.loadBookingTool('TAA')}>No</button>
+                      <button className="button-primary" onClick={() => this.loadBookingTool('TI')}>Yes</button>
+                    </div>
+                  </div>
                   </>
                  }
                 { this.state.showTI &&
                   <TIBookingTool opp={this.state.opp} user={this.props.user}/>
+                }
+                { this.state.showTAA &&
+                  <TAABookingTool opp={this.state.opp} user={this.props.user} changeToTI={this.changeToTI}/>
                 }
                 </div>
                 <InterviewSidebar/>
