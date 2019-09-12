@@ -115,10 +115,10 @@ var assessments = [
     }
   },
   {
-    name: "myInfo.skype should equal myArray[1]",
-    test: function myDataSkypeMatchesMyArray ( sandbox ) {
-      expect( sandbox.myInfo.skype ).to.eql( sandbox.myArray[1] );
-      expect( sandbox.myInfo.skype ).to.be.an( 'string' );
+    name: "myInfo.favoriteColor should equal myArray[1]",
+    test: function myDataFavoriteColorMatchesMyArray ( sandbox ) {
+      expect( sandbox.myInfo.favoriteColor ).to.eql( sandbox.myArray[1] );
+      expect( sandbox.myInfo.favoriteColor ).to.be.an( 'string' );
       return true;
     }
   },

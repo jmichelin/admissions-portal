@@ -67,7 +67,7 @@ class Header extends Component {
           <li data-tag="Courses" className={this.state.activeNavItemName === "Courses" ? "nav-item -open" : "nav-item"} onClick={(e) => this.toggleMobileNavItem(e)}>Courses<span className="caret"></span>
           <ul className="list">
             <span className="diagonal"></span>
-            <li className="nav-item-subheader"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/full-time">Immersive Courses</a><span><img src="https://s3-us-west-2.amazonaws.com/dotcom-files/arrow-01.png" alt=""></img></span>
+            <li className="nav-item-subheader">Immersive Courses
               <ul>
                 <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/web-development">Software Engineering</a></li>
                 <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/remote-software-engineering">Remote Software Engineering</a></li>
@@ -89,8 +89,7 @@ class Header extends Component {
             <span className="diagonal"></span>
             <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/campuses/austin">Austin</a></li>
             <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/campuses/boulder">Boulder</a></li>
-            <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/campuses/denver-golden-triangle">Denver (Golden Triangle)</a></li>
-            <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/campuses/denver-platte">Denver (Platte)</a></li>
+            <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/campuses/denver-platte">Denver</a></li>
             <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/campuses/los-angeles">Los Angeles</a></li>
             <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/campuses/new-york">New York</a></li>
             <li className="nav-list-item"><a target="_blank" rel="noopener noreferrer" href="https://www.galvanize.com/campuses/phoenix">Phoenix</a></li>
