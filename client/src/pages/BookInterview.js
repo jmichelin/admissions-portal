@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
 import CalendarIframe from '../components/calendar-iframe';
@@ -16,13 +16,8 @@ class BookInterview extends Component {
       isLoading: false,
       showIframe: false,
       hideSpinner: false,
-      campus: {},
-      redirectToDashboard: false,
+      campus: {}
     };
-
-    this.hideSpinner = this.hideSpinner.bind(this);
-    this.loadBookingTool = this.loadBookingTool.bind(this);
-    this.hideIframe = this.hideIframe.bind(this);
   }
 
   componentDidMount() {
@@ -30,15 +25,15 @@ class BookInterview extends Component {
       const {opp} = this.props.location.state;
 
       if (opp.currentStep !== SEI_STEPS_12_WK.STEP_THREE && !this.props.location.override) {
-        this.setState({ redirectToDashboard: true })
+        return this.props.history.push('/dashboard')
       }
       this.setState({opp: opp})
      } else {
-      this.setState({ redirectToDashboard: true })
+       return this.props.history.push('/dashboard')
     }
   }
 
-  hideSpinner(iframe) {
+  hideSpinner = (iframe) => {
     iframe.contentWindow.postMessage('hello', "*");
     window.addEventListener("message", this.handleFrameTasks);
     this.setState({
@@ -56,7 +51,7 @@ class BookInterview extends Component {
       }
      }
 
-  loadBookingTool(campus) {
+  loadBookingTool = (campus) => {
     this.setState({
       campus: campus,
       showIframe: true,
@@ -64,7 +59,7 @@ class BookInterview extends Component {
     })
   }
 
-  hideIframe() {
+  hideIframe = () => {
     this.setState({
       showIframe: false,
       isLoading: false
@@ -72,9 +67,6 @@ class BookInterview extends Component {
   }
 
   render() {
-    if (this.state.redirectToDashboard) {
-      return <Redirect to='/dashboard'/>
-    }
     return (
       <div className="book-interview">
         <div className="container">
@@ -118,4 +110,4 @@ class BookInterview extends Component {
   }
 }
 
-export default BookInterview;
+export default withRouter(BookInterview);
