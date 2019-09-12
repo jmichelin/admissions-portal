@@ -16,7 +16,7 @@ export default (props) => {
           <p>Start your application, pass the coding challenge, and book your technical interview to begin your journey of becoming a Data Scientist or Software Engineer.</p>
         </div>
       <div className="program-block -campuses">
-        <span className="campus-line">Austin <span>&bull;</span> Boulder <span>&bull;</span> Denver<span>&bull;</span>Los Angeles</span>
+        <span className="campus-line">Austin <span>&bull;</span> Boulder <span>&bull;</span> Denver <span>&bull;</span> Los Angeles</span>
         <span className="campus-line">New York <span>&bull;</span> Phoenix<span>&bull;</span> San Francisco <span>&bull;</span> Seattle <span>&bull;</span> Remote</span>
         <span className="campus-line"></span>
       </div>
