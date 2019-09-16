@@ -179,15 +179,16 @@ export const PYTHON_TEST_1 =
 import unittest
 
 
-class TestPython1(unittest.TestCase):
-    def test_01_consonant_first(self):
-        string1 = "I will introduce my Uncle to my oldest friend Peter"
-        answer1 = sorted(["will", "my", "to", "friend", "peter"])
-        string2 = "Peter went to my house and then we went to his house"
-        answer2 = sorted(["peter", "went", "to", "my", "house", "then", "we", "his"])
-        for st, ans in zip([string1, string2], [answer1, answer2]):
-            result = sorted(main.consonant_first(st))
-            self.assertEqual(result, ans)`;
+class MyTest(unittest.TestCase):
+    def test(self):
+        low = 0
+        high = 1500
+        sum_dict = distr_of_rec_digit_sums(low, high)
+
+        self.assertEqual(len(sum_dict), 10)
+        self.assertEqual(sum_dict[0], 1)
+        [self.assertEqual(sum_dict[key], 167) for key in range(1, 7)]
+        [self.assertEqual(sum_dict[key], 166) for key in range(7, 10)]`;
 
 export const PYTHON_TEST_2 =
 `import main
@@ -207,29 +208,44 @@ class TestPython1(unittest.TestCase):
 
 export const PLACEHOLDER_1 = `python
 
-def consonant_first(text):
-    """Finds a list of unique words in text that start with a consonant
-    (letters that are not vowels). Note: all words are returned as
-    lowercase and are returned in no particular order.
+def rec_dig_sum(n):
+    '''
+    Returns the recursive digit sum of an integer.
 
-    Parameters
-    ----------
-    in_str: string
-        A sentence containing no punctuation.
-        E.g. "A dog is a good pet and a bear is an awful pet"
+    Parameter
+    ---------
+    n: int
 
     Returns
     -------
-    list of strings
-        The words from the sentence that do not start with vowels
-        ['a', 'e', 'i', 'o', 'u'].
-        All strings are returned as lower case.
+    rec_dig_sum: int
+       the recursive digit sum of the input n
+    '''
+    pass
 
-    Examples
-    --------
-    >>> consonant_first("A dog is a good pet and a bear is an awful pet")
-    ["dog", "good", "pet", "bear"]
-    """
+
+def distr_of_rec_digit_sums(low=0, high=1500):
+    '''
+    Returns a dictionary representing the counts
+    of recursive digit sums within a given range.
+
+    Parameters
+    ----------
+    low: int
+        a positive integer representing the lowest
+        value in the range of integers for which finding
+        the recursive digit sum
+    high: int
+        a positive integer greater than low, the inclusive
+        upper bound for which finding the recursive digit sum
+
+    Returns
+    -------
+    dict_of_rec_dig_sums: {int:int}
+        returns a dictionary where the keys are the recursive
+        digit sums and the values are the counts of those digit sums
+        occurring
+    '''
     pass`;
 
 export const PLACEHOLDER_2 = `
@@ -262,7 +278,7 @@ export const SNIPPET_1 = {
   id: 1,
   tests: PYTHON_TEST_1,
   placeholder: PLACEHOLDER_1,
-  question: "Complete the function 'consonant_first' according to its docstring."
+  question: "You will write a function called rec_dig_sum that takes in an integer and returns the recursive digit sum of that number. You will then use that function within another function called distr_of_rec_digit_sums, that returns a dictionary where the keys are recursive digit sums, and the values are the counts of those digit sums occurring between a low and high (inclusive) range of input numbers. Assume low and high are positive integers where high is greater than low. Use the starter code below."
 };
 
 export const SNIPPET_2 = {

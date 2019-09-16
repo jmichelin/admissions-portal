@@ -425,29 +425,44 @@ export const APPLICATION_STEPS_DSI = [
   DSI_STEPS.HOLD,
 ];
 
-export const PLACEHOLDER_1 = `def consonant_first(text):
-    """Finds a list of unique words in text that start with a consonant
-    (letters that are not vowels). Note: all words are returned as
-    lowercase and are returned in no particular order.
+export const PLACEHOLDER_1 = `def rec_dig_sum(n):
+    '''
+    Returns the recursive digit sum of an integer.
 
-    Parameters
-    ----------
-    in_str: string
-        A sentence containing no punctuation.
-        E.g. "A dog is a good pet and a bear is an awful pet"
+    Parameter
+    ---------
+    n: int
 
     Returns
     -------
-    list of strings
-        The words from the sentence that do not start with vowels
-        ['a', 'e', 'i', 'o', 'u'].
-        All strings are returned as lower case.
+    rec_dig_sum: int
+       the recursive digit sum of the input n
+    '''
+    pass
 
-    Examples
-    --------
-    >>> consonant_first("A dog is a good pet and a bear is an awful pet")
-    ["dog", "good", "pet", "bear"]
-    """
+
+def distr_of_rec_digit_sums(low=0, high=1500):
+    '''
+    Returns a dictionary representing the counts
+    of recursive digit sums within a given range.
+
+    Parameters
+    ----------
+    low: int
+        a positive integer representing the lowest
+        value in the range of integers for which finding
+        the recursive digit sum
+    high: int
+        a positive integer greater than low, the inclusive
+        upper bound for which finding the recursive digit sum
+
+    Returns
+    -------
+    dict_of_rec_dig_sums: {int:int}
+        returns a dictionary where the keys are the recursive
+        digit sums and the values are the counts of those digit sums
+        occurring
+    '''
     pass`;
 
 export const PLACEHOLDER_2 = `def keys_geq_cutoff(num_dict, min_cutoff):
