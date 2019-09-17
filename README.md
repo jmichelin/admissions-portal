@@ -19,9 +19,14 @@ This app uses a proxy server to run locally so your console will show both serve
 - `cd ../client && npm install` installs client packages within the client directory
 - `npm run dev` starts both client and server concurrently
 
+
+### DSI Python tests
+This app pings the Assessments Service in order to run code snippets to test a prospective student's python code again what the challenge asks for.  In order to setup the DSI coding challenge locally you'll have to spin up that application as well locally.  Make sure to have Docker running locally or this app will poll for challenge results until the app times out.  You also might need to run `bundle exec` in front of the rails server command.  You should also run this server on the BASE_URL port in the .env filed within the server folder.  This should be a separate port from the front or backend of the Admissions Portal.  AS Repo: https://github.com/Galvanize-IT/assessments-service
+
 ### Database
 
-# .env file should be in the server directory!
+### .env file setup
+This app has a .env file in both the main directory and the server directory. This for a few reasons but be sure to follow both .env-example files to get the app working locally.
 
 run `createdb admissions_dev`
 run `createdb admissions_test`
