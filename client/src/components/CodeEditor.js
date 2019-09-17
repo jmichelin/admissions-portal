@@ -4,7 +4,7 @@ import {Controlled as CodeMirror} from 'react-codemirror2';
 import checkMark from '../assets/images/icon-checkmark-orange.png';
 import xMark from '../assets/images/icon-xmark-orange.png';
 
-import { SNIPPET_1, SNIPPET_2 } from '../constants';
+import { SNIPPET_3, SNIPPET_4 } from '../constants';
 
 import 'codemirror/lib/codemirror.css';
 require('codemirror/mode/javascript/javascript');
@@ -45,10 +45,10 @@ class CodeEditor extends Component {
   }
 
   resetInput() {
-    if (this.props.snippetId === 1) {
-      this.setState({code: SNIPPET_1.placeholder})
+    if (this.props.snippetId === 3) {
+      this.setState({code: SNIPPET_3.placeholder})
     } else {
-      this.setState({code: SNIPPET_2.placeholder})
+      this.setState({code: SNIPPET_4.placeholder})
     }
   }
 
