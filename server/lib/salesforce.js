@@ -380,7 +380,8 @@ class Salesforce {
     return new Promise( (resolve, reject) => {
       this.connection.sobject('Interview_Evaluation__c').update({
         Id: scoreCardId,
-        Move_Forward__c: moveForward
+        Move_Forward__c: moveForward,
+        Comments_on_Test__c: 'rec_dig_sums_challenge and sigmoid_challenge'
       }, (err, res) => {
         if(err) { reject(err); }
         resolve(res);

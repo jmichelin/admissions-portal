@@ -13,7 +13,7 @@ import {
   DSI_STEPS,
   HERO_TEXT
 } from '../constants';
-import { SNIPPET_1, SNIPPET_2 } from '../constants';
+import { SNIPPET_3, SNIPPET_4 } from '../constants';
 import CodeEditor from '../components/CodeEditor';
 
 class PythonChallenge extends Component {
@@ -36,8 +36,8 @@ class PythonChallenge extends Component {
       ch2Status: "",
       ch1TestResults: "",
       ch2TestResults: "",
-      snippet1Placeholder: SNIPPET_1.placeholder,
-      snippet2Placeholder: SNIPPET_2.placeholder
+      snippet1Placeholder: SNIPPET_3.placeholder,
+      snippet2Placeholder: SNIPPET_4.placeholder
     };
 
     this.codeSubmit = this.codeSubmit.bind(this);
@@ -84,18 +84,18 @@ class PythonChallenge extends Component {
       }).then(response => {
         if (response.ok) {
           return response.json().then((data) => {
-            let snippet1Placeholder = SNIPPET_1.placeholder
-            let snippet2Placeholder = SNIPPET_2.placeholder
+            let snippet1Placeholder = SNIPPET_3.placeholder
+            let snippet2Placeholder = SNIPPET_4.placeholder
             let ch1Status = ""
             let ch2Status = ""
             let allPassed = false
             for(var i = 0;i < data.length; i++) {
-              if (data[i].snippet_id === 1) {
+              if (data[i].snippet_id === 3) {
                 snippet1Placeholder = data[i].answer
                 if (data[i].status === "correct"){
                   ch1Status = data[i].status.charAt(0).toUpperCase() + data[i].status.slice(1)
                 }
-              } else if (data[i].snippet_id === 2) {
+              } else if (data[i].snippet_id === 4) {
                 snippet2Placeholder = data[i].answer
                 if (data[i].status === "correct"){
                   ch2Status = data[i].status.charAt(0).toUpperCase() + data[i].status.slice(1)
@@ -180,7 +180,7 @@ class PythonChallenge extends Component {
               status = data.status.charAt(0).toUpperCase() + data.status.slice(1)
             }
             let allPassed = false
-            if (data.snippet_id === 1) {
+            if (data.snippet_id === 3) {
               if (status === "Correct" && this.state.ch2Status === "Correct") allPassed = true
               this.setState({
                 showProcessing: false,
@@ -315,14 +315,25 @@ class PythonChallenge extends Component {
               <div className="instructions col">
                 <h4 className="column-header">CHALLENGE 1 Instructions</h4>
                   <p>
-                    Complete the function <code>consonant_first</code> according to its docstring.
-                  <br></br><br></br>Your function should return a list, not just print that list. <br></br><br></br>
-                  You can test your code as many times as you need. Your code will also save if you need to come back later.<br></br><br></br>Need help? Our <a href="https://www.galvanize.com/data-science/prep">Prep Programs</a> are a great option to get up to speed!</p>
+                    You will write two functions in this challenge. First write a function called <code>rec_dig_sum</code> that takes in an integer and returns the recursive digit sum of that number.
+                    <br></br>
+                    <br></br>
+                    Examples of recursive digit sums:<br></br>
+                    <code>101 => 1+0+1 = 2</code><br></br>
+                    <code>191 => 1+9+1 = 11 => 1+1 = 2</code><br></br>
+                    <code>5697 => 5+6+9+7 = 27 => 2+7 = 9</code>
+                      <br></br>
+                      <br></br>
+                    Then use that function within another function called <code>distr_of_rec_digit_sums</code>, that returns a dictionary where the keys are recursive digit sums, and the values are the counts of those digit sums occurring between a low and high (inclusive) range of input numbers. Assume low and high are positive integers where high is greater than low.
+
+                  <br></br>
+                  <br></br>Your function should return a list, not just print that list. <br></br><br></br>
+                  You can test your code as many times as you need. Your code will save if you need to come back later.<br></br><br></br>Need help? Our <a href="https://www.galvanize.com/data-science/prep">Prep Programs</a> are a great option to get up to speed!</p>
               </div>
               <div className="code-editor col">
                 <h4 className="column-header">Challenge 1</h4>
                 <CodeEditor
-                  snippetId={SNIPPET_1.id}
+                  snippetId={SNIPPET_3.id}
                   codeTest={this.testCode}
                   codeSubmit={this.codeSubmit}
                   useCancelButton={true}
@@ -341,12 +352,16 @@ class PythonChallenge extends Component {
             <div className="challenge-editor">
               <div className="instructions col">
                 <h4 className="column-header">Challenge 2 Instructions</h4>
-                <p>{SNIPPET_2.question}<br></br><br></br>Your function should return a set, not just print that set.</p>
+                <p>Write a function called <code>sigmoid</code> that implements the sigmoid logistic function, as it
+                is shown in <a href="https://en.wikipedia.org/wiki/Sigmoid_function" target="_blank">this article</a>.
+                <br></br>
+                <br></br>
+                For the value of Euler's number <code>e</code> use <code>2.71828</code>.<br></br><br></br>Your function should return a set, not just print that set.</p>
               </div>
               <div className="code-editor col">
                 <h4 className="column-header">Challenge 2</h4>
                 <CodeEditor
-                  snippetId={SNIPPET_2.id}
+                  snippetId={SNIPPET_4.id}
                   codeTest={this.testCode}
                   codeSubmit={this.codeSubmit}
                   useCancelButton={true}

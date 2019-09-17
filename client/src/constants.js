@@ -429,20 +429,17 @@ export const PLACEHOLDER_1 = `def consonant_first(text):
     """Finds a list of unique words in text that start with a consonant
     (letters that are not vowels). Note: all words are returned as
     lowercase and are returned in no particular order.
-
     Parameters
     ----------
     in_str: string
         A sentence containing no punctuation.
         E.g. "A dog is a good pet and a bear is an awful pet"
-
     Returns
     -------
     list of strings
         The words from the sentence that do not start with vowels
         ['a', 'e', 'i', 'o', 'u'].
         All strings are returned as lower case.
-
     Examples
     --------
     >>> consonant_first("A dog is a good pet and a bear is an awful pet")
@@ -475,6 +472,65 @@ export const PLACEHOLDER_2 = `def keys_geq_cutoff(num_dict, min_cutoff):
     pass
 `;
 
+export const PLACEHOLDER_3 = `def rec_dig_sum(n):
+    '''
+    Returns the recursive digit sum of an integer.
+
+    Parameter
+    ---------
+    n: int
+
+    Returns
+    -------
+    rec_dig_sum: int
+       the recursive digit sum of the input n
+    '''
+    pass
+
+
+def distr_of_rec_digit_sums(low=0, high=1500):
+    '''
+    Returns a dictionary representing the counts
+    of recursive digit sums within a given range.
+
+    Parameters
+    ----------
+    low: int
+        a positive integer representing the lowest
+        value in the range of integers for which finding
+        the recursive digit sum
+    high: int
+        a positive integer greater than low, the inclusive
+        upper bound for which finding the recursive digit sum
+
+    Returns
+    -------
+    dict_of_rec_dig_sums: {int:int}
+        returns a dictionary where the keys are the recursive
+        digit sums and the values are the counts of those digit sums
+        occurring
+    '''
+    pass
+`;
+
+export const PLACEHOLDER_4 = `def sigmoid(x):
+    '''
+    Returns the result of passing a number into the sigmoid
+    logistic function. Assumes the value of e to be 2.171828
+
+    Parameters
+    ----------
+    x: number
+        the number to pass into the sigmoid logistic function
+
+    Returns
+    -------
+    result: number
+        result of the sigmoid logistic function
+    '''
+    pass
+`;
+
 export const SNIPPET_1 = {
   id: 1,
   placeholder: PLACEHOLDER_1,
@@ -485,6 +541,18 @@ export const SNIPPET_2 = {
   id: 2,
   placeholder: PLACEHOLDER_2,
   question: `You have some numeric data stored in a dictionary. The data could represent any number of things, for example, people's names and their height in inches, or cities and their populations. Complete the function below to return all the keys of the dictionary where their associated values are greater than or equal to some cutoff.`
+};
+
+export const SNIPPET_3 = {
+  id: 3,
+  placeholder: PLACEHOLDER_3,
+  question: "Write the function according to the doc string."
+};
+
+export const SNIPPET_4 = {
+  id: 4,
+  placeholder: PLACEHOLDER_4,
+  question: `Write the function according to the doc string.`
 };
 
 export const PROGRAM_SELECT_TEXT = {
