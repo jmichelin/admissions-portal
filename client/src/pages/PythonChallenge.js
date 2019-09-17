@@ -353,7 +353,11 @@ class PythonChallenge extends Component {
             <div className="challenge-editor">
               <div className="instructions col">
                 <h4 className="column-header">Challenge 2 Instructions</h4>
-                <p>{SNIPPET_4.question}<br></br><br></br>Your function should return a set, not just print that set.</p>
+                <p>Write a function called <code>sigmoid</code> that implements the sigmoid logistic function, as it
+                is shown in <a href="https://en.wikipedia.org/wiki/Sigmoid_function" target="_blank">this article</a>.
+                <br></br>
+                <br></br>
+                For the value of Euler's number <code>e</code> use <code>2.71828</code>.<br></br><br></br>Your function should return a set, not just print that set.</p>
               </div>
               <div className="code-editor col">
                 <h4 className="column-header">Challenge 2</h4>
