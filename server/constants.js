@@ -211,7 +211,7 @@ class MyTest(unittest.TestCase):
     def test(self):
         low = 0
         high = 1500
-        sum_dict = distr_of_rec_digit_sums(low, high)
+        sum_dict = main.distr_of_rec_digit_sums(low, high)
 
         self.assertEqual(len(sum_dict), 10)
         self.assertEqual(sum_dict[0], 1)
@@ -230,4 +230,4 @@ class MyTest(unittest.TestCase):
         x_vals = [(low + i*step) for i in range(num_x_vals)]
 
         for x in x_vals:
-            self.assertEqual(sigmoid(x), (1 / (1+2.71828**(-x))))`;
+            self.assertEqual(main.sigmoid(x), (1 / (1+2.71828**(-x))))`;
