@@ -324,10 +324,7 @@ class PythonChallenge extends Component {
                     <code>5697 => 5+6+9+7 = 27 => 2+7 = 9</code>
                       <br></br>
                       <br></br>
-                    Then use that function within another function called <code>distr_of_rec_digit_sums</code>, that returns a dictionary where the keys are recursive digit sums, and the values are the counts of those digit sums occurring between a low and high (inclusive) range of input numbers. Assume low and high are positive integers where high is greater than low.
-
-                  <br></br>
-                  <br></br>Your function should return a dictionary, not just print it. <br></br><br></br>
+                    Then use that function within another function called <code>distr_of_rec_digit_sums</code>, that returns a dictionary where the keys are recursive digit sums, and the values are the counts of those digit sums occurring between a low and high (inclusive) range of input numbers. Assume low and high are positive integers where high is greater than low. Your function should return a dictionary, not just print it. <br></br><br></br>
                   You can test your code as many times as you need. Your code will save if you need to come back later.<br></br><br></br>Need help? Our <a href="https://www.galvanize.com/data-science/prep">Prep Programs</a> are a great option to get up to speed!</p>
               </div>
               <div className="code-editor col">
