@@ -84,7 +84,6 @@ class PythonChallenge extends Component {
       }).then(response => {
         if (response.ok) {
           return response.json().then((data) => {
-            console.log('data', data);
             let snippet1Placeholder = SNIPPET_3.placeholder
             let snippet2Placeholder = SNIPPET_4.placeholder
             let ch1Status = ""
