@@ -365,7 +365,6 @@ class Salesforce {
   }
 
   updateOppStage(oppId, stage) {
-    console.log('id', oppId, stage);
     return new Promise( (resolve, reject) => {
       this.connection.sobject('Opportunity').update({
         Id: oppId,
