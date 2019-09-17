@@ -28,7 +28,8 @@ router.get('/', async (req, res, next) => {
 router.post('/update-opp-stage', (req, res, next) => {
   salesforce.login()
     .then(() => {
-        return salesforce.updateOppStage(req.body.oppId, req.body.stageName);
+        // return salesforce.updateOppStage(req.body.oppId, req.body.stageName);
+        return;
     }).then(response => {
       res.send(response);
     })

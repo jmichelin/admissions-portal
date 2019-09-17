@@ -91,6 +91,7 @@ class PythonChallenge extends Component {
             let allPassed = false
             for(var i = 0;i < data.length; i++) {
               if (data[i].snippet_id === 1) {
+                console.log(data[i]);
                 snippet1Placeholder = data[i].answer
                 if (data[i].status === "correct"){
                   ch1Status = data[i].status.charAt(0).toUpperCase() + data[i].status.slice(1)
