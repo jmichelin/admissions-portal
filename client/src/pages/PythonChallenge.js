@@ -84,6 +84,7 @@ class PythonChallenge extends Component {
       }).then(response => {
         if (response.ok) {
           return response.json().then((data) => {
+            console.log('data', data);
             let snippet1Placeholder = SNIPPET_1.placeholder
             let snippet2Placeholder = SNIPPET_2.placeholder
             let ch1Status = ""
@@ -91,7 +92,6 @@ class PythonChallenge extends Component {
             let allPassed = false
             for(var i = 0;i < data.length; i++) {
               if (data[i].snippet_id === 1) {
-                console.log(data[i]);
                 snippet1Placeholder = data[i].answer
                 if (data[i].status === "correct"){
                   ch1Status = data[i].status.charAt(0).toUpperCase() + data[i].status.slice(1)

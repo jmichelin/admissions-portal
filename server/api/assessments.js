@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Q = require('../db/queries');
 
-import { SNIPPET_1, SNIPPET_2 } from '../constants';
+import { PYTHON_TEST_1, PYTHON_TEST_2, PYTHON_TEST_3, PYTHON_TEST_4 } from '../constants';
 import Assessments from '../lib/assessments';
 import Honeybadger from '../lib/honeybadger';
 const honeybadger = new Honeybadger();
@@ -116,12 +116,21 @@ function noRunningTests(req, res, next) {
 }
 
 function snippet_tests(snippet_id) {
-  if (snippet_id === 1) {
-    return SNIPPET_1.tests
-  } else if (snippet_id === 2) {
-    return SNIPPET_2.tests
+switch(snippet_id) {
+  case 1:
+  return PYTHON_TEST_1
+  break;
+  case 2:
+  return PYTHON_TEST_2
+  break;
+  case 3:
+  return PYTHON_TEST_3
+  break;
+  case 4:
+  return PYTHON_TEST_4
+  default:
+  return PYTHON_TEST_1
   }
-  return ''
 }
 
 module.exports = router;

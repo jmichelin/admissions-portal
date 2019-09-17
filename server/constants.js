@@ -177,18 +177,15 @@ export const CAMPUSES_SEI_18WK = ['Phoenix-Warehouse District', 'Seattle-Pioneer
 export const PYTHON_TEST_1 =
 `import main
 import unittest
-
-
-class MyTest(unittest.TestCase):
-    def test(self):
-        low = 0
-        high = 1500
-        sum_dict = distr_of_rec_digit_sums(low, high)
-
-        self.assertEqual(len(sum_dict), 10)
-        self.assertEqual(sum_dict[0], 1)
-        [self.assertEqual(sum_dict[key], 167) for key in range(1, 7)]
-        [self.assertEqual(sum_dict[key], 166) for key in range(7, 10)]`;
+class TestPython1(unittest.TestCase):
+    def test_01_consonant_first(self):
+        string1 = "I will introduce my Uncle to my oldest friend Peter"
+        answer1 = sorted(["will", "my", "to", "friend", "peter"])
+        string2 = "Peter went to my house and then we went to his house"
+        answer2 = sorted(["peter", "went", "to", "my", "house", "then", "we", "his"])
+        for st, ans in zip([string1, string2], [answer1, answer2]):
+            result = sorted(main.consonant_first(st))
+            self.assertEqual(result, ans)`;
 
 export const PYTHON_TEST_2 =
 `import main
@@ -206,84 +203,31 @@ class TestPython1(unittest.TestCase):
           result2 = main.keys_geq_cutoff(test_d, 7)
           self.assertEqual(result2, set(['D']))`;
 
-export const PLACEHOLDER_1 = `python
 
-def rec_dig_sum(n):
-    '''
-    Returns the recursive digit sum of an integer.
+export const PYTHON_TEST_3 =
+`import main
+import unittest
+class MyTest(unittest.TestCase):
+    def test(self):
+        low = 0
+        high = 1500
+        sum_dict = distr_of_rec_digit_sums(low, high)
 
-    Parameter
-    ---------
-    n: int
+        self.assertEqual(len(sum_dict), 10)
+        self.assertEqual(sum_dict[0], 1)
+        [self.assertEqual(sum_dict[key], 167) for key in range(1, 7)]
+        [self.assertEqual(sum_dict[key], 166) for key in range(7, 10)]`;
 
-    Returns
-    -------
-    rec_dig_sum: int
-       the recursive digit sum of the input n
-    '''
-    pass
+export const PYTHON_TEST_4 =
+`import main
+import unittest
+class MyTest(unittest.TestCase):
+    def test(self):
+        low = -10
+        high = 10
+        step = .2
+        num_x_vals = int((high-low) / step)
+        x_vals = [(low + i*step) for i in range(num_x_vals)]
 
-
-def distr_of_rec_digit_sums(low=0, high=1500):
-    '''
-    Returns a dictionary representing the counts
-    of recursive digit sums within a given range.
-
-    Parameters
-    ----------
-    low: int
-        a positive integer representing the lowest
-        value in the range of integers for which finding
-        the recursive digit sum
-    high: int
-        a positive integer greater than low, the inclusive
-        upper bound for which finding the recursive digit sum
-
-    Returns
-    -------
-    dict_of_rec_dig_sums: {int:int}
-        returns a dictionary where the keys are the recursive
-        digit sums and the values are the counts of those digit sums
-        occurring
-    '''
-    pass`;
-
-export const PLACEHOLDER_2 = `
-def keys_geq_cutoff(num_dict, min_cutoff):
-    """Returns all the keys (as a set) from num_dict that have
-    value greater than or equal to min_cutoff.
-
-    Parameters
-    ----------
-    num_dict: dictionary
-    All the values in num_dict are numeric.
-    min_cutoff: float
-        Comparison with the num_dict values. Return all keys, where
-        their values >= min_cutoff.
-
-    Returns
-    -------
-    set
-        All keys from num_dict whose values meet the cutoff criterion.
-
-    Examples
-    --------
-    >>> keys_geq_cutoff({'Alice': 21, 'Brett': 20, 'Carlos': 31}, 21)
-    {'Alice', 'Carlos'}
-    """
-    pass
-`;
-
-export const SNIPPET_1 = {
-  id: 1,
-  tests: PYTHON_TEST_1,
-  placeholder: PLACEHOLDER_1,
-  question: "You will write a function called rec_dig_sum that takes in an integer and returns the recursive digit sum of that number. You will then use that function within another function called distr_of_rec_digit_sums, that returns a dictionary where the keys are recursive digit sums, and the values are the counts of those digit sums occurring between a low and high (inclusive) range of input numbers. Assume low and high are positive integers where high is greater than low. Use the starter code below."
-};
-
-export const SNIPPET_2 = {
-  id: 2,
-  tests: PYTHON_TEST_2,
-  placeholder: PLACEHOLDER_2,
-  question: `You have some numeric data stored in a dictionary. The data could represent any number of things, for example, people's names and their height in inches, or cities and their populations. Complete the function below to return all the keys of the dictionary where their associated values are greater than or equal to some cutoff.`
-};
+        for x in x_vals:
+            self.assertEqual(sigmoid(x), (1 / (1+2.71828**(-x))))`;
