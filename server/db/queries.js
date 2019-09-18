@@ -66,7 +66,8 @@ module.exports = {
   getUserLatestAssessment: function(user_id) {
     return knex('assessment')
       .distinct(knex.raw('ON (snippet_id) answer, created_at, status, test_results, snippet_id'))
-      .where('user_id', user_id)
+      .where({user_id: user_id, snippet_id: 3})
+      .orWhere({user_id: user_id, snippet_id: 4})
       .orderByRaw('snippet_id asc, created_at desc')
   },
 

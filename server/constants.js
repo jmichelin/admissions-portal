@@ -177,8 +177,6 @@ export const CAMPUSES_SEI_18WK = ['Phoenix-Warehouse District', 'Seattle-Pioneer
 export const PYTHON_TEST_1 =
 `import main
 import unittest
-
-
 class TestPython1(unittest.TestCase):
     def test_01_consonant_first(self):
         string1 = "I will introduce my Uncle to my oldest friend Peter"
@@ -205,69 +203,31 @@ class TestPython1(unittest.TestCase):
           result2 = main.keys_geq_cutoff(test_d, 7)
           self.assertEqual(result2, set(['D']))`;
 
-export const PLACEHOLDER_1 = `python
 
-def consonant_first(text):
-    """Finds a list of unique words in text that start with a consonant
-    (letters that are not vowels). Note: all words are returned as
-    lowercase and are returned in no particular order.
+export const PYTHON_TEST_3 =
+`import main
+import unittest
+class MyTest(unittest.TestCase):
+    def test(self):
+        low = 0
+        high = 1500
+        sum_dict = main.distr_of_rec_digit_sums(low, high)
 
-    Parameters
-    ----------
-    in_str: string
-        A sentence containing no punctuation.
-        E.g. "A dog is a good pet and a bear is an awful pet"
+        self.assertEqual(len(sum_dict), 10)
+        self.assertEqual(sum_dict[0], 1)
+        [self.assertEqual(sum_dict[key], 167) for key in range(1, 7)]
+        [self.assertEqual(sum_dict[key], 166) for key in range(7, 10)]`;
 
-    Returns
-    -------
-    list of strings
-        The words from the sentence that do not start with vowels
-        ['a', 'e', 'i', 'o', 'u'].
-        All strings are returned as lower case.
+export const PYTHON_TEST_4 =
+`import main
+import unittest
+class MyTest(unittest.TestCase):
+    def test(self):
+        low = -10
+        high = 10
+        step = .2
+        num_x_vals = int((high-low) / step)
+        x_vals = [(low + i*step) for i in range(num_x_vals)]
 
-    Examples
-    --------
-    >>> consonant_first("A dog is a good pet and a bear is an awful pet")
-    ["dog", "good", "pet", "bear"]
-    """
-    pass`;
-
-export const PLACEHOLDER_2 = `
-def keys_geq_cutoff(num_dict, min_cutoff):
-    """Returns all the keys (as a set) from num_dict that have
-    value greater than or equal to min_cutoff.
-
-    Parameters
-    ----------
-    num_dict: dictionary
-    All the values in num_dict are numeric.
-    min_cutoff: float
-        Comparison with the num_dict values. Return all keys, where
-        their values >= min_cutoff.
-
-    Returns
-    -------
-    set
-        All keys from num_dict whose values meet the cutoff criterion.
-
-    Examples
-    --------
-    >>> keys_geq_cutoff({'Alice': 21, 'Brett': 20, 'Carlos': 31}, 21)
-    {'Alice', 'Carlos'}
-    """
-    pass
-`;
-
-export const SNIPPET_1 = {
-  id: 1,
-  tests: PYTHON_TEST_1,
-  placeholder: PLACEHOLDER_1,
-  question: "Complete the function 'consonant_first' according to its docstring."
-};
-
-export const SNIPPET_2 = {
-  id: 2,
-  tests: PYTHON_TEST_2,
-  placeholder: PLACEHOLDER_2,
-  question: `You have some numeric data stored in a dictionary. The data could represent any number of things, for example, people's names and their height in inches, or cities and their populations. Complete the function below to return all the keys of the dictionary where their associated values are greater than or equal to some cutoff.`
-};
+        for x in x_vals:
+            self.assertEqual(main.sigmoid(x), (1 / (1+2.71828**(-x))))`;
