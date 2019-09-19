@@ -14,7 +14,9 @@ class BookInterview extends Component {
 
     this.state = {
       showTI: false,
-      showTAA: false
+      showTAA: false,
+      showNextQuestion: false,
+      showHoldText: false
     };
   }
 
@@ -45,10 +47,15 @@ class BookInterview extends Component {
     }
   }
 
-  changeToTI = () => {
+  showNextQuestion = () => {
     this.setState({
-      showTI: true,
-      showTAA: false
+      showNextQuestion: true
+    })
+  }
+
+  showHoldText = () => {
+    this.setState({
+      showHoldText: true
     })
   }
 
@@ -59,30 +66,42 @@ class BookInterview extends Component {
             <div className="portal-inner">
               <Hero
                 headline={HERO_TEXT.SEI_BOOK_INTERVIEW.heroHeadline}
-                description={HERO_TEXT.SEI_BOOK_INTERVIEW.heroDescription}
               />
               <div className="two-col">
                 <div className="campus-group">
                 { !this.state.showTI && !this.state.showTAA &&
                   <>
                   <Breadcrumb/>
-                  <div className="pre-question">
+                  { !this.state.showNextQuestion &&
+                     <div className="pre-question">
                   <p>Have you ever taken a Software Engineering Technical Interview or Technical Admissions Assessment with Hack Reactor or Galvanize?</p>
                     <div>
                       <button className="button-primary" onClick={() => this.loadBookingTool('TAA')}>No</button>
-                      <button className="button-primary" onClick={() => this.loadBookingTool('TI')}>Yes</button>
+                      <button className="button-primary" onClick={() => this.showNextQuestion()}>Yes</button>
                     </div>
-                  </div>
+                  </div> }
+                  { this.state.showNextQuestion && !this.state.showHoldText &&
+                    <div className="pre-question">
+                      <p>Have you taken a Software Engineering Technical Interview or Technical Admissions Assessment <span className="-bold">within the past two weeks</span>?</p>
+                      <div>
+                        <button className="button-primary" onClick={() => this.loadBookingTool('TI')}>No</button>
+                        <button className="button-primary" onClick={() => this.showHoldText()}>Yes</button>
+                      </div>
+                    </div> }
+                  { this.state.showHoldText &&
+                    <div className="pre-question">
+                      <p>Please wait at least two weeks after your previous attempt. Contact your Enrollment Officer if you have any questions.</p>
+                    </div> }
                   </>
                  }
                 { this.state.showTI &&
                   <TIBookingTool opp={this.state.opp} user={this.props.user}/>
                 }
                 { this.state.showTAA &&
-                  <TAABookingTool opp={this.state.opp} user={this.props.user} changeToTI={this.changeToTI}/>
+                  <TAABookingTool opp={this.state.opp} user={this.props.user}/>
                 }
                 </div>
-                <InterviewSidebar/>
+                <InterviewSidebar showTI={this.state.showTI} showTAA={this.state.showTAA}/>
             </div>
           </div>
         </div>

@@ -54,7 +54,6 @@ export default class TAABookingTool extends Component {
     return (
       <>
       <Breadcrumb
-        previousComponent={this.props.changeToTI}
         refreshData={!this.state.isLoading && this.state.showIframe}
         text={(!this.state.isLoading && this.state.showIframe) || this.state.isLoading ? 'Select a Different Calendar' : 'Back to Dashboard'}
         linkUrl={(!this.state.isLoading && this.state.showIframe) || this.state.isLoading ? null : '/dashboard'}/>
