@@ -59,7 +59,7 @@ class TIBookingTool extends Component {
         refreshData={!this.state.isLoading && this.state.showIframe}
         text={(!this.state.isLoading && this.state.showIframe) || this.state.isLoading ? 'Select a Different Calendar' : 'Back to Dashboard'}
         linkUrl={(!this.state.isLoading && this.state.showIframe) || this.state.isLoading ? null : '/dashboard'}/>
-      {!this.state.showIframe && <CampusList loadBookingTool={this.loadBookingTool}/>}
+      {!this.state.showIframe && <CampusList loadBookingTool={this.loadBookingTool} holdText={this.props.holdText}/>}
       {this.state.isLoading && (
         <div className="grouping">
           <h4 className="column-headline">Loading the booking tool...</h4>

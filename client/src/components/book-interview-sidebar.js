@@ -7,7 +7,7 @@ export default (props) => {
   if (props.showTI) {
     list =
         <ul>
-          <li>The interview will be <span>60 minutes long</span> conducted online.</li>
+          <li>The interview will be <span>60 minutes long</span> and conducted online.</li>
           <li>To ensure you can complete the assessment in time for your desired cohort, you should book your assessment and start preparing immediately, as assessment slots fill up quickly.</li>
           <li>A maximum of three attempts are permitted network-wide.</li>
           <li>If you do not pass the assessment, you will not be permitted another attempt until you have waited at least two weeks.</li>
@@ -16,7 +16,7 @@ export default (props) => {
   } else if (props.showTAA) {
     list =
         <ul>
-          <li>The interview will be <span>75 minutes long</span> conducted online.</li>
+          <li>The interview will be <span>75 minutes long</span> and conducted online.</li>
           <li>To ensure you can complete the assessment in time for your desired cohort, you should book your assessment and start preparing immediately, as assessment slots fill up quickly.</li>
           <li>A maximum of three attempts are permitted network-wide.</li>
           <li>If you do not pass the assessment, you will not be permitted another attempt until you have waited at least two weeks.</li>
@@ -24,7 +24,7 @@ export default (props) => {
   } else {
     list =
         <ul>
-          <li>The interview will be <span>60 to 75 minutes long</span> conducted online.</li>
+          <li>The interview will be <span>60 to 75 minutes long</span> and conducted online.</li>
           <li>To ensure you can complete the assessment in time for your desired cohort, you should book your assessment and start preparing immediately, as assessment slots fill up quickly.</li>
           <li>A maximum of three attempts are permitted network-wide.</li>
           <li>If you do not pass the assessment, you will not be permitted another attempt until you have waited at least two weeks.</li>

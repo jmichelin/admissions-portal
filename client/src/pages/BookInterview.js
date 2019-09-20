@@ -55,7 +55,9 @@ class BookInterview extends Component {
 
   showHoldText = () => {
     this.setState({
-      showHoldText: true
+      showHoldText: true,
+      showTI: true,
+      showTAA: false
     })
   }
 
@@ -88,14 +90,10 @@ class BookInterview extends Component {
                         <button className="button-primary" onClick={() => this.showHoldText()}>Yes</button>
                       </div>
                     </div> }
-                  { this.state.showHoldText &&
-                    <div className="pre-question">
-                      <p>Please wait at least two weeks after your previous attempt. Contact your Enrollment Officer if you have any questions.</p>
-                    </div> }
                   </>
                  }
                 { this.state.showTI &&
-                  <TIBookingTool opp={this.state.opp} user={this.props.user}/>
+                  <TIBookingTool opp={this.state.opp} user={this.props.user} holdText={this.state.showHoldText}/>
                 }
                 { this.state.showTAA &&
                   <TAABookingTool opp={this.state.opp} user={this.props.user}/>
