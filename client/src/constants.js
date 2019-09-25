@@ -266,9 +266,9 @@ export const SEI_STEPS_12_WK = {
   STEP_THREE: {
     step: 3,
     status: 'Book the Technical Admissions Assessment',
-    description: 'Choose a time to complete your assessment. Prepare to pass your Technical Admissions Assessment by enrolling in a Galvanize Software Engineering Prep course or by practicing JavaScript fundamentals on your own.',
+    description: 'Choose a time to take your Technical Admissions Assessment. Prepare to pass your assessment by enrolling in a Galvanize Software Engineering Prep course or by practicing JavaScript fundamentals on your own.',
     buttonPath: '/book-interview',
-    buttonText: 'Schedule Your Interview',
+    buttonText: 'Schedule Your Assessment',
     blockClass:'-blue'
   },
   STEP_FOUR: {

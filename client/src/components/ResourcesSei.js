@@ -18,7 +18,7 @@ export default () => (
       <ul>
         <li><a target="_blank" rel="noopener noreferrer" href={CAMPUS_TOUR_SEI_URL}>Tour a Campus</a></li>
         <li><a target="_blank" rel="noopener noreferrer" href={INFO_SESSION_SEI_URL}>Attend an Info Session</a></li>
-        <li><a target="_blank" rel="noopener noreferrer" href={TECH_INTERVIEW_SEI_URL}>Technical Interview Details</a></li>
+        <li><a target="_blank" rel="noopener noreferrer" href={TECH_INTERVIEW_SEI_URL}>Technical Assessment Details</a></li>
       </ul>
     </div>
     </div>

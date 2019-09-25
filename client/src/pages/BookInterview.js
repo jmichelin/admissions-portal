@@ -3,6 +3,7 @@ import { Redirect, withRouter } from 'react-router-dom';
 import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
 import InterviewSidebar from '../components/book-interview-sidebar';
+import InterviewPrepText from '../components/book-interview-prep-text';
 import TIBookingTool from '../components/booking-tool-ti';
 import TAABookingTool from '../components/booking-tool-taa';
 
