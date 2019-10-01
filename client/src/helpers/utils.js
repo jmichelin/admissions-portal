@@ -243,14 +243,10 @@ function conversionQuery(product) {
 }
 
 function appDeadlineParser(course) {
-  console.log(course.startDate);
   if (course.courseType === '13 Week Full-Time Immersive' || course.courseType === '12 Week Full-Time Immersive' || course.courseType === '36 Week Part-Time Immersive') {
     return moment() > moment(course.startDate, 'YYYY-MM-DD').subtract(2, 'weeks') ? true : false;
   }
   if (course.courseType === '18 Week Full-Time Immersive') {
-    console.log('true');
-    console.log('now', moment(course.startDate));
-    console.log(moment(course.startDate, 'YYYY-MM-DD').subtract(1, 'weeks'));
     return moment() > moment(course.startDate, 'YYYY-MM-DD').subtract(1, 'weeks') ? true : false;
   }
   return true;
