@@ -230,4 +230,4 @@ class MyTest(unittest.TestCase):
         x_vals = [(low + i*step) for i in range(num_x_vals)]
 
         for x in x_vals:
-            self.assertEqual(main.sigmoid(x), (1 / (1+2.71828**(-x))))`;
+            self.assertAlmostEqual(main.sigmoid(x), (1 / (1+2.71828**(-x))))`;
