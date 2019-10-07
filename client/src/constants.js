@@ -516,7 +516,7 @@ def distr_of_rec_digit_sums(low=0, high=1500):
 export const PLACEHOLDER_4 = `def sigmoid(x):
     '''
     Returns the result of passing a number into the sigmoid
-    logistic function. Assumes the value of e to be 2.171828
+    logistic function. Assumes the value of e to be 2.71828
 
     Parameters
     ----------
