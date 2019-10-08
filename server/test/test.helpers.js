@@ -112,7 +112,7 @@ class Testing {
       .then((savedUser) => {
         const assessment1 = knex('assessment')
           .insert({
-            snippet_id: 1,
+            snippet_id: 3,
             answer: "old don see",
             status: "incorrect",
             test_results: "tests came back",
@@ -122,7 +122,7 @@ class Testing {
           .returning('*')
         const assessment2 = knex('assessment')
           .insert({
-            snippet_id: 1,
+            snippet_id: 4,
             answer: "latest n' greatest",
             status: "correct",
             test_results: "tests came back positive",
@@ -132,8 +132,8 @@ class Testing {
           .returning('*')
         const assessment3 = knex('assessment')
           .insert({
-            snippet_id: 2,
-            answer: "Only one for Snippet 2",
+            snippet_id: 3,
+            answer: "Only one for Snippet 3",
             status: "processing",
             test_results: "tests aren't back yet",
             user_id: savedUser[0].id,
