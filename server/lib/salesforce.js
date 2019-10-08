@@ -265,7 +265,7 @@ class Salesforce {
     });
   }
 
-  submitCodingChallenge(oppId, code, moveForward, stage) {
+  submitCodingChallenge(contactId, oppId, code, moveForward, stage) {
     return new Promise( (resolve, reject) => {
       return Promise.all([
         this.connection.sobject('Interview_Evaluation__c')
@@ -282,7 +282,16 @@ class Salesforce {
           StageName: stage,
         }, (err, res) => {
           if(err) { reject(err); }
-        })])
+        }),
+        this.connection.sobject('Contact')
+        .find({Id: `${contactId}`})
+        .update({
+          JavaScript_Challenge_Code__c: code,
+          JavaScript_Challenge_Passed__c: moveForward === 'Yes' ? true : false
+        }, (err, res) => {
+          if(err) { reject(err); }
+        })
+      ])
         .then(rows => {
           if (!rows) return [];
           return rows;

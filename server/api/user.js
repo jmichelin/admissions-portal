@@ -58,7 +58,7 @@ router.post('/update-scorecard', (req, res, next) => {
 router.post('/code-submit', (req, res, next) => {
   salesforce.login()
     .then(() => {
-        return salesforce.submitCodingChallenge(req.body.oppId, req.body.code, req.body.moveForward, req.body.stage);
+        return salesforce.submitCodingChallenge(req.user.salesforce_id, req.body.oppId, req.body.code, req.body.moveForward, req.body.stage);
     }).then(response => {
       res.send(response);
     })
