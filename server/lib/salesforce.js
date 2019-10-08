@@ -220,9 +220,16 @@ class Salesforce {
 
   async getOpportunities(email) {
     await this.login();
+    // see if person has eligible opptys
     let opps = await this.oppQuery(email)
-    if (!opps.length) return []
+    console.log('opps', opps);
+    if (!opps.length) return [];
+    // get corresponding contact for coding chall values
+    let contact = await this.contactQuery(opps[0].contactId);
+    console.log('contact', contact);
+    // get scorecards for interview booking
     let scorecardIds = opps.filter(opp => opp.scorecardId).map(opp => opp.scorecardId)
+    console.log('scorecardIds', scorecardIds);
     let scorecards = await this.scorecardQueries(scorecardIds);
 
     const opportunities = opps.map(opp => {
@@ -245,12 +252,27 @@ class Salesforce {
   oppQuery(email) {
     return new Promise( (resolve, reject) => {
       this.connection.sobject("Opportunity")
-    .select('Id, StageName, Name, Course_Product__c, Course_Type__c, CreatedDate, Campus__c, Course_Start_Date_Actual__c, Product_Code__c, Scorecard__c')
+    .select('Id, StageName, Name, Course_Product__c, Course_Type__c, CreatedDate, Campus__c, Course_Start_Date_Actual__c, Product_Code__c, Scorecard__c, Student__c')
     .where({'Student_Email__c': email})
     .orderby("CreatedDate", "DESC")
       .execute((err, res) => {
         if (err) { reject(err); }
         resolve(_reformatOppty(res));
+      });
+    });
+  }
+
+  contactQuery(id) {
+    console.log(id);
+    return new Promise( (resolve, reject) => {
+      this.connection.sobject("Contact")
+    .select('Id, JavaScript_Challenge_Passed__c, Python_Challenge_Passed__c')
+    .where({'Id': id})
+    .orderby("CreatedDate", "DESC")
+      .execute((err, res) => {
+        console.log(res);
+        if (err) { reject(err); }
+        resolve(res);
       });
     });
   }
@@ -378,6 +400,7 @@ function _reformatOppty(ogData) {
     opptyTemplate.created_at = new Date(oppty['CreatedDate'])
     opptyTemplate.courseType = oppty['Course_Type__c'];
     opptyTemplate.productCode = oppty['Product_Code__c'];
+    opptyTemplate.contactId = oppty['Student__c'];
     opptyTemplate.scorecardId = oppty['Scorecard__c'];
     opptyTemplate.stage = oppty['StageName'];
     opptyTemplate.type = 'opportunity';
