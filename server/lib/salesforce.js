@@ -232,10 +232,9 @@ class Salesforce {
 
     const opportunities = opps.map(opp => {
       let card = scorecards.find(card => card.oppId === opp.id);
-      if (card) opp.scorecard = card
+      if (card) Object.assign(opp, card);
       return opp
     }).filter(val => val);
-
     return opportunities
   }
 
