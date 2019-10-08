@@ -91,7 +91,7 @@ router.post('/', noRunningTests, (req, res, next) => {
    .then(() => {
      salesforce.login()
      .then(() => {
-       return salesforce.submitCodingChallenge(req.user.salesforce_id, req.body.oppId, req.body.code, req.body.moveForward, req.body.stage, 'Python_Challenge_Passing__c');
+       return salesforce.submitCodingChallenge(req.user.salesforce_id, req.body.oppId, req.body.code, req.body.moveForward, req.body.stage, 'Passed_Python_Challenge__c');
      })
    })
    .catch((err) => {
