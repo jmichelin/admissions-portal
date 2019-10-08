@@ -262,7 +262,7 @@ class Salesforce {
   contactQuery(id) {
     return new Promise( (resolve, reject) => {
       this.connection.sobject("Contact")
-    .select('Id, JavaScript_Challenge_Passed__c, Python_Challenge_Passed__c')
+    .select('Id, JavaScript_Challenge_Passing__c, Python_Challenge_Passing__c')
     .where({'Id': id})
     .orderby("CreatedDate", "DESC")
       .execute((err, res) => {
@@ -295,7 +295,7 @@ class Salesforce {
         this.connection.sobject('Contact')
         .find({Id: `${contactId}`})
         .update({
-          [key]: moveForward === 'Yes' ? true : false
+          [key]: moveForward
         }, (err, res) => {
           if(err) { reject(err); }
         })
@@ -321,8 +321,7 @@ class Salesforce {
         this.connection.sobject('Contact')
         .find({Id: `${contactId}`})
         .update({
-          Python_Challenge_Code__c: 'rec_dig_sums_challenge and sigmoid_challenge',
-          Python_Challenge_Passed__c: moveForward === 'Yes' ? true : false
+          Python_Challenge_Passing__c: moveForward
         }, (err, res) => {
           if(err) { reject(err); }
         })
@@ -387,8 +386,8 @@ function _reformatContact(ogData) {
 
   ogData.forEach( contact => {
     let newContact = {};
-    newContact.passedSEIChallenge = contact['JavaScript_Challenge_Passed__c'];
-    newContact.passedDSIChallenge = contact['Python_Challenge_Passed__c'];
+    newContact.passedSEIChallenge = contact['JavaScript_Challenge_Passing__c'];
+    newContact.passedDSIChallenge = contact['Python_Challenge_Passing__c'];
 
     contacts.push(newContact);
   })

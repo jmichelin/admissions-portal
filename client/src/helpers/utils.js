@@ -2,7 +2,8 @@ import {
   SEI_STEPS_12_WK,
   SEI_STEPS_18_WK,
   DSI_STEPS,
-  LEAD_SOURCE_COOKIE
+  LEAD_SOURCE_COOKIE,
+  OPPTY_PAST_INTERVIEW_STAGES
 } from '../constants';
 
 import moment from 'moment';
@@ -51,19 +52,19 @@ function getCourseName(opp) {
 function getSEI12WkStage(program) {
   if (program.type === 'application') {
     return SEI_STEPS_12_WK.STEP_ONE
-  } else if (!program.passedSEIChallenge) {
+  } else if (program.passedSEIChallenge !== 'Yes') {
     //person needs to do coding challenge
     return SEI_STEPS_12_WK.STEP_TWO;
-  } else if (program.passedSEIChallenge && program.moveForwardInterview !== 'No' && program.moveForwardInterview !== 'Yes' && program.stage !== 'Interview 1 Scheduled') {
+  } else if (program.passedSEIChallenge == 'Yes' && program.moveForwardInterview !== 'No' && program.moveForwardInterview !== 'Yes' && !OPPTY_PAST_INTERVIEW_STAGES.includes(program.stage)) {
     //passed coding challenge but person needs to book the interview
     return SEI_STEPS_12_WK.STEP_THREE;
-  } else if (program.passedSEIChallenge && program.stage === 'Interview 1 Scheduled') {
+  } else if (program.passedSEIChallenge == 'Yes' && program.stage === 'Interview 1 Scheduled') {
     //passed coding challenge and booked interview
     return SEI_STEPS_12_WK.STEP_FOUR;
-  } else if (program.passedSEIChallenge && program.moveForwardInterview === 'No') {
+  } else if (program.passedSEIChallenge == 'Yes' && program.moveForwardInterview === 'No') {
     //passed coding challenge and booked interview but failed
     return SEI_STEPS_12_WK.HOLD;
-  } else if (program.passedSEIChallenge && program.moveForwardInterview === 'Yes') {
+  } else if (program.passedSEIChallenge == 'Yes' && program.moveForwardInterview === 'Yes') {
     //passed coding challenge and booked interview and passed
     return SEI_STEPS_12_WK.COMPLETE;
   } else {
@@ -75,19 +76,19 @@ function getSEI12WkStage(program) {
 function getSEI18WkStage(program) {
   if (program.type === 'application') {
     return SEI_STEPS_18_WK.STEP_ONE
-  } if (!program.passedSEIChallenge) {
+  } if (program.passedSEIChallenge !== 'Yes') {
     //person needs to do coding challenge
     return SEI_STEPS_18_WK.STEP_FOUR;
-  } else if (program.passedSEIChallenge && program.moveForwardInterview !== 'No' && program.moveForwardInterview !== 'Yes' && program.stage !== 'Interview 1 Scheduled') {
+  } else if (program.passedSEIChallenge == 'Yes' && program.moveForwardInterview !== 'No' && program.moveForwardInterview !== 'Yes' && !OPPTY_PAST_INTERVIEW_STAGES.includes(program.stage)) {
     //passed coding challenge but person needs to book the interview
     return SEI_STEPS_18_WK.STEP_TWO;
-  } else if (program.passedSEIChallenge && program.stage === 'Interview 1 Scheduled') {
+  } else if (program.passedSEIChallenge == 'Yes' && program.stage === 'Interview 1 Scheduled') {
     //passed coding challenge and booked interview
     return SEI_STEPS_18_WK.STEP_THREE;
-  } else if (program.passedSEIChallenge && program.moveForwardInterview === 'No') {
+  } else if (program.passedSEIChallenge == 'Yes' && program.moveForwardInterview === 'No') {
     //passed coding challenge and booked interview but failed
     return SEI_STEPS_18_WK.HOLD;
-  } else if (program.passedSEIChallenge && program.moveForwardInterview === 'Yes') {
+  } else if (program.passedSEIChallenge == 'Yes' && program.moveForwardInterview === 'Yes') {
     //passed coding challenge and booked interview and passed
     return SEI_STEPS_18_WK.COMPLETE;
   } else {
@@ -99,19 +100,19 @@ function getSEI18WkStage(program) {
 function getDSIStage(program) {
   if (program.type === 'application') {
     return DSI_STEPS.STEP_ONE
-  } else if (!program.passedDSIChallenge) {
+  } else if (program.passedDSIChallenge !== "Yes") {
     //person needs to do coding challenge
     return DSI_STEPS.STEP_TWO;
-  } else if (program.passedDSIChallenge && program.moveForwardInterview !== 'No' && program.moveForwardInterview !== 'Yes' && program.stage !== 'Interview 1 Scheduled') {
+  } else if (program.passedDSIChallenge == "Yes" && program.moveForwardInterview !== 'No' && program.moveForwardInterview !== 'Yes' && !OPPTY_PAST_INTERVIEW_STAGES.includes(program.stage)) {
     //passed coding challenge but person needs to book the interview
     return DSI_STEPS.STEP_THREE;
-  } else if (program.passedDSIChallenge && program.stage === 'Interview 1 Scheduled') {
+  } else if (program.passedDSIChallenge == "Yes" && program.stage === 'Interview 1 Scheduled') {
     //passed coding challenge and booked interview
     return DSI_STEPS.STEP_FOUR;
-  } else if (program.passedDSIChallenge && program.moveForwardInterview === 'No') {
+  } else if (program.passedDSIChallenge == "Yes" && program.moveForwardInterview === 'No') {
     //passed coding challenge and booked interview but failed
     return DSI_STEPS.HOLD;
-  } else if (program.passedDSIChallenge && program.moveForwardInterview === 'Yes') {
+  } else if (program.passedDSIChallenge == "Yes" && program.moveForwardInterview === 'Yes') {
     //passed coding challenge and booked interview and passed
     return DSI_STEPS.COMPLETE;
   } else {

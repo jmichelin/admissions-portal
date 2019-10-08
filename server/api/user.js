@@ -43,7 +43,7 @@ router.post('/update-opp-stage', (req, res, next) => {
 router.post('/code-submit', (req, res, next) => {
   salesforce.login()
     .then(() => {
-        return salesforce.submitCodingChallenge(req.user.salesforce_id, req.body.oppId, req.body.code, req.body.moveForward, req.body.stage, 'JavaScript_Challenge_Passed__c');
+        return salesforce.submitCodingChallenge(req.user.salesforce_id, req.body.oppId, req.body.code, req.body.moveForward, req.body.stage, 'JavaScript_Challenge_Passing__c');
     }).then(response => {
       res.send(response);
     })
