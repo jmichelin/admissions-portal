@@ -73,7 +73,7 @@ router.post('/code-submit', (req, res, next) => {
 router.post('/python-submit', (req, res, next) => {
   salesforce.login()
     .then(() => {
-        return salesforce.submitPythonChallenge(req.body.oppId, req.body.code, req.body.moveForward, req.body.stage, req.body.pythonScore);
+        return salesforce.submitPythonChallenge(req.user.salesforce_id, req.body.oppId, req.body.code, req.body.moveForward, req.body.stage, req.body.pythonScore);
     }).then(response => {
       res.send(response);
     })

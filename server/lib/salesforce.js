@@ -300,7 +300,7 @@ class Salesforce {
     });
   }
 
-  submitPythonChallenge(oppId, code, moveForward, stage, score) {
+  submitPythonChallenge(contactId, oppId, code, moveForward, stage, score) {
     return new Promise( (resolve, reject) => {
       return Promise.all([
         this.connection.sobject('Interview_Evaluation__c')
@@ -318,7 +318,16 @@ class Salesforce {
           StageName: stage,
         }, (err, res) => {
           if(err) { reject(err); }
-        })])
+        }),
+        this.connection.sobject('Contact')
+        .find({Id: `${contactId}`})
+        .update({
+          Python_Challenge_Code__c: 'rec_dig_sums_challenge and sigmoid_challenge',
+          Python_Challenge_Passed__c: moveForward === 'Yes' ? true : false
+        }, (err, res) => {
+          if(err) { reject(err); }
+        })
+      ])
         .then(rows => {
           if (!rows) return [];
           return rows;
