@@ -222,14 +222,12 @@ class Salesforce {
     await this.login();
     // see if person has eligible opptys
     let opps = await this.oppQuery(email)
-    console.log('opps', opps);
     if (!opps.length) return [];
     // get corresponding contact for coding chall values
-    let contact = await this.contactQuery(opps[0].contactId);
-    console.log('contact', contact);
+    let contacts = await this.contactQuery(opps[0].contactId);
+    opps.forEach(opp => Object.assign(opp, contacts[0]))
     // get scorecards for interview booking
     let scorecardIds = opps.filter(opp => opp.scorecardId).map(opp => opp.scorecardId)
-    console.log('scorecardIds', scorecardIds);
     let scorecards = await this.scorecardQueries(scorecardIds);
 
     const opportunities = opps.map(opp => {
@@ -263,16 +261,14 @@ class Salesforce {
   }
 
   contactQuery(id) {
-    console.log(id);
     return new Promise( (resolve, reject) => {
       this.connection.sobject("Contact")
     .select('Id, JavaScript_Challenge_Passed__c, Python_Challenge_Passed__c')
     .where({'Id': id})
     .orderby("CreatedDate", "DESC")
       .execute((err, res) => {
-        console.log(res);
         if (err) { reject(err); }
-        resolve(res);
+        resolve(_reformatContact(res));
       });
     });
   }
@@ -415,6 +411,21 @@ function _reformatOppty(ogData) {
   })
 
   return opptys;
+}
+
+
+function _reformatContact(ogData) {
+  let contacts = [];
+
+  ogData.forEach( contact => {
+    let newContact = {};
+    newContact.passedSEIChallenge = contact['JavaScript_Challenge_Passed__c'];
+    newContact.passedDSIChallenge = contact['Python_Challenge_Passed__c'];
+
+    contacts.push(newContact);
+  })
+
+  return contacts;
 }
 
 function _reformatScorecard(ogData) {
