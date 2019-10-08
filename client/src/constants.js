@@ -12,7 +12,6 @@ export const DSI_YCBM_CALENDAR_ID = 'ycbmiframedsi-interviews';
 export const CODE_CHALLENGE_ENDPOINT = '/api/v1/user/code-submit';
 export const PYTHON_CODE_SUBMIT_ENDPOINT = '/api/v1/user/python-submit';
 export const UPDATE_OPP_ENDPOINT = '/api/v1/user/update-opp-stage';
-export const UPDATE_SCORECARD_ENDPOINT = '/api/v1/user/update-scorecard';
 export const PYTHON_CHALLENGE_ENDPOINT = '/api/v1/assessments';
 export const APPLICATIONS_ENDPOINT = '/api/v1/applications';
 export const APPLICATION_INITIALIZE_ENDPOINT  = '/api/v1/applications/initialize';

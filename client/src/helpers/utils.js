@@ -49,9 +49,10 @@ function getCourseName(opp) {
 }
 
 function getSEI12WkStage(program) {
-  console.log(program);
   if (program.type === 'application') {
     return SEI_STEPS_12_WK.STEP_ONE
+  } else if (!program.scorecard) {
+    return SEI_STEPS_18_WK.HOLD;
   } else if (!program.passedSEIChallenge) {
     //person needs to do coding challenge
     return SEI_STEPS_12_WK.STEP_TWO;
@@ -76,7 +77,9 @@ function getSEI12WkStage(program) {
 function getSEI18WkStage(program) {
   if (program.type === 'application') {
     return SEI_STEPS_18_WK.STEP_ONE
-  } else if (!program.passedSEIChallenge) {
+  } else if (!program.scorecard) {
+    return SEI_STEPS_18_WK.HOLD;
+  } if (!program.passedSEIChallenge) {
     //person needs to do coding challenge
     return SEI_STEPS_18_WK.STEP_FOUR;
   } else if (program.passedSEIChallenge && program.scorecard.moveForwardInterview !== 'No' && program.scorecard.moveForwardInterview !== 'Yes' && program.stage !== 'Interview 1 Scheduled') {
@@ -100,6 +103,8 @@ function getSEI18WkStage(program) {
 function getDSIStage(program) {
   if (program.type === 'application') {
     return DSI_STEPS.STEP_ONE
+  } else if (!program.scorecard) {
+    return SEI_STEPS_18_WK.HOLD;
   } else if (!program.passedDSIChallenge) {
     //person needs to do coding challenge
     return DSI_STEPS.STEP_TWO;

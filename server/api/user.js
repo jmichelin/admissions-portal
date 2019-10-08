@@ -40,25 +40,10 @@ router.post('/update-opp-stage', (req, res, next) => {
     });
 });
 
-router.post('/update-scorecard', (req, res, next) => {
-  salesforce.login()
-    .then(() => {
-        return salesforce.updateScorecardMoveOn(req.body.scorecardId, req.body.moveForward);
-    }).then(response => {
-      res.send(response);
-    })
-    .catch(err => {
-      honeybadger.notify(err);
-      res.status(501);
-      const error = new Error('Error updating scorecard.');
-      next(error);
-    });
-});
-
 router.post('/code-submit', (req, res, next) => {
   salesforce.login()
     .then(() => {
-        return salesforce.submitCodingChallenge(req.user.salesforce_id, req.body.oppId, req.body.code, req.body.moveForward, req.body.stage);
+        return salesforce.submitCodingChallenge(req.user.salesforce_id, req.body.oppId, req.body.code, req.body.moveForward, req.body.stage, 'JavaScript_Challenge_Passed__c');
     }).then(response => {
       res.send(response);
     })

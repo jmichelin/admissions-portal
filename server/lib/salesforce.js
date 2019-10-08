@@ -283,17 +283,9 @@ class Salesforce {
     });
   }
 
-  submitCodingChallenge(contactId, oppId, code, moveForward, stage) {
+  submitCodingChallenge(contactId, oppId, code, moveForward, stage, key) {
     return new Promise( (resolve, reject) => {
       return Promise.all([
-        this.connection.sobject('Interview_Evaluation__c')
-        .find({Opportunity_Name__c: `${oppId}`})
-        .update({
-          Final_Code__c: code,
-          Move_Forward__c: moveForward
-        }, (err, res) => {
-          if(err) { reject(err); }
-        }),
         this.connection.sobject('Opportunity')
         .find({Id: `${oppId}`})
         .update({
@@ -304,8 +296,7 @@ class Salesforce {
         this.connection.sobject('Contact')
         .find({Id: `${contactId}`})
         .update({
-          JavaScript_Challenge_Code__c: code,
-          JavaScript_Challenge_Passed__c: moveForward === 'Yes' ? true : false
+          [key]: moveForward === 'Yes' ? true : false
         }, (err, res) => {
           if(err) { reject(err); }
         })
@@ -321,15 +312,6 @@ class Salesforce {
   submitPythonChallenge(contactId, oppId, code, moveForward, stage, score) {
     return new Promise( (resolve, reject) => {
       return Promise.all([
-        this.connection.sobject('Interview_Evaluation__c')
-        .find({Opportunity_Name__c: `${oppId}`})
-        .update({
-          Final_Code__c: code,
-          Move_Forward__c: moveForward,
-          DS_Take_Home_Python_Score__c: score
-        }, (err, res) => {
-          if(err) { reject(err); }
-        }),
         this.connection.sobject('Opportunity')
         .find({Id: `${oppId}`})
         .update({
@@ -359,19 +341,6 @@ class Salesforce {
       this.connection.sobject('Opportunity').update({
         Id: oppId,
         StageName: stage
-      }, (err, res) => {
-        if(err) { reject(err); }
-        resolve(res);
-      });
-    });
-  }
-
-  updateScorecardMoveOn(scoreCardId, moveForward) {
-    return new Promise( (resolve, reject) => {
-      this.connection.sobject('Interview_Evaluation__c').update({
-        Id: scoreCardId,
-        Move_Forward__c: moveForward,
-        Comments_on_Test__c: 'rec_dig_sums_challenge and sigmoid_challenge'
       }, (err, res) => {
         if(err) { reject(err); }
         resolve(res);
@@ -430,17 +399,10 @@ function _reformatContact(ogData) {
 
 function _reformatScorecard(ogData) {
   let scorecards = [];
-  let scorecardTemplate = {
-    finalCode: '',
-    moveForwardCode: '',
-    oppId: ''
-  }
 
   ogData.forEach( scorecard => {
-    let newScorecard = Object.assign({}, scorecardTemplate);
+    let newScorecard = {};
 
-    newScorecard.finalCode = scorecard['Final_Code__c'];
-    newScorecard.moveForwardCode = scorecard['Move_Forward__c'];
     newScorecard.moveForwardInterview = scorecard['Move_Forward_m__c'];
     newScorecard.oppId = scorecard['Opportunity_Name__c'];
 

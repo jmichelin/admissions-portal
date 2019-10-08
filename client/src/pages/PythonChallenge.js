@@ -7,7 +7,6 @@ import Breadcrumb from '../components/breadcrumb';
 import {
   PYTHON_CODE_SUBMIT_ENDPOINT,
   UPDATE_OPP_ENDPOINT,
-  UPDATE_SCORECARD_ENDPOINT,
   PYTHON_CHALLENGE_ENDPOINT,
   SUPPORT_ERROR_MESSAGE,
   DSI_STEPS,
@@ -57,17 +56,6 @@ class PythonChallenge extends Component {
         fetch(UPDATE_OPP_ENDPOINT, {
           method: "POST",
           body: JSON.stringify({oppId: opp.id, stageName: "Sent Takehome"}),
-          headers: {
-            Authorization: `Bearer ${localStorage.token}`,
-            'content-type': 'application/json'
-          },
-        })
-      }
-
-      if (opp.scorecard.moveForwardCode === null) {
-        fetch(UPDATE_SCORECARD_ENDPOINT, {
-          method: "POST",
-          body: JSON.stringify({scorecardId: opp.scorecardId, moveForward: "No"}),
           headers: {
             Authorization: `Bearer ${localStorage.token}`,
             'content-type': 'application/json'
@@ -130,7 +118,10 @@ class PythonChallenge extends Component {
 
     let data = {
       answer: code,
-      snippet_id: snippetId
+      snippet_id: snippetId,
+      oppId: this.state.opp.id,
+      moveForward: 'No',
+      stage: 'Sent Takehome'
     }
     fetch(PYTHON_CHALLENGE_ENDPOINT, {
       method: 'POST',
