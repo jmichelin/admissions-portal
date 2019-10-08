@@ -234,24 +234,6 @@ class Salesforce {
     return opportunities
   }
 
-
-  // old from dotcom but will use on application submit
-  getCampaignId(campaignType, product) {
-    let isWebDev = product === 'Full Stack' || product === 'Web Development';
-
-    if (campaignType === 'syllabus' && isWebDev) {
-      return SF_WDI_SYLLABUS_CAMPAIGN_ID;
-    } else if (campaignType === 'syllabus' && product === 'Data Science') {
-      return SF_DSI_SYLLABUS_CAMPAIGN_ID;
-    } else if (campaignType === 'application' && isWebDev) {
-      return SF_WDI_APPLICATION_CAMPAIGN_ID;
-    } else if (campaignType === 'application' && product === 'Data Science') {
-      return SF_DSI_APPLICATION_CAMPAIGN_ID;
-    } else if (campaignType === 'newsletter') {
-      return SF_NEWSLETTER_CAMPAIGN_ID;
-    }
-  }
-
   getQueryString(formType, email) {
     if (formType === 'lead' || formType === 'newsletter') {
       return _makeQueryForExistingLead(email);
@@ -333,34 +315,6 @@ class Salesforce {
           return rows;
         }).then(resolve)
         .catch(reject)
-    });
-  }
-
-  // query salesforce for campaign id
-  leadCampaignQuery(leadId, campaignType, product) {
-    return new Promise( (resolve, reject) => {
-      this.connection.sobject('CampaignMember')
-        .find({
-          LeadId: leadId,
-          CampaignId: this.getCampaignId(campaignType, product)
-        }, (err, res) => {
-          if(err) { reject(err); }
-          resolve(res);
-        });
-    });
-  }
-
-  addLeadToCampaign(leadId, referrer, campaignType, product) {
-    return new Promise( (resolve, reject) => {
-      this.connection.sobject('CampaignMember')
-        .create({
-          LeadId: leadId,
-          CampaignId: this.getCampaignId(campaignType, product),
-          Referrer__c: referrer
-        }, (err, res) => {
-          if(err) { reject(err); }
-          resolve(res);
-        });
     });
   }
 
