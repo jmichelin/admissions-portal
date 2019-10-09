@@ -307,32 +307,7 @@ class Salesforce {
         .catch(reject)
     });
   }
-
-  submitPythonChallenge(contactId, oppId, code, moveForward, stage, score) {
-    return new Promise( (resolve, reject) => {
-      return Promise.all([
-        this.connection.sobject('Opportunity')
-        .find({Id: `${oppId}`})
-        .update({
-          StageName: stage,
-        }, (err, res) => {
-          if(err) { reject(err); }
-        }),
-        this.connection.sobject('Contact')
-        .find({Id: `${contactId}`})
-        .update({
-          Passed_Python_Challenge__c: moveForward
-        }, (err, res) => {
-          if(err) { reject(err); }
-        })
-      ])
-        .then(rows => {
-          if (!rows) return [];
-          return rows;
-        }).then(resolve)
-        .catch(reject)
-    });
-  }
+}
 
 export default Salesforce;
 

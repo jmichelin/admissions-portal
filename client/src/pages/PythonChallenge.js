@@ -5,7 +5,7 @@ import Hero from '../components/hero';
 import Breadcrumb from '../components/breadcrumb';
 
 import {
-  PYTHON_CODE_SUBMIT_ENDPOINT,
+  CODE_CHALLENGE_ENDPOINT,
   PYTHON_CHALLENGE_ENDPOINT,
   SUPPORT_ERROR_MESSAGE,
   DSI_STEPS,
@@ -222,9 +222,9 @@ class PythonChallenge extends Component {
         oppId: this.state.opp.id,
         moveForward: 'Yes',
         stage: 'Returned Takehome',
-        pythonScore: 3
+        key: 'Passed_Python_Challenge__c'
       }
-      fetch(PYTHON_CODE_SUBMIT_ENDPOINT, {
+      fetch(CODE_CHALLENGE_ENDPOINT, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
@@ -330,7 +330,7 @@ class PythonChallenge extends Component {
               <div className="instructions col">
                 <h4 className="column-header">Challenge 2 Instructions</h4>
                 <p>Write a function called <code>sigmoid</code> that implements the sigmoid logistic function, as it
-                is shown in <a href="https://en.wikipedia.org/wiki/Sigmoid_function" target="_blank">this article</a>.
+                is shown in <a href="https://en.wikipedia.org/wiki/Sigmoid_function" target="_blank" rel="noopener noreferrer">this article</a>.
                 <br></br>
                 <br></br>
                 For the value of Euler's number <code>e</code> use <code>2.71828</code>.<br></br><br></br>Your function should return a number, not just print that number.</p>

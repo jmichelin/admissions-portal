@@ -28,22 +28,7 @@ router.get('/', async (req, res, next) => {
 router.post('/code-submit', (req, res, next) => {
   salesforce.login()
     .then(() => {
-        return salesforce.submitCodingChallenge(req.user.salesforce_id, req.body.oppId, req.body.code, req.body.moveForward, req.body.stage, 'Passed_JavaScript_Challenge__c');
-    }).then(response => {
-      res.send(response);
-    })
-    .catch(err => {
-      honeybadger.notify(err);
-      res.status(501);
-      const error = new Error('Error updating coding challenge.');
-      next(error);
-    });
-});
-
-router.post('/python-submit', (req, res, next) => {
-  salesforce.login()
-    .then(() => {
-        return salesforce.submitPythonChallenge(req.user.salesforce_id, req.body.oppId, req.body.code, req.body.moveForward, req.body.stage, req.body.pythonScore);
+        return salesforce.submitCodingChallenge(req.user.salesforce_id, req.body.oppId, req.body.code, req.body.moveForward, req.body.stage, req.body.key);
     }).then(response => {
       res.send(response);
     })

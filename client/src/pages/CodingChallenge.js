@@ -142,7 +142,8 @@ class CodingChallenge extends Component {
         code: this.state.submittedCode,
         oppId: this.state.opp.id,
         moveForward: 'Yes',
-        stage: 'Returned Takehome'
+        stage: 'Returned Takehome',
+        key: 'Passed_JavaScript_Challenge__c'
       }
 
       fetch(CODE_CHALLENGE_ENDPOINT, {
