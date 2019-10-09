@@ -25,21 +25,6 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.post('/update-opp-stage', (req, res, next) => {
-  salesforce.login()
-    .then(() => {
-      return salesforce.updateOppStage(req.body.oppId, req.body.stageName);
-    }).then(response => {
-      res.send(response);
-    })
-    .catch(err => {
-      honeybadger.notify(err);
-      res.status(501);
-      const error = new Error('Error updating opportunity.');
-      next(error);
-    });
-});
-
 router.post('/code-submit', (req, res, next) => {
   salesforce.login()
     .then(() => {

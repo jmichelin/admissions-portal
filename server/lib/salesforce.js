@@ -334,19 +334,6 @@ class Salesforce {
     });
   }
 
-  updateOppStage(oppId, stage) {
-    return new Promise( (resolve, reject) => {
-      this.connection.sobject('Opportunity').update({
-        Id: oppId,
-        StageName: stage
-      }, (err, res) => {
-        if(err) { reject(err); }
-        resolve(res);
-      });
-    });
-  }
-}
-
 export default Salesforce;
 
 function _reformatOppty(ogData) {

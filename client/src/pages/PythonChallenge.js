@@ -6,7 +6,6 @@ import Breadcrumb from '../components/breadcrumb';
 
 import {
   PYTHON_CODE_SUBMIT_ENDPOINT,
-  UPDATE_OPP_ENDPOINT,
   PYTHON_CHALLENGE_ENDPOINT,
   SUPPORT_ERROR_MESSAGE,
   DSI_STEPS,
@@ -52,16 +51,6 @@ class PythonChallenge extends Component {
         this.setState({ redirectToDashboard: true })
       }
       this.setState({opp: opp})
-      if (["New", "New - Pending AA", "Appointment", "Studying"].indexOf(opp.stage) > -1) {
-        fetch(UPDATE_OPP_ENDPOINT, {
-          method: "POST",
-          body: JSON.stringify({oppId: opp.id, stageName: "Sent Takehome"}),
-          headers: {
-            Authorization: `Bearer ${localStorage.token}`,
-            'content-type': 'application/json'
-          },
-        })
-      }
 
       fetch(`${PYTHON_CHALLENGE_ENDPOINT}/user`, {
         method: 'GET',
