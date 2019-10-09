@@ -218,7 +218,6 @@ class PythonChallenge extends Component {
     if (this.state.allPassed) {
       this.setState({ submittingCode: true })
       let data = {
-        code: this.state.submittedCode,
         oppId: this.state.opp.id,
         moveForward: 'Yes',
         stage: 'Returned Takehome',

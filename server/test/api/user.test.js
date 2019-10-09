@@ -20,7 +20,6 @@ const oppQueryResult = [{
   stage: 'New',
 }];
 const scoreCardQueriesResult = [{
-  finalCode: null,
   moveForwardCode: null,
   oppId: '006n0000008k9kBAAQ',
   moveForwardInterview: null,
@@ -89,7 +88,7 @@ describe('api users', () => {
       .send()
       .expect(200)
     const application = res.body.data.applications[0];
-    
+
     expect(res.body.data.applications.length).to.eq(1);
     expect(res.body.data.opportunities).to.eq(undefined);
     expect(application.id).to.eq(user.application.id);

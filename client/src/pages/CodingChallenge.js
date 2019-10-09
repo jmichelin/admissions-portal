@@ -139,7 +139,6 @@ class CodingChallenge extends Component {
       this.setState({ submittingCode: true })
 
       const data = {
-        code: this.state.submittedCode,
         oppId: this.state.opp.id,
         moveForward: 'Yes',
         stage: 'Returned Takehome',

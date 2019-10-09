@@ -28,7 +28,7 @@ router.get('/', async (req, res, next) => {
 router.post('/code-submit', (req, res, next) => {
   salesforce.login()
     .then(() => {
-        return salesforce.submitCodingChallenge(req.user.salesforce_id, req.body.oppId, req.body.code, req.body.moveForward, req.body.stage, req.body.key);
+        return salesforce.submitCodingChallenge(req.user.salesforce_id, req.body.oppId, req.body.moveForward, req.body.stage, req.body.key);
     }).then(response => {
       res.send(response);
     })

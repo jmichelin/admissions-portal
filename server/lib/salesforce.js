@@ -282,7 +282,7 @@ class Salesforce {
     });
   }
 
-  submitCodingChallenge(contactId, oppId, code, moveForward, stage, key) {
+  submitCodingChallenge(contactId, oppId, moveForward, stage, key) {
     return new Promise( (resolve, reject) => {
       return Promise.all([
         this.connection.sobject('Opportunity')
