@@ -561,6 +561,6 @@ export const PROGRAM_SELECT_TEXT = {
 };
 export const SUPPORT_ERROR_MESSAGE = "Uh oh! There was a processing error. Please contact support@galvanize.com"
 
-export const CAMPUSES_SEI_18WK = ['Phoenix-Warehouse District', 'Seattle-Pioneer Square', 'Denver-Platte', 'Boulder-Walnut St.'];
+export const CAMPUSES_SEI_18WK = ['Phoenix-Warehouse District', 'Seattle-Pioneer Square', 'Boulder-Walnut St.'];
 
 export const OPPTY_PAST_INTERVIEW_STAGES = ['Interview 1 Scheduled', 'Offer Out', 'Offer Out - Needs Transcript', 'Contract Out', 'Accepted', 'Deposit Paid', 'Expired SEA', 'Needs New Contract', 'Enrolled'];
