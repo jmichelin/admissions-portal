@@ -17,6 +17,7 @@ class BookInterview extends Component {
       showTI: false,
       showTAA: false,
       showNextQuestion: false,
+      showLastQuestion: false,
       showHoldText: false
     };
   }
@@ -54,11 +55,24 @@ class BookInterview extends Component {
     })
   }
 
+  showLastQuestion = () => {
+    this.setState({
+      showNextQuestion: true,
+      showLastQuestion: true
+    })
+  }
+
   showHoldText = () => {
     this.setState({
       showHoldText: true,
       showTI: true,
       showTAA: false
+    })
+  }
+
+  showBlockScreen = () => {
+    this.setState({
+      showBlockScreen: true
     })
   }
 
@@ -75,15 +89,23 @@ class BookInterview extends Component {
                 { !this.state.showTI && !this.state.showTAA &&
                   <>
                   <Breadcrumb/>
-                  { !this.state.showNextQuestion &&
+                    { !this.state.showNextQuestion &&
+                       <div className="pre-question">
+                    <p>Do you currently have an upcoming Technical Admissions Assessment or Technical Interview already scheduled for our Software Engineering Immersive?</p>
+                      <div>
+                        <button className="button-primary" onClick={() => this.showNextQuestion()}>No</button>
+                        <button className="button-primary" onClick={() => this.showBlockScreen()}>Yes</button>
+                      </div>
+                    </div> }
+                  { this.state.showNextQuestion && !this.state.showLastQuestion &&
                      <div className="pre-question">
                   <p>Have you ever taken a Software Engineering Technical Interview or Technical Admissions Assessment with Hack Reactor or Galvanize?</p>
                     <div>
                       <button className="button-primary" onClick={() => this.loadBookingTool('TAA')}>No</button>
-                      <button className="button-primary" onClick={() => this.showNextQuestion()}>Yes</button>
+                      <button className="button-primary" onClick={() => this.showLastQuestion()}>Yes</button>
                     </div>
                   </div> }
-                  { this.state.showNextQuestion && !this.state.showHoldText &&
+                  { this.state.showLastQuestion && !this.state.showHoldText &&
                     <div className="pre-question">
                       <p>Have you taken a Software Engineering Technical Interview or Technical Admissions Assessment <span className="-bold">within the past two weeks</span>?</p>
                       <div>
