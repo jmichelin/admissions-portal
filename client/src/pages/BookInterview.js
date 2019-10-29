@@ -89,9 +89,9 @@ class BookInterview extends Component {
                 { !this.state.showTI && !this.state.showTAA &&
                   <>
                   <Breadcrumb/>
-                    { !this.state.showNextQuestion &&
+                    { !this.state.showNextQuestion && !this.state.showBlockScreen &&
                        <div className="pre-question">
-                    <p>Do you currently have an upcoming Technical Admissions Assessment or Technical Interview already scheduled for our Software Engineering Immersive?</p>
+                    <p>Do you already have an upcoming Technical Admissions Assessment or Technical Interview scheduled for our Software Engineering Immersive?</p>
                       <div>
                         <button className="button-primary" onClick={() => this.showNextQuestion()}>No</button>
                         <button className="button-primary" onClick={() => this.showBlockScreen()}>Yes</button>
@@ -113,6 +113,10 @@ class BookInterview extends Component {
                         <button className="button-primary" onClick={() => this.showHoldText()}>Yes</button>
                       </div>
                     </div> }
+                    { this.state.showBlockScreen  &&
+                      <div className="pre-question">
+                        <p>Students are only allowed to have one upcoming assessment scheduled at a time. To reschedule, please first cancel the existing booking via your confirmation email and then log back in here to book at a different time.</p>
+                      </div> }
                   </>
                  }
                 { this.state.showTI &&
