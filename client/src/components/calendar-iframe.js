@@ -13,7 +13,7 @@ class CalendarIframe extends Component {
  }
 
   render() {
-    const QUERY_STRING = `FNAME=${this.props.user.first_name}&LNAME=${this.props.user.last_name}&EMAIL=${this.props.user.email}&CONTACT-ID=${this.props.user.salesforce_id}&OP-ID=${this.props.opp.id}&CAMPUS=${this.props.opp.campus}&COURSE-START=${this.props.opp.courseStart}&COURSE-TYPE=${this.props.opp.courseType}&PRODUCT-CODE=${this.props.opp.productCode}`
+    const QUERY_STRING = `FNAME=${this.props.user.first_name}&LNAME=${this.props.user.last_name}&EMAIL=${this.props.user.email}&CO-ID=${this.props.user.salesforce_id}&OP-ID=${this.props.opp.id}&CAMPUS=${this.props.opp.campus}&COURSE-START=${this.props.opp.courseStart}&COURSE-TYPE=${this.props.opp.courseType}&PRODUCT-CODE=${this.props.opp.productCode}`
 
       return (
         <div className="grouping">
