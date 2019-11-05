@@ -2,22 +2,46 @@ import React from 'react';
 
 export default (props) => {
 
+  let list;
+
+  if (props.showTI) {
+    list =
+        <ul>
+          <li>The assessment will be <span>60 minutes long</span> and conducted online.</li>
+          <li>To ensure you can complete the assessment in time for your desired cohort, you should book your assessment and start preparing immediately, as assessment slots fill up quickly.</li>
+          <li>A maximum of three attempts are permitted network-wide.</li>
+          <li>If you do not pass the assessment, you will not be permitted another attempt until you have waited at least two weeks.</li>
+        </ul>
+
+  } else if (props.showTAA) {
+    list =
+        <ul>
+          <li>The assessment will be <span>75 minutes long</span> and conducted online.</li>
+          <li>To ensure you can complete the assessment in time for your desired cohort, you should book your assessment and start preparing immediately, as assessment slots fill up quickly.</li>
+          <li>A maximum of three attempts are permitted network-wide.</li>
+          <li>If you do not pass the assessment, you will not be permitted another attempt until you have waited at least two weeks.</li>
+        </ul>
+  } else {
+    list =
+        <ul>
+          <li>The assessment will be <span>60 to 75 minutes long</span> and conducted online.</li>
+          <li>To ensure you can complete the assessment in time for your desired cohort, you should book your assessment and start preparing immediately, as assessment slots fill up quickly.</li>
+          <li>A maximum of three attempts are permitted network-wide.</li>
+          <li>If you do not pass the assessment, you will not be permitted another attempt until you have waited at least two weeks.</li>
+        </ul>
+  }
+
   return (
     <div className="sidebar">
-    <h4 className="column-headline">Things to Know</h4>
-    <ul>
-      <li>The interview will be <span>60 minutes long.</span></li>
-      <li>To ensure you can interview in time for your desired cohort, you should book an interview and start preparing immediately, as interview sports fill up quickly.  If a location's calendar is full, try booking on one of the other ones (acceptance applies network-wide).</li>
-      <li>A max of three interview attempts is permitted network-wide.</li>
-    </ul>
-
-    <div className="card-help">
-      <h4>Have Questions?</h4>
-      <p>We have the answers to help you prepare for the Technical Interview.</p>
-      <a className="button-secondary" href="https://www.galvanize.com/web-development/interview" rel="noopener noreferrer" target="_blank">About the Tech Interview</a>
-      <h5>Contact</h5>
-      <a href="mailto:admissions@galvanize.com">admissions@galvanize.com</a>
-    </div>
+      <h4 className="column-headline">Things to Know</h4>
+      { list }
+      <div className="card-help">
+        <h4>Have Questions?</h4>
+        <p>We have the answers to help you prepare for the Technical Admissions Assessment (TAA).</p>
+        <a className="button-secondary" href="https://www.galvanize.com/web-development/interview" rel="noopener noreferrer" target="_blank">About the TAA</a>
+        <h5>Contact</h5>
+        <a href="mailto:admissions@galvanize.com">admissions@galvanize.com</a>
+      </div>
     </div>
   )
 }
