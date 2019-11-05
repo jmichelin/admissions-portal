@@ -235,8 +235,8 @@ export const HERO_TEXT = {
     heroDescription: "This coding challenge is made up of two questions that will test your understanding of basic Python and start you on your admissions journey. Test your code as many times as you need.  Submit your code at the bottom when both challenges are completed. Best of luck!"
   },
   SEI_BOOK_INTERVIEW: {
-    heroHeadline: 'Book the Technical Interview',
-    heroDescription: "All campuses share the same interview format and assessment rubric so you can interview at the location that's most convenient for you, regardless of your preferred campus."
+    heroHeadline: 'Book the Technical Admissions Assessment',
+    heroDescription: ""
   },
   DSI_BOOK_INTERVIEW: {
     heroHeadline: 'Book the Technical Interview',
@@ -262,22 +262,22 @@ export const SEI_STEPS_12_WK = {
   },
   STEP_THREE: {
     step: 3,
-    status: 'Book the Technical Interview',
-    description: 'Choose a time to complete your technical interview. Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing JavaScript fundamentals on your own.',
+    status: 'Book the Technical Admissions Assessment',
+    description: 'Choose a time to take your Technical Admissions Assessment. Prepare to pass your assessment by enrolling in a Galvanize Software Engineering Prep course or by practicing JavaScript fundamentals on your own.',
     buttonPath: '/book-interview',
-    buttonText: 'Schedule Your Interview',
+    buttonText: 'Schedule Your Assessment',
     blockClass:'-blue'
   },
   STEP_FOUR: {
     step: 4,
-    status: 'Pass the Technical Interview',
-    description: 'Your interview is booked! Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing the JavaScript fundamentals on your own.',
+    status: 'Pass the Technical Admissions Assessment',
+    description: 'Your interview is booked! Prepare to pass your Technical Admissions Assessment by enrolling in a Galvanize Software Engineering Prep course or by practicing the JavaScript fundamentals on your own.',
     alertText: 'Need to cancel your interview?  Refer to your booking confirmation email.'
   },
   COMPLETE: {
     step: 5,
     status: 'Enroll',
-    description: 'Congrats! You passed your technical interview.  Within one to two business days, you’ll receive an email containing your Student Enrollment Agreement. Review your Enrollment Agreement within seven days of receipt to confirm your cohort seat.',
+    description: 'Congrats! You passed your technical assessment.  Within one to two business days, you’ll receive an email containing your Student Enrollment Agreement. Review your Enrollment Agreement within seven days of receipt to confirm your cohort seat.',
     blockClass:'-green'
   },
   HOLD: {
@@ -301,10 +301,10 @@ export const SEI_STEPS_18_WK = {
   },
   STEP_TWO: {
     step: 1.5,
-    status: 'FastTrack: Book the Technical Interview',
-    description: 'Congrats! You passed the coding challenge!  In order to determine final eligibility for our FastTrack program - choose a time to complete your technical interview. Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing JavaScript fundamentals on your own.',
+    status: 'FastTrack: Book the Technical Admissions Assessment',
+    description: 'Congrats! You passed the coding challenge!  In order to determine final eligibility for our FastTrack program - choose a time to complete your Technical Admissions Assessment. Prepare to pass your Technical Admissions Assessment by enrolling in a Software Engineering Prep course or by practicing JavaScript fundamentals on your own.',
     buttonPath: '/book-interview',
-    buttonText: 'Schedule the Technical Interview',
+    buttonText: 'Schedule the Technical Admissions Assessment',
     override: true,
     hidden: true,
     blockClass:'-blue',
@@ -312,8 +312,8 @@ export const SEI_STEPS_18_WK = {
   },
   STEP_THREE: {
     step: 1.75,
-    status: 'FastTrack: Pass Your Technical Interview',
-    description: 'Your FastTrack interview is booked! Prepare to pass your Technical Interview by enrolling in a Galvanize Software Engineering Prep course or by practicing the JavaScript fundamentals on your own.  Note - You can still elect to follow the standard track and register for the group assessment during this time.  Reach out to your Enrollment Officer if you have any questions.',
+    status: 'FastTrack: Pass Your Technical Admissions Assessment',
+    description: 'Your FastTrack interview is booked! Prepare to pass your Technical Admissions Assessment by enrolling in a Galvanize Software Engineering Prep course or by practicing the JavaScript fundamentals on your own.  Note - You can still elect to follow the standard track and register for the group assessment during this time.  Reach out to your Enrollment Officer if you have any questions.',
     alertText: 'Need to cancel your interview?  Refer to your booking confirmation email.',
     hidden: true
   },
@@ -324,7 +324,7 @@ export const SEI_STEPS_18_WK = {
     buttonUrl: 'https://getcoding.hackreactor.com/hrext-assessment/',
     buttonText: 'Book Your Group Assessment',
     override: true,
-    alertText: 'Want to see if you can do our accelerated FastTrack program? Pass a coding challenge to be eligible for a final Technical Interview to get into FastTrack.',
+    alertText: 'Want to see if you can do our accelerated FastTrack program? Pass a coding challenge to be eligible for a final Technical Admissions Assessment to get into FastTrack.',
     alertButtonPath: '/coding-challenge',
     alertButtonText: 'Try the Challenge'
   },

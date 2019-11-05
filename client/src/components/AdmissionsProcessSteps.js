@@ -20,15 +20,7 @@ export default (props) => {
                     <span className="label">{step.status}</span>
                   </div>
                 )
-              } else if (props.activeStep && props.activeStep.step === step.step) {
-                return (
-                  <div className="step" key={i}>
-                    <span className="number -active">{step.step}</span>
-                    <span className="label">{step.status}</span>
-                  </div>
-                )
-              }
-              return (
+              } return (
                 <div className="step" key={i}>
                   <span className="number">{step.step}</span>
                   <span className="label">{step.status}</span>
