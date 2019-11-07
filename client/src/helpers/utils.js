@@ -2,8 +2,12 @@ import {
   SEI_STEPS_12_WK,
   SEI_STEPS_18_WK,
   DSI_STEPS,
-  LEAD_SOURCE_COOKIE
+  LEAD_SOURCE_COOKIE,
+  OPPTY_CANNOT_INTERVIEW_STAGES,
+  OPPTY_PASSED_INTERVIEW_STAGES
 } from '../constants';
+
+import moment from 'moment';
 
 function getCourseName(opp) {
   const campus = opp.campus;
@@ -49,21 +53,16 @@ function getCourseName(opp) {
 function getSEI12WkStage(program) {
   if (program.type === 'application') {
     return SEI_STEPS_12_WK.STEP_ONE
-  } else if (!program.scorecard) {
-    return SEI_STEPS_12_WK.HOLD;
-  } else if (program.scorecard.moveForwardCode !== 'Yes') {
+  } else if (program.passedSEIChallenge !== 'Yes') {
     //person needs to do coding challenge
     return SEI_STEPS_12_WK.STEP_TWO;
-  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview !== 'No' && program.scorecard.moveForwardInterview !== 'Yes' && program.stage !== 'Interview 1 Scheduled') {
+  } else if (program.passedSEIChallenge === 'Yes' && !OPPTY_CANNOT_INTERVIEW_STAGES.includes(program.stage)) {
     //passed coding challenge but person needs to book the interview
     return SEI_STEPS_12_WK.STEP_THREE;
-  } else if (program.scorecard.moveForwardCode === 'Yes' && program.stage === 'Interview 1 Scheduled') {
+  } else if (program.passedSEIChallenge === 'Yes' && program.stage === 'Interview 1 Scheduled') {
     //passed coding challenge and booked interview
     return SEI_STEPS_12_WK.STEP_FOUR;
-  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview === 'No') {
-    //passed coding challenge and booked interview but failed
-    return SEI_STEPS_12_WK.HOLD;
-  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview === 'Yes') {
+  } else if (OPPTY_PASSED_INTERVIEW_STAGES.includes(program.stage)) {
     //passed coding challenge and booked interview and passed
     return SEI_STEPS_12_WK.COMPLETE;
   } else {
@@ -75,21 +74,16 @@ function getSEI12WkStage(program) {
 function getSEI18WkStage(program) {
   if (program.type === 'application') {
     return SEI_STEPS_18_WK.STEP_ONE
-  } else if (!program.scorecard) {
-    return SEI_STEPS_12_WK.HOLD;
-  } else if (program.scorecard.moveForwardCode !== 'Yes') {
+  } if (program.passedSEIChallenge !== 'Yes') {
     //person needs to do coding challenge
     return SEI_STEPS_18_WK.STEP_FOUR;
-  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview !== 'No' && program.scorecard.moveForwardInterview !== 'Yes' && program.stage !== 'Interview 1 Scheduled') {
+  } else if (program.passedSEIChallenge === 'Yes' && !OPPTY_CANNOT_INTERVIEW_STAGES.includes(program.stage)) {
     //passed coding challenge but person needs to book the interview
     return SEI_STEPS_18_WK.STEP_TWO;
-  } else if (program.scorecard.moveForwardCode === 'Yes' && program.stage === 'Interview 1 Scheduled') {
+  } else if (program.passedSEIChallenge === 'Yes' && program.stage === 'Interview 1 Scheduled') {
     //passed coding challenge and booked interview
     return SEI_STEPS_18_WK.STEP_THREE;
-  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview === 'No') {
-    //passed coding challenge and booked interview but failed
-    return SEI_STEPS_18_WK.HOLD;
-  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview === 'Yes') {
+  } else if (OPPTY_PASSED_INTERVIEW_STAGES.includes(program.stage)) {
     //passed coding challenge and booked interview and passed
     return SEI_STEPS_18_WK.COMPLETE;
   } else {
@@ -101,21 +95,16 @@ function getSEI18WkStage(program) {
 function getDSIStage(program) {
   if (program.type === 'application') {
     return DSI_STEPS.STEP_ONE
-  } else if (!program.scorecard) {
-    return SEI_STEPS_12_WK.HOLD;
-  } else if (program.scorecard.moveForwardCode !== 'Yes') {
+  } else if (program.passedDSIChallenge !== "Yes") {
     //person needs to do coding challenge
     return DSI_STEPS.STEP_TWO;
-  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview !== 'No' && program.scorecard.moveForwardInterview !== 'Yes' && program.stage !== 'Interview 1 Scheduled') {
+  } else if (program.passedDSIChallenge === "Yes" && !OPPTY_CANNOT_INTERVIEW_STAGES.includes(program.stage)) {
     //passed coding challenge but person needs to book the interview
     return DSI_STEPS.STEP_THREE;
-  } else if (program.scorecard.moveForwardCode === 'Yes' && program.stage === 'Interview 1 Scheduled') {
+  } else if (program.passedDSIChallenge === "Yes" && program.stage === 'Interview 1 Scheduled') {
     //passed coding challenge and booked interview
     return DSI_STEPS.STEP_FOUR;
-  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview === 'No') {
-    //passed coding challenge and booked interview but failed
-    return DSI_STEPS.HOLD;
-  } else if (program.scorecard.moveForwardCode === 'Yes' && program.scorecard.moveForwardInterview === 'Yes') {
+  } else if (OPPTY_PASSED_INTERVIEW_STAGES.includes(program.stage)) {
     //passed coding challenge and booked interview and passed
     return DSI_STEPS.COMPLETE;
   } else {
@@ -208,7 +197,7 @@ function getParameterByName(name, queryString) {
   let regexS = "[\\?&]" + name + "=([^&#]*)";
   let regex = new RegExp(regexS);
   let results = regex.exec(query);
-  if (results == null) return '';
+  if (results === null) return '';
   else return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
@@ -240,6 +229,16 @@ function conversionQuery(product) {
   return 'all';
 }
 
+function appDeadlineParser(course) {
+  if (course.courseType === '13 Week Full-Time Immersive' || course.courseType === '12 Week Full-Time Immersive' || course.courseType === '36 Week Part-Time Immersive') {
+    return moment() > moment(course.startDate, 'YYYY-MM-DD').subtract(2, 'weeks') ? true : false;
+  }
+  if (course.courseType === '18 Week Full-Time Immersive') {
+    return moment() > moment(course.startDate, 'YYYY-MM-DD').subtract(1, 'weeks') ? true : false;
+  }
+  return true;
+}
+
 export default {
   getSEI12WkStage,
   getSEI18WkStage,
@@ -249,5 +248,6 @@ export default {
   lookForCookie,
   getParameterByName,
   getLeadSource,
-  conversionQuery
+  conversionQuery,
+  appDeadlineParser
 };
