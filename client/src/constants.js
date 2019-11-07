@@ -563,4 +563,5 @@ export const SUPPORT_ERROR_MESSAGE = "Uh oh! There was a processing error. Pleas
 
 export const CAMPUSES_SEI_18WK = ['Phoenix-Warehouse District', 'Seattle-Pioneer Square', 'Boulder-Walnut St.'];
 
-export const OPPTY_PAST_INTERVIEW_STAGES = ['Interview 1 Scheduled', 'Offer Out', 'Offer Out - Needs Transcript', 'Contract Out', 'Accepted', 'Deposit Paid', 'Expired SEA', 'Needs New Contract', 'Enrolled'];
+export const OPPTY_CANNOT_INTERVIEW_STAGES = ['Interview 1 Scheduled', 'Offer Out', 'Offer Out - Needs Transcript', 'Contract Out', 'Accepted', 'Deposit Paid', 'Expired SEA', 'Needs New Contract', 'Enrolled'];
+export const OPPTY_PASSED_INTERVIEW_STAGES = ['Offer Out', 'Offer Out - Needs Transcript', 'Contract Out', 'Accepted', 'Deposit Paid', 'Expired SEA', 'Needs New Contract', 'Enrolled'];
