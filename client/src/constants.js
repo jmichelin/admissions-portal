@@ -10,9 +10,6 @@ export const PREP_DSI_URL = 'https://www.galvanize.com/data-science/prep';
 export const DSI_YCBM_CALENDAR_URL ='https://dsi-interviews.youcanbook.me';
 export const DSI_YCBM_CALENDAR_ID = 'ycbmiframedsi-interviews';
 export const CODE_CHALLENGE_ENDPOINT = '/api/v1/user/code-submit';
-export const PYTHON_CODE_SUBMIT_ENDPOINT = '/api/v1/user/python-submit';
-export const UPDATE_OPP_ENDPOINT = '/api/v1/user/update-opp-stage';
-export const UPDATE_SCORECARD_ENDPOINT = '/api/v1/user/update-scorecard';
 export const PYTHON_CHALLENGE_ENDPOINT = '/api/v1/assessments';
 export const APPLICATIONS_ENDPOINT = '/api/v1/applications';
 export const APPLICATION_INITIALIZE_ENDPOINT  = '/api/v1/applications/initialize';
@@ -516,7 +513,7 @@ def distr_of_rec_digit_sums(low=0, high=1500):
 export const PLACEHOLDER_4 = `def sigmoid(x):
     '''
     Returns the result of passing a number into the sigmoid
-    logistic function. Assumes the value of e to be 2.171828
+    logistic function. Assumes the value of e to be 2.71828
 
     Parameters
     ----------
@@ -564,4 +561,6 @@ export const PROGRAM_SELECT_TEXT = {
 };
 export const SUPPORT_ERROR_MESSAGE = "Uh oh! There was a processing error. Please contact support@galvanize.com"
 
-export const CAMPUSES_SEI_18WK = ['Phoenix-Warehouse District', 'Seattle-Pioneer Square', 'Denver-Platte', 'Boulder-Walnut St.'];
+export const CAMPUSES_SEI_18WK = ['Phoenix-Warehouse District', 'Seattle-Pioneer Square', 'Boulder-Walnut St.'];
+
+export const OPPTY_PAST_INTERVIEW_STAGES = ['Interview 1 Scheduled', 'Offer Out', 'Offer Out - Needs Transcript', 'Contract Out', 'Accepted', 'Deposit Paid', 'Expired SEA', 'Needs New Contract', 'Enrolled'];

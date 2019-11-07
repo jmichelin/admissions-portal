@@ -171,7 +171,7 @@ export const IMMERSIVE_COURSE_TYPES = [
   '13 Week Full-Time Immersive', '12 Week Full-Time Immersive', '36 Week Part-Time Immersive', '18 Week Full-Time Immersive', 'Specialty Immersive'
 ];
 
-export const CAMPUSES_SEI_18WK = ['Phoenix-Warehouse District', 'Seattle-Pioneer Square', 'Denver-Platte', 'Boulder-Walnut St.'];
+export const CAMPUSES_SEI_18WK = ['Phoenix-Warehouse District', 'Seattle-Pioneer Square', 'Boulder-Walnut St.'];
 
 
 export const PYTHON_TEST_1 =
@@ -230,4 +230,4 @@ class MyTest(unittest.TestCase):
         x_vals = [(low + i*step) for i in range(num_x_vals)]
 
         for x in x_vals:
-            self.assertEqual(main.sigmoid(x), (1 / (1+2.71828**(-x))))`;
+            self.assertAlmostEqual(main.sigmoid(x), (1 / (1+2.71828**(-x))))`;

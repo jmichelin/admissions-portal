@@ -220,36 +220,22 @@ class Salesforce {
 
   async getOpportunities(email) {
     await this.login();
+    // see if person has eligible opptys
     let opps = await this.oppQuery(email)
-    if (!opps.length) return []
+    if (!opps.length) return [];
+    // get corresponding contact for coding chall values
+    let contacts = await this.contactQuery(opps[0].contactId);
+    opps.forEach(opp => Object.assign(opp, contacts[0]))
+    // get scorecards for interview booking
     let scorecardIds = opps.filter(opp => opp.scorecardId).map(opp => opp.scorecardId)
     let scorecards = await this.scorecardQueries(scorecardIds);
 
     const opportunities = opps.map(opp => {
       let card = scorecards.find(card => card.oppId === opp.id);
-      if (card) opp.scorecard = card
+      if (card) Object.assign(opp, card);
       return opp
     }).filter(val => val);
-
     return opportunities
-  }
-
-
-  // old from dotcom but will use on application submit
-  getCampaignId(campaignType, product) {
-    let isWebDev = product === 'Full Stack' || product === 'Web Development';
-
-    if (campaignType === 'syllabus' && isWebDev) {
-      return SF_WDI_SYLLABUS_CAMPAIGN_ID;
-    } else if (campaignType === 'syllabus' && product === 'Data Science') {
-      return SF_DSI_SYLLABUS_CAMPAIGN_ID;
-    } else if (campaignType === 'application' && isWebDev) {
-      return SF_WDI_APPLICATION_CAMPAIGN_ID;
-    } else if (campaignType === 'application' && product === 'Data Science') {
-      return SF_DSI_APPLICATION_CAMPAIGN_ID;
-    } else if (campaignType === 'newsletter') {
-      return SF_NEWSLETTER_CAMPAIGN_ID;
-    }
   }
 
   getQueryString(formType, email) {
@@ -263,12 +249,25 @@ class Salesforce {
   oppQuery(email) {
     return new Promise( (resolve, reject) => {
       this.connection.sobject("Opportunity")
-    .select('Id, StageName, Name, Course_Product__c, Course_Type__c, CreatedDate, Campus__c, Course_Start_Date_Actual__c, Product_Code__c, Scorecard__c')
+    .select('Id, StageName, Name, Course_Product__c, Course_Type__c, CreatedDate, Campus__c, Course_Start_Date_Actual__c, Product_Code__c, Scorecard__c, Student__c')
     .where({'Student_Email__c': email})
     .orderby("CreatedDate", "DESC")
       .execute((err, res) => {
         if (err) { reject(err); }
         resolve(_reformatOppty(res));
+      });
+    });
+  }
+
+  contactQuery(id) {
+    return new Promise( (resolve, reject) => {
+      this.connection.sobject("Contact")
+    .select('Id, Passed_JavaScript_Challenge__c, Passed_Python_Challenge__c')
+    .where({'Id': id})
+    .orderby("CreatedDate", "DESC")
+      .execute((err, res) => {
+        if (err) { reject(err); }
+        resolve(_reformatContact(res));
       });
     });
   }
@@ -283,109 +282,29 @@ class Salesforce {
     });
   }
 
-  submitCodingChallenge(oppId, code, moveForward, stage) {
+  submitCodingChallenge(contactId, oppId, moveForward, stage, key) {
     return new Promise( (resolve, reject) => {
       return Promise.all([
-        this.connection.sobject('Interview_Evaluation__c')
-        .find({Opportunity_Name__c: `${oppId}`})
-        .update({
-          Final_Code__c: code,
-          Move_Forward__c: moveForward
-        }, (err, res) => {
-          if(err) { reject(err); }
-        }),
         this.connection.sobject('Opportunity')
         .find({Id: `${oppId}`})
         .update({
           StageName: stage,
         }, (err, res) => {
           if(err) { reject(err); }
-        })])
-        .then(rows => {
-          if (!rows) return [];
-          return rows;
-        }).then(resolve)
-        .catch(reject)
-    });
-  }
-
-  submitPythonChallenge(oppId, code, moveForward, stage, score) {
-    return new Promise( (resolve, reject) => {
-      return Promise.all([
-        this.connection.sobject('Interview_Evaluation__c')
-        .find({Opportunity_Name__c: `${oppId}`})
-        .update({
-          Final_Code__c: code,
-          Move_Forward__c: moveForward,
-          DS_Take_Home_Python_Score__c: score
-        }, (err, res) => {
-          if(err) { reject(err); }
         }),
-        this.connection.sobject('Opportunity')
-        .find({Id: `${oppId}`})
+        this.connection.sobject('Contact')
+        .find({Id: `${contactId}`})
         .update({
-          StageName: stage,
+          [key]: moveForward
         }, (err, res) => {
           if(err) { reject(err); }
-        })])
+        })
+      ])
         .then(rows => {
           if (!rows) return [];
           return rows;
         }).then(resolve)
         .catch(reject)
-    });
-  }
-
-  // query salesforce for campaign id
-  leadCampaignQuery(leadId, campaignType, product) {
-    return new Promise( (resolve, reject) => {
-      this.connection.sobject('CampaignMember')
-        .find({
-          LeadId: leadId,
-          CampaignId: this.getCampaignId(campaignType, product)
-        }, (err, res) => {
-          if(err) { reject(err); }
-          resolve(res);
-        });
-    });
-  }
-
-  addLeadToCampaign(leadId, referrer, campaignType, product) {
-    return new Promise( (resolve, reject) => {
-      this.connection.sobject('CampaignMember')
-        .create({
-          LeadId: leadId,
-          CampaignId: this.getCampaignId(campaignType, product),
-          Referrer__c: referrer
-        }, (err, res) => {
-          if(err) { reject(err); }
-          resolve(res);
-        });
-    });
-  }
-
-  updateOppStage(oppId, stage) {
-    return new Promise( (resolve, reject) => {
-      this.connection.sobject('Opportunity').update({
-        Id: oppId,
-        StageName: stage
-      }, (err, res) => {
-        if(err) { reject(err); }
-        resolve(res);
-      });
-    });
-  }
-
-  updateScorecardMoveOn(scoreCardId, moveForward) {
-    return new Promise( (resolve, reject) => {
-      this.connection.sobject('Interview_Evaluation__c').update({
-        Id: scoreCardId,
-        Move_Forward__c: moveForward,
-        Comments_on_Test__c: 'rec_dig_sums_challenge and sigmoid_challenge'
-      }, (err, res) => {
-        if(err) { reject(err); }
-        resolve(res);
-      });
     });
   }
 }
@@ -406,6 +325,7 @@ function _reformatOppty(ogData) {
     opptyTemplate.created_at = new Date(oppty['CreatedDate'])
     opptyTemplate.courseType = oppty['Course_Type__c'];
     opptyTemplate.productCode = oppty['Product_Code__c'];
+    opptyTemplate.contactId = oppty['Student__c'];
     opptyTemplate.scorecardId = oppty['Scorecard__c'];
     opptyTemplate.stage = oppty['StageName'];
     opptyTemplate.type = 'opportunity';
@@ -422,19 +342,27 @@ function _reformatOppty(ogData) {
   return opptys;
 }
 
+
+function _reformatContact(ogData) {
+  let contacts = [];
+
+  ogData.forEach( contact => {
+    let newContact = {};
+    newContact.passedSEIChallenge = contact['Passed_JavaScript_Challenge__c'];
+    newContact.passedDSIChallenge = contact['Passed_Python_Challenge__c'];
+
+    contacts.push(newContact);
+  })
+
+  return contacts;
+}
+
 function _reformatScorecard(ogData) {
   let scorecards = [];
-  let scorecardTemplate = {
-    finalCode: '',
-    moveForwardCode: '',
-    oppId: ''
-  }
 
   ogData.forEach( scorecard => {
-    let newScorecard = Object.assign({}, scorecardTemplate);
+    let newScorecard = {};
 
-    newScorecard.finalCode = scorecard['Final_Code__c'];
-    newScorecard.moveForwardCode = scorecard['Move_Forward__c'];
     newScorecard.moveForwardInterview = scorecard['Move_Forward_m__c'];
     newScorecard.oppId = scorecard['Opportunity_Name__c'];
 

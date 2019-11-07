@@ -111,7 +111,8 @@ class CodingChallenge extends Component {
         code: this.state.submittedCode,
         oppId: this.state.opp.id,
         moveForward: 'No',
-        stage: 'Sent Takehome'
+        stage: 'Sent Takehome',
+        key: 'Passed_JavaScript_Challenge__c'
       }
 
       fetch(CODE_CHALLENGE_ENDPOINT, {
@@ -139,10 +140,10 @@ class CodingChallenge extends Component {
       this.setState({ submittingCode: true })
 
       const data = {
-        code: this.state.submittedCode,
         oppId: this.state.opp.id,
         moveForward: 'Yes',
-        stage: 'Returned Takehome'
+        stage: 'Returned Takehome',
+        key: 'Passed_JavaScript_Challenge__c'
       }
 
       fetch(CODE_CHALLENGE_ENDPOINT, {

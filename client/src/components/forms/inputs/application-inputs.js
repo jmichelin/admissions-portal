@@ -2,6 +2,7 @@ import {
   CAMPUSES,
   CAMPUSES_SEI_18WK
 } from '../../../constants';
+import utils from'../../../helpers/utils';
 import moment from 'moment';
 
 const CAMPUS_FETCH_URL = '/api/v1/campuses';
@@ -21,11 +22,11 @@ const getOfferings = async (campus, courseType, courseProduct) => {
         if (courseProduct === 'Full Stack') courseProduct = 'Web Development';
         // if 18wk campus return only 18wk courses otherwise return 12wk courses
         if (courseProduct === 'Web Development' && CAMPUSES_SEI_18WK.includes(campus)) {
-          return c.courseType === '18 Week Full-Time Immersive' && c.courseProduct === courseProduct
+          return c.courseType === '18 Week Full-Time Immersive' && c.courseProduct === courseProduct && !utils.appDeadlineParser(c)
         } else if (courseProduct === 'Web Development' && campus === 'Remote') {
-          return ((c.courseType === '12 Week Full-Time Immersive' || c.courseType === '36 Week Part-Time Immersive') && c.courseProduct === courseProduct)
+          return ((c.courseType === '12 Week Full-Time Immersive' || c.courseType === '36 Week Part-Time Immersive') && c.courseProduct === courseProduct && !utils.appDeadlineParser(c))
         } else {
-          return c.courseType === courseType && c.courseProduct === courseProduct
+          return c.courseType === courseType && c.courseProduct === courseProduct && !utils.appDeadlineParser(c)
         }
       })
       if (!validCourses.length) {
@@ -38,9 +39,9 @@ const getOfferings = async (campus, courseType, courseProduct) => {
           .then(remCourses => {
             return remCourses.filter(remoteCourse => {
               if (courseProduct === 'Web Development' && CAMPUSES_SEI_18WK.includes(campus)) {
-                return remoteCourse.courseType === '18 Week Full-Time Immersive' && remoteCourse.courseProduct === courseProduct;
+                return remoteCourse.courseType === '18 Week Full-Time Immersive' && remoteCourse.courseProduct === courseProduct && !utils.appDeadlineParser(remoteCourse);
               }
-              return remoteCourse.courseType === courseType && remoteCourse.courseProduct === courseProduct;
+              return remoteCourse.courseType === courseType && remoteCourse.courseProduct === courseProduct && !utils.appDeadlineParser(remoteCourse);
             });
           });
           return validCourses;

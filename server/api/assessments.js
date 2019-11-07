@@ -6,6 +6,8 @@ import { PYTHON_TEST_1, PYTHON_TEST_2, PYTHON_TEST_3, PYTHON_TEST_4 } from '../c
 import Assessments from '../lib/assessments';
 import Honeybadger from '../lib/honeybadger';
 const honeybadger = new Honeybadger();
+import Salesforce from '../lib/salesforce';
+const salesforce = new Salesforce();
 
 router.get('/user', (req, res, next) => {
   Q.getUserLatestAssessment(req.user.id)
@@ -85,6 +87,12 @@ router.post('/', noRunningTests, (req, res, next) => {
           const error = new Error('Error calling Asessment Service.');
           next(error);
         });
+   })
+   .then(() => {
+     salesforce.login()
+     .then(() => {
+       return salesforce.submitCodingChallenge(req.user.salesforce_id, req.body.oppId, req.body.moveForward, req.body.stage, 'Passed_Python_Challenge__c');
+     })
    })
    .catch((err) => {
      honeybadger.notify(err);
