@@ -9,26 +9,15 @@ import Salesforce from '../lib/salesforce';
 const salesforce = new Salesforce();
 
 // GET
-router.get('/placement/assessment, async (req, res) => {
-  console.log('here');
-    // getNewAssessmentObject
+router.get('/:id', (req, res, next) => {
+      // getNewAssessmentObject
     // requires user info
     // add intial record to db
     // return populated object
   // let userID = decodeURI(req.params.userid); // TODO maybe switch to email
-
-
-  try {
-    let assessmentObject = await generateNewAssessmentObj(userID);
-
-    return res.status(200).send('test')
-  } catch (err) {
-    console.log("Error initializing placement assessment:", err)
-    // honeybadger.notify(err);
-    return res.status(500).send(err)
-  }
+  const assessmentObject = generateNewAssessmentObj();
+  res.json({test:assessmentObject});
 });
-
 
 // POST
   // submitPromptAnswer

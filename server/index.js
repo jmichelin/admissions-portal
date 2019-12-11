@@ -1,3 +1,4 @@
+//import express from 'express';
 require('dotenv').config();
 
 const express = require('express');
@@ -27,6 +28,7 @@ const middlewares = require('./auth/middlewares');
 const auth = require('./auth');
 const users = require('./api/user');
 const assessments = require('./api/assessments');
+const placementAssessment = require('./api/placement_assessment');
 const applications = require('./api/applications');
 const campuses = require('./api/campus');
 const testingWebhook = require('./webhooks/assessments/assessments');
@@ -45,6 +47,7 @@ app.use('/api/v1/user', express.json(), middlewares.isLoggedIn, users);
 app.use('/api/v1/campuses', express.json(), middlewares.isLoggedIn, campuses);
 app.use('/api/v1/assessments', express.json(), middlewares.isLoggedIn, assessments);
 app.use('/api/v1/applications', express.json(), middlewares.isLoggedIn, applications);
+app.use('/api/v1/placement/assessments', express.json(), placementAssessment);
 app.use('/webhooks/assessments', express.urlencoded({ extended: true }), testingWebhook);
 app.use('/webhooks/salesforce/campuses', express.json(), middlewares.verifyBasicAuth, salesforceWebhook);
 
