@@ -12,6 +12,7 @@ import CodingChallenge from './pages/CodingChallenge';
 import PythonChallenge from './pages/PythonChallenge'
 import BookInterview from './pages/BookInterview';
 import BookInterviewDSI from './pages/BookInterviewDSI';
+import PlacementChallenge from './pages/PlacementChallenge';
 
 import utils from './helpers/utils';
 
@@ -105,6 +106,7 @@ class App extends Component {
             <PrivateRoute exact path='/book-interview' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterview}/>
             <PrivateRoute exact path='/book-interview-dsi' {...this.state} getData={this.getData} statusUpdate={this.statusUpdate} component={BookInterviewDSI}/>
             <PrivateRoute path="/application" {...this.state} clearData={this.clearData} statusUpdate={this.statusUpdate} component={Application} />
+            <PublicRoute exact path='/testRoute' clearData={this.clearData} updateState={this.updateState} component={PlacementChallenge}/>
             <NoMatch/>
           </Switch>
           </main>
