@@ -9,12 +9,19 @@ import Salesforce from '../lib/salesforce';
 const salesforce = new Salesforce();
 
 // GET
-router.get('/:userid', (req, res, next) => {
-  // add intial record to db
+router.get('/:userid', (req, res, next) => { // new assessment
   // requires user info
   let userID = req.params.userid; // TODO maybe switch to email
   const assessmentObject = generateNewAssessmentObj(userID); // getNewAssessmentObject
-  res.json({assessmentObject}); // return populated object
+  // add intial record to db
+  Q.addNewPlacementAssessment(assessmentObject)
+  .then(res.json({assessmentObject})) // TODO; // return populated object
+  .catch((err) => {
+    honeybadger.notify(err);
+    res.status(501);
+    const error = new Error('Error creating new placement assessment.');
+    next(error);
+  });
 });
 
 // POST

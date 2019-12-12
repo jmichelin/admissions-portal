@@ -220,6 +220,29 @@ module.exports = {
       .where('id', applicationID)
       .del();
   },
+
+  addNewPlacementAssessment: function(assessmentObj) {
+    console.log(assessmentObj);
+    return knex('placement_assessment')
+      .insert({
+        result: assessmentObj.assessmentResults,
+        user_id: assessmentObj.userId,
+        created_at: knex.fn.now(),
+        updated_at: knex.fn.now()
+      })
+      .returning('*')
+  },
+  /*
+  createCampus: function(campus) {
+    const courses = _filterCourses(campus.courses)
+
+    return knex('campus')
+      .insert({
+        name: campus.campus,
+        offerrings: JSON.stringify(courses)
+      })
+  }*/
+
 };
 
 function _filterCourses(courses) {
