@@ -9,14 +9,12 @@ import Salesforce from '../lib/salesforce';
 const salesforce = new Salesforce();
 
 // GET
-router.get('/:id', (req, res, next) => {
-      // getNewAssessmentObject
-    // requires user info
-    // add intial record to db
-    // return populated object
-  // let userID = decodeURI(req.params.userid); // TODO maybe switch to email
-  const assessmentObject = generateNewAssessmentObj();
-  res.json({test:assessmentObject});
+router.get('/:userid', (req, res, next) => {
+  // add intial record to db
+  // requires user info
+  let userID = req.params.userid; // TODO maybe switch to email
+  const assessmentObject = generateNewAssessmentObj(userID); // getNewAssessmentObject
+  res.json({assessmentObject}); // return populated object
 });
 
 // POST
@@ -32,9 +30,11 @@ router.get('/:id', (req, res, next) => {
 
 
 
-function generateNewAssessmentObj (userid) {
+function generateNewAssessmentObj (userId) {
   return {
-    'userid': userid,
+    'userId': userId,
+    'startDate': Date.now(),
+    'lastUpdated': Date.now(),
     'assessmentResults': {
       'skillsCovered': [],
       'promptsUses': []
