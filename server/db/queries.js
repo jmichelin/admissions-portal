@@ -222,7 +222,6 @@ module.exports = {
   },
 
   addNewPlacementAssessment: function(assessmentObj) {
-    console.log(assessmentObj);
     return knex('placement_assessment')
       .insert({
         result: assessmentObj.assessmentResults,
@@ -232,17 +231,22 @@ module.exports = {
       })
       .returning('*')
   },
-  /*
-  createCampus: function(campus) {
-    const courses = _filterCourses(campus.courses)
 
-    return knex('campus')
-      .insert({
-        name: campus.campus,
-        offerrings: JSON.stringify(courses)
-      })
-  }*/
+  getUnrankedPlacementAssessment: function() {
+    return knex('placement_assessment_prompts')
+    .where({
+      difficulty_rank: 0
+    })
+    .select()
+  },
 
+  getPlacementAssessmentPrompt: function(currentSkillRating, promptsUses) {
+    // TODO
+    // filter prompts
+    // by promptsUses
+    // by currentSkillRating
+    // return prompt object from db
+  }
 };
 
 function _filterCourses(courses) {
