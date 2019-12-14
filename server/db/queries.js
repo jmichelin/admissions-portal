@@ -232,12 +232,29 @@ module.exports = {
       .returning('*')
   },
 
-  getUnrankedPlacementAssessment: function() {
+  getUnrankedPlacementAssessmentPrompt: function() {
     return knex('placement_assessment_prompts')
     .where({
-      difficulty_rank: 0
+      difficulty_rank: 0,
+      status: "unsorted"
     })
-    .select()
+    .then((prompts) => {
+      prompts = prompts.filter((prompt) => {
+        return prompt.content.type === "multiple_choice";
+      });
+      return prompts[0];
+    })
+  },
+
+  rankPlacementAssessmentPrompt: function(placementPrompt) {
+    return knex('placement_assessment_prompts')
+    .where({ id: placementPrompt.id })
+    .update({
+      difficulty_rank: placementPrompt.difficulty_rank,
+      status: "sorted"
+    })
+    .returning('*')
+
   },
 
   getPlacementAssessmentPrompt: function(currentSkillRating, promptsUses) {

@@ -2,18 +2,35 @@ const express = require('express');
 const router = express.Router();
 const Q = require('../db/queries');
 
-// import Assessments from '../lib/assessments'; TODO
 import Honeybadger from '../lib/honeybadger';
 const honeybadger = new Honeybadger();
 import Salesforce from '../lib/salesforce';
 const salesforce = new Salesforce();
 
 // GET
+  //getUnrankedPrompt
+    // find unranked prompt of multiple choice type
+    // return full record
+router.get('/unranked', (req, res, next) => {
+  Q.getUnrankedPlacementAssessmentPrompt()
+  .then((assessmentPrompt) => {
+    res.json(assessmentPrompt);
+  })
+  .catch((err) => {
+    honeybadger.notify(err);
+    res.status(501);
+    const error = new Error('Error fetching unranked prompt.');
+    next(error);
+  });
+});
+
 router.get('/:userid', (req, res, next) => {
   let userID = req.params.userid;
   const assessmentObject = generateNewAssessmentObj(userID);
   Q.addNewPlacementAssessment(assessmentObject)
-  .then(res.json({assessmentObject})) // TODO return populated object
+  .then(() => {
+    res.json({assessmentObject})
+  }) // TODO return populated object
   .catch((err) => {
     honeybadger.notify(err);
     res.status(501);
@@ -22,23 +39,27 @@ router.get('/:userid', (req, res, next) => {
   });
 });
 
-  //getUnrankedPrompt
-    // find unranked prompt of multiple choice type
-    // return full record
-  router.get('/unranked', (req, res, next) => {
-    Q.getUnrankedPlacementAssessment()
-    .then((assessmentPrompt) => {
-      res.json(assessmentPrompt);
-    })
-    .catch((err) => {
-      honeybadger.notify(err);
-      res.status(501);
-      const error = new Error('Error fetching unranked prompt.');
-      next(error);
-    });
-  });
-
 // POST
+
+router.post('/unranked', (req, res, next) => {
+  let placementPrompt = {
+    id: req.body.id,
+    difficulty_rank: req.body.difficulty_rank
+  };
+  console.log(placementPrompt);
+  Q.rankPlacementAssessmentPrompt(placementPrompt)
+  .then(() => {
+    res.json(placementPrompt)
+  })
+  .catch((err) => {
+    honeybadger.notify(err);
+    res.status(501);
+    const error = new Error('Error ranking placement prompt.');
+    next(error);
+  });
+});
+
+
   // submitPromptAnswer
     // requires assessment id
     // record answer in assessmentObject
