@@ -24,17 +24,24 @@ router.get('/unranked', (req, res, next) => {
   });
 });
 
+// get new assessment object
 router.get('/:userid', (req, res, next) => {
   let userID = req.params.userid;
   const assessmentObject = generateNewAssessmentObj(userID);
-  Q.addNewPlacementAssessment(assessmentObject)
-  .then(() => {
-    // get prompt
-    return Q.getPlacementAssessmentPrompt(1, [])
+
+  // TODO might have to swap order of addNew and getPrompt
+  Q.getPlacementAssessmentPrompt(1, [])
             .then((assessmentPrompt) => {
               console.log('assessmentPrompt' , assessmentPrompt)
               assessmentObject.assessmentResults.promptsUsed.push(assessmentPrompt);
-              res.json({assessmentObject})
+              return Q.addNewPlacementAssessment(assessmentObject)
+              .then(() => {res.json({assessmentObject})}) //)
+              .catch((err) => {
+                honeybadger.notify(err);
+                res.status(501);
+                const error = new Error('Error creating new placement assessment.');
+                next(error);
+              });
             })
             .catch((err) => {
               honeybadger.notify(err);
@@ -42,13 +49,6 @@ router.get('/:userid', (req, res, next) => {
               const error = new Error('Error getting prompt.');
               next(error);
             });
-  })
-  .catch((err) => {
-    honeybadger.notify(err);
-    res.status(501);
-    const error = new Error('Error creating new placement assessment.');
-    next(error);
-  });
 });
 
 // POST
