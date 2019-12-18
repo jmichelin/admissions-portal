@@ -92,12 +92,18 @@ function calculateCurrentSkillLevel(assessmentObject) { // TODO think about rati
 }
 
 function calculateNextPromptLevel (skillLevel, numOfPrompts) {
-  // if numOfPrompts > 2
-    // switch(skillLevel)
-      // < 1.45 serve 1
-      // >= 1.45 && < 1.85 serve 2
-      // >= 1.85 < 2.5 serve 3
-      // >= 2.5 serve 4 or 3
+  if ( numOfPrompts > 2 ) {
+    if(skillLevel < 1.45 ) { // < 1.45 serve 1
+      return 1
+    } else if( skillLevel >= 1.45 && skillLevel < 1.85 ) { // >= 1.45 && < 1.85 serve 2
+      return 2
+    } else if (skillLevel >= 1.85 && skillLevel < 2.5) { // >= 1.85 < 2.5 serve 3
+      return 3
+    } else if (skillLevel >= 2.5) { // >= 2.5 serve 4 or 3
+      return Math.floor( Math.random() * 2 + 3)
+    }
+  }
+    return 1
 }
 
 function generateNewAssessmentObj (userId) {
