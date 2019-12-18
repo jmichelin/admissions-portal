@@ -257,12 +257,17 @@ module.exports = {
 
   },
 
-  getPlacementAssessmentPrompt: function(currentSkillRating, promptsUses) {
-    // TODO
-    // filter prompts
-    // by promptsUses
-    // by currentSkillRating
-    // return prompt object from db
+  getPlacementAssessmentPrompt: function(skillRankRequested, promptsUsed) {
+    return knex('placement_assessment_prompts') // return prompt object from db
+    .where({ // filter prompts
+      difficulty_rank: skillRankRequested, // by skillRankRequested
+    })
+    .then((prompts) => { // by promptsUsed
+      prompts = prompts.filter((prompt) => {
+        return promptsUsed.includes(prompt.id) === false;
+      });
+      return prompts[0];
+    })
   }
 };
 

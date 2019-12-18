@@ -29,8 +29,20 @@ router.get('/:userid', (req, res, next) => {
   const assessmentObject = generateNewAssessmentObj(userID);
   Q.addNewPlacementAssessment(assessmentObject)
   .then(() => {
-    res.json({assessmentObject})
-  }) // TODO return populated object
+    // get prompt
+    return Q.getPlacementAssessmentPrompt(1, [])
+            .then((assessmentPrompt) => {
+              console.log('assessmentPrompt' , assessmentPrompt)
+              assessmentObject.assessmentResults.promptsUsed.push(assessmentPrompt);
+              res.json({assessmentObject})
+            })
+            .catch((err) => {
+              honeybadger.notify(err);
+              res.status(501);
+              const error = new Error('Error getting prompt.');
+              next(error);
+            });
+  })
   .catch((err) => {
     honeybadger.notify(err);
     res.status(501);
