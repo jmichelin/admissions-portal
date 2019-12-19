@@ -32,10 +32,9 @@ router.get('/:userid', (req, res, next) => {
   // TODO might have to swap order of addNew and getPrompt
   Q.getPlacementAssessmentPrompt(1, [])
             .then((assessmentPrompt) => {
-              console.log('assessmentPrompt' , assessmentPrompt)
               assessmentObject.assessmentResults.promptsUsed.push(assessmentPrompt);
               return Q.addNewPlacementAssessment(assessmentObject)
-              .then(() => {res.json({assessmentObject})}) //)
+              .then(() => {res.json({assessmentObject})})
               .catch((err) => {
                 honeybadger.notify(err);
                 res.status(501);
@@ -54,11 +53,11 @@ router.get('/:userid', (req, res, next) => {
 // POST
 
 router.post('/unranked', (req, res, next) => {
-  let placementPrompt = {
+  let placementPrompt = { // TODO change to const
     id: req.body.id,
     difficulty_rank: req.body.difficulty_rank
   };
-  console.log(placementPrompt);
+  console.log(placementPrompt); // TODO remove
   Q.rankPlacementAssessmentPrompt(placementPrompt)
   .then(() => {
     res.json(placementPrompt)
@@ -73,37 +72,57 @@ router.post('/unranked', (req, res, next) => {
 
 
   // submitPromptAnswer
-    // requires assessment id
-    // record answer in assessmentObject
-      // copy current prompt content
-      // if passed add skill to skills array
-    // update json in assessment attempt db table
-    // calculate new skill level
-    // request prompt based on skill level
-    // return new prompt
+  router.post('/submitAnswer', (req, res, next) => {
+    const promptAnswer = { // requires assessment id, answer and promptID
+      assessmentID : req.body.assessmentID,
+      promptID: req.body.promptID,
+      answer: req.body.answerValue
+    };
+  // look up assessmentObject see getPlacementAssessmentPrompt
+    // check answer against assessmentObject.assessmentResults.promptsUsed.id === promptAnswer.promptID
+    // update assessmentObject.assessmentResults
+      // calculateCurrentSkillLevel
+      // calculateNextPromptLevel
+      // Q.getPlacementAssessmentPrompt
+  });
+
+function calcWeight(input) {
+  const weights = {
+    0 : 0,
+    1 : .15,
+    2: .35,
+    3: .35,
+    4:.15
+  }
+  return 1 + (input * weights[input])
+}
 
 
-function calculateCurrentSkillLevel(assessmentObject) { // TODO think about rating vs level
-  // sum
-    // assessmentResults.promptsUsed.difficultyRank + assessmentObject.skillLevel
-      // divide by promptsUsed length
-      // set new assessmentObject.skillLevel
+function randomizeBetweenMaxMinusOne (max) {
+  return Math.floor( Math.random() * 2 + (max - 1) )
+}
 
+// TODO change to passing in object and returning object
+function calculateCurrentSkillLevel(skillLevel, answerValue, runningWeight, numOfPrompts) {
+  var weight = calcWeight(answerValue);
+  weight = weight + runningWeight;
+  var newSkillLevel = weight / numOfPrompts;
+  return { newSkillLevel, weight}
 }
 
 function calculateNextPromptLevel (skillLevel, numOfPrompts) {
   if ( numOfPrompts > 2 ) {
-    if(skillLevel < 1.45 ) { // < 1.45 serve 1
-      return 1
-    } else if( skillLevel >= 1.45 && skillLevel < 1.85 ) { // >= 1.45 && < 1.85 serve 2
-      return 2
-    } else if (skillLevel >= 1.85 && skillLevel < 2.5) { // >= 1.85 < 2.5 serve 3
-      return 3
+    if(skillLevel < 1.15 ) { // serve 1 0 2
+      return randomizeBetweenMaxMinusOne(2);
+    } else if( skillLevel >= 1.15 && skillLevel < 1.3 ) { // 2 or 3
+      return randomizeBetweenMaxMinusOne(3);
+    } else if (skillLevel >= 1.3 && skillLevel < 2.5) { // 2 or 3
+      return randomizeBetweenMaxMinusOne(3);
     } else if (skillLevel >= 2.5) { // >= 2.5 serve 4 or 3
-      return Math.floor( Math.random() * 2 + 3)
+      return randomizeBetweenMaxMinusOne(4);
     }
   }
-    return 1
+  return 1
 }
 
 function generateNewAssessmentObj (userId) {
@@ -113,6 +132,7 @@ function generateNewAssessmentObj (userId) {
     'lastUpdated': Date.now(),
     'skillLevel': 1,
     'assessmentResults': {
+      'runningWeight': 0,
       'skillsCovered': [],
       'promptsUsed': []
     }
