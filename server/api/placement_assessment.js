@@ -84,7 +84,11 @@ router.post('/unranked', (req, res, next) => {
       // calculateCurrentSkillLevel
       // calculateNextPromptLevel
       // Q.getPlacementAssessmentPrompt
+        // Q.addNewPlacementAssessment
   });
+
+// Utility Functions
+// TODO Move to external library
 
 function calcWeight(input) {
   const weights = {
