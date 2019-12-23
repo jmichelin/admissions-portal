@@ -226,10 +226,24 @@ module.exports = {
       .insert({
         result: assessmentObj.assessmentResults,
         user_id: assessmentObj.userId,
+        skill_level: assessmentObj.skillLevel,
         created_at: knex.fn.now(),
         updated_at: knex.fn.now()
       })
       .returning('*')
+  },
+
+  getUserPlacementAssessment: function(assesmentID) {
+    return knex('placement_assessment')
+    .where({
+      id : assesmentID
+    })
+    .select("*")
+    .then((assessment) => {
+      console.log(assessment);
+      // TODO remove console.log(`assessment ${assessment}`)
+      return assessment
+    })
   },
 
   getUnrankedPlacementAssessmentPrompt: function() {

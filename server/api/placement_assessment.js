@@ -31,23 +31,27 @@ router.get('/:userid', (req, res, next) => {
 
   // TODO might have to swap order of addNew and getPrompt
   Q.getPlacementAssessmentPrompt(1, [])
-            .then((assessmentPrompt) => {
-              assessmentObject.assessmentResults.promptsUsed.push(assessmentPrompt);
-              return Q.addNewPlacementAssessment(assessmentObject)
-              .then(() => {res.json({assessmentObject})})
-              .catch((err) => {
-                honeybadger.notify(err);
-                res.status(501);
-                const error = new Error('Error creating new placement assessment.');
-                next(error);
-              });
-            })
-            .catch((err) => {
-              honeybadger.notify(err);
-              res.status(501);
-              const error = new Error('Error getting prompt.');
-              next(error);
-            });
+  .then((assessmentPrompt) => {
+    assessmentObject.assessmentResults.promptsUsed.push(assessmentPrompt);
+    return Q.addNewPlacementAssessment(assessmentObject)
+    .then((insertedAssessment) => {
+      console.log(insertedAssessment);
+      assessmentObject.id = insertedAssessment[0].id;
+      res.json({assessmentObject})
+    })
+    .catch((err) => {
+      honeybadger.notify(err);
+      res.status(501);
+      const error = new Error('Error creating new placement assessment.');
+      next(error);
+    });
+  })
+  .catch((err) => {
+    honeybadger.notify(err);
+    res.status(501);
+    const error = new Error('Error getting prompt.');
+    next(error);
+  });
 });
 
 // POST
@@ -78,13 +82,25 @@ router.post('/unranked', (req, res, next) => {
       promptID: req.body.promptID,
       answer: req.body.answerValue
     };
-  // look up assessmentObject see getPlacementAssessmentPrompt
-    // check answer against assessmentObject.assessmentResults.promptsUsed.id === promptAnswer.promptID
-    // update assessmentObject.assessmentResults
+    // get latest from db
+    Q.getUserPlacementAssessment(promptAnswer.assessmentID)// look up assessmentObject
+    .then((assessmentObject) => {
+      console.log(assessmentObject);
+      // check answer against assessmentObject.assessmentResults.promptsUsed[].id === promptAnswer.promptID
+      var promptsUsed = assessmentObject[0].result.promptsUsed;
+      var currentPrompt = promptsUsed[promptsUsed.length - 1 ];
+      var isCorrectAnswer = currentPrompt.content.choices[promptAnswer.answer].isAnswer;
+      // update assessmentObject.results
+      currentPrompt["isCorrect"] = isCorrectAnswer;
       // calculateCurrentSkillLevel
       // calculateNextPromptLevel
       // Q.getPlacementAssessmentPrompt
         // Q.addNewPlacementAssessment
+      res.json(assessmentObject);
+    })
+
+
+
   });
 
 // Utility Functions
