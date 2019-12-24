@@ -239,7 +239,7 @@ module.exports = {
     })
     .select("*")
     .then((assessment) => {
-      console.log(assessment);
+      console.log('queries ', assessment);
       // TODO remove console.log(`assessment ${assessment}`)
       return assessment
     })

@@ -85,18 +85,28 @@ router.post('/unranked', (req, res, next) => {
     // get latest from db
     Q.getUserPlacementAssessment(promptAnswer.assessmentID)// look up assessmentObject
     .then((assessmentObject) => {
-      console.log(assessmentObject);
+      console.log('assessment object', assessmentObject);
       // check answer against assessmentObject.assessmentResults.promptsUsed[].id === promptAnswer.promptID
       var promptsUsed = assessmentObject[0].result.promptsUsed;
       var currentPrompt = promptsUsed[promptsUsed.length - 1 ];
       var isCorrectAnswer = currentPrompt.content.choices[promptAnswer.answer].isAnswer;
       // update assessmentObject.results
+      console.log('current prompt ', currentPrompt);
       currentPrompt["isCorrect"] = isCorrectAnswer;
       // calculateCurrentSkillLevel
-        // skillLevel, answerValue, runningWeight, numOfPrompts
+        var skillLevel = assessmentObject[0].result.skillLevel;
+        var answerValue = currentPrompt.difficulty_rank;
+        var runningWeight = assessmentObject[0].result.runningWeight;
+        var numOfPrompts = assessmentObject[0].result.promptsUsed.length;
+        var newSkillLevel = calculateCurrentSkillLevel(skillLevel, answerValue, runningWeight, numOfPrompts);
+        console.log('newSkillLevel ', newSkillLevel);
+        skillLevel = newSkillLevel.newSkillLevel;
       // calculateNextPromptLevel
+      var nextPromptLevel = calculateNextPromptLevel(skillLevel, numOfPrompts);
+        // skillLevel, numOfPrompts
+        console.log('nextPromptLevel ', nextPromptLevel);
       // Q.getPlacementAssessmentPrompt
-        // Q.addNewPlacementAssessment
+        // see Q.addNewPlacementAssessment (should be update)
       res.json(assessmentObject);
     })
 
