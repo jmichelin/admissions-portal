@@ -93,6 +93,7 @@ router.post('/unranked', (req, res, next) => {
       // update assessmentObject.results
       currentPrompt["isCorrect"] = isCorrectAnswer;
       // calculateCurrentSkillLevel
+        // skillLevel, answerValue, runningWeight, numOfPrompts
       // calculateNextPromptLevel
       // Q.getPlacementAssessmentPrompt
         // Q.addNewPlacementAssessment
@@ -150,8 +151,8 @@ function generateNewAssessmentObj (userId) {
     'userId': userId,
     'startDate': Date.now(),
     'lastUpdated': Date.now(),
-    'skillLevel': 1,
     'assessmentResults': {
+      'skillLevel': 1,
       'runningWeight': 0,
       'skillsCovered': [],
       'promptsUsed': []

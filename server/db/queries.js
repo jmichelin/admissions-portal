@@ -226,7 +226,6 @@ module.exports = {
       .insert({
         result: assessmentObj.assessmentResults,
         user_id: assessmentObj.userId,
-        skill_level: assessmentObj.skillLevel,
         created_at: knex.fn.now(),
         updated_at: knex.fn.now()
       })
