@@ -232,6 +232,13 @@ module.exports = {
       .returning('*')
   },
 
+  updatePlacementAssessment: function(assessmentObj) {
+    return knex('placement_assessment')
+    .where({ id: assessmentObj.id })
+    .update({ result: assessmentObj.result })
+    .returning('*')
+  },
+
   getUserPlacementAssessment: function(assesmentID) {
     return knex('placement_assessment')
     .where({
@@ -239,8 +246,6 @@ module.exports = {
     })
     .select("*")
     .then((assessment) => {
-      console.log('queries ', assessment);
-      // TODO remove console.log(`assessment ${assessment}`)
       return assessment
     })
   },
@@ -276,10 +281,15 @@ module.exports = {
       difficulty_rank: skillRankRequested, // by skillRankRequested
     })
     .then((prompts) => { // by promptsUsed
-      prompts = prompts.filter((prompt) => {
-        return promptsUsed.includes(prompt.id) === false;
+      var promptsUsedIds = promptsUsed.map((usedPrompt)=>{
+        return usedPrompt.id
       });
-      return prompts[0];
+
+      var filteredPrompts = prompts.filter((prompt, idx, arr) => {
+        return promptsUsedIds.includes(prompt.id) === false;
+
+      });
+      return filteredPrompts[0];
     })
   }
 };

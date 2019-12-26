@@ -85,7 +85,7 @@ router.post('/unranked', (req, res, next) => {
     // get latest from db
     Q.getUserPlacementAssessment(promptAnswer.assessmentID)// look up assessmentObject
     .then((assessmentObject) => {
-      console.log('assessment object', assessmentObject);
+      //console.log('assessment object', assessmentObject);
       // check answer against assessmentObject.assessmentResults.promptsUsed[].id === promptAnswer.promptID
         var promptsUsed = assessmentObject[0].result.promptsUsed;
         var currentPrompt = promptsUsed[promptsUsed.length - 1 ];
@@ -99,17 +99,28 @@ router.post('/unranked', (req, res, next) => {
         var runningWeight = assessmentObject[0].result.runningWeight;
         var numOfPrompts = assessmentObject[0].result.promptsUsed.length;
         var newSkillLevel = calculateCurrentSkillLevel(skillLevel, answerValue, runningWeight, numOfPrompts);
-        console.log('newSkillLevel ', newSkillLevel);
+        //console.log('newSkillLevel ', newSkillLevel);
         skillLevel = newSkillLevel.newSkillLevel;
+        runningWeight = newSkillLevel.weight;
       // calculateNextPromptLevel
         var nextPromptLevel = calculateNextPromptLevel(skillLevel, numOfPrompts);
-        console.log('nextPromptLevel ', nextPromptLevel);
+        //console.log('nextPromptLevel ', nextPromptLevel);
+        // update assessmentObject
+        assessmentObject[0].result.skillLevel = skillLevel;
+        assessmentObject[0].result.runningWeight = runningWeight;
+        //
         Q.getPlacementAssessmentPrompt(nextPromptLevel, promptsUsed)
         .then((assessmentPrompt) => {
-          assessmentObject.assessmentResults.promptsUsed.push(assessmentPrompt);
-        }) // TODO here next
-        // TODO see Q.updatePlacementAssessment
-      res.json(assessmentObject);
+          assessmentObject[0].result.promptsUsed.push(assessmentPrompt);
+          //console.log('should have next prompt in object ', assessmentObject[0]);
+           // TODO see Q.updatePlacementAssessment
+          Q.updatePlacementAssessment(assessmentObject[0])
+          .then((assessmentObject) => {
+            //console.log('after update assessment object ',assessmentObject);
+            res.json(assessmentObject);
+          }) // TODO add throw
+        }) // TODO need to add throws
+
     })
 
 
