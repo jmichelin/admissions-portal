@@ -113,18 +113,31 @@ router.post('/unranked', (req, res, next) => {
         .then((assessmentPrompt) => {
           assessmentObject[0].result.promptsUsed.push(assessmentPrompt);
           //console.log('should have next prompt in object ', assessmentObject[0]);
-           // TODO see Q.updatePlacementAssessment
           Q.updatePlacementAssessment(assessmentObject[0])
           .then((assessmentObject) => {
             //console.log('after update assessment object ',assessmentObject);
             res.json(assessmentObject);
-          }) // TODO add throw
-        }) // TODO need to add throws
-
+          })
+          .catch((err) => {
+            honeybadger.notify(err);
+            res.status(501);
+            const error = new Error('Error updating placement attempt.');
+            next(error);
+          });
+        })
+        .catch((err) => {
+          honeybadger.notify(err);
+          res.status(501);
+          const error = new Error('Error getting placement prompt.');
+          next(error);
+        }); // TODO need to add throws
     })
-
-
-
+    .catch((err) => {
+      honeybadger.notify(err);
+      res.status(501);
+      const error = new Error('Error getting user assessment.');
+      next(error);
+    });
   });
 
 // Utility Functions
