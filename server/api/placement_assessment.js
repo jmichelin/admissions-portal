@@ -61,7 +61,6 @@ router.post('/unranked', (req, res, next) => {
     id: req.body.id,
     difficulty_rank: req.body.difficulty_rank
   };
-  console.log(placementPrompt); // TODO remove
   Q.rankPlacementAssessmentPrompt(placementPrompt)
   .then(() => {
     res.json(placementPrompt)
@@ -82,40 +81,29 @@ router.post('/unranked', (req, res, next) => {
       promptID: req.body.promptID,
       answer: req.body.answerValue
     };
-    // get latest from db
+
+    // getUserPlacementAssessment -> get latest from db
     Q.getUserPlacementAssessment(promptAnswer.assessmentID)// look up assessmentObject
     .then((assessmentObject) => {
-      //console.log('assessment object', assessmentObject);
-      // check answer against assessmentObject.assessmentResults.promptsUsed[].id === promptAnswer.promptID
         var promptsUsed = assessmentObject[0].result.promptsUsed;
         var currentPrompt = promptsUsed[promptsUsed.length - 1 ];
         var isCorrectAnswer = currentPrompt.content.choices[promptAnswer.answer].isAnswer;
-      // update assessmentObject.results
-        // console.log('current prompt ', currentPrompt);
         currentPrompt["isCorrect"] = isCorrectAnswer;
-      // calculateCurrentSkillLevel
         var skillLevel = assessmentObject[0].result.skillLevel;
         var answerValue = currentPrompt.difficulty_rank;
         var runningWeight = assessmentObject[0].result.runningWeight;
         var numOfPrompts = assessmentObject[0].result.promptsUsed.length;
         var newSkillLevel = calculateCurrentSkillLevel(skillLevel, answerValue, runningWeight, numOfPrompts);
-        //console.log('newSkillLevel ', newSkillLevel);
         skillLevel = newSkillLevel.newSkillLevel;
         runningWeight = newSkillLevel.weight;
-      // calculateNextPromptLevel
         var nextPromptLevel = calculateNextPromptLevel(skillLevel, numOfPrompts);
-        //console.log('nextPromptLevel ', nextPromptLevel);
-        // update assessmentObject
         assessmentObject[0].result.skillLevel = skillLevel;
         assessmentObject[0].result.runningWeight = runningWeight;
-        //
         Q.getPlacementAssessmentPrompt(nextPromptLevel, promptsUsed)
         .then((assessmentPrompt) => {
           assessmentObject[0].result.promptsUsed.push(assessmentPrompt);
-          //console.log('should have next prompt in object ', assessmentObject[0]);
           Q.updatePlacementAssessment(assessmentObject[0])
           .then((assessmentObject) => {
-            //console.log('after update assessment object ',assessmentObject);
             res.json(assessmentObject);
           })
           .catch((err) => {
@@ -130,7 +118,7 @@ router.post('/unranked', (req, res, next) => {
           res.status(501);
           const error = new Error('Error getting placement prompt.');
           next(error);
-        }); // TODO need to add throws
+        });
     })
     .catch((err) => {
       honeybadger.notify(err);
@@ -164,9 +152,10 @@ function calculateCurrentSkillLevel(skillLevel, answerValue, runningWeight, numO
   var weight = calcWeight(answerValue);
   weight = weight + runningWeight;
   var newSkillLevel = weight / numOfPrompts;
-  return { newSkillLevel, weight}
+  return { newSkillLevel, weight }
 }
 
+// TODO change to passing in object and returning object
 function calculateNextPromptLevel (skillLevel, numOfPrompts) {
   if ( numOfPrompts > 2 ) {
     if(skillLevel < 1.15 ) { // serve 1 0 2
